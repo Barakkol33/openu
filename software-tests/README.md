@@ -1,4 +1,4 @@
-# Software Testing Summary
+# Software Tests Summary
 
 ## Topics
 
