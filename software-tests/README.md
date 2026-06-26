@@ -686,8 +686,6 @@ DS-tree pruning: **D1** repeated state in a block = dead; **D2** all singletons 
 
 ## 11. Exam Playbook & Master Cheat Sheets
 
-6 questions, 3 hours, open-book; **recycles the same six archetypes** (one slot occasionally splits into cohort variants). Identify the archetype from the verb in the prompt, jump to the recipe, **show every step with justification** — unjustified answers are explicitly penalized.
-
 ### Question archetype → topic
 
 | Archetype                                   | What it asks                                                                                                                       | §       |
