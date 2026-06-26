@@ -1,0 +1,101 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -19,6 +19,7 @@
+       (proc proc?))
+     (ref-val
+       (ref reference?))
++    (gen-val (gen generator?))
+     )
+ 
+ ;;; extractors:
+@@ -52,6 +53,12 @@
+       (eopl:error 'expval-extractors "Looking for a ~s, found ~s"
+ 	variant value)))
+ 
++  (define expval->gen
++    (lambda (v)
++      (cases expval v
++        (gen-val (gen) gen)
++        (else (expval-extractor-error 'gen v)))))
++
+ ;;;;;;;;;;;;;;;; procedures ;;;;;;;;;;;;;;;;
+ 
+   (define-datatype proc proc?
+@@ -59,6 +66,14 @@
+       (bvar symbol?)
+       (body expression?)
+       (env environment?)))
++
++  (define-datatype generator generator?
++    (generator1
++      (var symbol?)
++      (exps (list-of expression?))
++      (retexp expression?)
++      (env environment?)
++      (pos reference?)))           ; store cell holding the current index
+ 
+   (define-datatype environment environment?
+     (empty-env)
+--- a/interp.scm
++++ b/interp.scm
+@@ -100,6 +100,24 @@
+               (value-of exp1 env))
+             (num-val 27)))
+ 
++        ;; generator
++        (gen-exp (var exps retexp)
++          (gen-val (generator1 var exps retexp env (newref (num-val 0)))))
++        (return-exp (gen)
++          (cases generator (expval->gen (deref (apply-env env gen)))
++            (generator1 (var exps retexp genv pos)
++              (let ((i (expval->num (deref pos))))
++                (if (>= i (length exps))
++                  (eopl:error 'return-exp "Generator is empty")
++                  (begin
++                    (setref! pos (num-val (+ i 1)))
++                    (value-of retexp
++                      (extend-env var (newref (value-of (list-ref exps i) genv)) genv))))))))
++        (empty-exp (gen)
++          (cases generator (expval->gen (deref (apply-env env gen)))
++            (generator1 (var exps retexp genv pos)
++              (bool-val (>= (expval->num (deref pos)) (length exps))))))
++
+         )))
+ 
+ 
+--- a/lang.scm
++++ b/lang.scm
+@@ -64,6 +64,13 @@
+         ("set" identifier "=" expression)
+         assign-exp)
+ 
++      ;; generator(x): [e ...] yield body ; ::g pulls next ; ??g is empty?
++      (expression
++        ("generator" "(" identifier ")" ":" "[" (arbno expression) "]" "yield" expression)
++        gen-exp)
++      (expression ("::" identifier) return-exp)
++      (expression ("??" identifier) empty-exp)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,17 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;; note - ::g pulls the next element (bound to x) and evals the yield body; the \
++      ;; note - cursor is a store ref so it advances/persists across calls. ??g is empty?.
++      ;; note - here ::g => x=1 => -(1,-1)=2, next ::g => x=2 => 3, so -(2,3) = -1.
++      ;; note - pulling past the last element errors ("Generator is empty").
++      (gen-advances-between-calls-put-in-preview
++        "let g = generator(x): [1 2 3] yield -(x,-1)
++         in -(::g, ::g)" -1)
++      (gen-empty-after-consuming-all
++        "let g = generator(x): [7 8] yield x in begin ::g; ::g; ??g end" #t)
++      (gen-exhausted-errors
++        "let g = generator(x): [4] yield x in begin ::g; ::g end" error)
++
+       ))
+   )

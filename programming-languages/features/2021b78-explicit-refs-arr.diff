@@ -1,0 +1,181 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -19,7 +19,38 @@
+       (proc proc?))
+     (ref-val
+       (ref reference?))
++    (arr-val
++      (arr arr?)
++    ))
++
++  (define-datatype arr arr?
++    (array (typename symbol?) (size integer?) (elems (list-of expval?)))
++  )
++
++  (define expval->arr
++    (lambda (v)
++      (cases expval v
++        (arr-val (a) a)
++        (else (expval-extractor-error 'arr v))
++      )
+     )
++  )
++
++  (define arr->size
++    (lambda (v)
++      (cases arr v
++        (array (t s e) s)
++      )
++    )
++  )
++
++  (define arr->elems
++    (lambda (v)
++      (cases arr v
++        (array (t s e) e)
++      )
++    )
++  )
+ 
+ ;;; extractors:
+ 
+--- a/interp.scm
++++ b/interp.scm
+@@ -108,6 +108,59 @@
+               (begin
+                 (setref! ref v2)
+                 (num-val 23)))))
++
++        (arr-exp (typ size initexps)
++          (let*
++            (
++              (typename (typeexp->typename typ))
++              (sizeval (expval->num (value-of size env)))
++              (elems
++                (map
++                  (lambda (initexp)
++                    (let*
++                      (
++                        (initval (value-of initexp env))
++                      )
++                      (cond
++                        (
++                          (not (equal? typename (expval->typename initval)))
++                          (eopl:error 'value-of "Array initialization mismatch")
++                        )
++                        (else (ref-val (newref initval)))
++                      )
++                    )
++                  )
++                  initexps
++                )
++              )
++              (assert-size
++                (if (not (equal? sizeval (length elems)))
++                  (eopl:error 'value-of "Array initialization mismatch array size")
++                  #t
++                )
++              )
++            )
++            (arr-val (array typename sizeval elems))
++          )
++        )
++
++        (index-exp (arrexp index)
++          (let*
++            (
++              (arr1 (expval->arr (value-of arrexp env)))
++              (index1 (expval->num (value-of index env)))
++              (assert-size
++                (if (>= index1 (arr->size arr1))
++                  (eopl:error 'value-of "Index access out of bounds")
++                )
++              )
++              (refval (list-ref (arr->elems arr1) index1))
++            )
++            refval
++          )
++        )
++
++
+         )))
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+@@ -120,6 +173,26 @@
+   ;;          (value-of body (extend-env bvar arg saved-env))))))
+ 
+   ;; instrumented version
++  (define typeexp->typename
++    (lambda (typeexp)
++      (cases arr-type typeexp
++        (arr-type-num () 'num)
++        (arr-type-bool () 'bool)
++        (arr-type-proc () 'proc)
++      )
++    )
++  )
++  (define expval->typename
++    (lambda (val1)
++      (cases expval val1
++        (num-val (v) 'num)
++        (bool-val (v) 'bool)
++        (proc-val (v) 'proc)
++        (else (eopl:error 'value-of "Wrong array type"))
++      )
++    )
++  )
++
+   (define apply-procedure
+     (lambda (proc1 arg)
+       (cases proc proc1
+--- a/lang.scm
++++ b/lang.scm
+@@ -72,6 +72,14 @@
+         ("setref" "(" expression "," expression ")")
+         setref-exp)
+ 
++      (expression
++        (arr-type "[" expression "]" "{" (separated-list expression ",") "}")
++        arr-exp
++      )
++      (arr-type ("#") arr-type-num)
++      (arr-type ("?") arr-type-bool)
++      (arr-type ("@") arr-type-proc)
++      (expression ("[" expression "," expression "]") index-exp)
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -159,5 +159,31 @@
+    end"
+    11)
+ 
++ ;; arrays:  #[size]{...} num,  ?[size]{...} bool,  @[size]{...} proc
++ ;;          [arr, i] indexes a slot, yielding a ref-val (deref/setref it)
++ (arr-read-first  "let a = #[3]{10,20,30} in deref([a, 0])" 10)
++ (arr-read-last   "let a = #[3]{10,20,30} in deref([a, 2])" 30)
++ (arr-read-computed-index "let a = #[3]{10,20,30} in deref([a, -(2,1)])" 20)
++ ;; note - #/?/@ pick the element type (num/bool/proc); every initializer \
++ ;; note -   must match or it errors, and the count must equal the declared size.
++ ;; note - [a,i] yields the slot's ref-val itself (not its contents), so you \
++ ;; note -   deref it to read and setref it to write; i must be < size.
++ (arr-mutate-put-in-preview
++   "let a = #[3]{1, 2, 3}
++    in begin
++         setref([a, 1], 99);
++         deref([a, 1])
++       end"
++   99)
++ (arr-bool        "let a = ?[2]{zero?(0), zero?(1)} in deref([a,0])" #t)
++ (arr-proc        "let a = @[1]{proc(x) -(x,1)} in (deref([a,0]) 5)" 4)
++
++ ;; array error cases (expected result `error`)
++ (arr-err-type-mismatch  "#[2]{1, zero?(0)}" error)        ; bool in a num array
++ (arr-err-size-too-small "#[3]{1, 2}" error)               ; fewer elems than declared
++ (arr-err-size-too-big   "#[1]{1, 2}" error)               ; more elems than declared
++ (arr-err-index-oob      "let a = #[2]{1,2} in deref([a, 2])" error)  ; index == size
++ (arr-err-index-nonarray "[5, 0]" error)                   ; indexing a non-array
++
+       ))
+   )

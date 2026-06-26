@@ -1,0 +1,83 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -71,16 +71,16 @@
+         (call-exp (rator rand)
+           (let ((proc (expval->proc (value-of rator env)))
+                 (arg (value-of rand env)))
+-            (apply-procedure proc arg)))
++            (apply-procedure proc arg env)))
+ 
+         )))
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+   ;; Page: 79
+   (define apply-procedure
+-    (lambda (proc1 val)
++    (lambda (proc1 val env)
+       (cases proc proc1
+         (procedure (var body saved-env)
+-          (value-of body (extend-env var val saved-env))))))
++          (value-of body (extend-env var val env))))))
+ 
+   )
+--- a/tests.scm
++++ b/tests.scm
+@@ -61,17 +61,46 @@
+       (let-to-proc-1 "(proc(f)(f 30)  proc(x)-(x,1))" 29)
+ 
+ 
+-      (nested-procs "((proc (x) proc (y) -(x,y)  5) 6)" -1)
+-      (nested-procs2 "let f = proc(x) proc (y) -(x,y) in ((f -(10,5)) 6)"
+-        -1)
++      ;; These tests do no work as expected with dynamic binding.
++;;       (nested-procs "((proc (x) proc (y) -(x,y)  5) 6)" -1)
++;;       (nested-procs2 "let f = proc(x) proc (y) -(x,y) in ((f -(10,5)) 6)"
++;;         -1)
++;;       (y-combinator-1 "
++;; let fix =  proc (f)
++;;             let d = proc (x) proc (z) ((f (x x)) z)
++;;             in proc (n) ((f (d d)) n)
++;; in let
++;;     t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
++;; in let times4 = (fix t4m)
++;;    in (times4 3)" 12)
+ 
+-      (y-combinator-1 "
+-let fix =  proc (f)
+-            let d = proc (x) proc (z) ((f (x x)) z)
+-            in proc (n) ((f (d d)) n)
+-in let
+-    t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
+-in let times4 = (fix t4m)
+-   in (times4 3)" 12)
+-      ))
++  ;; note - dynamic scope: a proc's free vars resolve in the CALLER's env, not its definition env.
++  ;; note - here p's free `a` sees the call-site a=5 (not a=3 at definition): (p 2)=-(2,5)=-3, so -(5,-3)=8.
++  ;; note - apply-procedure discards the closure's saved-env and extends the current env instead.
++  (dynamic-binding-put-in-preview
++   "let a = 3
++    in let p = proc (x) -(x, a)
++       in let a = 5
++          in -(a, (p 2))"
++    8
+   )
++
++  (fibonacci
++   "let fib = proc (n)
++      if zero?(n) then
++        0
++      else
++        if zero?(-(n,1)) then
++          1
++        else
++          -(
++            (fib -(n,1)),
++            -(0, (fib -(n,2)))
++          )
++    in
++      (fib 7)"
++    13
++  )
++  )
++)
++)

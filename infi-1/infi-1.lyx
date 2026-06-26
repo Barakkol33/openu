@@ -1,0 +1,6721 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+% Necessary Commands:
+\usepackage{autobreak}
+\usepackage[T1]{fontenc}
+\usepackage{relsize}
+% Set vertical space before and after dislpay equations to be longer for better redability:
+\AtBeginDocument{\setlength\abovedisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+
+% Set space between words to be wider:
+\spaceskip=1.3\fontdimen2\font plus 1\fontdimen3\font minus 1.5\fontdimen4\font
+
+% Convert the Lyx colors into more pleasent colors:
+\usepackage{xcolor}
+\definecolor{blue}{RGB}{12,97,197}
+\definecolor{green}{RGB}{0,128,40}
+\definecolor{red}{RGB}{235,16,16}
+\definecolor{brown}{RGB}{154,58,0}
+\definecolor{orange}{RGB}{231,135,26}
+\definecolor{purple}{RGB}{94,53,177}
+
+% Convert the QED Symbol at the end of proofs to a solid black square (credit: Yakir Oz):
+\usepackage{amssymb}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Make the layout more similar to Hebrew Article, which I am more used to:
+\renewcommand*{\@seccntformat}[1]{\hspace{0.5cm}\csname the#1\endcsname\hspace{0.5cm}} 
+\usepackage{titlesec}
+\titleformat{\section}{\fontsize{20}{20}\bfseries}{\thesection}{10pt}{}
+\titleformat{\subsection}{\fontsize{15}{15}\bfseries}{\thesubsection}{10pt}{}
+\titleformat{\subsubsection}{\bfseries}{\thesubsubsection}{10pt}{}
+
+% Correct the reversed parentheses in labels:
+\usepackage{polyglossia}
+\setmainlanguage{hebrew}
+\newfontfamily{\hebrewfont}{David}
+\makeatletter
+\def\maketag@@@#1{\hbox{\m@th\normalfont\LRE{#1}}}
+\def\tagform@#1{\maketag@@@{(\ignorespaces#1\unskip)}}
+\makeatother
+
+% Create disjoint union symbols:
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+
+
+\newcommand{\kaliLargeLand}{\mathop{\mathlarger{\mathlarger{\mathlarger{\land}}}}}
+\newcommand{\hebtext}[1]{\mbox{\R{\#1}}}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+\end_modules
+\maintain_unincluded_children false
+\begin_local_layout
+Style Section
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size       Larger
+	  Series     Bold
+	EndFont
+	TocLevel 1
+End
+
+
+Style Section*
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size      Larger
+	  Series     Bold
+	EndFont
+End
+
+
+Style Solution
+
+	LabelString           "פיתרון: "
+End
+
+
+Style Notation
+
+	LabelString           "סימון  \thetheorem: "
+End
+
+Style Theorem
+
+	LabelString           "משפט \thetheorem: "
+End
+
+Style Property
+
+	LabelString           "תזכורת: "
+End
+\end_local_layout
+\language hebrew
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "David"
+\font_sans "default" "David"
+\font_typewriter "default" "David"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 2cm
+\rightmargin 1cm
+\bottommargin 3cm
+\headheight 0cm
+\headsep 0cm
+\footskip 2cm
+\secnumdepth -2
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation 0bp
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/barak/Downloads/MacrosStandard.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Doublebox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "20pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\paragraph_spacing double
+\align center
+
+\series bold
+\size huge
+סיכום אינפי
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- המספרים הממשיים
+\end_layout
+
+\begin_layout Itemize
+טבעיים - ללא אפס
+\end_layout
+
+\begin_layout Itemize
+לכל מספר ממשי יש ייצוג כשבר אינסופי )ולהפך(.
+ אם רציונלי - מחזורי.
+ אם לא - לא
+\end_layout
+
+\begin_layout Itemize
+אקסיומות המספרים הממשיים 
+\end_layout
+
+\begin_layout Itemize
+אלגברה בסיסית - שדה אלגברי, זהויות אלגבריות, נוסחת הבינום
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\sqrt{x_{1}}-\sqrt{x_{2}}=\frac{x_{1}-x_{2}}{\sqrt{x_{1}}+\sqrt{x_{2}}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(1+1\right)^{2n}=4^{n}=\sum{2n \choose i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+ממן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם ישנם כמה פרמטרים בביטוי מסוים, צריך להסתכל על כל פרמטר בנפרד כדי לקבוע
+ תחום.
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+1.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אי שיוויונות - אקסיומת הסדר, טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1.40
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)חוקי סימנים(, 
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+1.43
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אי שיוון ברנולי - 
+\begin_inset Formula $\left(1+x\right)^{n}\geq1+nx$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+33
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $0\leq a,b$
+\end_inset
+
+ ו-
+\begin_inset Formula $n$
+\end_inset
+
+ טבעי אז 
+\begin_inset Formula $a^{n}>b^{n}$
+\end_inset
+
+ אמ
+\begin_inset Quotes erd
+\end_inset
+
+מ 
+\begin_inset Formula $a>b$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+1.44
+\numeric off
+ סימון קטעים על הישר
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+1.46
+\numeric off
+ מינימום ומקסימום של קבוצה
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+1.47
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ לכל קבוצה סופית ולא ריקה יש מינימום ומקסימום
+\end_layout
+
+\begin_layout Itemize
+הערך המוחלט
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+1.49
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אי שיוויון המשולש - 
+\begin_inset Formula $|a+b|\leq|a|+|b|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+39
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $||a|-|b||\leq|a-b|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+מרחק בין נקודות על הישר )ערך מוחלט(
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+46
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $max\left(a,b\right)=\frac{a+b}{2}+\frac{|a-b|}{2}$
+\end_inset
+
+ )ומינימום זה עם מינוס(
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+1.5
+\numeric off
+ אקסיומת השלמות
+\end_layout
+
+\begin_layout Itemize
+אקסיומה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1.52
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)אקסיומת השלמות( - אם לשתי קבוצות מתקיים 
+\begin_inset Formula $A\leq B$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אז קיים מספר 
+\begin_inset Formula $x$
+\end_inset
+
+ ביניהם שגדול/שווה לכל מספר בהן.
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1.53
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)+
+\numeric on
+1.55
+\numeric off
+( - קיים מספר יחיד 
+\begin_inset Formula $x$
+\end_inset
+
+ המקיים 
+\begin_inset Formula $x^{n}=c$
+\end_inset
+
+ )
+\begin_inset Formula $n$
+\end_inset
+
+ טבעי(
+\end_layout
+
+\begin_layout Itemize
+למה 
+\numeric on
+1.54
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $0<x$
+\end_inset
+
+ ו-
+\begin_inset Formula $c<x^{n}$
+\end_inset
+
+ אז קיים מספר בין 
+\begin_inset Formula $c$
+\end_inset
+
+ ל-
+\begin_inset Formula $x^{n}$
+\end_inset
+
+ )וגם בכיוון השני(.
+\end_layout
+
+\begin_layout Itemize
+אי שיוויון הממוצעים - ממוצע חשבוני 
+\begin_inset Formula $A$
+\end_inset
+
+ , ממוצע הנדסי 
+\begin_inset Formula $G=\sqrt{x_{1}...x_{n}}$
+\end_inset
+
+, ממוצע הרמוני 
+\begin_inset Formula $H=\frac{n}{\sum\frac{1}{x_{i}}}$
+\end_inset
+
+, מתקיים 
+\begin_inset Formula $H\leq G\leq A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+תכונת ארכימדס - לכל מספר ממשי קיים מספר טבעי גדול ממנו.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+1.61
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לכל 
+\begin_inset Formula $0<c$
+\end_inset
+
+ קיים 
+\begin_inset Formula $n$
+\end_inset
+
+ טבעי כך ש-
+\begin_inset Formula $\frac{1}{n}<c$
+\end_inset
+
+, לכל 
+\begin_inset Formula $a,b$
+\end_inset
+
+ קיים 
+\begin_inset Formula $b<na$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+1.63,1.64
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- החלק השלם, תכונות החלק השלם
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+1.63
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+קבוצה צפופה - לכל 
+\begin_inset Formula $x<y$
+\end_inset
+
+ קיים 
+\begin_inset Formula $a\in\left(x,y\right)$
+\end_inset
+
+, הרציונליים צפופים ב-
+\begin_inset Formula $\kaliReal$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $|a-b|\ge|a|-|b|$
+\end_inset
+
+.
+ הוכחה: אם 
+\begin_inset Formula $a,b$
+\end_inset
+
+ בעלי אותו סימן אז מתקיים 
+\begin_inset Formula $|a-b|=||a|-|b||$
+\end_inset
+
+.
+ אם לא אז 
+\begin_inset Formula $|a-b|=||a|+|b||>||a|-|b||$
+\end_inset
+
+.
+ לפי תכונות הערך המוחלט מתקבל 
+\begin_inset Formula $||a|-|b||\ge|a|-|b|$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $|b^{2}|{\color{gray}\overset{\text{שאלה 39ג}}{\overbrace{{\normalcolor =}}}}|b|^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+פתרון שיוונות ואי שיוונוות - לשים לב לחלוקה למקרים חיובי / קטן מ-
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+/ שלילי )דוגמה 
+\begin_inset Formula $\lfloor|x+1|-|x|\rfloor\ge x^{2}$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $ $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- סדרות וגבולות
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+הזזה של סדרה,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+סדרה מתקבלת מסדרה אחרת
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+כמעט לכל 
+\begin_inset Formula $n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2.7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+קרוב עד כדי אפסילון,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+סביבה 
+\begin_inset Formula $N_{\varepsilon}\left(a\right)$
+\end_inset
+
+ 
+\begin_inset Formula $|x-a|<\varepsilon$
+\end_inset
+
+ )
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ רדיוס(
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+19
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- סכום 
+\backslash
+ הפרש 
+\backslash
+ מכפלה של סדרות חסומות היא חסומה, מנה של חסומות לא בהכרח, סכום של לא חסומות
+ יכול להיות חסום, סכום של חסומה ולא חסומה בהכרח חסום.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+20
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $|a_{n}|$
+\end_inset
+
+ אפסה אמ
+\begin_inset Quotes erd
+\end_inset
+
+מ 
+\begin_inset Formula $a_{n}$
+\end_inset
+
+ אפסה.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2.22
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מכפלה של אפסה וחסומה היא אפסה
+\end_layout
+
+\begin_layout Itemize
+הוכחה על פי הגדרה - טריקים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מתחילים ב-יהי 
+\begin_inset Formula $0<\varepsilon$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+אם יש כמה תנאים אז 
+\begin_inset Formula $N_{3}=max\left\{ N_{1},N_{2}\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $f\left(a_{n}\right)<f\left(L\right)$
+\end_inset
+
+ אז מגדירים 
+\begin_inset Formula $M=max\left\{ a_{1}...a_{N},f\left(L\right)\right\} +1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+שימוש באי שיוויון המשולש כדי לחשב את הסביבה
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+אם מנה של פולינומים - לחלק בחזקה הגבוהה במכנה
+\end_layout
+
+\begin_layout Itemize
+הזזה - את הגבול של 
+\begin_inset Formula $\frac{1}{n-20}$
+\end_inset
+
+ אפשר לחשב על ידי 
+\begin_inset Formula $\frac{1}{n}$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ )גם אם הוא לא מוגדר עבור 
+\begin_inset Formula $n=20$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2.31
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם כמעט לכל 
+\begin_inset Formula $n$
+\end_inset
+
+ 
+\begin_inset Formula $a_{n}<b_{n}$
+\end_inset
+
+ אז גם 
+\begin_inset Formula $\lim_{n\rightarrow\infty}a_{n}<\lim_{n\rightarrow\infty}b_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+כשיש חיסור עם שורשים - להכפיל בצמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)גם אם אין מנה בביטוי המקורי אפשר להפוך למנה(
+\end_layout
+
+\begin_layout Itemize
+אי אפשר להסיק על 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $\infty\cdot0$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ או על 
+\begin_inset Formula $"\infty-\infty"$
+\end_inset
+
+ כלום.
+\end_layout
+
+\begin_layout Itemize
+סדרות מעניינות - 
+\begin_inset Formula $\left(-1\right)^{n}$
+\end_inset
+
+ )לא מתכנסת(
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+41
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\lim_{n\rightarrow\infty}a^{n}=\infty$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+44
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $a_{n}=O\left(b_{n}\right)$
+\end_inset
+
+ אמ
+\begin_inset Quotes erd
+\end_inset
+
+מ הסדרה 
+\begin_inset Formula $\frac{a_{n}}{b_{n}}$
+\end_inset
+
+ חסומה )חוק חילוק לגבולות(
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $a_{n}=o\left(b_{n}\right)$
+\end_inset
+
+ אז 
+\begin_inset Formula $a_{n}=O\left(b_{n}\right)$
+\end_inset
+
+ )סדרה חסומה + סעיף
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+(
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $a_{n}=O\left(1\right)$
+\end_inset
+
+ אמ
+\begin_inset Quotes erd
+\end_inset
+
+מ הסדרה 
+\begin_inset Formula $a_{n}$
+\end_inset
+
+ חסומה )מקרה פרטי של סעיף
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+(
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $\lim_{n\rightarrow\infty}\frac{a_{n}}{b_{n}}=c$
+\end_inset
+
+ אז 
+\begin_inset Formula $a_{n}=O\left(b_{n}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+טרנזיטיביות 
+\begin_inset Formula $o$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2.51
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ סדרות ממוצעים
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+51
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $\lim_{n\rightarrow\infty}\frac{a_{n+1}}{a_{n}}=r$
+\end_inset
+
+ אז 
+\begin_inset Formula $\lim_{n\rightarrow\infty}\sqrt[n]{a_{n}}=r$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $TODO$
+\end_inset
+
+: לעבור על עוד שאלות / הוכחות ולחפש טריקים וכללים שימושיים
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- קבוצות וסדרות חסומות
+\end_layout
+
+\begin_layout Itemize
+חסם מלעיל, חסם מלרע, חסומה
+\end_layout
+
+\begin_layout Itemize
+משפט 
+\numeric on
+3.6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לקבוצה חסומה מלעיל ולא ריקה יש חסם מינימלי )עליון(
+\end_layout
+
+\begin_layout Itemize
+חסם עליון, קשר למקסימום
+\end_layout
+
+\begin_layout Itemize
+משפט 
+\numeric on
+3.9
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - אפשר להתקרב לחסם העליון כמה שרוצים
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+9
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - 
+\begin_inset Formula $x$
+\end_inset
+
+ חסם עליון אמ
+\begin_inset Quotes erd
+\end_inset
+
+מ קיימת סדרה מתוך 
+\begin_inset Formula $A$
+\end_inset
+
+ שהגבול שלה הוא 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+כנ
+\begin_inset Quotes erd
+\end_inset
+
+ל לגבי חסם תחתון
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+3.2
+\numeric off
+ סדרות מונוטוניות
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+15
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $y\leq x$
+\end_inset
+
+ אז 
+\begin_inset Formula $y\leq\left\lfloor x\right\rfloor $
+\end_inset
+
+ )הוכחה - לפי הגדרת הערך השלם 
+\begin_inset Formula $\left\lfloor y\right\rfloor $
+\end_inset
+
+ שייך לקבוצת כל המספרים שקטנים מ-
+\begin_inset Formula $x$
+\end_inset
+
+ ו-
+\begin_inset Formula $x$
+\end_inset
+
+ הוא המקסימום שלה לכן הוא גדול יותר(.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3.17,3.18,3.19
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כל סדרה מונוטונית מתכנסת במובן הרחב, אם חסומה אז למספר אם לא אז לאינסוף
+ )פלוס או מינוס(
+\end_layout
+
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לפתוח ביטוי מהצורה 
+\begin_inset Formula $\left(1+\frac{1}{n}\right)^{n}$
+\end_inset
+
+ עם נוסחת הבינום
+\end_layout
+
+\begin_layout Itemize
+שברים אינסופיים - שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+23
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כל שבר עשרוני עשרוני סופי שונה מ-
+\numeric on
+0
+\numeric off
+ ניתן להצגה בשתי דרכים שונות כשבר עשרוני אינסופי )
+\numeric on
+0.9999
+\numeric off
+=
+\numeric on
+1.00000
+\numeric off
+=
+\numeric on
+1
+\numeric off
+(
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $0.d_{1}...d_{n}\leq0.d_{1}...\leq0.d_{1}...d_{n}+\frac{1}{10^{n}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+אם שתי הצגות שוות בערכן אז או שהספרות שלהן אותו הדבר או שהן שתי ההצגות מסעיף
+ א'
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - 
+\begin_inset Formula $x_{n+1}=\frac{1}{\frac{1}{x_{n}}+\frac{1}{y_{n}}},y_{n+1}=\frac{x_{n}+y_{n}}{2}$
+\end_inset
+
+ מתקיים 
+\begin_inset Formula $\lim_{n\rightarrow\infty}x_{n}=\lim_{n\rightarrow\infty}y_{n}=\sqrt{x_{1}y_{1}}$
+\end_inset
+
+ )הממוצע ההנדסי(.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הקטע 
+\begin_inset Formula $I_{n}=\left(x_{n},y_{n}\right)$
+\end_inset
+
+ מקיים את הלמה של קנטור.
+\end_layout
+
+\begin_layout Itemize
+כל קטע קטן מהקטע שקדם לו בלפחות חצי, וגם הגבול נמצא בקטע לכן 
+\begin_inset Formula $|\sqrt{x_{1}y_{1}}-x_{n}|\leq y_{n}-x_{n}\leq\frac{y_{1}-x_{1}}{2^{n-1}}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $x_{n}$
+\end_inset
+
+ נמצא בקירוב של 
+\begin_inset Formula $\frac{y_{1}-x_{1}}{2^{n-1}}$
+\end_inset
+
+ לגבול - דרך לחשב שורשים ריבועיים )אם 
+\begin_inset Formula $x_{1}=1$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+27
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- סדרות הממוצעים החשבוניים והגיאומטריים מתכנסות לגבול משותף
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+29
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מספר הספרות הנכונות מוכפל בכל שלב של החישוב בדוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.7
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+
+\numeric on
+3.3
+\family roman
+\series bold
+\shape up
+\size large
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+גבולות חלקיים
+\end_layout
+
+\begin_layout Itemize
+התכנסות תת סדרה - עבור סדרת האינדקסים מתקיים 
+\begin_inset Formula $k\leq n_{k}$
+\end_inset
+
+ ולכן סדרת האינדקסים שואפת לאינסוף )ולכן תמיד אפשר למצוא איבר של תת סדרה
+ שיהיה בסביבה של הגבול וכו'(.
+\end_layout
+
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.12
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Quotes eld
+\end_inset
+
+ננחש מה גבול הסדרה - 
+\begin_inset Formula $L=\lim_{n\rightarrow\infty}a_{n}=\lim_{n\rightarrow\infty}a_{n+1}=\lim_{n\rightarrow\infty}1+\frac{1}{a_{n}}=\frac{1}{L}+1$
+\end_inset
+
+.
+ הוכחה שהסדרה מתכנסת על ידי הוכחה שהאיברים הזוגיים יורדים והאי זוגיים עולים,
+ ומתכנסים לאותו גבול.
+\end_layout
+
+\begin_layout Itemize
+קבוצה סגורה - קבוצה שכל 
+\begin_inset Quotes eld
+\end_inset
+
+תת סדרה
+\begin_inset Quotes erd
+\end_inset
+
+ מתכנסת שלה, הגבול שלה הוא איבר בקבוצה.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+קטע סגור הוא קבוצה סגורה וקטע פתוח הוא לא קבוצה סגורה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+55
+\numeric off
+?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- פונקציות ממשיות 
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- פונקציה 
+\begin_inset Formula $f:A\rightarrow B$
+\end_inset
+
+ חסומה אם 
+\begin_inset Formula $f\left(A\right)$
+\end_inset
+
+ חסומה
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4.12
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- גרף הפונקציה ההופכה מתקבל משיקוף גרף הפונקציה על ציר 
+\begin_inset Formula $y=x$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+הזזה - 
+\begin_inset Formula $f\left(x\right)+c$
+\end_inset
+
+ או 
+\begin_inset Formula $f\left(x+c\right)$
+\end_inset
+
+, מתיחה - אם 
+\begin_inset Formula $1<c$
+\end_inset
+
+ אז כיווץ הוא 
+\begin_inset Formula $f\left(cx\right)$
+\end_inset
+
+ ומתיחה היא 
+\begin_inset Formula $cf\left(x\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+גרפים של פונקציות טריגונומטריות )כולל הופכיות(
+\end_layout
+
+\begin_layout Itemize
+זהויות סכום ומכפלת פונקציות טריגונומטריות 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+סכום והפרש זוויות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\sin\left(\alpha\pm\beta\right)=\sin\alpha\text{\ensuremath{\cos\beta}}\pm\cos\alpha\sin\beta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cos\left(\alpha\pm\beta\right)=\cos\alpha\text{\ensuremath{\cos\beta}}\pm\sin\alpha\sin\beta$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+סכום והפרש פונקציות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\sin\alpha\pm\sin\beta=2\sin\frac{\alpha\pm\beta}{2}\cos\frac{\alpha\mp\beta}{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cos\alpha+\cos\beta=2\cos\frac{\alpha+\beta}{2}\cos\frac{\alpha-\beta}{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cos\alpha-\cos\beta=-2\sin\frac{\alpha+\beta}{2}\sin\frac{\alpha-\beta}{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\tan\left(\alpha\pm\beta\right)=\frac{\tan\alpha\pm\tan\beta}{1\mp\tan\alpha\tan\beta}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $1+\tan^{2}\alpha=\frac{1}{\cos^{2}\alpha}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+פולינומים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הוכחת
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4.23
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הפולינום 
+\begin_inset Formula $p\left(x\right)-p\left(c\right)$
+\end_inset
+
+ מתחלק ב-
+\begin_inset Formula $\left(x-c\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+גבולות
+\end_layout
+
+\begin_layout Itemize
+דוגמה 
+\begin_inset Formula $4.25$
+\end_inset
+
+ - 
+\begin_inset Formula $|x|$
+\end_inset
+
+ רציפה
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+67
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\lim_{x\rightarrow0}\frac{\cos x-1}{x^{2}}=-\frac{1}{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+68
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $|\sin x|\leq|x|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4.29
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\lim_{x\rightarrow0}\frac{1}{x^{2}}=\infty$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+77
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\lim_{x\rightarrow\frac{\pi}{2}^{-}}\tan x=\infty,\lim_{x\rightarrow\frac{\pi}{2}^{+}}\tan x=-\infty$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+78
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\lim_{x\rightarrow\infty}\frac{1}{x}=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+79
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הגבול 
+\begin_inset Formula $\lim_{x\rightarrow\infty}\sin x$
+\end_inset
+
+ לא קיים
+\end_layout
+
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4.31
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\lim_{x\rightarrow\infty}\sqrt{x}=\infty$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- רציפות
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+5.32
+\numeric off
+ - נקודת שבת
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+\lang english
+(fixed point)
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang hebrew
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- נקודה המקיימת 
+\begin_inset Formula $f\left(x\right)=x$
+\end_inset
+
+.
+ המשפט בעצם אומר שלכל פונקציה רציפה מקטע לעצמו קיימת נקודת שבת.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+29
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הפונקציה 
+\begin_inset Formula $f\left(x\right)=\begin{cases}
+\sin\frac{1}{x} & x\neq0\\
+0 & x=0
+\end{cases}$
+\end_inset
+
+ מקיימת שעבור 
+\series bold
+כל קטע 
+\begin_inset Formula $\left[a,b\right]$
+\end_inset
+
+ 
+\series default
+עבור כל 
+\begin_inset Formula $t\in\left[a,b\right]$
+\end_inset
+
+ קיים 
+\begin_inset Formula $c$
+\end_inset
+
+ עבורו 
+\begin_inset Formula $f\left(c\right)=t$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+שאלה 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+34
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- פונקציה לא רציפה אבל חסומה, שמצומצמת לקטע סגור, החסם העליון והתחתון שלה
+ הם לא בהכרח ערכים שלה.
+ דוגמה - 
+\begin_inset Formula $f\left(x\right)=\begin{cases}
+\frac{1}{2} & 0\\
+x & \left(0,1\right)\\
+\frac{1}{2} & 1
+\end{cases}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+הוכחה מעניינת -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.37
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.43
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- פונקציה מונוטונית ורציפה בקטע היא חח
+\begin_inset Quotes erd
+\end_inset
+
+ע
+\end_layout
+
+\begin_layout Itemize
+הגדרות וגרפים של הפונקציות הטריגונומטריות ההפוכות.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+40
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\arcsin x+\arccos x=\frac{\pi}{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $arc\cot x+\arctan x=\frac{\pi}{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cos^{2}\left(\arcsin x\right)=\sqrt{1-x^{2}}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+רציפות במידה שווה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+רבמ
+\begin_inset Quotes erd
+\end_inset
+
+ש גורר רציפות, וההפך לא נכון, 
+\begin_inset Formula $x^{2}$
+\end_inset
+
+ לא רבמ
+\begin_inset Quotes erd
+\end_inset
+
+ש בקטע 
+\begin_inset Formula $\left(-\infty,\infty\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\frac{1}{x}$
+\end_inset
+
+ לא רבמ
+\begin_inset Quotes erd
+\end_inset
+
+ש בקטע 
+\begin_inset Formula $\left(0,x_{0}\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+טענת עזר - אם 
+\begin_inset Formula $f$
+\end_inset
+
+ רציפה ו-
+\begin_inset Formula $x_{n}$
+\end_inset
+
+ סדרת נקודות ב-
+\begin_inset Formula $\left(a,b\right)$
+\end_inset
+
+ המתכנסת ל-
+\begin_inset Formula $a$
+\end_inset
+
+ אז הסדרה 
+\begin_inset Formula $f\left(x_{n}\right)$
+\end_inset
+
+ מתכנסת 
+\end_layout
+
+\begin_layout Itemize
+הערה: ל-
+\begin_inset Formula $\frac{\tan x}{x}$
+\end_inset
+
+ יש גבול סופי ב-
+\begin_inset Formula $x=0$
+\end_inset
+
+ )הגבול הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+(
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+44
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם פונקציה רבמ
+\begin_inset Quotes erd
+\end_inset
+
+ש בקטע אז גם היא רבמ
+\begin_inset Quotes erd
+\end_inset
+
+ש בכל קטע המוכל בו.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+48
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- תהי 
+\begin_inset Formula $f$
+\end_inset
+
+ פונקציה רציפה בקטע 
+\begin_inset Formula $[a,\infty)$
+\end_inset
+
+ כך שקיים הגבול 
+\begin_inset Formula $\lim_{x\rightarrow\infty}f\left(x\right)$
+\end_inset
+
+, אז הפונקציה 
+\begin_inset Formula $f$
+\end_inset
+
+ רציפה במידה שווה.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+49
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם פונקציה רציפה במ
+\begin_inset Quotes erd
+\end_inset
+
+ש בקטעים אז היא רציפה במ
+\begin_inset Quotes erd
+\end_inset
+
+ש באיחוד שלהם.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+50
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\sqrt{x}$
+\end_inset
+
+ רציפה במ
+\begin_inset Quotes erd
+\end_inset
+
+ש ב-
+\begin_inset Formula $[0,\infty)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+51
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\sin x^{2}$
+\end_inset
+
+ לא רציפה במ
+\begin_inset Quotes erd
+\end_inset
+
+ש על כל הישר.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- פונקציות מעריכיות
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $a^{r-s}=\frac{a^{r}}{a^{r}},\left(\frac{a}{b}\right)^{r}=\frac{a^{r}}{b^{r}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $1<a$
+\end_inset
+
+ ו-
+\begin_inset Formula $s<r$
+\end_inset
+
+ אז 
+\begin_inset Formula $a^{s}<a^{r}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $b<a$
+\end_inset
+
+ אז 
+\begin_inset Formula $b^{r}<a^{r}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הפונקציה 
+\begin_inset Formula $x^{r}$
+\end_inset
+
+ חח
+\begin_inset Quotes erd
+\end_inset
+
+ע ועל, רציפה ב-
+\begin_inset Formula $\left(0,\infty\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\lim_{x\rightarrow\infty}f\left(x\right)=\infty$
+\end_inset
+
+, 
+\begin_inset Formula $\lim_{x\rightarrow0^{+}}f\left(x\right)=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $a^{r}=e^{r\ln a}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\lim_{x\rightarrow\infty}\frac{\ln x}{x}=0$
+\end_inset
+
+ )הוכחה דרך חוק החזקה בלוגריתמים(.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הפונקציות 
+\begin_inset Formula $\log_{x}a$
+\end_inset
+
+, 
+\begin_inset Formula $\log_{a}x$
+\end_inset
+
+ רציפות בתחום הגדרתן
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+טריק חזקת סדרות - 
+\begin_inset Formula $\lim_{n\rightarrow\infty}\left(\frac{n^{2}}{n^{2}-5n+1}\right)^{2n+3}=\lim_{n\rightarrow\infty}\left(1+\frac{5n-1}{n^{2}-5n+1}\right)^{\frac{1}{\frac{5n-1}{n^{2}-5n+1}}^{\frac{5n-1}{n^{2}-5n+1}\cdot2n+3}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הנגזרת
+\end_layout
+
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\left(\sqrt{x}\right)'_{+}=\frac{1}{2\sqrt{x}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(\frac{1}{x^{n}}\right)'=\left(-n\right)x^{-\left(n+1\right)}=-\frac{n}{x^{n+1}}$
+\end_inset
+
+ - )מסתמך על
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7.20
+\numeric off
+(
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7.27
+\numeric off
+ 
+\begin_inset Formula $^{\ast}$
+\end_inset
+
+ - נגזרת הפונקציה ההפוכה
+\end_layout
+
+\begin_layout Itemize
+קירוב לינארי 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כדי לאמוד את 
+\begin_inset Formula $f\left(x\right)$
+\end_inset
+
+ כאשר 
+\begin_inset Formula $x$
+\end_inset
+
+ קרוב ל-
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ אפשר להשתמש בנוסחה - 
+\begin_inset Formula $f\left(x_{0}\right)+f'\left(x_{0}\right)\left(x-x_{0}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+שימוש בדיפרנציאל - 
+\begin_inset Formula $f\left(a+h\right)\thickapprox f\left(a\right)+df_{a}\left(h\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+כתיב שונה לדיפרנציאל: 
+\begin_inset Formula $dx=h$
+\end_inset
+
+, 
+\begin_inset Formula $dy=f'\left(x\right)dx$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- תכונות של פונקציות גזירות
+\end_layout
+
+\begin_layout Itemize
+משפטי ערך ממוצע
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+9
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם פונקציה גזירה בכל נקודה בקטע ונגזרתה חסומה בקטע אז הפונקציה רציפה בקטע
+ במ
+\begin_inset Quotes erd
+\end_inset
+
+ש.
+\end_layout
+
+\begin_layout Itemize
+סתירה למשפט קושי - 
+\begin_inset Formula $g\left(x\right)=x^{2}$
+\end_inset
+
+ ו-
+\begin_inset Formula $g\left(1\right)=g\left(-1\right)=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+17
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- בין נקודות אפס סמוכות של הנגזרת אין סימנה מתחלף.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+18
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+והדיון שאחריו - לפונקציה שהיא נגזרת לא יכולות להיות נקודות אי רציפות ממין
+ ראשון )כי לא מקבלת ערכים בין המדרגות ואז יש סתירה עם דארבו(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+חקירת פונקציה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+28,29
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $f$
+\end_inset
+
+ עולה במובן החלש אם 
+\begin_inset Formula $0\le f'\left(x\right)$
+\end_inset
+
+ לכל נקודה פנימית, עולה ממש אמ
+\begin_inset Quotes erd
+\end_inset
+
+מ הנגזרת אי שלילית ולא מתאפסת.
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+32
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- פונקציה יכולה להיות לא גזירה ושלא יהיה קיצון )לדוגמה חיבור של שתי פונקציות
+ לינאריות(, יכולה להיות רציפה וגזירה ועם נגזרת
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אבל לא קיצון
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $f'\left(x_{0}\right)=f''\left(x_{0}\right)=0$
+\end_inset
+
+ הפונקציה יכולה לקבל קיצון ויכולה גם לא!
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+46
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\lim_{x\rightarrow\infty}|g\left(x\right)|=0$
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $\lim_{x\rightarrow\infty}g\left(x\right)=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+הישר 
+\begin_inset Formula $y=mx+n$
+\end_inset
+
+ הוא אסימפטוטה משופעת אמ
+\begin_inset Quotes erd
+\end_inset
+
+מ 
+\begin_inset Formula $m=\lim_{x\rightarrow\infty}\frac{f\left(x\right)}{x},n=\lim_{x\rightarrow\infty}\left(f\left(x\right)-ax\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+פונקציה זוגית ואי זוגית
+\end_layout
+
+\begin_layout Itemize
+סיכום חקירה: תחום הגדרה, זוגיות, מחזוריות, חיתוך עם צירים, אסימפטוטות, נגזרת
+ ראשונה, נגזרת שניה, קיצון, פיתול.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+הוכחת אי שיוויונות:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+צ
+\begin_inset Quotes erd
+\end_inset
+
+ל 
+\begin_inset Formula $g\left(x\right)\leq f\left(x\right)$
+\end_inset
+
+, הגדרת 
+\begin_inset Formula $h\left(x\right)=f\left(x\right)-g\left(x\right)$
+\end_inset
+
+, מציאת ערך מינימום 
+\begin_inset Formula $0<h\left(x_{0}\right)\leq h\left(x\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+שונות
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $xD\left(x\right)$
+\end_inset
+
+ - גזירה רק בנקודה מסוימת )
+\begin_inset Formula $x=0$
+\end_inset
+
+(.
+ קיימת פונקציה 
+\begin_inset Formula $f$
+\end_inset
+
+ כך ש-
+\begin_inset Formula $f\left(x\right)\left(e^{x}+|x|\right)$
+\end_inset
+
+ גזירה לכל 
+\begin_inset Formula $x$
+\end_inset
+
+ - 
+\begin_inset Formula $f\left(x\right)=x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+אם נתון 
+\begin_inset Formula $c<x_{1}$
+\end_inset
+
+ לא בהכרח שכל 
+\begin_inset Formula $c<x_{n}$
+\end_inset
+
+, וגם אם כן צריך להוכיח.
+\end_layout
+
+\begin_layout Itemize
+לשים לב שהוכחנו את כל התנאים למשפט מסוים כדי להשתמש בו!
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם לא מצליחים להוכיח תנאי אפשר לכתוב 
+\begin_inset Quotes eld
+\end_inset
+
+בהנחה ונכון
+\begin_inset Quotes erd
+\end_inset
+
+ )אבל אז גם יש סיכון שזה לא נכון ואז שאר השאלה לא נכון(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+פונקציה יכולה להיות רבמ
+\begin_inset Quotes erd
+\end_inset
+
+ש ב-
+\begin_inset Formula $\text{\left[0,n\right]}$
+\end_inset
+
+ אבל לא ב-
+\begin_inset Formula $[0,\infty)$
+\end_inset
+
+ - לדוגמה 
+\begin_inset Formula $x^{2}$
+\end_inset
+
+.
+ אפשר בכל קטע להוכיח רבמ
+\begin_inset Quotes erd
+\end_inset
+
+ש אבל באינסוף לא.
+\end_layout
+
+\begin_layout Itemize
+אינסוף פתרונות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כדי להוכיח 
+\begin_inset Formula $\tan x=x$
+\end_inset
+
+ - נגדיר 
+\begin_inset Formula $f\left(x\right)=\tan x-x$
+\end_inset
+
+.
+ 
+\begin_inset Formula $f$
+\end_inset
+
+ רציפה.
+ בשאיפה ל-
+\begin_inset Formula $\frac{\pi}{2}+\pi k$
+\end_inset
+
+ משמאל היא אינסוף וב-
+\begin_inset Formula $\frac{\pi}{2}+\pi\left(k-1\right)$
+\end_inset
+
+ היא מינוס אינסוף, לכן קיים 
+\begin_inset Formula $f\left(x_{1}\right)>0$
+\end_inset
+
+ ו-
+\begin_inset Formula $f\left(x_{2}\right)<0$
+\end_inset
+
+, ולפי ערך הביניים 
+\begin_inset Formula $g\left(x_{3}\right)=0$
+\end_inset
+
+.
+ בסוף להוכיח שהפתרונות שונים.
+\end_layout
+
+\begin_layout Itemize
+נתון 
+\begin_inset Formula $\lim_{x\rightarrow\infty}f\left(x\right)=-\infty$
+\end_inset
+
+.
+ יש אינסוף פתרונות למשוואה 
+\begin_inset Formula $e^{f\left(x\right)}=\sin x$
+\end_inset
+
+.
+ מסמנים 
+\begin_inset Formula $g\left(x\right)=\sin x-e^{f\left(x\right)}$
+\end_inset
+
+מוכיחים 
+\begin_inset Formula $e^{f\left(x\right)}$
+\end_inset
+
+ שואף ל-
+\numeric on
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ולכן קיים 
+\begin_inset Formula $x$
+\end_inset
+
+ שלפניו הביטוי קטן מחצי.
+ ניקח את ה-
+\begin_inset Formula $x$
+\end_inset
+
+ הכי קרוב משמאל עבורו 
+\begin_inset Formula $\sin x=0,\sin x=-1$
+\end_inset
+
+.
+ עושים ערך הביניים ומקבלים ש-
+\begin_inset Formula $g$
+\end_inset
+
+ מתאפסת.
+ )פתרון מלא -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2022
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מועד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+97
+\numeric off
+(.
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לנמק את הגבול של 
+\begin_inset Formula $e^{f\left(X\right)}$
+\end_inset
+
+ לפי
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4.39
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
++
+\numeric off
+ 
+\numeric on
+6.9
+\end_layout
+
+\begin_layout Itemize
+קיימים אינסוף פתרונות עבורם 
+\begin_inset Formula $e^{f\left(x\right)}f'\left(x\right)=\cos x$
+\end_inset
+
+ - זו הנגזרת של הפונקציה מהמשוואה הקודמת, אפשר לעשות רול בין כל שני פתרונות
+ ולקבל פתרון ל-
+\begin_inset Formula $g'\left(x\right)=0$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+סדרות - לא תמיד אפשר למצוא את הגבול של 
+\begin_inset Formula $a_{2n},a_{2n-1}$
+\end_inset
+
+, אם מוכיחים ששתיהן מתכנסות וגם שהגבול של ההפרש שלהן הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אז אפשר להוכיח שהן מתכנסות לאותו הגבול.
+\end_layout
+
+\begin_layout Itemize
+להוכיח שסדרה עולה / יורדת - אפשר עם אינדוקציה )שכחתי מזה באחד המבחנים(.
+\end_layout
+
+\begin_layout Itemize
+הטענה 
+\begin_inset Formula $\lim_{x\rightarrow0}\frac{1-\cos\left(xD\left(\sqrt{2}x\right)\right)}{x^{2}}=0$
+\end_inset
+
+ לא נכונה.
+ הסבר - אפשר למצוא סדרת מספרים רציונליים כך הגבול יהיה שווה 
+\begin_inset Formula $\lim_{x\rightarrow0}\frac{1-\cos\left(x_{n}\right)}{x_{n}^{2}}=0$
+\end_inset
+
+ אבל 
+\begin_inset Formula $\lim_{x\rightarrow0}\frac{1-\cos\left(x_{n}\right)}{x_{n}^{2}}=\frac{1}{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+שאלות
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.38
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- יכול להיות שקבוצת הגבולות החלקיים היא סופית לא?...
+ נגיד 
+\begin_inset Formula $\left(-1\right)^{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+אי שיוונות ריבועיים?
+\end_layout
+
+\begin_layout Itemize
+להתחדד על למה פונקציה רציפה במ
+\begin_inset Quotes erd
+\end_inset
+
+ש אם הקטע הוא סגור )
+\numeric on
+5.48
+\numeric off
+(
+\end_layout
+
+\begin_layout Itemize
+האם כדי להשתמש ב-
+\begin_inset Formula $a^{r}=e^{r\ln a}$
+\end_inset
+
+ צריך ש-
+\begin_inset Formula $a,r$
+\end_inset
+
+ יהיו רציפות? נראה לי שלא.
+ אולי רק 
+\begin_inset Formula $a$
+\end_inset
+
+ מוגדר ו-
+\begin_inset Formula $0<a$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+חישוב גבול
+\end_layout
+
+\begin_layout Itemize
+אריתמטיקה
+\end_layout
+
+\begin_layout Itemize
+סנדוויץ'
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\frac{a_{n+1}}{a_{n}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+החלפה כמעט לכל 
+\begin_inset Formula $n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+בדיקת הממוצע / האם זה ממוצע
+\end_layout
+
+\begin_layout Itemize
+חלוקה לסדרות חלקיות )לדוגמה זוגיים / אי זוגיים(
+\end_layout
+
+\begin_layout Standard
+רציפות במידה שווה
+\end_layout
+
+\begin_layout Itemize
+הגדרה 
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\numeric off
+ שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+48
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- תהי 
+\begin_inset Formula $f$
+\end_inset
+
+ פונקציה רציפה בקטע 
+\begin_inset Formula $[a,\infty)$
+\end_inset
+
+ כך שקיים הגבול 
+\begin_inset Formula $\lim_{x\rightarrow\infty}f\left(x\right)$
+\end_inset
+
+, אז הפונקציה 
+\begin_inset Formula $f$
+\end_inset
+
+ רציפה במידה שווה.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+5.48
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- פונקציה רציפה בקטע סגור 
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+5.49
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- פונקציה רציפה בקטע פתוח וקיימים הגבולות החד צדדיים בקצוות
+\end_layout
+
+\end_body
+\end_document

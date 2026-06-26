@@ -1,0 +1,135 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -64,8 +64,83 @@
+             (value-of body
+               (extend-env var val1 env))))
+ 
++        (do-exp (variables results)
++          ;; Initialzes loop variables.
++          (define do-build
++            (lambda (do-variables-remaning do-env)
++              (if (null? do-variables-remaning)
++                do-env
++                (cases do-variable-grammar (car do-variables-remaning)
++                  (do-variables (id init-exp step-exp)
++                    (do-build
++                      (cdr do-variables-remaning)
++                      (extend-env id (value-of init-exp do-env) do-env)
++                    )
++                  )
++                )
++              )
++            )
++          )
++
++          ;; Increments loop variables.
++          (define do-step
++            (lambda (do-variables-remaning do-env do-env-result)
++              (if (null? do-variables-remaning)
++                do-env-result
++                (cases do-variable-grammar (car do-variables-remaning)
++                  (do-variables (id init-exp step-exp)
++                    (do-step
++                      (cdr do-variables-remaning)
++                      do-env
++                      (extend-env
++                        id
++                        (num-val
++                          (+
++                            (expval->num (apply-env do-env id))
++                            (expval->num (value-of step-exp do-env))
++                          )
++                        )
++                        do-env-result
++                      )
++                    )
++                  )
++                )
++              )
++            )
++          )
++
++          ;; Checks if loop results and returns result value if done.
++          (define do-check
++            (lambda (do-results-remaining do-env)
++              (if (null? do-results-remaining)
++                (do-loop (do-step variables do-env do-env))
++                (cases do-results-grammar (car do-results-remaining)
++                  (do-results (cond-exp result-exp)
++                    (if (expval->bool (value-of cond-exp do-env))
++                      (value-of result-exp do-env)
++                      (do-check (cdr do-results-remaining) do-env))
++                  )
++                )
++              )
++            )
++          )
++
++          ;; Run loop
++          (define do-loop
++            (lambda (do-env)
++              (do-check results do-env)
++            )
++          )
++
++          ; Verify parameters and run the loop
++          (if (null? variables)
++            (eopl:error 'do-exp "do requires at least one variable expression")
++            (if (null? results)
++              (eopl:error 'do-exp "do requires at least one result expression")
++              (do-loop (do-build variables env))
++            )
++          )
++        )
+         )))
+-
+-
+   )
+ 
+--- a/lang.scm
++++ b/lang.scm
+@@ -42,6 +42,15 @@
+        ("let" identifier "=" expression "in" expression)
+        let-exp)
+ 
++      (expression
++        ("do" "(" (arbno do-variable-grammar) (arbno do-results-grammar) ")")
++        do-exp)
++      (do-variable-grammar
++        ("<" identifier expression expression ">")
++        do-variables)
++      (do-results-grammar
++        ("[" expression expression "]")
++        do-results)
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -55,5 +55,26 @@
+       (check-shadowing-in-body "let x = 3 in let x = 4 in x" 4)
+       (check-shadowing-in-rhs "let x = 3 in let x = -(x,1) in x" 2)
+ 
++      ;; do loop
++      ;; note - <id init step>: id starts at init, each iteration id := id + step
++      ;; note - all step exprs evaluate against the PREVIOUS iteration's env (simultaneous update), not left-to-right
++      ;; note - [cond result] clauses checked top-to-bottom each iteration; first true cond returns its result and stops
++      (do-loop-put-in-preview "do (
++        <a 0 4>
++        <b 7 -(a,2)>
++        <c -(b,1) -(a,b)>
++        [zero? (b) -(a,c)]
++        [zero? (-(c,-2)) -(a,5)]
++      )" 3)
++       (do-loop-no-variables "do (
++        [zero? (b) -(a,c)]
++        [zero? (-(c,-2)) -(a,5)]
++      )" error)
++       (do-loop-no-results "do (
++         <a 0 4>
++         <b 7 -(a,2)>
++         <c -(b,1) -(a,b)>
++      )" error)
+       ))
++
+   )

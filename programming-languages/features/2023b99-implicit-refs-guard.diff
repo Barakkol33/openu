@@ -1,0 +1,265 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -19,6 +19,7 @@
+       (proc proc?))
+     (ref-val
+       (ref reference?))
++    (guard-val (inner expval?) (typ string?))
+     )
+ 
+ ;;; extractors:
+@@ -47,6 +48,24 @@
+ 	(ref-val (ref) ref)
+ 	(else (expval-extractor-error 'reference v)))))
+ 
++  (define expval->guardval
++    (lambda (v)
++      (cases expval v
++	(guard-val (inner typ) inner)
++	(else (expval-extractor-error 'guard v)))))
++
++  (define strip-guard
++    (lambda (v)
++      (cases expval v
++	(guard-val (inner typ) inner)
++	(else v))))
++
++  (define expval->guardtyp
++    (lambda (v)
++      (cases expval v
++	(guard-val (inner typ) typ)
++	(else ""))))
++
+   (define expval-extractor-error
+     (lambda (variant value)
+       (eopl:error 'expval-extractors "Looking for a ~s, found ~s"
+@@ -56,6 +75,7 @@
+ 
+   (define-datatype proc proc?
+     (procedure
++      (grd guard?)                 ; the parameter's type guard (guard-empty = none)
+       (bvar symbol?)
+       (body expression?)
+       (env environment?)))
+@@ -96,7 +116,7 @@
+       (cases expval val
+ 	(proc-val (p)
+ 	  (cases proc p
+-	    (procedure (var body saved-env)
++	    (procedure (grd var body saved-env)
+ 	      (list 'procedure var '... (env->list saved-env)))))
+ 	(else val))))
+ 
+--- a/environments.scm
++++ b/environments.scm
+@@ -1,6 +1,7 @@
+ (module environments (lib "eopl.ss" "eopl")
+ 
+   (require "data-structures.scm")
++  (require "lang.scm")                  ; for the guard datatype (guard-empty)
+   (require "store.scm")
+   (provide init-env empty-env extend-env apply-env)
+ 
+@@ -39,6 +40,7 @@
+               (newref
+                 (proc-val
+                   (procedure
++                    (guard-empty)                 ; letrec procs are unguarded
+                     (list-ref b-vars n)
+                     (list-ref p-bodies n)
+                     env)))
+--- a/interp.scm
++++ b/interp.scm
+@@ -39,7 +39,7 @@
+ 
+         ;\commentbox{ (value-of (var-exp \x{}) \r)
+         ;              = (deref (apply-env \r \x{}))}
+-        (var-exp (var) (deref (apply-env env var)))
++        (var-exp (var) (strip-guard (deref (apply-env env var))))
+ 
+         ;\commentbox{\diffspec}
+         (diff-exp (exp1 exp2)
+@@ -66,13 +66,19 @@
+               (value-of exp3 env))))
+ 
+         ;\commentbox{\ma{\theletspecsplit}}
+-        (let-exp (var exp1 body)
+-          (let ((v1 (value-of exp1 env)))
+-            (value-of body
+-              (extend-env var (newref v1) env))))
++        (let-exp (grd var exp1 body)
++          (let* ((v1  (value-of exp1 env))
++                 (typ (grd->typ grd)))
++            (if (or (equal? typ "") (equal? typ (expval->typ v1)))
++              (value-of body
++                (extend-env var (newref (guard-val v1 typ)) env))
++              (eopl:error 'let-exp "violate let guard"))))
+ 
+-        (proc-exp (var body)
+-          (proc-val (procedure var body env)))
++        ;; a parameter guard is just a guarded let on the bound variable:
++        ;; the parameter guard is stored in the procedure itself and enforced by
++        ;; apply-procedure when the argument is bound.
++        (proc-exp (grd var body)
++          (proc-val (procedure grd var body env)))
+ 
+         (call-exp (rator rand)
+           (let ((proc (expval->proc (value-of rator env)))
+@@ -95,14 +101,46 @@
+ 
+         (assign-exp (var exp1)
+           (begin
+-            (setref!
+-              (apply-env env var)
+-              (value-of exp1 env))
++            (let*
++              (
++                (refvar (apply-env env var))
++                (refval (deref refvar))
++                (reftyp (expval->guardtyp refval))
++                (val1 (value-of exp1 env))
++              )
++              (if
++                (or
++                  (equal? reftyp "")
++                  (equal? reftyp (expval->typ val1))
++                )
++                (setref! refvar (guard-val val1 reftyp))
++                (eopl:error 'assign-exp "violate let guard")
++              )
++            )
+             (num-val 27)))
+ 
+         )))
+ 
+-
++  (define grd->typ
++    (lambda (v)
++      (cases guard v
++        (guard-num () "num")
++        (guard-bool () "bool")
++        (guard-proc () "proc")
++        (guard-empty () "")
++      )
++    )
++  )
++  (define expval->typ
++    (lambda (v)
++      (cases expval v
++        (num-val (n) "num")
++        (bool-val (b) "bool")
++        (proc-val (p) "proc")
++        (else "")
++      )
++    )
++  )
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+   ;; Page: 119
+ 
+@@ -118,19 +156,23 @@
+   (define apply-procedure
+     (lambda (proc1 arg)
+       (cases proc proc1
+-        (procedure (var body saved-env)
+-          (let ((r (newref arg)))
+-            (let ((new-env (extend-env var r saved-env)))
+-              (if (instrument-let)
+-                (begin
+-                  (eopl:printf
+-                    "entering body of proc ~s with env =~%"
+-                    var)
+-                  (pretty-print (env->list new-env))
+-                  (eopl:printf "store =~%")
+-                  (pretty-print (store->readable (get-store-as-list)))
+-                  (eopl:printf "~%")))
+-              (value-of body new-env)))))))
++        (procedure (grd var body saved-env)
++          (let ((typ (grd->typ grd)))
++            (if (or (equal? typ "") (equal? typ (expval->typ arg)))
++              ;; bind the parameter as a guarded cell, so a later `set` is type-checked too
++              (let ((r (newref (guard-val arg typ))))
++                (let ((new-env (extend-env var r saved-env)))
++                  (if (instrument-let)
++                    (begin
++                      (eopl:printf
++                        "entering body of proc ~s with env =~%"
++                        var)
++                      (pretty-print (env->list new-env))
++                      (eopl:printf "store =~%")
++                      (pretty-print (store->readable (get-store-as-list)))
++                      (eopl:printf "~%")))
++                  (value-of body new-env)))
++              (eopl:error 'apply-procedure "violate proc guard")))))))
+ 
+   ;; store->readable : Listof(List(Ref,Expval))
+   ;;                    -> Listof(List(Ref,Something-Readable))
+--- a/lang.scm
++++ b/lang.scm
+@@ -37,11 +37,11 @@
+       (expression (identifier) var-exp)
+ 
+       (expression
+-       ("let" identifier "=" expression "in" expression)
++       ("let" guard identifier "=" expression "in" expression)
+        let-exp)
+ 
+       (expression
+-       ("proc" "(" identifier ")" expression)
++       ("proc" "(" guard identifier ")" expression)
+        proc-exp)
+ 
+       (expression
+@@ -64,6 +64,11 @@
+         ("set" identifier "=" expression)
+         assign-exp)
+ 
++      (guard ("#") guard-num)
++      (guard ("?") guard-bool)
++      (guard ("@") guard-proc)
++      (guard () guard-empty)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,28 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;; guards: # = num, ? = bool, @ = proc, (empty) = unguarded.
++      ;; checked on let-binding, proc application, and set.
++
++      ;; let guard — value matches / violates the declared type
++      (guard-let-num-ok        "let # x = 5 in -(x,1)" 4)
++      (guard-let-num-violation "let # x = zero?(0) in x" error)         ; declares num, binds bool
++      (guard-let-bool-ok       "let ? b = zero?(0) in if b then 1 else 2" 1)
++      (guard-let-empty-ok      "let x = zero?(0) in if x then 1 else 2" 1)   ; no guard = anything
++
++      ;; proc guard — argument matches / violates the parameter's type
++      (guard-proc-num-ok        "(proc (# x) -(x,1) 5)" 4)
++      (guard-proc-num-violation "(proc (# x) x zero?(0))" error)        ; num param, given bool
++      (guard-proc-bool-ok       "(proc (? b) if b then 1 else 2 zero?(0))" 1)
++      (guard-proc-proc-ok       "(proc (@ f) (f 5) proc (x) -(x,1))" 4) ; proc param, given a proc
++
++      ;; set guard — the cell keeps its let-guard across assignment
++      ;; note - guards: # num, ? bool, @ proc, (none) = unguarded. The guard is stored on the \
++      ;; note - cell itself, so it is re-checked on every set, not just at let-binding time.
++      ;; note - storing a mismatched type (e.g. set x = zero?(0) on a # cell) errors.
++      (guard-set-ok-put-in-preview
++        "let # x = 5 in begin set x = 10; x end" 10)
++      (guard-set-violation "let # x = 5 in set x = zero?(0)" error)     ; can't store a bool in a num cell
++
+       ))
+   )
+--- a/top.scm
++++ b/top.scm
+@@ -53,7 +53,7 @@
+                 (run (cadr test))))
+           (else (eopl:error 'run-one "no such test: ~s" test-name))))))
+ 
+-  ;; (run-all)
++  (run-all)
+ 
+   )
+ 

@@ -1,0 +1,125 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -16,7 +16,8 @@
+     (bool-val
+       (boolean boolean?))
+     (proc-val
+-      (proc proc?)))
++      (proc proc?))
++    (list-val (exps (list-of expval?))))
+ 
+ ;;; extractors:
+ 
+--- a/interp.scm
++++ b/interp.scm
+@@ -73,6 +73,50 @@
+                 (arg (value-of rand env)))
+             (apply-procedure proc arg)))
+ 
++        (foreach-exp (typ id exps body)
++          (letrec
++            (
++              (typeexp->typename (lambda (t)
++                (cases type-exp t
++                  (type-exp-int () 'num)
++                  (type-exp-bool () 'bool)
++                  (type-exp-func () 'proc)
++                )
++              ))
++              (expval->typename (lambda (exp)
++                (cases expval exp
++                  (num-val (v) 'num)
++                  (bool-val (v) 'bool)
++                  (proc-val (v) 'proc)
++                  (else 'other)
++                )
++              ))
++              (typname (typeexp->typename typ))
++              (loop (lambda (lexps)
++                (if (null? lexps)
++                  (list)
++                  (let*
++                    (
++                      (exp (car lexps))
++                      (next (loop (cdr lexps)))
++                      (v1 (value-of exp env))
++                      (v1t (expval->typename v1))
++                    )
++                    (if (equal? typname v1t)
++                      (cons
++                        (value-of body (extend-env id v1 env))
++                        next
++                      )
++                      next
++                    )
++                  )
++                )
++              ))
++            )
++            (list-val (loop exps))
++          )
++        )
++
+         )))
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+--- a/lang.scm
++++ b/lang.scm
+@@ -48,6 +48,18 @@
+        ("(" expression expression ")")
+        call-exp)
+ 
++      (expression
++        (
++          "foreach" "(" type-exp identifier ")" "in"
++          "[" (separated-list expression ",") "]"
++          "do" expression
++        )
++        foreach-exp
++      )
++      (type-exp ("int") type-exp-int)
++      (type-exp ("bool") type-exp-bool)
++      (type-exp ("func") type-exp-func)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -73,5 +73,26 @@
+     t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
+ in let times4 = (fix t4m)
+    in (times4 3)" 12)
++
++      ;; foreach maps the body over the list, binding the id each iteration
++      (foreach-int-identity
++        "foreach (int x) in [10, 20, 30] do x" (10 20 30))
++      (foreach-int-body
++        "foreach (int x) in [10, 20, 30] do -(x,1)" (9 19 29))
++      ;; note - syntax: `foreach (<type> id) in [..] do body`; result is a LIST of body values, order preserved.
++      ;; note - elements are filtered by RUNTIME type vs declared type (int/bool/func); non-matching ones are skipped.
++      ;; note - here zero?(0) is a bool, so it is dropped from the int loop; body still sees the surrounding env.
++      ;; only elements whose runtime type matches the declared type are kept
++      (foreach-filters-by-type-put-in-preview
++        "foreach (int x) in [10, zero?(0), 30] do x" (10 30))
++      (foreach-bool-filter
++        "foreach (bool b) in [zero?(0), 5, zero?(1)] do b" (#t #f))
++      ;; no matching element yields the empty list
++      (foreach-none-match
++        "foreach (bool b) in [1, 2, 3] do b" ())
++      ;; the body sees the surrounding environment, not just the bound id
++      (foreach-closes-over-env
++        "let n = 100 in foreach (int x) in [1, 2] do -(x,n)" (-99 -98))
++
+       ))
+   )
+--- a/top.scm
++++ b/top.scm
+@@ -34,6 +34,7 @@
+       (cond
+         ((number? sloppy-val) (num-val sloppy-val))
+         ((boolean? sloppy-val) (bool-val sloppy-val))
++        ((list? sloppy-val) (list-val (map sloppy->expval sloppy-val)))
+         (else
+          (eopl:error 'sloppy->expval
+                      "Can't convert sloppy value to expval: ~s"

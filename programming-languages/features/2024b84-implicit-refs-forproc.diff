@@ -1,0 +1,144 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -100,8 +100,49 @@
+               (value-of exp1 env))
+             (num-val 27)))
+ 
++        (forprox-exp (id ids bodies guards body)
++          (letrec (
++            (guard->action (lambda (grd)
++              (cases guard grd
++                (skip-guard (v) 'skip)
++                (break-guard (v) 'break)
++            )))
++            (guard->exp (lambda (grd)
++              (cases guard grd
++                (skip-guard (v) v)
++                (break-guard (v) v)
++            )))
++            (guardcheck (lambda (id2 idx bodyx guards2)
++              (if (null? guards2)
++                  'do
++                  (let* (
++                    (guardval (value-of (guard->exp (car guards2))
++                        (extend-env-rec* (list id2) (list idx) (list bodyx) env)
++                    ))
++                  ) (if (expval->bool guardval)
++                    (guard->action (car guards2))
++                    (guardcheck id2 idx bodyx (cdr guards2))
++                  ))
++            )))
++            (loop (lambda (ids2 bodies2)
++              (if (null? ids2) #t
++                (let* (
++                  (guardtype (guardcheck id (car ids2) (car bodies2) guards))
++                ) (cond
++                    ((equal? guardtype 'break) #t)
++                    ((equal? guardtype 'skip) (loop (cdr ids2) (cdr bodies2)))
++                    (else (let* (
++                      (r (value-of
++                          body
++                          (extend-env-rec* (list id) (list (car ids2)) (list (car bodies2)) env)
++                      ))
++                    ) (loop (cdr ids2) (cdr bodies2))))
++            )))))
++            (r (loop ids bodies))
++          ) (num-val 27)
++        ))
++
+         )))
+-
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+   ;; Page: 119
+--- a/lang.scm
++++ b/lang.scm
+@@ -64,6 +64,21 @@
+         ("set" identifier "=" expression)
+         assign-exp)
+ 
++      (expression
++        (
++          "for/proc" identifier ";"
++          "("
++          "[" (separated-list identifier ",") "]" ";"
++          "[" (separated-list expression ",") "]" ";"
++          ")"
++          (arbno "<" guard ">")
++          "{" expression "}"
++        )
++        forprox-exp
++      )
++
++      (guard ("skip" ":" expression) skip-guard)
++      (guard ("break" ":" expression) break-guard)
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,64 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;;;;;;;;;;;;;;;; for/proc feature ;;;;;;;;;;;;;;;;
++      ;; note - `for/proc f ; ( [p1,..,pn] ; [b1,..,bn] ; ) <guard>* { stmt }` runs the stmt ONCE per \
++      ;; note -   (param, body) pair; the two bracketed lists are parallel and must be equal length.
++      ;; note - on iteration k it (re)binds `f` to `proc(pk) bk` (recursive, so bk may call f), \
++      ;; note -   and that f is visible to both the guards and the stmt of that iteration.
++      ;; note - a guard `< skip : c >` or `< break : c >` is tested BEFORE the stmt, first-true-wins: \
++      ;; note -   skip => don't run the stmt this iteration; break => stop the loop early.
++      ;; note - the form is a STATEMENT (always returns 27); watch its effect through mutation (set acc).
++
++      ;; simplest: 3 (param,body) pairs => the stmt runs 3 times, so acc counts 0->1->2->3
++      (forproc-runs-body-each-iter-put-in-preview "
++let acc = 0
++in begin
++     for/proc f ; ( [x, x, x] ; [x, x, x] ; ) { set acc = -(acc,-1) };
++     acc
++   end"
++        3)
++
++      ;; the stmt calls f, which is REDEFINED from the body list each iteration:
++      ;; iter1 f = proc(x) -(x,1); iter2 f = proc(x) -(x,2). acc: 10 -> (f 10)=9 -> (f 9)=7.
++      (forproc-body-calls-proc-put-in-preview "
++let acc = 10
++in begin
++     for/proc f ; ( [x, x] ; [ -(x,1), -(x,2) ] ; ) { set acc = (f acc) };
++     acc
++   end"
++        7)
++
++      ;; the bound proc may be recursive (extend-env-rec*): f(n) = n
++      (forproc-recursive-proc "
++let acc = 0
++in begin
++     for/proc f ; ( [n] ; [ if zero?(n) then 0 else -((f -(n,1)),-1) ] ; ) { set acc = (f 5) };
++     acc
++   end"
++        5)
++
++      ;; break: stop the loop once acc reaches 2 (guard checked before body)
++      (forproc-break "
++let acc = 0
++in begin
++     for/proc f ; ( [x, x, x, x] ; [x, x, x, x] ; )
++       < break : zero?(-(acc,2)) >
++       { set acc = -(acc,-1) };
++     acc
++   end"
++        2)
++
++      ;; skip: body is skipped on iterations where acc is already 1
++      (forproc-skip "
++let acc = 0
++in begin
++     for/proc f ; ( [x, x, x] ; [x, x, x] ; )
++       < skip : zero?(-(acc,1)) >
++       { set acc = -(acc,-1) };
++     acc
++   end"
++        1)
++
+       ))
+   )

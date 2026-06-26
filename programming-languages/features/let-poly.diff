@@ -1,0 +1,119 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -12,7 +12,9 @@
+     (num-val
+       (value number?))
+     (bool-val
+-      (boolean boolean?)))
++      (boolean boolean?))
++    (poly-val
++      (p poly?)))
+ 
+ ;;; extractors:
+ 
+@@ -36,6 +38,40 @@
+     (lambda (variant value)
+       (eopl:error 'expval-extractors "Looking for a ~s, found ~s"
+ 	variant value)))
++
++  ;; poly — polynomial ADT (q2):  zero | a*x^n | p + q
++  (define-datatype poly poly?
++    (pzero)
++    (pmono (a integer?) (n integer?))
++    (padd (p poly?) (q poly?)))
++
++  (define poly-degree
++    (lambda (p)
++      (cases poly p
++        (pzero () 0)
++        (pmono (a n) n)
++        (padd (q t) (max (poly-degree q) (poly-degree t))))))
++
++  (define poly-coeff
++    (lambda (p m)
++      (cases poly p
++        (pzero () 0)
++        (pmono (a n) (if (eqv? n m) a 0))
++        (padd (q t) (+ (poly-coeff q m) (poly-coeff t m))))))
++
++  (define poly-zero?
++    (lambda (p)
++      (cases poly p
++        (pzero () #t)
++        (pmono (a n) (eqv? a 0))
++        (padd (q t) (and (poly-zero? q) (poly-zero? t))))))
++
++  ;; expval->poly : ExpVal -> Poly
++  (define expval->poly
++    (lambda (v)
++      (cases expval v
++        (poly-val (p) p)
++        (else (expval-extractor-error 'poly v)))))
+ 
+ ;;;;;;;;;;;;;;;; environment structures ;;;;;;;;;;;;;;;;
+ 
+--- a/interp.scm
++++ b/interp.scm
+@@ -64,6 +64,22 @@
+             (value-of body
+               (extend-env var val1 env))))
+ 
++        ;; poly — build/query polynomial values
++        (zero-poly-exp () (poly-val (pzero)))
++        (make-poly-exp (ae ne)
++          (poly-val (pmono (expval->num (value-of ae env))
++                           (expval->num (value-of ne env)))))
++        (add-poly-exp (pe qe)
++          (poly-val (padd (expval->poly (value-of pe env))
++                          (expval->poly (value-of qe env)))))
++        (degree-exp (pe)
++          (num-val (poly-degree (expval->poly (value-of pe env)))))
++        (coeff-exp (pe me)
++          (num-val (poly-coeff (expval->poly (value-of pe env))
++                               (expval->num (value-of me env)))))
++        (zero-poly?-exp (pe)
++          (bool-val (poly-zero? (expval->poly (value-of pe env)))))
++
+         )))
+ 
+ 
+--- a/lang.scm
++++ b/lang.scm
+@@ -42,6 +42,14 @@
+        ("let" identifier "=" expression "in" expression)
+        let-exp)
+ 
++      ;; poly — a small polynomial ADT exposed as language values
++      (expression ("poly-zero") zero-poly-exp)
++      (expression ("make-poly" "(" expression "," expression ")") make-poly-exp)
++      (expression ("add-poly" "(" expression "," expression ")") add-poly-exp)
++      (expression ("degree" "(" expression ")") degree-exp)
++      (expression ("coeff" "(" expression "," expression ")") coeff-exp)
++      (expression ("zero-poly?" "(" expression ")") zero-poly?-exp)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -55,5 +55,20 @@
+       (check-shadowing-in-body "let x = 3 in let x = 4 in x" 4)
+       (check-shadowing-in-rhs "let x = 3 in let x = -(x,1) in x" 2)
+ 
++      ;; poly — a*x^n polynomials with add/degree/coeff/zero?  (p = 3x^4 + 2x^1)
++      (poly-degree-1   "degree(add-poly(make-poly(3,4), make-poly(2,1)))" 4)
++      (poly-coeff-hi   "coeff(add-poly(make-poly(3,4), make-poly(2,1)), 4)" 3)
++      (poly-coeff-lo   "coeff(add-poly(make-poly(3,4), make-poly(2,1)), 1)" 2)
++      (poly-coeff-none "coeff(add-poly(make-poly(3,4), make-poly(2,1)), 9)" 0)
++      ;; note - make-poly(a,n) is one monomial a*x^n; add-poly builds an unsimplified sum tree
++      ;; note - coeff(p, m) sums coefficients of ALL terms with exponent m (missing exponent -> 0)
++      ;; note - zero-poly? is true only if every monomial coeff is 0; it does NOT cancel like terms,
++      ;;        so add-poly(make-poly(3,4), make-poly(-3,4)) is NOT zero-poly even though it sums to 0
++      (poly-add-sames-put-in-preview "coeff(add-poly(make-poly(3,4), make-poly(5,4)), 4)" 8)
++      (poly-not-zero   "zero-poly?(add-poly(make-poly(3,4), make-poly(2,1)))" #f)
++      (poly-zero-lit   "zero-poly?(poly-zero)" #t)
++      (poly-zero-mono  "zero-poly?(make-poly(0,2))" #t)
++      (poly-in-let     "let p = make-poly(7,3) in degree(p)" 3)
++
+       ))
+   )

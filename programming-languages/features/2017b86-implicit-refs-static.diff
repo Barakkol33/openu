@@ -1,0 +1,58 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -71,8 +71,17 @@
+             (value-of body
+               (extend-env var (newref v1) env))))
+ 
+-        (proc-exp (var body)
+-          (proc-val (procedure var body env)))
++        (proc-exp (var statvars statvals body)
++          (letrec
++            ((inner
++               (lambda (svars svals senv)
++                 (cond
++                   ((and (null? svars) (null? svals)) senv)
++                   ((or (null? svars) (null? svals)) (eopl:error 'proc-exp "static mismatch"))
++                   (else
++                     (inner (cdr svars) (cdr svals)
++                       (extend-env (car svars) (newref (value-of (car svals) env)) senv)))))))
++            (proc-val (procedure var body (inner statvars statvals env)))))
+ 
+         (call-exp (rator rand)
+           (let ((proc (expval->proc (value-of rator env)))
+--- a/lang.scm
++++ b/lang.scm
+@@ -40,8 +40,9 @@
+        ("let" identifier "=" expression "in" expression)
+        let-exp)
+ 
++      ;; static variables: proc (id) {static id = exp}* body
+       (expression
+-       ("proc" "(" identifier ")" expression)
++       ("proc" "(" identifier ")" (arbno "static" identifier "=" expression) expression)
+        proc-exp)
+ 
+       (expression
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,20 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;; static (lexical) variables on proc: evaluated once at proc-creation
++      (proc-static-1 "(proc(x) static y = 5 -(x,y) 12)" 7)
++      ;; note - static inits are evaluated ONCE at proc-creation (in the def env), not per call.
++      ;; note - each static gets one store ref baked into the closure, so mutations persist across calls.
++      ;; note - here c starts 0; each (f 0) does set c = c+1, so the three calls yield 1,2,3 -> result 3.
++      (proc-static-persists-across-calls-put-in-preview
++        "let f = proc(d)
++                   static c = 0
++                   begin set c = -(c,-1); c end
++         in begin (f 0); (f 0); (f 0) end"
++        3)
++      (proc-static-captures-def-env
++        "let a = 3 in let f = proc(x) static s = a -(x,s) in let a = 99 in (f 10)"
++        7)
++
+       ))
+   )

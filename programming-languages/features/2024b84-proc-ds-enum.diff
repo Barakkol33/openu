@@ -1,0 +1,240 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -16,7 +16,14 @@
+     (bool-val
+       (boolean boolean?))
+     (proc-val
+-      (proc proc?)))
++      (proc proc?))
++    (enumtype-val
++      (enmtype enumtype?)
++    )
++    (enumelem-val
++      (enmelem symbol?)
++    )
++      )
+ 
+ ;;; extractors:
+ 
+@@ -41,6 +48,24 @@
+ 	(proc-val (proc) proc)
+ 	(else (expval-extractor-error 'proc v)))))
+ 
++  (define expval->enumtype
++    (lambda (v)
++      (cases expval v
++        (enumtype-val (enm) enm)
++        (else (expval-extractor-error 'enumtype v))
++      )
++    )
++  )
++
++   (define expval->enumelem
++    (lambda (v)
++      (cases expval v
++        (enumelem-val (enmelem) enmelem)
++        (else (expval-extractor-error 'enumelem v))
++      )
++    )
++  )
++
+   (define expval-extractor-error
+     (lambda (variant value)
+       (eopl:error 'expval-extractors "Looking for a ~s, found ~s"
+@@ -55,6 +80,18 @@
+       (var symbol?)
+       (body expression?)
+       (env environment?)))
++
++  (define-datatype enumtype enumtype?
++    (enmtyp (ids (list-of symbol?)))
++  )
++
++  (define enumtype->ids
++    (lambda (v)
++      (cases enumtype v
++        (enmtyp (ids) ids)
++      )
++    )
++  )
+ 
+ ;;;;;;;;;;;;;;;; environment structures ;;;;;;;;;;;;;;;;
+ 
+--- a/interp.scm
++++ b/interp.scm
+@@ -73,7 +73,84 @@
+                 (arg (value-of rand env)))
+             (apply-procedure proc arg)))
+ 
++        (enum-exp (ids)
++          (enumtype-val (enmtyp ids))
++        )
++
++        (enum-elmt-exp (enm id)
++          (let*
++            (
++              (enmtype (expval->enumtype (value-of enm env)))
++              (a (enum-assert-ids enmtype (list id)))
++            )
++            (enumelem-val id)
++          )
++        )
++
++        (match-exp (enmid exp1 enmids exps)
++          (let*
++            (
++              (enmtype (expval->enumtype (apply-env env enmid)))
++              (elemid (expval->enumelem (value-of exp1 env)))
++              (a1 (if (null? enmids) (eopl:error "empty match") #t))
++              (a2 (enum-assert-ids-all enmtype enmids))
++              (a3 (enum-assert-ids enmtype (list elemid)))
++            )
++            (letrec
++              (
++                (match-exp-loop
++                  (lambda (enmids-loop exps-loop)
++                    (if (equal? elemid (car enmids-loop))
++                      (value-of (car exps-loop) env)
++                      (match-exp-loop (cdr enmids-loop) (cdr exps-loop))
++                    )
++                  )
++                )
++              )
++              (match-exp-loop enmids exps)
++            )
++          )
++        )
++
+         )))
++
++  (define enum-assert-ids
++    (lambda (enmtype ids)
++      (cond
++        ((null? ids) #t)
++        (
++          (not (member (car ids) (enumtype->ids enmtype)))
++          (eopl:error 'enum-assert-ids "given id is not member of enum")
++        )
++        (else (enum-assert-ids enmtype (cdr ids)))
++      )
++    )
++  )
++
++  (define unique?
++    (lambda (lst)
++      (cond
++        ((null? lst) #t)
++        ((member (car lst) (cdr lst)) #f)
++        (else (unique? (cdr lst)))
++      )
++    )
++  )
++
++  (define enum-assert-ids-all
++    (lambda (enmtype ids)
++      (letrec
++        (
++          (a (enum-assert-ids enmtype ids))
++        )
++        (if (and (unique? ids)
++                 (= (length (enumtype->ids enmtype)) (length ids)))
++          #t
++          (eopl:error 'enum-assert "not all enum values present")
++        )
++      )
++    )
++  )
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+   ;; Page: 79
+@@ -83,4 +160,5 @@
+         (procedure (var body saved-env)
+           (value-of body (extend-env var val saved-env))))))
+ 
++
+   )
+--- a/lang.scm
++++ b/lang.scm
+@@ -48,6 +48,24 @@
+        ("(" expression expression ")")
+        call-exp)
+ 
++      (expression
++       ("enum" "{" (separated-list identifier ",") "}")
++       enum-exp
++      )
++
++      (expression
++        ("<" expression "." identifier ">")
++        enum-elmt-exp
++      )
++
++      (expression
++        (
++          "match" "[" identifier "::" expression "]"
++          (arbno "{" "?"identifier "=>" expression ";" "}")
++        )
++        match-exp
++      )
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -73,5 +73,55 @@
+     t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
+ in let times4 = (fix t4m)
+    in (times4 3)" 12)
++
++      ;;;;;;;;;;;;;;;; enum feature ;;;;;;;;;;;;;;;;
++      ;; enum {a,b,...}            -> an enum *type* value
++      ;; < E . id >                -> the element `id` of enum type E (error if id not in E)
++      ;; match [ T :: V ] { ?id => body; } ...
++      ;;                           -> T is a variable bound to the enum type, V evaluates
++      ;;                              to an enum element; dispatch on the element's id,
++      ;;                              all variants must be covered by the branches.
++
++      ;; note - `enum {..}` makes an enum-type value; `< E . id >` makes an element (id must be in E, else error).
++      ;; note - `match [ T :: V ] {?id => body;}...` binds T to the enum type, V to an element, dispatches on V's id.
++      ;; note - branches must cover every variant exactly once; missing or duplicate variants -> error.
++      ;; match dispatches to the branch matching the element's id
++      (enum-match-middle-branch-put-in-preview
++       "let c = enum {red, green, blue}
++        in let e = < c . green >
++           in match [ c :: e ]
++                { ?red   => 1; }
++                { ?green => 2; }
++                { ?blue  => 3; }"
++        2)
++
++      ;; first branch selected
++      (enum-match-first-branch "
++let c = enum {red, green, blue}
++in let e = < c . red >
++   in match [ c :: e ] { ?red => 1; } { ?green => 2; } { ?blue => 3; }"
++        1)
++
++      ;; branch body is a real computation
++      (enum-match-body-computes "
++let c = enum {a, b}
++in match [ c :: < c . b > ] { ?a => 0; } { ?b => -(10,3); }"
++        7)
++
++      ;; <E . id> with id not a member of the enum -> error
++      (enum-elem-not-member "< enum {a, b, c} . zzz >" error)
++
++      ;; match must cover every variant of the enum -> error if one is missing
++      (enum-match-non-exhaustive "
++let c = enum {a, b}
++in match [ c :: < c . a > ] { ?a => 1; }"
++        error)
++
++      ;; duplicate pattern can't fake exhaustiveness (right count, but b uncovered) -> error
++      (enum-match-duplicate-pattern "
++let c = enum {a, b}
++in match [ c :: < c . a > ] { ?a => 1; } { ?a => 2; }"
++        error)
++
+       ))
+   )

@@ -1,0 +1,115 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -73,6 +73,58 @@
+                 (arg (value-of rand env)))
+             (apply-procedure proc arg)))
+ 
++        (forsum-exp (id exps guards body)
++          (letrec
++            (
++              (guard->verb (lambda (grd)
++                (cases guard-exp grd
++                  (skip-guard (e) 'skip)
++                  (break-guard (e) 'break)
++                )
++              ))
++              (guard->exp (lambda (grd)
++                (cases guard-exp grd
++                  (skip-guard (e) e)
++                  (break-guard (e) e)
++                )
++              ))
++              (guards->action (lambda (grds expenv)
++                (if (null? grds)
++                  'run
++                  (let
++                    (
++                      (grd (car grds))
++                    )
++                    (if (expval->bool (value-of (guard->exp grd) expenv))
++                      (guard->verb grd)
++                      (guards->action (cdr grds) expenv)
++                    )
++                  )
++                )
++              ))
++              (loop (lambda (exps2)
++                (if (null? exps2)
++                  0
++                  (let*
++                    (
++                      (exp2 (car exps2))
++                      (next (cdr exps2))
++                      (expenv (extend-env id (value-of exp2 env) env))
++                      (action (guards->action guards expenv))
++                    )
++                    (cond
++                      ((equal? action 'break) 0)
++                      ((equal? action 'skip) (loop next))
++                      (else (+ (expval->num (value-of body expenv)) (loop next)))
++                    )
++                  )
++                )
++              ))
++            )
++            (num-val (loop exps))
++          )
++        )
++
+         )))
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+--- a/lang.scm
++++ b/lang.scm
+@@ -48,6 +48,18 @@
+        ("(" expression expression ")")
+        call-exp)
+ 
++      (expression
++        (
++          "for/sum" "[" identifier "]" "(" (separated-list expression ",") ")"
++          (arbno "<" guard-exp ">")
++          expression
++          "for/end"
++        )
++        forsum-exp
++      )
++      (guard-exp ("skip" ":" expression) skip-guard)
++      (guard-exp ("break" ":" expression) break-guard)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -73,5 +73,30 @@
+     t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
+ in let times4 = (fix t4m)
+    in (times4 3)" 12)
++
++      ;; for/sum: loop id over the value list, sum the body; guards (checked
++      ;; in order) can `skip` an element or `break` out of the loop.
++      (forsum-sum-all   "for/sum [i] (1,2,3,4) i for/end" 10)
++      (forsum-single    "for/sum [i] (10) i for/end" 10)
++      (forsum-body-expr "for/sum [i] (1,2,3,20,5,90) -(i,-5) for/end" 151)
++      (forsum-list-of-exprs "for/sum [i] (-(2,1),5) i for/end" 6)
++      ;; exam example 1: skip i=1, break at i=5, skip i=3; body is -(i,-5) (= i+5)
++      ;; → (2+5) + (20+5) = 32
++      ;; note - guards are tested in source order, first match wins; verb is `skip` \
++      ;; note -   (drop element) or `break` (stop loop, contribute 0 for it and the rest).
++      ;; note - body is only evaluated when no guard fires; empty/fully-broken loop sums to 0.
++      (forsum-guards-exam-put-in-preview
++        "for/sum [i] (1,2,3,20,5,90)
++           <skip: zero?(-(i,1))>
++           <break: zero?(-(i,5))>
++           <skip: zero?(-(i,3))>
++           -(i,-5)
++         for/end" 32)
++      ;; break on the very first element → empty sum
++      (forsum-break-first
++        "for/sum [i] (5,6,7) <break: zero?(-(i,5))> i for/end" 0)
++      ;; a guard that is always true (i-i=0) skips every element → 0
++      (forsum-skip-all
++        "for/sum [i] (1,2,3) <skip: zero?(-(i,i))> i for/end" 0)
+       ))
+   )

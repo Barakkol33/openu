@@ -1,0 +1,54 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -64,6 +64,16 @@
+             (value-of body
+               (extend-env var val1 env))))
+ 
++        ;; lefts and rights are the two parallel lists sllgen built from the
++        ;; separated-list item `expression "*" expression`. Sum the products.
++        (dot-exp (lefts rights)
++          (num-val
++            (apply +
++              (map (lambda (l r)
++                     (* (expval->num (value-of l env))
++                        (expval->num (value-of r env))))
++                   lefts rights))))
++
+         )))
+ 
+ 
+--- a/lang.scm
++++ b/lang.scm
+@@ -42,6 +42,12 @@
+        ("let" identifier "=" expression "in" expression)
+        let-exp)
+ 
++      ;; the separated-list ITEM is `expression "*" expression` -- it starts with
++      ;; a nonterminal and is several symbols, so sllgen yields TWO parallel lists.
++      (expression
++       ("dot" "[" (separated-list expression "*" expression ",") "]")
++       dot-exp)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -55,5 +55,17 @@
+       (check-shadowing-in-body "let x = 3 in let x = 4 in x" 4)
+       (check-shadowing-in-rhs "let x = 3 in let x = -(x,1) in x" 2)
+ 
++      ;; note - DEMO of sllgen `separated-list` with a multi-symbol item.
++      ;; note - grammar: `dot [ <expr> * <expr> {, <expr> * <expr>}* ]`; the item is `expression "*" expression` (starts with a NONTERMINAL, several symbols) and `,` separates items.
++      ;; note - sllgen yields TWO parallel lists (lefts, rights); dot sums the pairwise products.
++      ;; note - each slot is a full expression: dot [ -(10,1) * 2 ] = (9*2) = 18.
++      ;; note - 1 item needs no comma ([7*1]); 0 items ([]) is allowed and sums to 0.
++      (dot-many-put-in-preview
++        "dot [2*3, 4*5]" 26)
++      (dot-single        "dot [7*1]" 7)
++      (dot-empty         "dot []" 0)
++      (dot-expr-slots    "dot [ -(10,1) * 2 ]" 18)
++      (dot-uses-env      "let a = 5 in dot [a*2, a*a]" 35)
++
+       ))
+   )

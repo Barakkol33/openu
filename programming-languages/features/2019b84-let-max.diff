@@ -1,0 +1,108 @@
+--- a/environments.scm
++++ b/environments.scm
+@@ -5,7 +5,7 @@
+ 
+   (require "data-structures.scm")
+ 
+-  (provide init-env empty-env extend-env apply-env)
++  (provide init-env empty-env extend-env apply-env empty-env?)
+ 
+ ;;;;;;;;;;;;;;;; initial environment ;;;;;;;;;;;;;;;;
+ 
+--- a/interp.scm
++++ b/interp.scm
+@@ -63,9 +63,55 @@
+           (let ((val1 (value-of exp1 env)))
+             (value-of body
+               (extend-env var val1 env))))
++        (max-exp (identifier)
++          (letrec
++            (
++              (num-val?
++                (lambda (v)
++                  (cases expval v
++                    (num-val (num) #t)
++                    (else #f)
++                  )
++                )
++              )
++              (max-loop
++                (lambda (env search-sym)
++                  (if (empty-env? env)
++                    'empty
++                    (let*
++                      (
++                        (sym (extended-env-record->sym env))
++                        (val (extended-env-record->val env))
++                        (old-env (extended-env-record->old-env env))
++                        (next-max (max-loop old-env search-sym))
++                      )
++                      (cond
++                        ((or (not (eqv? search-sym sym)) (not (num-val? val)))
++                          next-max
++                        )
++                        ((equal? next-max 'empty)
++                          val
++                        )
++                        ((> (expval->num val) (expval->num next-max))
++                          val
++                        )
++                        (else
++                          next-max
++                        )
++                      )
++                    )
++                  )
++                )
++              )
++              (result (max-loop env identifier))
++            )
++            (if (equal? result 'empty)
++              (eopl:error "no binding for max")
++              result
++            )
++          )
++        )
+ 
+-        )))
++  )))
++)
+ 
+-
+-  )
+-
+--- a/lang.scm
++++ b/lang.scm
+@@ -42,6 +42,8 @@
+        ("let" identifier "=" expression "in" expression)
+        let-exp)
+ 
++      (expression ("max" "(" identifier ")") max-exp)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -55,5 +55,21 @@
+       (check-shadowing-in-body "let x = 3 in let x = 4 in x" 4)
+       (check-shadowing-in-rhs "let x = 3 in let x = -(x,1) in x" 2)
+ 
++      ;; note - max(m) returns the largest NUMERIC value among ALL bindings of m
++      ;;        currently in scope, not just the innermost one.
++      ;; note - non-numeric bindings of m (e.g. booleans) are skipped.
++      ;; note - if m has no numeric binding in scope, max(m) raises an error.
++
++      ;; bindings: 4, zero?(4)=#f, 7, 5 -> max numeric = 7; -(7,5) = 2
++      (max-over-shadowed-bindings-put-in-preview "
++let m = 4
++in let m = zero?(m)
++   in let m = 7
++      in let m = 5
++         in -(max(m), m)"
++        2)
++
++      (max-no-numeric-binding "let m = zero?(0) in max(m)" error)
++
+       ))
+   )

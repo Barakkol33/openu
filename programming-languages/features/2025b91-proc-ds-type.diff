@@ -1,0 +1,103 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -16,7 +16,9 @@
+     (bool-val
+       (boolean boolean?))
+     (proc-val
+-      (proc proc?)))
++      (proc proc?))
++    (type-val
++      (type symbol?)))
+ 
+ ;;; extractors:
+ 
+@@ -40,6 +42,22 @@
+       (cases expval v
+ 	(proc-val (proc) proc)
+ 	(else (expval-extractor-error 'proc v)))))
++
++  ;; expval->type : ExpVal -> Symbol   (unwrap a type-val)
++  (define expval->type
++    (lambda (v)
++      (cases expval v
++        (type-val (type) type)
++        (else (expval-extractor-error 'type v)))))
++
++  ;; expval-type-of : ExpVal -> Symbol  (the runtime type name of ANY value)
++  (define expval-type-of
++    (lambda (v)
++      (cases expval v
++        (num-val  (n) 'num)
++        (bool-val (b) 'bool)
++        (proc-val (p) 'proc)
++        (type-val (t) 'type))))
+ 
+   (define expval-extractor-error
+     (lambda (variant value)
+--- a/interp.scm
++++ b/interp.scm
+@@ -73,6 +73,16 @@
+                 (arg (value-of rand env)))
+             (apply-procedure proc arg)))
+ 
++        ;; type — reflect the runtime type of a value
++        (get-type-exp (exp1)
++          (type-val (expval-type-of (value-of exp1 env))))
++        (isNum?-exp (exp1)
++          (bool-val (eqv? (expval-type-of (value-of exp1 env)) 'num)))
++        (isBool?-exp (exp1)
++          (bool-val (eqv? (expval-type-of (value-of exp1 env)) 'bool)))
++        (isProc?-exp (exp1)
++          (bool-val (eqv? (expval-type-of (value-of exp1 env)) 'proc)))
++
+         )))
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+--- a/lang.scm
++++ b/lang.scm
+@@ -48,6 +48,13 @@
+        ("(" expression expression ")")
+        call-exp)
+ 
++      ;; type — reflect a value's runtime type; get-type yields a type value,
++      ;; the is*? predicates yield booleans
++      (expression ("get-type" "(" expression ")") get-type-exp)
++      (expression ("isNum?"   "(" expression ")") isNum?-exp)
++      (expression ("isBool?"  "(" expression ")") isBool?-exp)
++      (expression ("isProc?"  "(" expression ")") isProc?-exp)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -73,5 +73,19 @@
+     t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
+ in let times4 = (fix t4m)
+    in (times4 3)" 12)
++
++      ;; type — get-type yields a type name; isNum?/isBool?/isProc? yield booleans
++      (gettype-num   "get-type(5)" num)
++      (gettype-bool  "get-type(zero?(0))" bool)
++      ;; note - get-type reflects a value's runtime type as a type-val: num | bool | proc.
++      ;; note - companion predicates isNum?/isBool?/isProc? return a bool for the same kinds.
++      (gettype-proc-put-in-preview  "get-type(proc (x) x)" proc)
++      (isnum-yes     "isNum?(5)" #t)
++      (isnum-no      "isNum?(zero?(0))" #f)
++      (isbool-yes    "isBool?(zero?(0))" #t)
++      (isproc-yes    "isProc?(proc (x) x)" #t)
++      (isproc-no     "isProc?(5)" #f)
++      (type-in-if    "if isNum?(5) then 1 else 0" 1)
++      (gettype-of-let "let x = proc (y) y in get-type(x)" proc)
+       ))
+   )
+--- a/top.scm
++++ b/top.scm
+@@ -34,6 +34,7 @@
+       (cond
+         ((number? sloppy-val) (num-val sloppy-val))
+         ((boolean? sloppy-val) (bool-val sloppy-val))
++        ((symbol? sloppy-val) (type-val sloppy-val))
+         (else
+          (eopl:error 'sloppy->expval
+                      "Can't convert sloppy value to expval: ~s"

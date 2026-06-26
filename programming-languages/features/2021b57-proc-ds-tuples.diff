@@ -1,0 +1,108 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -16,7 +16,9 @@
+     (bool-val
+       (boolean boolean?))
+     (proc-val
+-      (proc proc?)))
++      (proc proc?))
++    (tuple-val
++      (vals (list-of expval?))))
+ 
+ ;;; extractors:
+ 
+@@ -40,6 +42,13 @@
+       (cases expval v
+ 	(proc-val (proc) proc)
+ 	(else (expval-extractor-error 'proc v)))))
++
++  ;; expval->tuple : ExpVal -> Listof(ExpVal)
++  (define expval->tuple
++    (lambda (v)
++      (cases expval v
++        (tuple-val (vals) vals)
++        (else (expval-extractor-error 'tuple v)))))
+ 
+   (define expval-extractor-error
+     (lambda (variant value)
+--- a/interp.scm
++++ b/interp.scm
+@@ -59,11 +59,31 @@
+               (value-of exp2 env)
+               (value-of exp3 env))))
+ 
+-        ;\commentbox{\ma{\theletspecsplit}}
+-        (let-exp (var exp1 body)
+-          (let ((val1 (value-of exp1 env)))
+-            (value-of body
+-              (extend-env var val1 env))))
++        ;; tuples — build a tuple value, and let-destructure it ([_] skips a slot)
++        (tuple-exp (exps)
++          (tuple-val (map (lambda (e) (value-of e env)) exps)))
++        (let-exp (target rhs body)
++          (let ((v (value-of rhs env)))
++            (cases let-target target
++              (single-target (id)
++                (value-of body (extend-env id v env)))
++              (multi-target (slots)
++                (letrec
++                  ((bind-all
++                     (lambda (ss vs e)
++                       (cond
++                         ((and (null? ss) (null? vs)) e)
++                         ((or  (null? ss) (null? vs))
++                          (eopl:error 'let-exp
++                            "tuple size doesn't match number of variables"))
++                         (else
++                          (cases slot (car ss)
++                            (wild-slot ()
++                              (bind-all (cdr ss) (cdr vs) e))
++                            (named-slot (id)
++                              (bind-all (cdr ss) (cdr vs)
++                                (extend-env id (car vs) e)))))))))
++                  (value-of body (bind-all slots (expval->tuple v) env)))))))
+ 
+         (proc-exp (var body)
+           (proc-val (procedure var body env)))
+--- a/lang.scm
++++ b/lang.scm
+@@ -36,9 +36,19 @@
+ 
+       (expression (identifier) var-exp)
+ 
++      ;; tuples — < v1, v2, ... > together with destructuring let
+       (expression
+-       ("let" identifier "=" expression "in" expression)
++       ("<" (separated-list expression ",") ">")
++       tuple-exp)
++      (expression
++       ("let" let-target "=" expression "in" expression)
+        let-exp)
++      (let-target (identifier) single-target)
++      (let-target ("[" (separated-list slot ",") "]") multi-target)
++      ;; a destructuring slot is either a name to bind, or `_` to discard.
++      ;; `_` is a literal terminal here, so it is NOT a general identifier.
++      (slot (identifier) named-slot)
++      (slot ("_") wild-slot)
+ 
+       (expression
+        ("proc" "(" identifier ")" expression)
+--- a/tests.scm
++++ b/tests.scm
+@@ -73,5 +73,16 @@
+     t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
+ in let times4 = (fix t4m)
+    in (times4 3)" 12)
++
++      ;; tuples — < ... >; target is a name OR a bracketed list [ ... ]
++      (let-single   "let x = 3 in -(x, 1)" 2)
++      ;; note - <...> builds a tuple value; let [slots] = tuple destructures positionally.
++      ;; note - a slot is a name to bind or `_` to discard; tuple size must equal slot count (else error).
++      (tuple-swap-put-in-preview   "let [x, y] = <10, 20> in -(y, x)" 10)
++      (tuple-wild   "let [x, _] = <10, 20> in x" 10)
++      (tuple-three  "let [a, b, c] = <1, 2, 3> in -(c, -(b, a))" 2)
++      (tuple-one    "let [x] = <-(8,3)> in x" 5)
++      (tuple-proc   "let [f, n] = <proc (x) -(x,1), 5> in (f n)" 4)
++      (tuple-nested "let [p, q] = <-(9,4), 6> in let [r] = <-(q,p)> in r" 1)
+       ))
+   )

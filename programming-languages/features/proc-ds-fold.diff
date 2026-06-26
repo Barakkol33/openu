@@ -1,0 +1,65 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -73,6 +73,31 @@
+                 (arg (value-of rand env)))
+             (apply-procedure proc arg)))
+ 
++        ;; fold — sum of (proc value) over the list; acc is bound but ignored
++        (fold-exp (fold-raw-proc fold-raw-acc fold-raw-vals)
++          (let
++            (
++              (proc (expval->proc (value-of fold-raw-proc env)))
++            )
++            (letrec
++              (
++                (loop
++                  (lambda (vals)
++                    (if (null? vals)
++                      0
++                      (+
++                        (expval->num (apply-procedure proc (value-of (car vals) env)))
++                        (loop (cdr vals))
++                      )
++                    )
++                  )
++                )
++              )
++              (num-val (loop fold-raw-vals))
++            )
++          )
++        )
++
+         )))
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+--- a/lang.scm
++++ b/lang.scm
+@@ -48,6 +48,11 @@
+        ("(" expression expression ")")
+        call-exp)
+ 
++      ;; fold — sum of proc1 applied to each value; acc is bound but ignored
++      (expression
++       ("fold" expression expression "[" (separated-list expression ",") "]")
++       fold-exp)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -73,5 +73,14 @@
+     t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
+ in let times4 = (fix t4m)
+    in (times4 3)" 12)
++
++      ;; note - syntax: `fold <proc> <acc> [v1, v2, ...]`; result = sum over the list of (proc v_i), an int.
++      ;; note - the acc operand (here 0) is evaluated/bound but IGNORED — it does not seed the sum.
++      ;; note - empty list -> 0; here (4)+(5)+(6)=15 from proc(x)=-(x,1).
++      (fold-decrement-put-in-preview
++       "fold proc (x) -(x,1) 0 [5, 6, 7]" 15)
++      (fold-identity  "fold proc (x) x 100 [1, 2, 3, 4]" 10)
++      (fold-empty     "fold proc (x) x 0 []" 0)
++      (fold-single    "fold proc (x) -(x,1) 0 [5]" 4)
+       ))
+   )

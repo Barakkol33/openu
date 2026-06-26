@@ -1,0 +1,144 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -19,6 +19,7 @@
+       (proc proc?))
+     (ref-val
+       (ref reference?))
++    (const-val (inner expval?))         ; an immutable binding wraps its value
+     )
+ 
+ ;;; extractors:
+@@ -51,6 +52,20 @@
+     (lambda (variant value)
+       (eopl:error 'expval-extractors "Looking for a ~s, found ~s"
+ 	variant value)))
++
++  ;; const-val? : ExpVal -> Bool
++  (define const-val?
++    (lambda (v)
++      (cases expval v
++        (const-val (inner) #t)
++        (else #f))))
++
++  ;; strip-const : ExpVal -> ExpVal
++  (define strip-const
++    (lambda (v)
++      (cases expval v
++        (const-val (inner) inner)
++        (else v))))
+ 
+ ;;;;;;;;;;;;;;;; procedures ;;;;;;;;;;;;;;;;
+ 
+--- a/interp.scm
++++ b/interp.scm
+@@ -39,7 +39,7 @@
+ 
+         ;\commentbox{ (value-of (var-exp \x{}) \r)
+         ;              = (deref (apply-env \r \x{}))}
+-        (var-exp (var) (deref (apply-env env var)))
++        (var-exp (var) (strip-const (deref (apply-env env var))))
+ 
+         ;\commentbox{\diffspec}
+         (diff-exp (exp1 exp2)
+@@ -65,18 +65,18 @@
+               (value-of exp2 env)
+               (value-of exp3 env))))
+ 
+-        ;\commentbox{\ma{\theletspecsplit}}
+-        (let-exp (var exp1 body)
++        (let-exp (opt var exp1 body)
+           (let ((v1 (value-of exp1 env)))
+             (value-of body
+-              (extend-env var (newref v1) env))))
++              (extend-env var (newref (if (is-const opt) (const-val v1) v1)) env))))
+ 
+         (proc-exp (var body)
+           (proc-val (procedure var body env)))
+ 
+-        (call-exp (rator rand)
++        (call-exp (rator opt rand)
+           (let ((proc (expval->proc (value-of rator env)))
+-                (arg (value-of rand env)))
++                (arg (let ((randval (value-of rand env)))
++                       (if (is-const opt) (const-val randval) randval))))
+             (apply-procedure proc arg)))
+ 
+         (letrec-exp (p-names b-vars p-bodies letrec-body)
+@@ -94,14 +94,21 @@
+             (value-of-begins exp1 exps)))
+ 
+         (assign-exp (var exp1)
+-          (begin
+-            (setref!
+-              (apply-env env var)
+-              (value-of exp1 env))
+-            (num-val 27)))
++          (let ((ref (apply-env env var)))
++            (if (const-val? (deref ref))
++              (eopl:error 'assign-exp "cannot set const variable ~s" var)
++              (begin
++                (setref! ref (value-of exp1 env))
++                (num-val 27)))))
+ 
+         )))
+ 
++  ;; is-const : Option -> Bool
++  (define is-const
++    (lambda (opt)
++      (cases option opt
++        (option-const () #t)
++        (else #f))))
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+   ;; Page: 119
+--- a/lang.scm
++++ b/lang.scm
+@@ -36,8 +36,9 @@
+ 
+       (expression (identifier) var-exp)
+ 
++      ;; const: `let const x = ...` and `(f const v)` bind an immutable cell
+       (expression
+-       ("let" identifier "=" expression "in" expression)
++       ("let" option identifier "=" expression "in" expression)
+        let-exp)
+ 
+       (expression
+@@ -45,8 +46,10 @@
+        proc-exp)
+ 
+       (expression
+-       ("(" expression expression ")")
++       ("(" expression option expression ")")
+        call-exp)
++      (option () option-empty)
++      (option ("const") option-const)
+ 
+       (expression
+         ("letrec"
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,23 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;; const: `let const`/`(f const v)` bind an immutable cell
++      (const-let-reads-value  "let const x = 5 in -(x,1)" 4)
++      (const-let-set-rejected "let const x = 5 in set x = 10" error)
++      ;; note - `let const x = ...` (and `(f const v)`) wrap the cell's value in \
++      ;; note -   a const-val; reading is transparent but `set` on it errors.
++      ;; note - Plain (non-const) bindings stay mutable, so the two kinds coexist.
++      (const-and-mutable-mix-put-in-preview
++        "let x = 5
++         in let const y = 6
++            in begin
++                 set x = 10;
++                 -(x, y)
++               end"
++        4)
++      (const-call-reads-value  "(proc (x) -(x,1) const 5)" 4)
++      (const-call-set-rejected "(proc (x) set x = 10 const 5)" error)
++      (mutable-call-set-ok     "(proc (x) begin set x = 10; x end 5)" 10)
++
+       ))
+   )

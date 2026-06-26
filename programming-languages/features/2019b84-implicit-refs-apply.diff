@@ -1,0 +1,90 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -100,7 +100,32 @@
+               (value-of exp1 env))
+             (num-val 27)))
+ 
+-        )))
++        (apply-exp (id1 id2 exp)
++          (let*
++            (
++              (proc1ref (apply-env env id2))
++              (proc1 (expval->proc (deref proc1ref)))
++            )
++            (cases proc proc1
++              (procedure (pvar pbody penv)
++                (let*
++                  (
++                    (new-proc1
++                      (procedure
++                        pvar
++                        (let-exp id1 (var-exp pvar) pbody)
++                        penv
++                      )
++                    )
++                  )
++                  (value-of exp (extend-env id2 (newref (proc-val new-proc1)) env))
++                )
++              )
++            )
++          )
++        )
++
++      )))
+ 
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+--- a/lang.scm
++++ b/lang.scm
+@@ -64,6 +64,8 @@
+         ("set" identifier "=" expression)
+         assign-exp)
+ 
++      (expression ("apply" identifier "in" identifier "during" expression) apply-exp)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,40 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;; apply <var> in <proc> during <expr>:
++      ;; during evaluation of <expr>, every call to <proc> also force-assigns
++      ;; its argument into <var>; the assignment is scoped to <expr> (reverts
++      ;; afterwards). The construct returns the value of <expr>.
++
++      ;; note - `apply id1 in id2 during E` rebinds id2 for E only to a proc \
++      ;; note -   whose body is `let id1 = <param> in <orig-body>`, so each call \
++      ;; note -   to id2 inside E shadows id1 with the call argument.
++      ;; note - The rebinding is scoped to E (the original id2 is restored after); \
++      ;; note -   the construct returns the value of E.
++      ;; note - Here calling p shadows y with 100, so -(x,y) = -(100,100) = 0.
++      (apply-force-set-put-in-preview "
++let y = 30
++in let p = proc (x) -(x, y)
++   in apply y in p during (p 100)"
++        0)
++
++      ;; scoping: after the during-expr, y reverts to 30, so (p 5) = -(5,30) = -25
++      (apply-scoped-revert "
++let y = 30
++in let p = proc (x) -(x,y)
++   in let dummy = apply y in p during (p 100)
++      in (p 5)"
++        -25)
++
++      ;; worked example: q = 0 (y temp 100 during first apply, then reverts),
++      ;; final apply targets z so y is 30 -> (p 300) = 270 -> -(0,270) = -270
++      (apply-nested-example "
++let z = 10
++in let y = 30
++   in let p = proc (x) -(x,y)
++      in let q = apply y in p during (p 100)
++         in apply z in p during -(q, (p 300))"
++        -270)
++
+       ))
+   )

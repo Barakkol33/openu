@@ -1,0 +1,74 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -73,6 +73,33 @@
+                 (arg (value-of rand env)))
+             (apply-procedure proc arg)))
+ 
++        (global-exp (id)
++          (letrec
++            (
++              (apply-env* (lambda (env2 search-sym num)
++                (if (empty-env-record? env2)
++                  (eopl:error 'value-of "no global variable")
++                  (let
++                    (
++                      (sym (extended-env-record->sym env2))
++                      (val (extended-env-record->val env2))
++                      (old-env (extended-env-record->old-env env2))
++                    )
++                    (if (eqv? search-sym sym)
++                      (if (zero? num)
++                        val
++                        (apply-env* old-env search-sym (- num 1))
++                      )
++                      (apply-env* old-env search-sym num)
++                    )
++                  )
++                )
++              ))
++            )
++            (apply-env* env id 1)
++          )
++        )
++
+         )))
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+--- a/lang.scm
++++ b/lang.scm
+@@ -48,6 +48,11 @@
+        ("(" expression expression ")")
+        call-exp)
+ 
++       (expression
++        ("::" identifier)
++        global-exp
++       )
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -73,5 +73,21 @@
+     t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
+ in let times4 = (fix t4m)
+    in (times4 3)" 12)
++
++      ;; global access: ::id skips the innermost binding of id and returns
++      ;; the next one out (init-env globals are i=1, v=5, x=10)
++      ;; note - ::id walks the env, skips exactly ONE matching binding, returns the next.
++      ;; note - errors if id has no shadowed (second) binding, or is wholly unbound.
++      (global-skips-local-let-put-in-preview    "let x = 99 in ::x" 10)
++      (global-local-still-visible "let x = 99 in x" 99)
++      (global-vs-local-diff       "let x = 99 in -(x, ::x)" 89)
++      (global-skips-proc-param    "(proc(x) ::x 99)" 10)
++      (global-other-var           "let v = 7 in ::v" 5)
++      ;; only goes up ONE level — returns the immediately-shadowed binding,
++      ;; not the outermost
++      (global-one-level-only      "let x = 1 in let x = 2 in ::x" 1)
++      ;; error: id bound only once (no shadowed binding to reach)
++      (global-no-shadow-error     "::x" error)
++      (global-unbound-error       "::foo" error)
+       ))
+   )

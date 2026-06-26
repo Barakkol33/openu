@@ -1,0 +1,58 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -73,6 +73,18 @@
+                 (arg (value-of rand env)))
+             (apply-procedure proc arg)))
+ 
++        ;; cond — evaluate each test in order, run the first true clause's result
++        (cond-exp (tests results)
++          (letrec
++            ((eval-clauses
++               (lambda (ts rs)
++                 (cond
++                   ((null? ts) (eopl:error 'cond-exp "no true clause"))
++                   ((expval->bool (value-of (car ts) env))
++                    (value-of (car rs) env))
++                   (else (eval-clauses (cdr ts) (cdr rs)))))))
++            (eval-clauses tests results)))
++
+         )))
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+--- a/lang.scm
++++ b/lang.scm
+@@ -48,6 +48,11 @@
+        ("(" expression expression ")")
+        call-exp)
+ 
++      ;; cond — clauses of  test ==> result, first true test wins
++      (expression
++       ("cond" (arbno expression "==>" expression) "end")
++       cond-exp)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -73,5 +73,20 @@
+     t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
+ in let times4 = (fix t4m)
+    in (times4 3)" 12)
++
++      ;; cond — first clause whose test is true wins; no true clause -> error
++      (cond-first  "cond zero?(0) ==> 1 zero?(1) ==> 2 end" 1)
++      ;; note - clauses scanned top-to-bottom; first true test wins (here clause 2).
++      ;; note - tests must be bool (dynamic typecheck); no true clause -> error.
++      ;; note - only the chosen clause's result is evaluated; later results may be unbound.
++      (cond-second-put-in-preview
++       "cond
++          zero?(1) ==> 1
++          zero?(0) ==> 2
++        end"
++       2)
++      (cond-order  "cond zero?(0) ==> 1 zero?(0) ==> 2 end" 1)
++      (cond-none   "cond zero?(1) ==> 1 zero?(2) ==> 2 end" error)
++      (cond-lazy   "cond zero?(0) ==> 7 zero?(0) ==> foo end" 7)
+       ))
+   )

@@ -1,0 +1,169 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -16,7 +16,7 @@
+     (bool-val
+       (boolean boolean?))
+     (proc-val
+-      (proc proc?)))
++      (proc (list-of proc?))))
+ 
+ ;;; extractors:
+ 
+@@ -52,7 +52,7 @@
+   ;; procedure : Var * Exp * Env -> Proc
+   (define-datatype proc proc?
+     (procedure
+-      (var symbol?)
++      (vars (list-of symbol?))
+       (body expression?)
+       (env environment?)))
+ 
+--- a/interp.scm
++++ b/interp.scm
+@@ -65,14 +65,55 @@
+             (value-of body
+               (extend-env var val1 env))))
+ 
+-        (proc-exp (var body)
+-          (proc-val (procedure var body env)))
++        (overload-proc-exp (ids bodies)
++          (letrec
++            (
++              (loop (lambda (ids2 bodies2)
++                (if (null? ids2)
++                  (list)
++                  (cons
++                    (procedure (car ids2) (car bodies2) env)
++                    (loop (cdr ids2) (cdr bodies2))
++                  )
++                )
++              ))
++            )
++            (proc-val (loop ids bodies))
++          )
++        )
+ 
+-        (call-exp (rator rand)
+-          (let ((proc (expval->proc (value-of rator env)))
+-                (arg (value-of rand env)))
+-            (apply-procedure proc arg)))
+-
++        (call-exp (rator rands)
++          (letrec
++            (
++              (procs (expval->proc (value-of rator env)))
++              (randsvals (map
++                  (lambda (v) (value-of v env))
++                  rands
++              ))
++              (randslen (length rands))
++              (extend-env* (lambda (vars vals env2)
++                (if (null? vars)
++                  env2
++                  (extend-env (car vars) (car vals) (extend-env* (cdr vars) (cdr vals) env2))
++                )
++              ))
++              (loop (lambda (procs2)
++                (if (null? procs2)
++                  (eopl:error 'value-of "no overload fits")
++                  (cases proc (car procs2)
++                      (procedure (vars body env)
++                        (if (= (length vars) randslen)
++                          (value-of body (extend-env* vars randsvals env))
++                          (loop (cdr procs2))
++                        )
++                      )
++                    )
++                )
++              ))
++            )
++            (loop procs)
++          )
++        )
+         )))
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+--- a/lang.scm
++++ b/lang.scm
+@@ -41,11 +41,11 @@
+        let-exp)
+ 
+       (expression
+-       ("proc" "(" identifier ")" expression)
+-       proc-exp)
++       ("overload" "proc" (arbno "[" (arbno identifier) "]" "->" expression ";"))
++       overload-proc-exp)
+ 
+       (expression
+-       ("(" expression expression ")")
++       ("(" expression (arbno expression) ")")
+        call-exp)
+ 
+       ))
+--- a/tests.scm
++++ b/tests.scm
+@@ -55,23 +55,49 @@
+       (check-shadowing-in-body "let x = 3 in let x = 4 in x" 4)
+       (check-shadowing-in-rhs "let x = 3 in let x = -(x,1) in x" 2)
+ 
+-      ;; simple applications
+-      (apply-proc-in-rator-pos "(proc(x) -(x,1)  30)" 29)
+-      (apply-simple-proc "let f = proc (x) -(x,1) in (f 30)" 29)
+-      (let-to-proc-1 "(proc(f)(f 30)  proc(x)-(x,1))" 29)
++      ;; simple applications (procs are now `overload proc [args] -> body ;`)
++      (apply-proc-in-rator-pos "(overload proc [x] -> -(x,1) ; 30)" 29)
++      (apply-simple-proc "let f = overload proc [x] -> -(x,1) ; in (f 30)" 29)
++      (let-to-proc-1
++        "(overload proc [f] -> (f 30) ; overload proc [x] -> -(x,1) ;)" 29)
+ 
+-
+-      (nested-procs "((proc (x) proc (y) -(x,y)  5) 6)" -1)
+-      (nested-procs2 "let f = proc(x) proc (y) -(x,y) in ((f -(10,5)) 6)"
+-        -1)
++      (nested-procs
++        "((overload proc [x] -> overload proc [y] -> -(x,y) ; ; 5) 6)" -1)
++      (nested-procs2
++        "let f = overload proc [x] -> overload proc [y] -> -(x,y) ; ;
++         in ((f -(10,5)) 6)" -1)
+ 
+       (y-combinator-1 "
+-let fix =  proc (f)
+-            let d = proc (x) proc (z) ((f (x x)) z)
+-            in proc (n) ((f (d d)) n)
+-in let
+-    t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
+-in let times4 = (fix t4m)
+-   in (times4 3)" 12)
++let fix = overload proc [f] ->
++            let d = overload proc [x] -> overload proc [z] -> ((f (x x)) z) ; ;
++            in overload proc [n] -> ((f (d d)) n) ; ;
++in let t4m = overload proc [f] ->
++               overload proc [x] -> if zero?(x) then 0 else -((f -(x,1)),-4) ; ;
++   in let times4 = (fix t4m)
++      in (times4 3)" 12)
++
++      ;; overloading: pick the clause whose arity matches the call
++      (overload-arity-1
++        "let f = overload proc [x] -> -(x,1) ;
++                          [x y] -> -(x,y) ;
++         in (f 30)" 29)
++      (overload-arity-2
++        "let f = overload proc [x] -> -(x,1) ;
++                          [x y] -> -(x,y) ;
++         in (f 10 3)" 7)
++      ;; note - one value bundles many proc clauses; the call's ARG COUNT selects the clause.
++      ;; note - clauses may have any arity (incl. 0); no clause matching the arity → error.
++      (overload-both-put-in-preview
++        "let f = overload proc [x] -> -(x,1) ;
++                          [x y] -> -(x,y) ;
++         in -((f 30), (f 10 3))" 22)
++      ;; a zero-argument clause, selected by a zero-argument call
++      (overload-zero-arg
++        "let f = overload proc [] -> 5 ; [x] -> x ; in (f)" 5)
++      (overload-three-args
++        "let f = overload proc [a b c] -> -(-(a,b),c) ; in (f 10 3 2)" 5)
++      ;; no clause matches the call's arity → error
++      (overload-no-fit-error
++        "let f = overload proc [x] -> x ; in (f 1 2)" error)
+       ))
+   )

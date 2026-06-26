@@ -1,0 +1,173 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -19,10 +19,17 @@
+       (proc proc?))
+     (ref-val
+       (ref reference?))
+-    )
++    (event-val (procs (list-of proc?)))
++  )
+ 
+ ;;; extractors:
+ 
++  (define expval->event (lambda (v)
++    (cases expval v
++      (event-val (procs) procs)
++      (else (eopl:error 'expval-event "expected event"))
++    )
++  ))
+   (define expval->num
+     (lambda (v)
+       (cases expval v
+--- a/interp.scm
++++ b/interp.scm
+@@ -74,11 +74,6 @@
+         (proc-exp (var body)
+           (proc-val (procedure var body env)))
+ 
+-        (call-exp (rator rand)
+-          (let ((proc (expval->proc (value-of rator env)))
+-                (arg (value-of rand env)))
+-            (apply-procedure proc arg)))
+-
+         (letrec-exp (p-names b-vars p-bodies letrec-body)
+           (value-of letrec-body
+             (extend-env-rec* p-names b-vars p-bodies env)))
+@@ -99,6 +94,60 @@
+               (apply-env env var)
+               (value-of exp1 env))
+             (num-val 27)))
++
++        (event-create-exp ()
++          (event-val (list))
++        )
++
++        (event-add-exp (evnt procs)
++          (let*
++            (
++              (a (if (= (length procs) 0)
++                (eopl:error 'value-of "0 procs")
++                #t
++              ))
++              (evntref (apply-env env evnt))
++              (cprocs (expval->event (deref evntref)))
++              (nprocs (map
++                (lambda (p)
++                  (expval->proc (value-of p env))
++                )
++                procs
++              ))
++              (nevent (event-val (append cprocs nprocs)))
++            )
++            (begin
++              (setref! evntref nevent)
++              (num-val 901)
++            )
++          )
++        )
++
++        (call-exp (rator rand)
++          (let*
++            (
++              (ratorv (value-of rator env))
++              (randv (value-of rand env))
++            )
++            (cases expval ratorv
++              (proc-val (p)
++                (apply-procedure p randv)
++              )
++              (event-val (ps)
++                (begin
++                  (map
++                    (lambda (p)
++                      (apply-procedure p randv)
++                    )
++                    ps
++                  )
++                  (num-val 902)
++                )
++              )
++              (else (eopl:error 'value-of "call-exp invalid value"))
++            )
++          )
++        )
+ 
+         )))
+ 
+--- a/lang.scm
++++ b/lang.scm
+@@ -64,6 +64,18 @@
+         ("set" identifier "=" expression)
+         assign-exp)
+ 
++      (expression
++        ("event.create()")
++        event-create-exp
++      )
++
++      (expression
++        (
++          "<" identifier ">" "+="
++          "{" (separated-list expression ";") "}"
++        )
++        event-add-exp
++      )
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,53 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;; event.create() makes an empty event; += returns 901
++      (event-add-returns-901
++        "let e = event.create() in < e > += { proc(x) x }" 901)
++      ;; calling an event returns 902
++      (event-call-returns-902
++        "let c = 0
++         in let e = event.create()
++            in begin < e > += { proc(x) set c = x }; (e 3) end" 902)
++      ;; note - an event is a list of procs; `event.create()` starts empty,
++      ;; note -   `< e > += { ... }` appends handlers (returns 901), and calling \
++      ;; note -   the event `(e v)` fires every handler with v (returns 902).
++      ;; note - handlers run only for side effects; the call's own result is 902, \
++      ;; note -   so a handler's effect must be observed via mutable state (c).
++      (event-fires-handler-put-in-preview
++        "let c = 0
++         in let e = event.create()
++            in begin
++                 < e > += { proc(x) set c = x };
++                 (e 7);
++                 c
++               end"
++        7)
++      ;; several handlers added in one += all fire
++      (event-multiple-handlers-one-add
++        "let c = 0
++         in let e = event.create()
++            in begin
++                 < e > += { proc(x) set c = -(c,-(0,x)) ;
++                            proc(x) set c = -(c,-(0,x)) };
++                 (e 10);
++                 c
++               end" 20)
++      ;; handlers added across separate += calls accumulate (append)
++      (event-handlers-accumulate
++        "let c = 0
++         in let e = event.create()
++            in begin
++                 < e > += { proc(x) set c = -(c,-(0,x)) };
++                 < e > += { proc(x) set c = -(c,-(0,x)) };
++                 (e 10);
++                 c
++               end" 20)
++      ;; an empty event fires nothing
++      (event-empty-fires-nothing
++        "let c = 5
++         in let e = event.create()
++            in begin (e 99); c end" 5)
++
+       ))
+   )

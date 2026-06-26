@@ -1,0 +1,11319 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+% Necessary Commands:
+\usepackage{autobreak}
+\usepackage[T1]{fontenc}
+\usepackage{relsize}
+% Set vertical space before and after dislpay equations to be longer for better redability:
+\AtBeginDocument{\setlength\abovedisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+
+% Set space between words to be wider:
+\spaceskip=1.3\fontdimen2\font plus 1\fontdimen3\font minus 1.5\fontdimen4\font
+
+% Convert the Lyx colors into more pleasent colors:
+\usepackage{xcolor}
+\definecolor{blue}{RGB}{12,97,197}
+\definecolor{green}{RGB}{0,128,40}
+\definecolor{red}{RGB}{235,16,16}
+\definecolor{brown}{RGB}{154,58,0}
+\definecolor{orange}{RGB}{231,135,26}
+\definecolor{purple}{RGB}{94,53,177}
+
+% Convert the QED Symbol at the end of proofs to a solid black square (credit: Yakir Oz):
+\usepackage{amssymb}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Make the layout more similar to Hebrew Article, which I am more used to:
+\renewcommand*{\@seccntformat}[1]{\hspace{0.5cm}\csname the#1\endcsname\hspace{0.5cm}} 
+\usepackage{titlesec}
+\titleformat{\section}{\fontsize{20}{20}\bfseries}{\thesection}{10pt}{}
+\titleformat{\subsection}{\fontsize{15}{15}\bfseries}{\thesubsection}{10pt}{}
+\titleformat{\subsubsection}{\bfseries}{\thesubsubsection}{10pt}{}
+
+% Correct the reversed parentheses in labels:
+\usepackage{polyglossia}
+\setmainlanguage{hebrew}
+\newfontfamily{\hebrewfont}{David}
+\makeatletter
+\def\maketag@@@#1{\hbox{\m@th\normalfont\LRE{#1}}}
+\def\tagform@#1{\maketag@@@{(\ignorespaces#1\unskip)}}
+\makeatother
+
+% Create disjoint union symbols:
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+
+
+\newcommand{\kaliLargeLand}{\mathop{\mathlarger{\mathlarger{\mathlarger{\land}}}}}
+\newcommand{\hebtext}[1]{\mbox{\R{\#1}}}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+\end_modules
+\maintain_unincluded_children false
+\begin_local_layout
+Style Section
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size       Larger
+	  Series     Bold
+	EndFont
+	TocLevel 1
+End
+
+
+Style Section*
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size      Larger
+	  Series     Bold
+	EndFont
+End
+
+
+Style Solution
+
+	LabelString           "פיתרון: "
+End
+
+
+Style Notation
+
+	LabelString           "סימון  \thetheorem: "
+End
+
+Style Theorem
+
+	LabelString           "משפט \thetheorem: "
+End
+
+Style Property
+
+	LabelString           "תזכורת: "
+End
+\end_local_layout
+\language hebrew
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "David"
+\font_sans "default" "David"
+\font_typewriter "default" "David"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 2cm
+\rightmargin 1cm
+\bottommargin 3cm
+\headheight 0cm
+\headsep 0cm
+\footskip 2cm
+\secnumdepth -2
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation 0bp
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/barak/Downloads/MacrosStandard.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Doublebox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "20pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\paragraph_spacing double
+\align center
+
+\series bold
+\size huge
+סיכום לינארית
+\family roman
+\shape up
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\shape default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרקי הכנה 
+\end_layout
+
+\begin_layout Subsection
+קבוצות
+\end_layout
+
+\begin_layout Itemize
+קבוצה, איבר, שייכות, קבוצה ריקה, הכלה, קבוצה חלקית
+\end_layout
+
+\begin_layout Itemize
+שיוויון בין קבוצות )הכלה הדדית(, קבוצה חלקית ממש, חיתוך, איחוד, קבוצות זרות.
+\end_layout
+
+\begin_layout Itemize
+זוגות סדורים, מכפלה קרטזית )קבוצת כל הקבוצות הסדורים של כל קבוצה(
+\end_layout
+
+\begin_layout Itemize
+קבוצת החזקה - אוסף כל הקבוצות החלקיות.
+\end_layout
+
+\begin_layout Subsection
+פונקציות
+\end_layout
+
+\begin_layout Itemize
+תחום, טווח, תמונה, שיווויון )אותו תחום ואותו טווח(
+\end_layout
+
+\begin_layout Itemize
+פונקציה חד חד ערכית - אם 
+\begin_inset Formula $x\neq y$
+\end_inset
+
+ אז 
+\begin_inset Formula $f\left(x\right)\neq f\left(y\right)$
+\end_inset
+
+ )הגדרה שקולה: אם 
+\begin_inset Formula $f\left(x\right)=f\left(y\right)$
+\end_inset
+
+ אז 
+\begin_inset Formula $x=y$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+פונקציה על - התמונה שווה לטווח, 
+\begin_inset Formula $f\left(A\right)=B$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+הרכבה
+\end_layout
+
+\begin_layout Itemize
+פונקציות הפוכות - אם פונקציה חח
+\begin_inset Quotes erd
+\end_inset
+
+ע אפשר לייחס לה פונקציה הפוכה.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+טריגונומטריה
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\alpha$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\numeric on
+\begin_inset Formula $0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\pi}{6}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\pi}{4}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{2\pi}{6}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\pi}{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\sin a$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\sqrt{2}}{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\sqrt{3}}{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\numeric on
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\cos\alpha$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\numeric on
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\sqrt{3}}{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\sqrt{2}}{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\numeric on
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tan a$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\numeric on
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{\sqrt{3}}{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\numeric on
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\sqrt{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\sin\left(\alpha\pm\beta\right)=\sin\alpha\cos\beta+\cos\alpha\sin\beta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\cos\left(\alpha\pm\beta\right)=\cos\alpha\cos\beta\mp\sin\alpha\sin\beta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\cos\left(-\alpha\right)=\cos\left(\alpha\right),\cos\left(180-\alpha\right)=-\cos\left(\alpha\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\sin\left(-\alpha\right)=-\sin\left(\alpha\right),\sin\left(180-\alpha\right)=\sin\left(\alpha\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{l}{\alpha}=\frac{2\pi R}{360}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\sin2x=2\sin x\cos x$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\cos2x=\cos^{2}x-\sin^{2}x$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $1+\cos2x=2\cos^{2}x$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $1-\cos2x=2\sin^{2}x$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\sin x\pm\sin y=2\sin\frac{x\pm y}{2}\cos\frac{x\mp y}{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\cos x+\cos y=2\cos\frac{x+y}{2}\cos\frac{x-y}{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\cos x-\cos y=-2\sin\frac{x+y}{2}\sin\frac{x-y}{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\sin x\cos y=\frac{1}{2}\left[\sin\left(x+y\right)+\sin\left(x-y\right)\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\sin x\sin y=\frac{1}{2}\left[\cos\left(x-y\right)-\cos\left(x+y\right)\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\cos x\cos y=\frac{1}{2}\left[\cos\left(x+y\right)+\cos\left(x-y\right)\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+אינדוקציה
+\end_layout
+
+\begin_layout Standard
+-
+\end_layout
+
+\begin_layout Subsection
+נוסחת הבינום
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left(a+b\right)^{n}=\sum_{k=0}^{n}\begin{pmatrix}n\\
+k
+\end{pmatrix}a^{n-k}b^{k}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{pmatrix}n\\
+k
+\end{pmatrix}=\frac{n!}{\left(n-k\right)!k!}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+כרך א'
+\end_layout
+
+\begin_layout Section
+פרק 1 - מערכות משוואות לינאריות
+\end_layout
+
+\begin_layout Subsection
+שדות
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $1.2.3$
+\end_inset
+
+- אם 
+\begin_inset Formula $ab=0$
+\end_inset
+
+ )סקלרים( אז 
+\begin_inset Formula $a$
+\end_inset
+
+ או 
+\begin_inset Formula $b$
+\end_inset
+
+ הם 0
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $1.3.5$
+\end_inset
+
+- תכונות כפל Nיה בסקלר )בין היתר פילוג, מכפלה ב-0(.
+\end_layout
+
+\begin_layout Subsection
+מערכת משוואות
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $1.5.7$
+\end_inset
+
+ עמוד 59 - מרחב הפתרונות של מערכת הומוגנית סגור בפני חיבור וכפל בסקלר )אם
+ C ו-D פותרים, אז גם SC+SD פתור אותה(
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $1.5.8$
+\end_inset
+
+- מערכת לא הומוגנית לא סגורה לחיבור וכפל בסקלר.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $1.7.3$
+\end_inset
+
+ - פעולות אלמנטריות - מערכת לינארית שקולה למערכת מקורית אם נעשה עליה סדרה
+ של פעולות אלמנטריות.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $1.11.3$
+\end_inset
+
+ - יחידות ההצגה הקנונית.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $1.12.1$
+\end_inset
+
+ - מערכת לינארית מדורגת A היא עקבית אם ורק אם אין בה שורה בלתי עקבית.
+ )הערה - כל מערכת הומוגנית היא עקבית(.
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing other 0.5
+משפט 
+\begin_inset Formula $1.12.2$
+\end_inset
+
+ - אפשרויות לפתרונות של מערכת לינארית מדורגת עקבית מעל שדה 
+\begin_inset Formula $F$
+\end_inset
+
+ -
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+כל המשתנים קשורים - פתרון יחיד
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+יש משתנה חופשי אחד לפחות - יותר מפתרון יחיד )תלוי בשדה F(
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $1.12.3$
+\end_inset
+
+ - אפשרויות לפתרונות של מערכת לינארית מעל R - אין פתרון, פתרון יחיד או אינסוף
+ פתרונות.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $1.13.1$
+\end_inset
+
+ - אם במערכת הומוגנית מספר המשתנים גדול ממספר המשוואות, אז למערכת יש פתרון
+ לא טריוויאלי
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $1.14.2$
+\end_inset
+
+ - למערכת יש פתרון יחיד אם ורק אם המטריצה המצומצמת שלה שקולה למטריצת היחידה
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $1.14.3$
+\end_inset
+
+ - אם לאחת מן המערכות שA היא המטריצה המצומצמת שלהן יש פתרון יחיד, לכולן
+ יש פתרון יחיד
+\end_layout
+
+\begin_layout Section
+פרק 2 - המרחב 
+\begin_inset Formula $F^{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $2.5.2$
+\end_inset
+
+ - אם קבוצת וקטורים הם פתרונות של מערכת, אז כל צירוף לינארי שלהם הוא פתרון.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $2.5.3$
+\end_inset
+
+ - וקטור ב-
+\begin_inset Formula $F^{n}$
+\end_inset
+
+ הוא צירוף לינארי אם למערכת הלינארית המתאימה יש פתרון.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $2.6.3$
+\end_inset
+
+ - קבוצה היא ת"ל אם ורק אם וקטור הוא צירוף לינארי של האחרים
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $2.6.4$
+\end_inset
+
+ - קבוצת על של קבוצה ת"ל היא ת"ל, תת קבוצה של בת"ל היא בת"ל
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $2.6.5$
+\end_inset
+
+- וקטורים בת
+\begin_inset Quotes erd
+\end_inset
+
+ל אם ורק אם למערכת ההומוגנית שבה העמודות הם הוקטורים יש פתרון.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $2.7.10$
+\end_inset
+
+ - אם למערכת הומוגנית יש רק פתרון אחד )הטריוויאלי(, אז לכל מערכת "רגילה"
+ יש פתרון אחד
+\end_layout
+
+\begin_layout Subsection
+טענות עזר
+\end_layout
+
+\begin_layout Standard
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+נתון שדה אינסופי 
+\begin_inset Formula $F$
+\end_inset
+
+ ו
+\begin_inset Formula $n\geq1$
+\end_inset
+
+ מספר טבעי.
+ יהיו 
+\begin_inset Formula $v_{1},v_{2},...v_{n},w\in F^{n}$
+\end_inset
+
+ וקטורים שונים.
+ אם אין פתרון למשוואה 
+\begin_inset Formula $x_{1}v_{1}+x_{2}v_{2}...+x_{n}v_{n}=w$
+\end_inset
+
+ אז יש אינסוף פתרונות למשוואה 
+\begin_inset Formula $x_{1}v_{1}+x_{2}v_{2}...+x_{n}v_{n}=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+הוכחה: אם נמיר את המשוואה למערכת משוואות 
+\begin_inset Formula $Ax=w$
+\end_inset
+
+, ונדרג אותה, נקבל שורה בלתי עקבית.
+ במקרה שבו 
+\begin_inset Formula $w=0$
+\end_inset
+
+, שורה זו תהיה שורת אפסים ולכן יש יותר משתנים ממשוואות, ומכיוון שהיא על
+ 
+\begin_inset Formula $\kaliReal$
+\end_inset
+
+ יהיו לה אינסוף פתרונות.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק 3 - מטריצות
+\end_layout
+
+\begin_layout Standard
+למה 3.4.3 - שורה/עמודה של מכפלת מטריצות היא מכפלת השורה/עמודה המתאימה במטריצה
+ השניה.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $3.3.5,4$
+\end_inset
+
+- תכונות כפל מטריצות בסקלר )ביניהן פילוג וכפל ב-0(.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $3.3.7$
+\end_inset
+
+ עמ 241 - סכום מטריצות סימטריות הוא סימטרי, כפל מטריצה סימטרית בסקלר הוא
+ סימטרי.
+\end_layout
+
+\begin_layout Standard
+הגדרה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.4.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מכפלת מטריצות: 
+\begin_inset Formula $\left[AB\right]_{ij}=\left[A\right]_{i}^{r}\left[B\right]_{j}^{c}=\sum_{k=1}^{n}a_{ik}b_{kj}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $3.4.4$
+\end_inset
+
+ - אם יש שורה/עמודה של אפסים במטריצה המתאימה אז השורה/עמודה במכפלה היא אפסים.
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $3.4.5$
+\end_inset
+
+- 
+\begin_inset Formula $\left(AB\right)^{t}=B^{t}A^{t}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $3.4.6$
+\end_inset
+
+ עמוד 249 - אם 
+\begin_inset Formula $A,B$
+\end_inset
+
+ סימטריות אז 
+\begin_inset Formula $AB$
+\end_inset
+
+ סימטרית אם ורק אם 
+\begin_inset Formula $AB=BA$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+)מסקנה 
+\begin_inset Formula $3.5.4$
+\end_inset
+
+ - 
+\begin_inset Formula $A=IA$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $3.5.5$
+\end_inset
+
+- חוק הפילוג בין כפל מטריצות
+\end_layout
+
+\begin_layout Standard
+)טענה 
+\begin_inset Formula $3.5.6$
+\end_inset
+
+ - חילופיות של כפל סקלר(
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $3.6.3,4$
+\end_inset
+
+ - מטריצה היא סקלארית אם רק אם היא מתחלפת עם כל מטריצה ריבועית.
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing other 0.5
+שאלה 
+\begin_inset Formula $3.6.3,4$
+\end_inset
+
+ -
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+סכום/מפכלה של מטריצות אלכסוניות הוא מטריצה אלכסונית.
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+מטריצות אלכסוניות מתחלפות זו עם זו.
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+חזקה של מטריצה אלכסונית היא מטריצה אלכסונית כאשר איברי האלכסון מועלים בחזקה.
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $3.6.8$
+\end_inset
+
+- כפל מטריצה אלכסונית עם מטריצה ריבועית הוא כפל של העמודה/שורה במספר המתאים.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $3.7.1$
+\end_inset
+
+ עמ 271 - פתרון מערכת משוואות:
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+אם יש שני פתרונות של מערכת אי הומוגנית אז החיסור שלהם הוא פתרון למערכת ההומוגנית
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+אפשר להוסיף פתרון הומוגני לפתרון אי-הומוגני כדי לקבל פתרון אי-הומוגני
+\end_layout
+
+\begin_layout Subsubsection
+מטריצות הפיכות
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $3.8.1$
+\end_inset
+
+ - אם במטריצה יש שורת אפסים, היא לא הפיכה.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $3.8.1$
+\end_inset
+
+ - אם 
+\begin_inset Formula $A$
+\end_inset
+
+ הפיכה ו
+\begin_inset Formula $AB=I$
+\end_inset
+
+ או 
+\begin_inset Formula $BA=I$
+\end_inset
+
+ אז 
+\begin_inset Formula $B$
+\end_inset
+
+ היא ההופכית.
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing other 0.25
+שאלה 
+\begin_inset Formula $3.8.2$
+\end_inset
+
+- 
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.25
+אם 
+\begin_inset Formula $A$
+\end_inset
+
+ מטריצה הפיכה, 
+\begin_inset Formula $B$
+\end_inset
+
+ כלשהי ו
+\begin_inset Formula $AB=0$
+\end_inset
+
+, אז 
+\begin_inset Formula $B=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.25
+אם 
+\begin_inset Formula $A,B$
+\end_inset
+
+ הפיכות אז 
+\begin_inset Formula $AB\neq0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.25
+אם 
+\begin_inset Formula $A\neq0$
+\end_inset
+
+ ו
+\begin_inset Formula $B\neq0$
+\end_inset
+
+ אבל 
+\begin_inset Formula $AB=0$
+\end_inset
+
+ אז 
+\begin_inset Formula $A,B$
+\end_inset
+
+ סינגולריות
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $3.8.4$
+\end_inset
+
+ - כללי הפיכות: 
+\begin_inset Formula $\left(A^{-1}\right)^{-1}=A$
+\end_inset
+
+, 
+\begin_inset Formula $\left(A^{t}\right)^{-1}=\left(A^{-1}\right)^{t}$
+\end_inset
+
+)*מספק גם תנאי להפיכות(, 
+\begin_inset Formula $\left(AB\right)^{-1}=B^{-1}A^{-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $3.8.3$
+\end_inset
+
+- אם 
+\begin_inset Formula $A_{1},...A_{n}$
+\end_inset
+
+ הפיכות, אז 
+\begin_inset Formula $\left(A_{1}....A_{n}\right)^{-1}=A_{1}^{-1}...A_{n}^{-1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $3.8.4$
+\end_inset
+
+ עמ 275 - אם 
+\begin_inset Formula $A$
+\end_inset
+
+ אז 
+\begin_inset Formula $\left(A^{n}\right)^{-1}=\left(A^{-1}\right)^{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $3.9.3$
+\end_inset
+
+ - ביצוע פעולות שורה שווה להכפלה במטריצה אלמנטרית 
+\begin_inset Formula $\phi(A)=\phi\left(I\right)A$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+טעינה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.9.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $A'$
+\end_inset
+
+ שקולת-שורה ל-
+\begin_inset Formula $A$
+\end_inset
+
+ אז 
+\begin_inset Formula $A'=\phi_{k}\left(I\right)...\phi_{1}\left(I\right)A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $3.9.6$
+\end_inset
+
+ - ההופכית של מטריצה הפיכה היא המכפלה של המטריצות האלמנטריות ההופכיות 
+\begin_inset Formula $B^{-1}=\phi_{k}^{-1}\left(I\right)...\phi_{1}^{-1}\left(I\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $3.9.8$
+\end_inset
+
+ - מטריצה 
+\begin_inset Formula $A$
+\end_inset
+
+ היא הפיכה אם ורק אם היא מכפלה של מטריצות אלמנטריות 
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $3.9.9$
+\end_inset
+
+ - 
+\begin_inset Formula $B$
+\end_inset
+
+ שקולת שורה ל-
+\begin_inset Formula $A$
+\end_inset
+
+ אם ורק אם קיימת 
+\begin_inset Formula $C$
+\end_inset
+
+ הפיכה כך ש- 
+\begin_inset Formula $B=CA$
+\end_inset
+
+.
+ הערה: כדי למצוא את המטריצה 
+\begin_inset Formula $C$
+\end_inset
+
+ צריך לבצע את פעולות השורה שהובילו מ-
+\begin_inset Formula $A$
+\end_inset
+
+ ל-
+\begin_inset Formula $B$
+\end_inset
+
+ על 
+\begin_inset Formula $I$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $3.9.10$
+\end_inset
+
+ - מטריצה הפיכה אם ורק אם היא שקולת שורה ל-
+\begin_inset Formula $I$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $3.10.1$
+\end_inset
+
+ - מטריצה הפיכה אם ורק אם יש למשוואה הוקטורית 
+\begin_inset Formula $Ax=b$
+\end_inset
+
+ פתרון יחיד.
+ )טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.10.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- ל
+\begin_inset Formula $Ax=0$
+\end_inset
+
+ יש רק פתרון טריוויאלי(.
+\end_layout
+
+\begin_layout Standard
+טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.10.3,4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מטריצה הפיכה אם ורק אם העמודות/השורות של 
+\begin_inset Formula $A$
+\end_inset
+
+ הן בת
+\begin_inset Quotes erd
+\end_inset
+
+ל.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $3.10.1$
+\end_inset
+
+- מטריצה הפיכה אם ורק אם העמודות/השורות של 
+\begin_inset Formula $A$
+\end_inset
+
+ פורשות את 
+\begin_inset Formula $F^{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.10.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מטריצה הפיכה אם ורק אם ל
+\begin_inset Formula $Ax=b$
+\end_inset
+
+ יש פתרון.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $3.10.2$
+\end_inset
+
+- 
+\begin_inset Formula $AB$
+\end_inset
+
+ הפיכה אם ורק אם 
+\begin_inset Formula $A$
+\end_inset
+
+ ו-
+\begin_inset Formula $B$
+\end_inset
+
+ שתיהן הפיכות.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $3.10.6$
+\end_inset
+
+ - תכונות הפיכות:
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+יש למשוואה 
+\begin_inset Formula $Ax=0$
+\end_inset
+
+ רק פתרון טריוויאלי
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+\begin_inset Formula $A$
+\end_inset
+
+ שקולת שורה ל-
+\begin_inset Formula $I$
+\end_inset
+
+, קיימת מטריצה הפיכה 
+\begin_inset Formula $C$
+\end_inset
+
+ כך ש- 
+\begin_inset Formula $CA=I$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+\begin_inset Formula $A$
+\end_inset
+
+ היא מכפלה של מטריצות אלמנטריות
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+לכל וקטור עמודה קיים פתרון יחיד למשוואה 
+\begin_inset Formula $Ax=b$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+\begin_inset Formula $A$
+\end_inset
+
+ הפיכה אם ורק אם עמודותיה/שורותיה פורשות את 
+\begin_inset Formula $F^{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+הפיכה אם ורק אם עמודותיה/שורותיה בלתי תלויות לינארית.
+\end_layout
+
+\begin_layout Subsection
+טענות עזר
+\end_layout
+
+\begin_layout Standard
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\left(I+2A\right)\left(I-2A\right)=\left(I-2A\right)\left(I+2A\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+הוכחה:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\left(I+2A\right)\left(I-2A\right)=I\cdot I+I\cdot\left(-2A\right)+2A\cdot I+\left(2A\right)\left(-2A\right)=I\cdot I+I\cdot2A+\left(-2A\right)\cdot I+\left(2A\right)\left(-1\right)\left(2A\right)=I\cdot I+I\cdot2A+\left(-2A\right)\cdot I+\left(-2A\right)\left(2A\right)=\left(I-2A\right)\left(I+2A\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- דטרמיננטות
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4.2.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - משפט הפיתוח 
+\begin_inset Formula $|A|=\sum_{i=1}^{n}\left(-1\right)^{i+j}a_{ij}|A_{ij}^{M}|$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $A_{ij}^{M}$
+\end_inset
+
+ המטריצה המינורית - מתקבלת על ידי מחיקת השורה ה
+\begin_inset Formula $i$
+\end_inset
+
+ והעמודה ה
+\begin_inset Formula $j$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+משפט הפיתוח נכון גם לעמודות
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $4.2.2$
+\end_inset
+
+ - אם ב-
+\begin_inset Formula $A$
+\end_inset
+
+ יש שורת אפסים אז 
+\begin_inset Formula $|A|=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $4.3.1$
+\end_inset
+
+ - דטרמיננטה של מטריצה שווה למשוחלפת שלה.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $4.3.2$
+\end_inset
+
+ - החלפה של שתי שורות הופכת את סימן הדטרמיננטה.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $4.3.3$
+\end_inset
+
+ - כפל שורה בסקלאר הוא כפל הדטרימננטה בסקלאר.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $4.3.3$
+\end_inset
+
+- 
+\begin_inset Formula $|tA|=t^{n}|A|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $4.3.4$
+\end_inset
+
+- ההבדל בין 
+\begin_inset Formula $A$
+\end_inset
+
+ ו-
+\begin_inset Formula $B$
+\end_inset
+
+ הוא רק עמודה/שורה אחת, אז 
+\begin_inset Formula $|C|=|A|+|B|$
+\end_inset
+
+ כאשר השורה המתאימה ב-
+\begin_inset Formula $C$
+\end_inset
+
+ היא הסכום שלהן.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $4.3.5$
+\end_inset
+
+ - אם יש שתי שורות או עמודות שוות הדטרמיננטה שווה לאפס.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $4.3.6$
+\end_inset
+
+ - הוספת כפולה של שורה או עמודה לאחרת לא משנה את סימן הדטרמיננטה.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $4.3.8$
+\end_inset
+
+ - דטרמיננטה של מטריצה משולשית שווה למכפלת האלכסון.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $4.4.1$
+\end_inset
+
+ - 
+\begin_inset Formula $A$
+\end_inset
+
+ הפיכה אם ורק אם 
+\begin_inset Formula $|A|\neq0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $4.4.2$
+\end_inset
+
+- אם 
+\begin_inset Formula $A$
+\end_inset
+
+ שקולת שורה ל-
+\begin_inset Formula $B$
+\end_inset
+
+ אז 
+\begin_inset Formula $|A|=0$
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $B=0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $4.5.1$
+\end_inset
+
+ - 
+\begin_inset Formula $|A||B|=|AB|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $4.5.2$
+\end_inset
+
+ - מכפלה של שתי מטריצות הפיכות הפיכה גם כן, מכפלה של שתי מטריצות כאשר אחת
+ מהן לא הפיכה - לא הפיכה.
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $4.5.2$
+\end_inset
+
+- אם 
+\begin_inset Formula $AB=I$
+\end_inset
+
+ אז 
+\begin_inset Formula $A$
+\end_inset
+
+ ו-
+\begin_inset Formula $B$
+\end_inset
+
+ הפיכות )רק צד אחד מספיק, לא צריך להוכיח 
+\begin_inset Formula $BA=I$
+\end_inset
+
+.(
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $4.5.3$
+\end_inset
+
+- 
+\begin_inset Formula $|A^{k}|=|A|^{k}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $4.5.4$
+\end_inset
+
+- אם A הפיכה אז 
+\begin_inset Formula $|A^{-1}|=\frac{1}{|A|}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+פרק 
+\begin_inset Formula $4.6$
+\end_inset
+
+ - כלל קרמר - פתרון של מערכת 
+\begin_inset Formula $Ax=b$
+\end_inset
+
+ הוא 
+\begin_inset Formula $c_{k}=\frac{|A|_{k}}{|A|}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+פרק 
+\begin_inset Formula $4.7$
+\end_inset
+
+ - המטריצה המצורפת 
+\begin_inset Formula $\left[adjA\right]_{ij}=\left(-1\right)^{i+j}|A_{ji}^{M}|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+טענות עזר
+\end_layout
+
+\begin_layout Standard
+טריקים בדטרמיננטות - לחבר את כל השורות לשורה אחת, לחסר את אחת השורות מכל
+ השאר.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+כרך ב'
+\end_layout
+
+\begin_layout Section
+פרק 5 - שדות סופיים
+\end_layout
+
+\begin_layout Subsection
+חשבון מודולרי
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $5.2.12$
+\end_inset
+
+ - הנגדי של כל איבר a בשדה סופי הוא n-a
+\end_layout
+
+\begin_layout Section
+פרק 6 - מרוכבים
+\end_layout
+
+\begin_layout Standard
+הרחבת שדות
+\end_layout
+
+\begin_layout Standard
+תת שדה, שדה הרחבה, תנאים לתת שדה
+\end_layout
+
+\begin_layout Standard
+צמוד:
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $6.4.1$
+\end_inset
+
+- 
+\begin_inset Formula $\overline{z}=a-bi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $6.4.2$
+\end_inset
+
+ - תכונות הצמוד
+\end_layout
+
+\begin_layout Itemize
+|
+\begin_inset Formula $z=|z$
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $z$
+\end_inset
+
+ ממשי.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $6.4.6$
+\end_inset
+
+- 
+\begin_inset Formula $\overline{z^{n}}=\overline{z}^{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $6.4.3$
+\end_inset
+
+- 
+\begin_inset Formula $|z|=\sqrt{a^{2}+b^{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $6.4.4$
+\end_inset
+
+- תכונות צמוד וערך מוחלט
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $|z|=|\overline{z}|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $z\overline{z}=|z|^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $6.4.5$
+\end_inset
+
+- תכונות של ערך מוחלט
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $|z_{1}+z_{2}|\leq|z_{1}|+|z_{2}|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $6.4.6$
+\end_inset
+
+- הופכי של מספר מרוכב - 
+\begin_inset Formula $z^{-1}=\frac{\overline{z}}{|z|^{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $6.4.7$
+\end_inset
+
+- אם מספר מרוכב הוא שורש של משוואה עם מקדמים ממשיים, אז גם הצמוד הוא שורש
+ של המשוואה
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $6.4.16$
+\end_inset
+
+- 
+\begin_inset Formula $\overline{z^{-1}}=\left(\overline{z}\right)^{-1}$
+\end_inset
+
+, 
+\begin_inset Formula $\overline{\left(\frac{w}{z}\right)}=\frac{\overline{w}}{\overline{z}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $6.4.17$
+\end_inset
+
+ - 
+\begin_inset Formula $|z^{-1}|=|z|^{-1}$
+\end_inset
+
+, 
+\begin_inset Formula $|\frac{w}{z}|=\frac{|w|}{|z|}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+הצגה טריגונומטרית
+\end_layout
+
+\begin_layout Standard
+עמוד 77-
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $z=r\left(\cos\theta+i\sin\theta\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $r=\sqrt{x^{2}+y^{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\tan\theta=\frac{y}{x}$
+\end_inset
+
+ )הערה - צריך לראות באיזה רביע הזווית כי יש שתי תשובות(.
+\end_layout
+
+\begin_layout Standard
+עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+80
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כלל המכפלה 
+\begin_inset Formula $z_{1}z_{2}=r_{1}r_{2}\left(\cos\left(\theta_{1}+\theta_{2}\right)+i\sin\left(\theta_{1}+\theta_{2}\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $6.5.5$
+\end_inset
+
+-
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\overline{z}=r\left(\cos\theta-i\sin\theta\right)=r\left(\cos\left(-\theta\right)+i\sin\left(-\theta\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $z^{-1}=\frac{1}{r}\left(\cos\left(-\theta\right)+i\sin\left(-\theta\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\frac{z_{1}}{z_{2}}=\frac{r_{1}}{r_{2}}\left(\cos\left(\theta_{1}-\theta_{2}\right)+i\sin\left(\theta_{1}-\theta_{2}\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+85
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- חזקה של מספר מרוכב - 
+\begin_inset Formula $\left(r\left(\cos\theta+i\sin\theta\right)\right)^{n}=r^{n}\left(\cos n\theta\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+85
+\numeric off
+ - פתרון של 
+\begin_inset Formula $z^{n}=w=r\left(\cos\theta+i\sin\theta\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $z_{k}=\sqrt[n]{r}\left(\cos\left(\frac{\theta+2\pi k}{n}\right)+i\sin\left(\frac{\theta+2\pi k}{n}\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+טענת עזר - עבור 
+\begin_inset Formula $n$
+\end_inset
+
+ אי זוגי, הפתרונות של המשוואה 
+\begin_inset Formula $z^{n}=1$
+\end_inset
+
+ מקיימים 
+\begin_inset Formula $z_{1}z_{2}...z_{n}=1$
+\end_inset
+
+.
+ )הוכחה - שימוש בדה-מואבר(.
+\end_layout
+
+\begin_layout Subsection
+פולינומים
+\end_layout
+
+\begin_layout Standard
+הגדרה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.7.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $P\left(x\right)=a_{0}+a_{1}x+...+a_{n}x^{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+הגדרה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.7.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- שיוויון פולינומים - 
+\begin_inset Formula $b_{i}=0$
+\end_inset
+
+ )לכל 
+\begin_inset Formula $n<i\leq m$
+\end_inset
+
+( 
+\begin_inset Formula $a_{i}=b_{i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $6.7.10$
+\end_inset
+
+- הגדרה של פולינום מתוקן
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $6.7.11$
+\end_inset
+
+ - מקדם עליון שווה למכפלת המקדמים העליונים, 
+\begin_inset Formula $deg\left(PQ\right)=degP+degQ$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $6.7.5$
+\end_inset
+
+ - אם מכפלה היא 0 אז אחד הפולינומים הוא 0, אפשר "לצמצם" בפולינום אם הוא
+ שונה מ-
+\numeric on
+0
+\numeric off
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $6.7.14$
+\end_inset
+
+ - שורש של פולינום
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.7.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $c$
+\end_inset
+
+ הוא שורש של המכפלה 
+\begin_inset Formula $PQ$
+\end_inset
+
+ אם ורק אם הוא שורש של 
+\begin_inset Formula $P$
+\end_inset
+
+ או של 
+\begin_inset Formula $Q$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $6.8.1$
+\end_inset
+
+ - חילוק פולינומים עם שארית
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $6.8.2$
+\end_inset
+
+ - c הוא שורש אם ורק אם 
+\begin_inset Formula $x-c$
+\end_inset
+
+ מחלק את 
+\begin_inset Formula $P$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $6.8.3$
+\end_inset
+
+- לפולינום יהיה לכל היותר 
+\begin_inset Formula $n$
+\end_inset
+
+ שורשים שונים.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $6.9.1$
+\end_inset
+
+ - לכל פולינום בעל מעלה גדולה מאפס יש שורש מעל שדה המרוכבים.
+\end_layout
+
+\begin_layout Standard
+למה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.9.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $deg\left(P^{k}\left(x\right)\right)=kdeg\left(P\left(x\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+למה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.9.6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הריבוי של 
+\begin_inset Formula $c$
+\end_inset
+
+ ב-
+\begin_inset Formula $P$
+\end_inset
+
+ הוא 
+\begin_inset Formula $k$
+\end_inset
+
+ אם ורק אם קיים 
+\begin_inset Formula $Q$
+\end_inset
+
+ כך ש 
+\begin_inset Formula $P\left(x\right)=\left(x-c\right)^{k}Q\left(x\right)$
+\end_inset
+
+ ו-
+\begin_inset Formula $c$
+\end_inset
+
+ אינו שורש של 
+\begin_inset Formula $Q$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.9.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כל פולינום מעל שדה המרוכבים ניתן להצגה כ- 
+\begin_inset Formula $P\left(x\right)=d\left(x-c_{1}\right)^{k_{1}}...\left(x-c_{m}\right)^{k_{m}}$
+\end_inset
+
+.
+ חיבור הריבויים של פולינום שווה למעלה של הפולינום.
+\end_layout
+
+\begin_layout Standard
+פרק 
+\begin_inset Formula $6.10$
+\end_inset
+
+ - מציאת שורשים רציונליים )מעבר על מחלקים של מקדם עליון ומקדם חופשי(
+\end_layout
+
+\begin_layout Standard
+פרק 
+\begin_inset Formula $6.11$
+\end_inset
+
+ - נגזרת - הגדרה, סכום, מכפלה בסקלאר, נגזרת מכפלה, שורש הוא פשוט אם ורק
+ אם הוא לא שורש של הנגזרת
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק 7 - מרחבים 
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $7.1.1$
+\end_inset
+
+- הגדרה של מרחב לינארי
+\end_layout
+
+\begin_layout Standard
+עמוד 
+\begin_inset Formula $156-160$
+\end_inset
+
+- דוגמאות של מרחבים - 
+\begin_inset Formula $F^{n}$
+\end_inset
+
+, מטריצות, מרחב פתרונות, פולינומים, פונקציות.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $7.2.1,3$
+\end_inset
+
+- תכונות בסיסיות של מרחבים
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $av=0$
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $a=0$
+\end_inset
+
+ או 
+\begin_inset Formula $v=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $7.3.2$
+\end_inset
+
+- בדיקה האם קבוצה היא תת מרחב - קבוצה לא ריקה, סגירות לחיבור וכפל בסקלר
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $7.3.3$
+\end_inset
+
+- חיתוך של שני תתי מרחבים הוא תת מרחב
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $7.4.1$
+\end_inset
+
+- צירוף לינארי, והקשר שלו לתלוי לינארית
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $7.5.1$
+\end_inset
+
+ - 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Sp\left(K\right)$
+\end_inset
+
+ הוא תת מרחב של 
+\begin_inset Formula $V$
+\end_inset
+
+ המכיל את 
+\begin_inset Formula $K$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $W$
+\end_inset
+
+ הוא תת מרחב של 
+\begin_inset Formula $V$
+\end_inset
+
+ המכיל את 
+\begin_inset Formula $K$
+\end_inset
+
+ אז 
+\begin_inset Formula $W$
+\end_inset
+
+ מכיל גם את 
+\begin_inset Formula $Sp\left(K\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.5.3$
+\end_inset
+
+ - 
+\begin_inset Formula $Sp(K)$
+\end_inset
+
+ הוא תת מרחב מזערי המכיל את 
+\begin_inset Formula $K$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.5.8$
+\end_inset
+
+- 
+\begin_inset Formula $U$
+\end_inset
+
+ היא תת מרחב אם ורק אם 
+\begin_inset Formula $Sp\left(U\right)=U$
+\end_inset
+
+, לכל תת קבוצה לא ריקה מתקיים 
+\begin_inset Formula $Sp\left(Sp\left(K\right)\right)=Sp\left(K\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.5.11$
+\end_inset
+
+ עמוד 
+\begin_inset Formula $177$
+\end_inset
+
+ - אפשר לעשות פעולות אלמנטריות על קבוצת וקטורים ב-
+\begin_inset Formula $Sp$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.5.12$
+\end_inset
+
+- למטריצות שקולות שורה יש אותו מרחב שורות
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.5.13$
+\end_inset
+
+- 
+\begin_inset Formula $Sp\left(K\cup\left\{ v\right\} \right)=Sp\left(K\right)$
+\end_inset
+
+ אם ורק אם v תלוי לינארית ב-
+\begin_inset Formula $K$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $7.5.4$
+\end_inset
+
+ - 
+\begin_inset Formula $Sp$
+\end_inset
+
+ים שווים אם ורק אם כל וקטור בקבוצת יוצרים הוא צירוף לינארי של וקטור באחר
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.5.16$
+\end_inset
+
+ - 
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $K\subseteq T$
+\end_inset
+
+ בהכרח 
+\begin_inset Formula $Sp\left(K\right)\subseteq Sp\left(T\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $K\subseteq Sp\left(T\right)$
+\end_inset
+
+ בהכרח 
+\begin_inset Formula $Sp\left(K\right)\subseteq Sp\left(T\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $K\subseteq Sp\left(T\right)$
+\end_inset
+
+ לא בהכרח 
+\begin_inset Formula $K\subseteq T$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $K\subset T$
+\end_inset
+
+ אז לא בהכרח 
+\begin_inset Formula $Sp\left(K\right)\subset Sp\left(T\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.5.17$
+\end_inset
+
+ - 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Sp\left(K\right)\cup Sp\left(T\right)\subseteq Sp\left(K\cup T\right)$
+\end_inset
+
+, 
+\begin_inset Formula $Sp\left(K\right)\cup Sp\left(T\right)\neq Sp\left(K\cup T\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Sp\left(K\right)\cap Sp\left(T\right)\subseteq Sp\left(K\cap T\right)$
+\end_inset
+
+, 
+\begin_inset Formula $Sp\left(K\right)\cap Sp\left(T\right)\neq Sp\left(K\cap T\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.5.18$
+\end_inset
+
+ - מציאת קבוצה פורשת - ביטוי איבר כללי כצירוף לינארי
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $7.6.2,4$
+\end_inset
+
+- חיבור של תת מרחבים הוא תת מרחב המכיל את שני תת-המרחבים, והוא המרחב הקטן
+ ביותר בעל תכונה זו.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.6.5$
+\end_inset
+
+- 
+\begin_inset Formula $U+W=U$
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $W\subseteq U$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.6.6$
+\end_inset
+
+- 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $U_{1}\cup...\cup U_{n}\subseteq U_{1}+...+U_{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $ּSp\left(U_{1}\cup...\cup U_{n}\right)\subseteq U_{1}+...+U_{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.6.7$
+\end_inset
+
+ - 
+\begin_inset Formula $U\cup W=U+W$
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $U\subseteq W$
+\end_inset
+
+ או 
+\begin_inset Formula $W\subseteq U$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $7.6.8$
+\end_inset
+
+ עמוד 
+\begin_inset Formula $186$
+\end_inset
+
+ - 
+\begin_inset Formula $U+W=Sp\left(S\cup T\right)$
+\end_inset
+
+ )חיבור של מרחבים זה פרישה של איחוד של בסיסים(
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $7.7.1$
+\end_inset
+
+- לכל וקטור בסכום ישר יש הצגה יחידה בסכום.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $7.7.2$
+\end_inset
+
+- סכום הוא ישר אם ורק אם הוא סכום והחיתוך 0.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $7.7.3$
+\end_inset
+
+- 0=0+0 הוא הצגה היחידה של וקטור האפס בסכום ישר.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $7.7.5$
+\end_inset
+
+ - סכום של תת מרחבים הוא ישר אם ורק אם הוא סכום והחיתוך של אחד מהם עם הסכום
+ של כל השאר חוץ ממנו הוא 0.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $7.7.6$
+\end_inset
+
+ - סכום של תת מרחבים הוא ישר אם ורק אם הוא סכום וההצגה של 0 היא ההצגה היחידה
+ של 0 כסכום של וקטורים מתוך תת-המרחבים.
+\end_layout
+
+\begin_layout Section
+טענות עזר
+\end_layout
+
+\begin_layout Subsubsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+אם בקבוצה לא לכל איבר יש הופכי )לדוגמה המרחב 
+\begin_inset Formula $\left\{ \left(1,0\right)\right\} $
+\end_inset
+
+( אז קבוצה יכולה להיות מרחב אבל לא שדה.
+\end_layout
+
+\begin_layout Subsubsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+
+\color black
+נוכיח שמתקיים 
+\begin_inset Formula $\left(U\cap W_{1}\right)+\left(U\cap W_{2}\right)\subseteq U\cap\left(W_{1}+W_{2}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color black
+נסתכל על וקטור כלשהו 
+\begin_inset Formula $v\in\left(U\cap W_{1}\right)+\left(U\cap W_{2}\right)$
+\end_inset
+
+ ונסמן 
+\begin_inset Formula $v=v_{1}+v_{2}$
+\end_inset
+
+ כך ש 
+\begin_inset Formula $v_{1}\in U\cap W_{1},v_{2}\in U\cap W_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color black
+מכיוון שמתקיים 
+\begin_inset Formula $v_{1},v_{2}\in U$
+\end_inset
+
+ ו-
+\begin_inset Formula $U$
+\end_inset
+
+ הוא מרחב לינארי אז, 
+\begin_inset Formula $v=v_{1}+v_{2}\in U$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color black
+נתסכל על המרחב 
+\begin_inset Formula $W_{1}+W_{2}$
+\end_inset
+
+.
+ מרחב זה מוגדר כסכום של וקטור כלשהו מ-
+\begin_inset Formula $W_{1}$
+\end_inset
+
+ ווקטור כלשהו מ-
+\begin_inset Formula $W_{2}$
+\end_inset
+
+.
+ מכיוון ש-
+\begin_inset Formula $v_{1}\in W_{1}$
+\end_inset
+
+ ו-
+\begin_inset Formula $v_{2}\in W_{2}$
+\end_inset
+
+ אז 
+\begin_inset Formula $v_{1}+v_{2}\in W_{1}+W_{2}$
+\end_inset
+
+, כלומר 
+\begin_inset Formula $v\in W_{1}+W_{2}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color black
+משתי הטענות 
+\begin_inset Formula $v\in W_{1}+W_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $v\in U$
+\end_inset
+
+ נובע ש 
+\begin_inset Formula $v\in U\cap\left(W_{1}+W_{2}\right)$
+\end_inset
+
+.
+ התחלנו מוקטור כלשהו מתוך 
+\begin_inset Formula $\left(U\cap W_{1}\right)+\left(U\cap W_{2}\right)$
+\end_inset
+
+ והראינו שהוא שייך לקבוצה 
+\begin_inset Formula $U\cap\left(W_{1}+W_{2}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+כדי למצוא בסיס ל
+\begin_inset Formula $U\cap W$
+\end_inset
+
+, אפשר להשוות איבר כללי של כל מרחב )בעצם אומר אילו איברים משותפים לשניהם(,
+ ולהעביר אגף, ואז לבדוק האם הוקטורים בת
+\begin_inset Quotes erd
+\end_inset
+
+ל באמצעות דירוג.
+ הוקטורים המשותפים הם מרחב הפתרונות.
+\end_layout
+
+\begin_layout Standard
+כדי למצוא בסיס ל
+\begin_inset Formula $U+W$
+\end_inset
+
+, אפשר לשים את כל איברי כל הבסיסים באותה מטריצה לדרג אותה.
+\end_layout
+
+\begin_layout Subsubsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+תהי 
+\begin_inset Formula $A$
+\end_inset
+
+ מטריצה ריבועית מדרגה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- נוכיח שמתקיים 
+\begin_inset Formula $A^{2}=tr\left(A\right)A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\align right
+משמעות הנתון שדרגת המטריצה 
+\begin_inset Formula $A$
+\end_inset
+
+ היא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+היא שכל מרחב השורות של 
+\begin_inset Formula $A$
+\end_inset
+
+ נפרש על ידי וקטור
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אחד, נסמן אותו ב-
+\begin_inset Formula $u=\left(u_{1},u_{2}...,u_{n}\right)\in F^{n}$
+\end_inset
+
+.
+ מכיוון שהוא פורש את מרחב השורות של 
+\begin_inset Formula $A$
+\end_inset
+
+, כל שורה היא פרופורציונית לוקטור 
+\begin_inset Formula $u$
+\end_inset
+
+.
+ כלומר המטריצה 
+\begin_inset Formula $A$
+\end_inset
+
+ היא מהצורה 
+\begin_inset Formula $\left[A\right]_{ij}=\left[\lambda_{i}u\right]=\lambda_{i}u_{j}$
+\end_inset
+
+ עבור 
+\begin_inset Formula $1\leq i,j\leq n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+נסתכל על המכפלה 
+\begin_inset Formula $tr\left(A\right)A$
+\end_inset
+
+ 
+\begin_inset Formula $\left(1\leq i,j\leq n\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $tr\left(A\right)A=\sum_{i=1}^{n}a_{ii}\cdot\left[A\right]_{ij}=\sum_{i=1}^{n}a_{ii}\cdot\left(\lambda_{i}u_{j}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+נסתכל על המכפלה 
+\begin_inset Formula $A^{2}$
+\end_inset
+
+ 
+\begin_inset Formula $\left(1\leq i,j\leq n\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $A^{2}=\left[A\cdot A\right]_{ij}=\sum_{k=1}^{n}a_{ik}a_{kj}=\sum_{k=1}^{n}\lambda_{i}u_{k}\cdot\lambda_{k}u_{j}{\color{gray}\overset{}{\overbrace{{\normalcolor =}}}}\sum_{k=1}^{n}\lambda_{k}u_{k}\cdot\left(\lambda_{i}u_{j}\right){\color{gray}=}\sum_{k=1}^{n}a_{kk}\cdot\left(\lambda_{i}u_{j}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- נוכיח שמתקיים 
+\begin_inset Formula $A^{k}=\left(tr\left(A\right)\right)^{k-1}A$
+\end_inset
+
+ לכל 
+\begin_inset Formula $k$
+\end_inset
+
+ טבעי, 
+\begin_inset Formula $k\geq1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+נעשה זאת באינדוקציה על 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ עבור 
+\begin_inset Formula $k=1$
+\end_inset
+
+ מתקיים 
+\begin_inset Formula $A^{1}=1\cdot A=\left(tr\left(A\right)\right)^{0}A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+נניח שהטענה נכונה עבור 
+\begin_inset Formula $k$
+\end_inset
+
+ ונוכיח שהיא נכונה עבור 
+\begin_inset Formula $k+1$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $A^{k+1}=A^{k}A=\left(\left(tr\left(A\right)\right)^{k-1}A\right)\cdot A=\left(tr\left(A\right)\right)^{k-1}A^{2}=\left(tr\left(A\right)\right)^{k-1}\cdot tr\left(A\right)\cdot A=tr\left(A\right)^{k}A$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+נוכיח ש-
+\begin_inset Formula $\sin x,\cos x$
+\end_inset
+
+ הם איברים בלתי תלויים לינארית במרחב 
+\begin_inset Formula $V$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+כדי לעשות זאת נראה שהפתרון היחיד של המשוואה 
+\begin_inset Formula $\lambda_{1}\sin x+\lambda_{2}\cos x=\boldsymbol{0}$
+\end_inset
+
+ כאשר 
+\begin_inset Formula $\lambda_{1},\lambda_{2}\in\kaliReal$
+\end_inset
+
+ הוא הפתרון הטריוויאלי )ו-
+\begin_inset Formula $\boldsymbol{0}$
+\end_inset
+
+ היא פונקציית האפס(.
+\end_layout
+
+\begin_layout Standard
+נניח שמתקיים 
+\begin_inset Formula $\lambda_{1}=0$
+\end_inset
+
+ או 
+\begin_inset Formula $\lambda_{2}=0$
+\end_inset
+
+.
+ אם כך, במשוואה יש רק וקטור אחד ולכן הוא בלתי תלוי לינארית.
+\end_layout
+
+\begin_layout Standard
+כעת נניח שמתקיים 
+\begin_inset Formula $\lambda_{1}\neq0$
+\end_inset
+
+ וגם 
+\begin_inset Formula $\lambda_{2}\neq0$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\lambda_{1}\sin x+\lambda_{2}\cos x=\boldsymbol{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\lambda_{1}\sin x=-\lambda_{2}\cos x$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\lambda_{1}^{2}\sin^{2}x=\lambda_{2}^{2}\cos^{2}x$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+ידוע שמתקיים 
+\begin_inset Formula $\sin^{2}x+\cos^{2}x=1$
+\end_inset
+
+ ולכן:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\lambda_{1}^{2}\sin^{2}x=\lambda_{2}^{2}\left(1-\sin^{2}x\right)=\lambda_{2}^{2}-\lambda_{2}^{2}\sin^{2}x$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\sin x=\pm\sqrt{\frac{\lambda_{2}^{2}}{\lambda_{1}^{2}+\lambda_{2}^{2}}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+אמנם, ידוע כי 
+\begin_inset Formula $\sin x$
+\end_inset
+
+ היא אינה פונקציה קבועה, ולכן הגענו לסתירה.
+ 
+\end_layout
+
+\begin_layout Standard
+אם כך, הוכחנו ש-
+\begin_inset Formula $\sin x,\cos x$
+\end_inset
+
+ הם איברים בלתי תלויים לינארית במרחב 
+\begin_inset Formula $V$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+ממן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מ
+\numeric on
+2023
+\numeric off
+א מתרגל טענות טובות שקשורות למרחבים.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק 8 - בסיסים ותורת הממד
+\end_layout
+
+\begin_layout Subsection
+תלות
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $8.1.1$
+\end_inset
+
+- הגדרה של קבוצה תלויה לינארית ולא תלויה לינארית.
+ 
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.1.1$
+\end_inset
+
+- קבוצה בתל אם ורק אם מתוך השוויון 
+\begin_inset Formula $a_{1}v_{1}+…+a_{n}v_{n}=0$
+\end_inset
+
+ אז כל המקדמים הם 0.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.1.3$
+\end_inset
+
+ - כל קבוצה המכילה את וקטור האפס היא תלויה לינארית, כל תת קבוצה המכילה שני
+ וקטורים פרופורציונליים היא תלויה לינארית.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.1.4$
+\end_inset
+
+- אם 
+\begin_inset Formula $K$
+\end_inset
+
+ בתל, אז כל תת קבוצה היא גם בתל.
+ אם 
+\begin_inset Formula $K$
+\end_inset
+
+ ת"ל, אז כל קבוצה המכילה אותה היא ת"ל.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.1.5$
+\end_inset
+
+ - קבוצה בעלת וקטור אחד היא ת"ל אם ורק אם הוקטור הוא וקטור האפס.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.1.2$
+\end_inset
+
+- 
+\begin_inset Formula $K$
+\end_inset
+
+ ת
+\begin_inset Quotes erd
+\end_inset
+
+ל אם ורק אם אחד מהוקטורים בה ניתן להצגה כצירוף לינארי של האחרים.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.1.7$
+\end_inset
+
+ - קבוצה ת"ל אם ורק אם קיימת קבוצה חלקית ממש לה וה-
+\begin_inset Formula $Sp$
+\end_inset
+
+ שלהן שווה.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.1.8$
+\end_inset
+
+ - 
+\begin_inset Formula $8.1.7$
+\end_inset
+
+ עמוד 
+\begin_inset Formula $246$
+\end_inset
+
+ - אם קיימת קבוצה בת"ל ויש וקטור שלא בקבוצה, הוקטור תלוי בקבוצה אם ורק אם
+ הקבוצה איחוד הוקטור תלויה לינארית.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.1.9$
+\end_inset
+
+ - בסדרה בת
+\begin_inset Quotes erd
+\end_inset
+
+ל הוקטורים בהכרח שונים זה מזה.
+\end_layout
+
+\begin_layout Standard
+עמוד 
+\begin_inset Formula $249$
+\end_inset
+
+- דוגמאות לבסיסים שבדרך כלל משתמשים בהם.
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $8.2.1$
+\end_inset
+
+ - הגדרת בסיס - קבוצה בת"ל ופורשת
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.2.3$
+\end_inset
+
+ - 
+\begin_inset Formula $B$
+\end_inset
+
+ היא בסיס אם ורק אם היא הקבוצה המרבית הבלתי תלויה לינארית והמינימלית הפורשת.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.2.5$
+\end_inset
+
+ - 
+\begin_inset Formula $B$
+\end_inset
+
+ היא בסיס של 
+\begin_inset Formula $V$
+\end_inset
+
+ אם ורק אם לכל וקטור יש הצגה יחידה של הוקטורים ב-
+\begin_inset Formula $B$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing other 0.5
+משפט 
+\begin_inset Formula $8.3.2$
+\end_inset
+
+ - 
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+כל קבוצה עם יותר מ-
+\begin_inset Formula $n$
+\end_inset
+
+ וקטורים היא ת"ל, כל קבוצה עם פחות לא פורשת.
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+אם יש קבוצה עם 
+\begin_inset Formula $n$
+\end_inset
+
+ איברים, מספיק שהם בת
+\begin_inset Quotes erd
+\end_inset
+
+ל או פורשים כדי שיהיו בסיס.
+ 
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+בכל בסיס יש בדיוק 
+\begin_inset Formula $n$
+\end_inset
+
+ איברים.
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing other 0.5
+משפט 
+\begin_inset Formula $8.3.4$
+\end_inset
+
+ - 
+\begin_inset Formula $U$
+\end_inset
+
+ תת מרחב של 
+\begin_inset Formula $V$
+\end_inset
+
+.
+ מתקיים:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $dimU\leq dimV$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $U=V$
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $dimU=dimV$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.3.5$
+\end_inset
+
+- כל קבוצה בת"ל ניתנת להשלמה לבסיס.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.3.6$
+\end_inset
+
+ - 
+\begin_inset Formula $dim\left(U+W\right)=dimU+dimW-dim\left(U\cap W\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $8.3.7$
+\end_inset
+
+ - בסכום ישר: 
+\begin_inset Formula $dimV=dimU+dimW$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+קואורדינטות
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.4.2$
+\end_inset
+
+ - העתקת קואורדינטות היא חד-חד ערכית, חיבור וכפל של וקטורים מתנהגים כמו
+ קואורדינטות.
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $8.4.3$
+\end_inset
+
+ - קואורדינטות סגורות בכפל סקלר וחיבור.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.4.4$
+\end_inset
+
+ - וקטורים בת"ל אם ורק אם הקאורדינטות בת"ל.
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)הערה - אפשר להשתמש בזה כדי לעסוק בבעיות שקשורות במטריצות(.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.4.5$
+\end_inset
+
+- סדרה היא בסיס רק אם ורק אם המטריצה של הקאורדינטות הפיכה.
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $8.4.6$
+\end_inset
+
+ - מטריצת מעבר )הערה: במעבר בין 
+\begin_inset Formula $A$
+\end_inset
+
+ ל
+\begin_inset Formula $B$
+\end_inset
+
+ מביעים את וקטורי 
+\begin_inset Formula $B$
+\end_inset
+
+ כצירוף של 
+\begin_inset Formula $A$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.4.9$
+\end_inset
+
+ - כל מטריצה הפיכה יכולה לממש כמטריצת מעבר.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.4.7$
+\end_inset
+
+- בשביל לעבור בין קאורדינטות בבסיסים שונים אז 
+\begin_inset Formula $\left[v\right]_{B}=M\left[v\right]_{B'}$
+\end_inset
+
+ )
+\begin_inset Formula $M$
+\end_inset
+
+ מטריצת מעבר מ-
+\begin_inset Formula $B$
+\end_inset
+
+ ל-
+\begin_inset Formula $B'$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $M\left[u_{j}\right]_{B'}=M\begin{bmatrix}\begin{array}{c}
+0\\
+...\\
+1\\
+...\\
+0
+\end{array}\end{bmatrix}=\left[M\right]_{j}^{c}=\left[u_{j}\right]_{B}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+משפט 8.4.8 - אם מטריצה היא המכפלה בין וקטורים בבסיסים שונים, היא מטריצת המעבר
+ ביניהם.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.4.9$
+\end_inset
+
+- מטריצת המעבר ההפוכה בין בסיסים היא המטריצה ההופכית.
+\end_layout
+
+\begin_layout Subsubsection
+דרגת מטריצות
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $8.5.1$
+\end_inset
+
+ - אם יש מטריצת מדרגות, אז השורות שלה הן בסיס למרחב השורות, והדרגה היא מספר
+ השורות.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.5.2$
+\end_inset
+
+ - דרגת השורות של מטריצה שווה לדרגת העמודות שלה.
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $8.5.3$
+\end_inset
+
+ - כל עמודה במטריצת מכפלה 
+\begin_inset Formula $PQ$
+\end_inset
+
+ היא צירוף לינארי של 
+\begin_inset Formula $k$
+\end_inset
+
+ העמודות של 
+\begin_inset Formula $P$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.5.4$
+\end_inset
+
+ - 
+\begin_inset Formula $\rho\left(A\right)=\rho\left(A^{t}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.5.5$
+\end_inset
+
+ - 
+\begin_inset Formula $\rho(A_{m\times n})\leq min(m,n)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.5.6$
+\end_inset
+
+ - 
+\begin_inset Formula $\rho(AB)\leq min(\rho(A),\rho(B)).$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.5.7$
+\end_inset
+
+ - אם 
+\begin_inset Formula $B$
+\end_inset
+
+ הפיכה אז 
+\begin_inset Formula $\rho\left(AB\right)=\rho\left(A\right)$
+\end_inset
+
+ )וכנ"ל על הכפלה מצד שמאל(.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.5.8$
+\end_inset
+
+ - 
+\begin_inset Formula $\rho\left(A\right)=n$
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $|A|\neq0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.6.1$
+\end_inset
+
+ - 
+\begin_inset Formula $dimP=n-(A)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.6.2$
+\end_inset
+
+ - למערכת משוואות לינארית קיים פתרון אם ורק אם דרגת מטריצת המקדמים שלה שווה
+ לדרגת מטריצת המקדמים המצומצמת.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $8.6.4$
+\end_inset
+
+ - איך משלימים קבוצה לבסיס ב-
+\begin_inset Formula $F^{n}$
+\end_inset
+
+ - מדרגים את המטריצה ששורותיה הן הוקטורים, ובסוף מוסיפים למטריצת המדרגות
+ את הוקטורים החסרים כך שתתקבל מטריצת מדרגות מלאה.
+ כדי להכליל לבסיס במרחב כלשהו אפשר בהתחלה ובסוף להשתמש בקואורדינטות.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $8.7.1$
+\end_inset
+
+ - אם המימד של 
+\begin_inset Formula $V$
+\end_inset
+
+ מעל 
+\begin_inset Formula $C$
+\end_inset
+
+ הוא 
+\begin_inset Formula $n$
+\end_inset
+
+, אז המימד שלו מעל 
+\begin_inset Formula $R$
+\end_inset
+
+ הוא 
+\begin_inset Formula $2n$
+\end_inset
+
+ )כיוון שעכשיו גם כל הצירופים של i מצטרפים לבסיס(.
+ 
+\end_layout
+
+\begin_layout Subsection
+טענות עזר
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)לא לציטוט(
+\end_layout
+
+\begin_layout Standard
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+כדי להציג וקטור נתון ב-
+\begin_inset Formula $F^{n}$
+\end_inset
+
+ כצירוף לינארי של קבוצת וקטורים נתונה ב-
+\begin_inset Formula $F^{\text{n}}$
+\end_inset
+
+, אפשר לשים את הוקטורים כעמודות, ולפתור כמערכת משוואות )שקול למשוואות 
+\begin_inset Formula $x_{i}v_{i}=b$
+\end_inset
+
+, 
+\begin_inset Formula $Ax=b$
+\end_inset
+
+(.
+ הפתרון יהיה הסקלארים עבורם מתקיים הצירוף.
+ אם אין פתרון אז הוקטור לא ניתן להצגה.
+\end_layout
+
+\begin_layout Standard
+כדי להוכיח שקבוצת וקטורים נתונה כלשהי ב-
+\begin_inset Formula $F^{n}$
+\end_inset
+
+ היא בת
+\begin_inset Quotes erd
+\end_inset
+
+ל - אותו דבר עם 
+\begin_inset Formula $b=0$
+\end_inset
+
+, ובמצב זה אפשר לדרג רק את המטריצה המצומצמת )שקול למשוואה 
+\begin_inset Formula $Ax=0$
+\end_inset
+
+(.
+ אם הם בת
+\begin_inset Quotes erd
+\end_inset
+
+ל יתקבל הפתרון הטריוויאלי בלבד.
+\end_layout
+
+\begin_layout Standard
+כדי להוכיח עבור מרחב כלשהו, אפשר להמיר בהתחלה ובסוף לקואורדינטות )משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8.4.4
+\numeric off
+(.
+\end_layout
+
+\begin_layout Subsubsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+כדי להגיע לבסיס של קבוצת וקטורים נתונה כלשהי ב-
+\begin_inset Formula $F^{\text{n}}$
+\end_inset
+
+, אפשר לייצג אותה במטריצה כאשר הוקטורים הם שורות, ולבצע פעולות שורה.
+ כאשר מתקבלת מטריצת מדרגות, אז השורות הן בסיס למרחב השורות של המטריצה )למה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8.5.1
+\numeric off
+(.
+\end_layout
+
+\begin_layout Standard
+כדי להוכיח עבור מרחב כלשהו, אפשר להמיר בהתחלה ובסוף לקואורדינטות )משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8.4.4
+\numeric off
+(.
+\end_layout
+
+\begin_layout Standard
+אם נתונה קבוצת וקטורים 
+\begin_inset Formula $u,v,w$
+\end_inset
+
+ כלשהי ולא נאמר אם היא ת
+\begin_inset Quotes erd
+\end_inset
+
+ל, אז יש קצת בעיה כי קוארדינטות מוגדרות רק על בסיס.
+ אפשר לבצע פעולות שורה ישירות על הקבוצה ישירות או להוסיף נימוק שיוצרים מטריצה
+ כאשר האיברים הם המקדמים של הוקטורים, כל שורה היא וקטור, וכל עמודה מייצגת
+ מקדם של וקטור מסוים.
+\end_layout
+
+\begin_layout Subsubsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+כדי למצוא קוארדינטות לפי בסיס לא סטנדרטי 
+\begin_inset Formula $C$
+\end_inset
+
+ )נניח הבסיס הסטנדרטי הוא 
+\begin_inset Formula $B$
+\end_inset
+
+(, יש למצוא את מטריצת המעבר מ-
+\begin_inset Formula $B$
+\end_inset
+
+ ל-
+\begin_inset Formula $C$
+\end_inset
+
+ )לייצג כל וקטור בבסיס הסטנרדטי( ואז לכפול בוקטור קוארדינטות כללי 
+\begin_inset Formula $\begin{bmatrix}\begin{array}{c}
+x\\
+y\\
+...
+\end{array}\end{bmatrix}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+כרך ג'
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+9
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - העתקות לינאריות
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $9.1.1$
+\end_inset
+
+ - כל העתקה לינארית שומרת על סגירות בחיבור וכפל סקלר.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.1.2$
+\end_inset
+
+ - התמונה של וקטור האפס הוא וקטור האפס.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $9.1.5$
+\end_inset
+
+ - העתקת ההצמדה מעל 
+\begin_inset Formula $R$
+\end_inset
+
+ היא לינארית, מעל 
+\begin_inset Formula $C$
+\end_inset
+
+ היא לא לינארית.
+\end_layout
+
+\begin_layout Standard
+עמוד 
+\begin_inset Formula $9-13$
+\end_inset
+
+ - דוגמאות להעתקות לינאריות - העתקת אפס, זהות, סקלרית, הטלה, גזירה, כפל
+ במטריצה.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $9.2.8$
+\end_inset
+
+ - אופרטור הגזירה הוא העתקה לינארית.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.3.1$
+\end_inset
+
+ - אם 
+\begin_inset Formula $U$
+\end_inset
+
+ הוא תת מרחב של 
+\begin_inset Formula $V$
+\end_inset
+
+ אז ההעתקה של 
+\begin_inset Formula $U$
+\end_inset
+
+ היא תת מרחב של 
+\begin_inset Formula $W$
+\end_inset
+
+ )מרחב הטווח(
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.3.5$
+\end_inset
+
+ - הגרעין הוא תת מרחב.
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $9.3.6$
+\end_inset
+
+ - חישוב התמונה - אם יש קבוצה פורשת של 
+\begin_inset Formula $V$
+\end_inset
+
+, אז 
+\begin_inset Formula $ImT=Sp{T(v_{1}),...,T(V_{n})}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $9.3.7$
+\end_inset
+
+ - אם 
+\begin_inset Formula $T$
+\end_inset
+
+ העתקה מ-
+\begin_inset Formula $F^{n}$
+\end_inset
+
+ ל-
+\begin_inset Formula $F^{m}$
+\end_inset
+
+, אז 
+\begin_inset Formula $ImT$
+\end_inset
+
+ הוא מרחב העמודות של 
+\begin_inset Formula $A$
+\end_inset
+
+, ו
+\begin_inset Formula $KerT$
+\end_inset
+
+ הוא מרחב האפס של 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+מרחב האפס של מטריצה - מרחב הפתרונות של המערכת 
+\begin_inset Formula $Ax=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $9.3.6$
+\end_inset
+
+ - 
+\begin_inset Formula $T(Sp(K))=Sp(T(K))$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.4.1$
+\end_inset
+
+ - העתקות שוות אם ורק אם הן מתלכדות על איברי בסיס.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.4.2$
+\end_inset
+
+ - קיימת העתקה יחידה שמעתיקה בסיס לקבוצת וקטורים נתונה ממרחב אחר.
+\end_layout
+
+\begin_layout Standard
+הרחבה לינארית - יצירת הגדרה ספציפית ואז הוכחה שהיא מכסה את כל המקרים.
+\end_layout
+
+\begin_layout Standard
+הגדרה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+9.5.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- איזומורפיזם - העתקה לינארית שהיא חח
+\begin_inset Quotes erd
+\end_inset
+
+ע ועל.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $9.5.4$
+\end_inset
+
+ - שיכון - איזומורפיזם ממרחב 
+\begin_inset Formula $U$
+\end_inset
+
+ למרחב 
+\begin_inset Formula $V$
+\end_inset
+
+ )כמו לדוגמה לשכן את 
+\begin_inset Formula $(x,y,0)$
+\end_inset
+
+ בתוך 
+\begin_inset Formula $R^{3}$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $9.5.2$
+\end_inset
+
+ - העתקה חח"ע אם ורק אם 
+\begin_inset Formula $0=KerT$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.5.3$
+\end_inset
+
+ - לכל העתקה שהיא איזומורפיזם קיימת העתקה הפוכה שהיא איזומורפיזם.
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $9.5.5$
+\end_inset
+
+ - שני מרחבים איזומורפיים שווים זה לזה במימדיהם.
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $9.5.6$
+\end_inset
+
+ - אם 
+\begin_inset Formula $T$
+\end_inset
+
+ חח"ע, ו-
+\begin_inset Formula $K$
+\end_inset
+
+ בת"ל, אז התמונה של 
+\begin_inset Formula $K$
+\end_inset
+
+ בת"ל.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.5.7$
+\end_inset
+
+ - כל שני מרחבים בעלי אותו מימד הם איזומורפיים זה לזה.
+\end_layout
+
+\begin_layout Standard
+הערה - בין שני מרחבים יכולים להתקיים איזומורפיזמים שונים )תלוי בסיס, שהוא
+ שרירותי(.
+ 
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $9.5.9$
+\end_inset
+
+ - שני מרחבים מעל שדה 
+\begin_inset Formula $F$
+\end_inset
+
+ הם בעלי אותו מימד אם ורק אם הם איזומורפיים זה לזה.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.6.1$
+\end_inset
+
+ - 
+\begin_inset Formula $dimKerT+dimImT=n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $9.6.2$
+\end_inset
+
+ - תנאים לאיזומורפיזם בין שני מרחבים מאותו מימד - 
+\begin_inset Formula $KerT=\left\{ 0\right\} $
+\end_inset
+
+ או 
+\begin_inset Formula $ImT=W$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+דיון על משפט 
+\begin_inset Formula $9.6.1$
+\end_inset
+
+ - 
+\begin_inset Formula $nul(A)$
+\end_inset
+
+ הוא המימד של מרחב האפס )"האפסות של המטריצה"(.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $9.6.3$
+\end_inset
+
+ - 
+\end_layout
+
+\begin_layout Itemize
+אם וקטורים ת"ל, אז תמונותיהם ת"ל
+\end_layout
+
+\begin_layout Itemize
+אם תמונות בת"ל, אז הוקטורים בת"ל
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $T$
+\end_inset
+
+ חח"ע, אז הוקטורים בת"ל אם ורק אם התמונות בת"ל
+\end_layout
+
+\begin_layout Itemize
+אם התמונה של כל קבוצה בת"ל היא קבוצה בת"ל אז 
+\begin_inset Formula $T$
+\end_inset
+
+ חד-חד ערכית
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $9.6.7$
+\end_inset
+
+ - צמצום של 
+\begin_inset Formula $T$
+\end_inset
+
+ על תת מרחב 
+\begin_inset Formula $U$
+\end_inset
+
+ - להסתכל רק על התמונה 
+\begin_inset Formula $T\left(U\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $9.6.9$
+\end_inset
+
+ - העתקת ההצמדה היא איזומורפיזם מעל 
+\begin_inset Formula $R$
+\end_inset
+
+ )ולא לינארית מעל 
+\begin_inset Formula $C$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.7.1$
+\end_inset
+
+ - חיבור העתקה לינארית היא העתקה לינארית.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $9.7.2$
+\end_inset
+
+ - חיבור העתקה לינארית היא חילופית וקיבוצית
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.7.3$
+\end_inset
+
+ - העתקה לינארית סגורה לכפל בסקלר
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.7.9$
+\end_inset
+
+ - תכונות של חיבור וכפל בסקלר )פילוג וכו'(
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.8.1$
+\end_inset
+
+ - כפל העתקות הוא העתקה לינארית
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $9.8.3$
+\end_inset
+
+ - כפל העתקות לינאריות הוא קיבוצי.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $9.8.7$
+\end_inset
+
+ - 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $ImST\subseteq ImS$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $KerT\subseteq KerST$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $ImST=S(ImT)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $9.8.8$
+\end_inset
+
+ - אם 
+\begin_inset Formula $T^{2}=T$
+\end_inset
+
+ אז 
+\begin_inset Formula $KerT\oplus ImT=V$
+\end_inset
+
+, ו
+\begin_inset Formula $T$
+\end_inset
+
+ היא העתקת ההטלה של המרחב 
+\begin_inset Formula $ImT$
+\end_inset
+
+ במקביל ל-
+\begin_inset Formula $KerT$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 9.8.9 - 
+\begin_inset Formula $T$
+\end_inset
+
+ איזומורפיזם אם ורק אם לא קיימת העתקה לינארית 
+\begin_inset Formula $S$
+\end_inset
+
+ שונה מאפס כך ש-
+\begin_inset Formula $TS=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+9.9.1,2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם קיימת העתקה שמקיימת גם 
+\begin_inset Formula $fg=I$
+\end_inset
+
+ וגם 
+\begin_inset Formula $gf=I$
+\end_inset
+
+ אז 
+\begin_inset Formula $f$
+\end_inset
+
+ הפיכה ואיזומורפיזם.
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+9.9.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $T$
+\end_inset
+
+ העתקה לינארית לשני מרחבים מאותו מימד, אז העובדה ש-
+\begin_inset Formula $T$
+\end_inset
+
+ איזומורפיזם שקולה למציאת פונקציה שהופכת אותה להעתקת זהות.
+\end_layout
+
+\begin_layout Subsection
+טענות עזר
+\end_layout
+
+\begin_layout Subsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+מתקיים 
+\begin_inset Formula $V=U\oplus W$
+\end_inset
+
+, 
+\begin_inset Formula $v\in V,v=u+w$
+\end_inset
+
+.
+ העתקת ההטלה המתאימה לכל וקטור 
+\begin_inset Formula $v$
+\end_inset
+
+ את 
+\begin_inset Formula $u$
+\end_inset
+
+.
+ מקיימת 
+\begin_inset Formula $KerT=U$
+\end_inset
+
+ ו 
+\begin_inset Formula $KerT\cap ImT=\left\{ 0\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+תהי 
+\begin_inset Formula $S$
+\end_inset
+
+ העתקה הפיכה.
+ לא קיימת העתקה 
+\begin_inset Formula $T$
+\end_inset
+
+ כך ש-
+\begin_inset Formula $KerTS=\left\{ 0\right\} $
+\end_inset
+
+ אך 
+\begin_inset Formula $KerT\neq0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+הוכחה: להוכיח בשלילה, 
+\begin_inset Formula $KerT\neq0$
+\end_inset
+
+ 
+\begin_inset Formula $\Leftarrow$
+\end_inset
+
+ קיים 
+\begin_inset Formula $T\left(u\right)=0,u\neq0$
+\end_inset
+
+ 
+\begin_inset Formula $\Leftarrow$
+\end_inset
+
+ בגלל ש-
+\begin_inset Formula $S$
+\end_inset
+
+ חח
+\begin_inset Quotes erd
+\end_inset
+
+ע ועל קיים 
+\begin_inset Formula $S\left(v\right)=u,v\neq0$
+\end_inset
+
+ 
+\begin_inset Formula $\Leftarrow$
+\end_inset
+
+ 
+\begin_inset Formula $TS\left(u\right)=0,u\neq0$
+\end_inset
+
+, סתירה.
+\end_layout
+
+\begin_layout Subsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+מתקיים 
+\begin_inset Formula $T^{k}=0$
+\end_inset
+
+ ו-
+\begin_inset Formula $T^{k-1}\neq0$
+\end_inset
+
+.
+ יהי 
+\begin_inset Formula $u\in V$
+\end_inset
+
+ כך ש 
+\begin_inset Formula $T^{k-1}\left(u\right)\neq0$
+\end_inset
+
+.
+ הקבוצה 
+\begin_inset Formula $\left\{ u,T\left(u\right),...,T^{k-1}\left(u\right)\right\} $
+\end_inset
+
+ בלתי תלויה לינארית.
+\end_layout
+
+\begin_layout Standard
+הוכחה: להסתכל על הביטוי 
+\begin_inset Formula $T^{k-1-p}\left(\sum_{i=0}^{i=k-1}\lambda_{i}T^{i}\left(u\right)\right)=T^{k-1-p}\left(0\right)=0$
+\end_inset
+
+ כאשר 
+\begin_inset Formula $p$
+\end_inset
+
+ הוא האינדקס המינימלי עבורו 
+\begin_inset Formula $\lambda\neq0$
+\end_inset
+
+, בסוף מגיעים לסתירה כי מתקבל 
+\begin_inset Formula $\lambda_{p}=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $v\in KerT$
+\end_inset
+
+ לכן 
+\begin_inset Formula $T\left(v\right)=0$
+\end_inset
+
+ לכן 
+\begin_inset Formula $\left[T\right]_{B}\left[v\right]_{B}=0$
+\end_inset
+
+ לכן 
+\begin_inset Formula $\left[v\right]_{B}$
+\end_inset
+
+ הוא הפתרון למערכת ההומוגנית עם המטריצה 
+\begin_inset Formula $\left[T\right]_{B}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- ייצוג העתקות באמצעות מטריצות
+\end_layout
+
+\begin_layout Standard
+הגדרה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.1.1
+\numeric off
+ - מטריצה מייצגת מורכבת מקאורדינטות של תמונות הבסיס
+\end_layout
+
+\begin_layout Standard
+טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.1.2
+\numeric off
+ - מטריצות מייצגות באותו בסיס שוות זו לזו אם ורק אם ההעתקות שוות זו לזו
+\end_layout
+
+\begin_layout Standard
+טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.1.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- עבור מטריצה נתונה, קיימת העתקה לינארית יחידה.
+\end_layout
+
+\begin_layout Standard
+שאלה 10.1.7- המטריצה של I היא רק I, המטריצה של 0 היא רק 0.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.1.9
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם העתקה היא העתקת הטלה, אז המטריצה היא מהצורה 
+\begin_inset Formula $\begin{bmatrix}\begin{array}{cc}
+A & B\\
+0 & C
+\end{array}\end{bmatrix}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.1.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- דרגת המטריצה המייצגת שווה לממד התמונה.
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.2.1
+\numeric off
+ - 
+\begin_inset Formula $\left[T\left(v\right)\right]_{B}=\left[T\right]_{B}^{C}[v]_{B}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.3.1
+\numeric off
+ - מטריצה מייצגת שומרת על פעולות החיבור וכפל בסקלר.
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.4.1
+\numeric off
+ - מטריצה מייצגת של מכפלת העתקות שווה למכפלת המטריצות המייצגות שלהם
+\end_layout
+
+\begin_layout Standard
+כל תכונה שקשורת לחיבור, כפל בסקלאר וכפל על העתקה מקביל למטריצה!
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.5.1
+\numeric off
+ ומשפט 10.5.2- T איזומורפיזם אם ורק אם המטריצה מייצגת שלה הפיכה.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.5.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם המטריצה המייצגת העתקה הפיכה, אז ההעתקה היא איזומורפיזם
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.5.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- יהיו 
+\begin_inset Formula $A,B$
+\end_inset
+
+ מטריצות ריבועיות מסדר 
+\begin_inset Formula $n$
+\end_inset
+
+ מעל שדה 
+\begin_inset Formula $F$
+\end_inset
+
+.
+ מתקיים: 
+\begin_inset Formula $\rho\left(AB\right)\geq\rho\left(A\right)+\rho\left(B\right)-n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+דימיון מטריצות
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.6.1
+\numeric off
+ - מעבר בין ייצוג העתקה לינארית בבסיסים שונים נעשה על ידי מטריצת מעבר: 
+\begin_inset Formula $\left[T\right]_{B'}=M^{-1}\left[T\right]_{B}M$
+\end_inset
+
+ )כאשר 
+\begin_inset Formula $M$
+\end_inset
+
+ היא מטריצת המעבר בין 
+\begin_inset Formula $B$
+\end_inset
+
+ ל-
+\begin_inset Formula $B'$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Standard
+בנוסף, באופן סימטרי מתקבל עבור המעבר מ-'
+\begin_inset Formula $B$
+\end_inset
+
+ ל-
+\begin_inset Formula $B$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.1
+\numeric off
+ - דמיון מטריצות הוא יחס שקילות - טרנזיטיבי , סימטרי ורפלקסיבי.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.2
+\numeric off
+ - למטריצות דומות אותה הדרגה.
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- שתי מטריצות מייצגות את אותה העתקה אם ורק אם הן דומות
+\end_layout
+
+\begin_layout Standard
+טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.3
+\numeric off
+ - למטריצות דומות דטרמיננטה שווה.
+\end_layout
+
+\begin_layout Standard
+טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.5
+\numeric off
+ - למטריצות דומות עקבה שווה.
+\end_layout
+
+\begin_layout Standard
+למה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $trAB=trBA$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+הגדרה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- עבור העתקה 
+\begin_inset Formula $T:V\rightarrow V$
+\end_inset
+
+, הדטרמיננטה של העתקה והעקבה שלה מוגדרות עבור המטריצה המייצגת, והן זהות
+ עבור כל הבסיסים של המרחב.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.6
+\numeric off
+ - אם 
+\begin_inset Formula $A$
+\end_inset
+
+ או 
+\begin_inset Formula $B$
+\end_inset
+
+ הפיכות אז 
+\begin_inset Formula $BA$
+\end_inset
+
+ דומה ל-
+\begin_inset Formula $AB$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.7
+\numeric off
+ - T הפיכה )ואיזומורפיזם( אם ורק אם 
+\begin_inset Formula $|T|\neq0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.8
+\numeric off
+ - מטריצת ה-0 וה-
+\begin_inset Formula $I$
+\end_inset
+
+ דומות אך ורק לעצמן.
+ הערה: אפשר להשתמש בתכונה זו למציאת ערכים עצמיים - אם כל הע
+\begin_inset Quotes erd
+\end_inset
+
+ׂע של מטריצה הם
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+, זה אומר שהיא לכסינה אם ורק היא מטריצת האפס )כי אם היא לכסינה זה אומר שהן
+ דומות, אבל מטריצת האפס דומה רק לעצמה(.
+\end_layout
+
+\begin_layout Subsection
+טענות עזר )לא לציטוט(
+\end_layout
+
+\begin_layout Subsubsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+( להוכיח שמטריצות דומות
+\end_layout
+
+\begin_layout Standard
+להוכיח ששתי המטריצות לכסינות עם אותם ע
+\begin_inset Quotes erd
+\end_inset
+
+ׂע )הוכחת לכסינות בנספחים של פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11
+\numeric off
+(.
+ לכן כל אחת מהן דומה למטריצה האלכסונית עם ע
+\begin_inset Quotes erd
+\end_inset
+
+ׂע מתאימים )הגדרה 
+\begin_inset Formula $11.3.4$
+\end_inset
+
+,
+\numeric on
+11.3.6
+\numeric off
+( ומכיוון שדמיון הוא טרנזיטיבי )שאלה 
+\begin_inset Formula $10.7.1$
+\end_inset
+
+( אז שתי המטריצות דומות.
+\end_layout
+
+\begin_layout Subsubsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+( להוכיח שמטריצות לא דומות
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+עקבה לא שווה - טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.5
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+דטרמיננטה לא שווה- טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.3
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+דרגה לא שווה - שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.7.2
+\end_layout
+
+\begin_layout Itemize
+\paragraph_spacing other 0.5
+\noindent
+פולינום אופייני לא שווה- משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11.3.4
+\end_layout
+
+\begin_layout Subsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+אם נתון מטריצה מייצגת ויודעים שהעתקה איכשהו לא איזומורפיזם - אז המטריצה
+ לא הפיכה והדטרמיננטה שלה שווה ל-
+\numeric on
+0
+\numeric off
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מרחבים עצמיים
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $11.1.1$
+\end_inset
+
+ - 
+\begin_inset Formula $A$
+\end_inset
+
+ מטריצה אלכסונית אם ורק אם קיימים 
+\begin_inset Formula $n$
+\end_inset
+
+ סקלרים כך שלכל 
+\begin_inset Formula $j$
+\end_inset
+
+: 
+\begin_inset Formula $T\left(v_{j}\right)=t_{j}v_{j}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+ע"ע של העתקות
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $11.1.1$
+\end_inset
+
+ - העתקה נקראת לכסינה אם קיים בסיס ל-
+\begin_inset Formula $V$
+\end_inset
+
+ שבו 
+\begin_inset Formula $T$
+\end_inset
+
+ מיוצגת ע"י מטריצה אלכסונית.
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $11.2.1$
+\end_inset
+
+ ו
+\begin_inset Formula $11.2.2$
+\end_inset
+
+- מה זה ערך עצמי ומרחב עצמי.
+ 
+\end_layout
+
+\begin_layout Itemize
+וקטור עצמי חייב לקיים 
+\begin_inset Formula $v\neq0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\lambda$
+\end_inset
+
+ יכול לקיים 
+\begin_inset Formula $\lambda=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $11.2.4$
+\end_inset
+
+ - אם 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ הוא ע"ע, אז 
+\begin_inset Formula $μλ$
+\end_inset
+
+ הוא ע"ע של 
+\begin_inset Formula $μT$
+\end_inset
+
+, 
+\begin_inset Formula $\lambda^{n}$
+\end_inset
+
+ הוא ע"ע של 
+\begin_inset Formula $T^{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $11.2.3$
+\end_inset
+
+ - 
+\end_layout
+
+\begin_layout Itemize
+אם להעתקה יש 
+\begin_inset Formula $n$
+\end_inset
+
+ וקטורים עצמיים בת
+\begin_inset Quotes erd
+\end_inset
+
+ל אז היא לכסינה ואיברי האלכסון הם הערכים העצמיים המתאימים.
+\end_layout
+
+\begin_layout Itemize
+אם בבסיס מסוים של 
+\begin_inset Formula $V$
+\end_inset
+
+ הייצוג הוא אלכסון אז וקטורי הבסיס הם וקטורים עצמיים עם ע
+\begin_inset Quotes erd
+\end_inset
+
+ׂע מתאימים.
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $T$
+\end_inset
+
+ לכסינה אז איברי האלכסון הם כל הערכים העצמיים של ההעתקה.
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11.2.3
+\numeric off
+' - העתקה היא לכסינה אם ורק אם יש בסיס שכל איבריו הם וקטורים עצמיים.
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11.2.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- וקטורים עצמיים השייכים לע
+\begin_inset Quotes erd
+\end_inset
+
+ע שונים הם בת
+\begin_inset Quotes erd
+\end_inset
+
+ל.
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $11.2.5$
+\end_inset
+
+ - אם ל-
+\begin_inset Formula $T$
+\end_inset
+
+ יש 
+\begin_inset Formula $n$
+\end_inset
+
+ ע"ע שונים, אז 
+\begin_inset Formula $T$
+\end_inset
+
+ לכסינה.
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $11.2.6$
+\end_inset
+
+ - ל-
+\begin_inset Formula $T$
+\end_inset
+
+ לכל היותר 
+\begin_inset Formula $n$
+\end_inset
+
+ ערכים עצמיים שונים.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11.2.9
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $v_{1}...v_{n}$
+\end_inset
+
+ הוא בסיס של וקטורים עצמיים, אז גם 
+\begin_inset Formula $\alpha_{1}v_{1}...\alpha_{n}v_{n}$
+\end_inset
+
+ הוא בסיס של וקטורים עצמיים והייצוג של 
+\begin_inset Formula $T$
+\end_inset
+
+ לפי בסיס זה הוא 
+\begin_inset Formula $diag\left(\lambda_{1}...\lambda_{n}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $11.2.10$
+\end_inset
+
+ - 
+\end_layout
+
+\begin_layout Itemize
+חיתוך בין כל שני מרחב עצמיים הוא 0
+\end_layout
+
+\begin_layout Itemize
+איחוד בסיסים של מרחבים עצמיים הוא בסיס לסכום הישר שלהם.
+\end_layout
+
+\begin_layout Itemize
+אם סכום המימדים של המרחבים העצמיים שווה למימד 
+\begin_inset Formula $V$
+\end_inset
+
+, אז האיחוד של הבסיסים שלהם הוא בסיס של 
+\begin_inset Formula $V$
+\end_inset
+
+.
+ )להשתמש כדי להוכיח לכסינות(
+\end_layout
+
+\begin_layout Subsection
+ע"ע של מטריצות
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $11.3.1$
+\end_inset
+
+ - מה זה ע"ע של מטריצה.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $11.3.1$
+\end_inset
+
+ - 
+\begin_inset Formula $0$
+\end_inset
+
+ הוא ע"ע אם ורק אם 
+\begin_inset Formula $detA=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $11.3.2$
+\end_inset
+
+ - אם 
+\begin_inset Formula $λ$
+\end_inset
+
+ הוא ע"ע, אז 
+\begin_inset Formula $μλ$
+\end_inset
+
+ הוא ע"ע של 
+\begin_inset Formula $μA$
+\end_inset
+
+, 
+\begin_inset Formula $n$
+\end_inset
+
+ הוא ע"ע של 
+\begin_inset Formula $A^{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $11.3.2$
+\end_inset
+
+ - ל-
+\begin_inset Formula $T$
+\end_inset
+
+ ול-
+\begin_inset Formula $\left[T\right]_{B}$
+\end_inset
+
+ אותם ע"ע ווקטורים עצמיים.
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $11.3.3$
+\end_inset
+
+ - למטריצות דומות אותם ע"עים.
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $11.3.4$
+\end_inset
+
+ - A נקראת לכסינה אם ורק אם A דומה למטריצה אלכסונית 
+\begin_inset Formula $P^{-1}AP$
+\end_inset
+
+ )
+\begin_inset Formula $P$
+\end_inset
+
+ מטריצה הפיכה(.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $11.3.6$
+\end_inset
+
+ - איברי האלכסון של מטריצה מלוכסנת הדומה ל-
+\begin_inset Formula $A$
+\end_inset
+
+ הם ורק הם הע"ע של 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $11.3.5$
+\end_inset
+
+ - T לכסינה אם ורק אם A לכסינה
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $11.3.6$
+\end_inset
+
+ - אם ל-A יש n ע
+\begin_inset Quotes erd
+\end_inset
+
+ע שונים לכסינה.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $11.3.7$
+\end_inset
+
+ - 
+\begin_inset Formula $P$
+\end_inset
+
+ מלכסנת את 
+\begin_inset Formula $A$
+\end_inset
+
+ אם ורק אם העמודות של 
+\begin_inset Formula $P$
+\end_inset
+
+ הן 
+\begin_inset Formula $N$
+\end_inset
+
+ וקטורים עצמיים בתל של 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ הערה: הע
+\begin_inset Quotes erd
+\end_inset
+
+ע במטריצה האלכסונית שתתקבל יהיו מסודרים לפי סדר העמודות ב-
+\begin_inset Formula $P$
+\end_inset
+
+.
+ )ע
+\begin_inset Quotes erd
+\end_inset
+
+ע מתאים לכל וקטור עצמי(.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $11.4.1$
+\end_inset
+
+ - 
+\begin_inset Formula $t$
+\end_inset
+
+ הוא ע"ע אם ורק אם 
+\begin_inset Formula $|tI-A|=0$
+\end_inset
+
+.
+ 
+\begin_inset Formula $tI-A$
+\end_inset
+
+ היא המטריצה האופיינית של 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+הגדרה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11.4.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $|tI-A|$
+\end_inset
+
+ הוא הפולינום האופייני של 
+\begin_inset Formula $A$
+\end_inset
+
+, שורשיו הם השורשים האופייניים.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $11.4.5$
+\end_inset
+
+ - הפולינום האופייני הוא פולינום מתוקן ממעלה n.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $11.4.6$
+\end_inset
+
+ - המקדם של 
+\begin_inset Formula $t^{n-1}$
+\end_inset
+
+ הוא 
+\begin_inset Formula $-trA$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $11.4.7$
+\end_inset
+
+ - המקדם החופשי הוא 
+\begin_inset Formula $(-1)^{n}|A|$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+לסיכום: הפולינום האופייני הוא 
+\begin_inset Formula $t^{n}-trA\cdot t^{n-1}+...+\left(-1\right)^{n}|A|$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $11.4.3$
+\end_inset
+
+ - למטריצות דומות אותו פולינום אופייני.
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $11.4.4$
+\end_inset
+
+ - הפולינום האופייני של T הוא הפולינום האופייני של A.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11.4.9,11.4.11
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- יש מטריצות שהן לכסינות אם משנים את השדה למרוכבים, יש מטריצות שגם אחרי
+ זה לא )כי ר
+\begin_inset Quotes erd
+\end_inset
+
+א לא שווה לר
+\begin_inset Quotes erd
+\end_inset
+
+ג(.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $11.4.10$
+\end_inset
+
+ - 
+\begin_inset Formula $A$
+\end_inset
+
+ לכסינה אם ורק אם 
+\begin_inset Formula $A^{t}$
+\end_inset
+
+ לכסינה
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $11.5.1$
+\end_inset
+
+ - אם T לכסינה, אז הפולינום האופייני של T מתפרק למכפלה של גורמים לינאריים.
+\end_layout
+
+\begin_layout Standard
+למה 
+\begin_inset Formula $11.5.1$
+\end_inset
+
+' - אותו הדבר רק עם מטריצות.
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $11.5.2$
+\end_inset
+
+ - ר"א - הריבוי של ע
+\begin_inset Quotes erd
+\end_inset
+
+ׂע בפולינום האופייני.
+ ר"ג - הממד של המרחב העצמי של ע
+\begin_inset Quotes erd
+\end_inset
+
+ׂע.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11.5.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- וקטורים עצמיים הם הבסיס של מרחב הפתרונות.
+ הריבוי הגיאומטרי של 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ שווה ל-
+\begin_inset Formula $dimP=n-\rho\left(\lambda I-A\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $11.5.3$
+\end_inset
+
+ - ריבוי גיאומטרי קטן או שווה לריבוי אלגברי.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $11.5.4$
+\end_inset
+
+ - קריטריון ללכסינות - פולינום אופייני מתפרק לגורמים לינאריים והריבוי האלגברי
+ של כל ע
+\begin_inset Quotes erd
+\end_inset
+
+ע שווה לריבוי הגיאומטרי שלו.
+\end_layout
+
+\begin_layout Subsection
+טענות עזר )לא לציטוט( 
+\end_layout
+
+\begin_layout Paragraph
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+הוכחת לכסינות:
+\end_layout
+
+\begin_layout Itemize
+יש 
+\begin_inset Formula $n$
+\end_inset
+
+ ע"ע שונים )העתקה - 
+\numeric on
+11.2.5
+\numeric off
+, מטריצה -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11.3.6
+\numeric off
+(.
+\end_layout
+
+\begin_layout Itemize
+עבור יש 
+\begin_inset Formula $n$
+\end_inset
+
+ וקטורים עצמיים בת
+\begin_inset Quotes erd
+\end_inset
+
+ל
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)לא בהכרח מערכים שונים( )העתקה - 
+\numeric on
+11.2.3
+\numeric off
+(.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+פחות שימושיים: יש בסיס שכל איבריו הם וקטורים עצמיים )העתקה -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11.2.3
+\numeric off
+'(, בבסיס מסוים של 
+\begin_inset Formula $V$
+\end_inset
+
+ הייצוג הוא אלכסון )העתקה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+-
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11.2.3
+\numeric off
+(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+עבור העתקה ומטריצה: פולינום אופייני מתפרק לגורמים לינאריים והריבוי האלגברי
+ של כל ע
+\begin_inset Quotes erd
+\end_inset
+
+ע שווה לריבוי הגיאומטרי שלו
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)העתקה - 
+\numeric on
+11.5.4
+\numeric off
+,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מטריצה - 
+\numeric on
+11.5.4
+\numeric off
+'(.
+\end_layout
+
+\begin_layout Standard
+עבור כל משפט כתוב האם הוא נכון עבור העתקות או מטריצות.
+ בכל מקרה אם מוכיחים לאחד אפשר להשתמש בשקילות של לכסינות עבור העתקות ומטריצות
+ )משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11.3.2
+\numeric off
+(.
+\end_layout
+
+\begin_layout Paragraph
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+מקרה מיוחד שיש לשים לב אליו הוא ע
+\begin_inset Quotes erd
+\end_inset
+
+ׂע
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+.
+ במקרה זה הריבוי הגיאומטרי שווה לדרגת המטריצה 
+\begin_inset Formula $\rho\left(0I-A\right)=\rho\left(A\right)$
+\end_inset
+
+.
+ אם המטריצה סינגולרית אז
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+הוא ע
+\begin_inset Quotes erd
+\end_inset
+
+ע.
+\end_layout
+
+\begin_layout Paragraph
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+אם הריבוי האלגברי של ע
+\begin_inset Quotes erd
+\end_inset
+
+ע כלשהו הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+, זה בהכרח אומר שהריבוי הגיאומטרי שלו הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+.
+\end_layout
+
+\begin_layout Standard
+הוכחה: הריבוי הגיאומטרי גדול מ-
+\numeric on
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)כי מצאנו את הע
+\begin_inset Quotes erd
+\end_inset
+
+ע(, וגם הריבוי הגיאומטרי קטן או שווה לריבוי האלגברי.
+\end_layout
+
+\begin_layout Paragraph
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מועד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+89
+\numeric off
+ 
+\numeric on
+2022
+\numeric off
+ב.
+\end_layout
+
+\begin_layout Paragraph
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+נוכיח שאם למטריצות 
+\begin_inset Formula $A,B$
+\end_inset
+
+ יש את אותו פולינום אופייני אין להן בהכרח את אותה דרגה.
+ נסתכל על המטריצות 
+\begin_inset Formula $A=\begin{bmatrix}\begin{array}{cc}
+0 & 0\\
+1 & 0
+\end{array}\end{bmatrix},B=\begin{bmatrix}\begin{array}{cc}
+0 & 0\\
+0 & 0
+\end{array}\end{bmatrix}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+הדרגות של מטריצות אלה שונות: 
+\begin_inset Formula $\rho\left(A\right)=1,\rho\left(B\right)=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $p_{A}\left(x\right)=det\left(xI-A\right)=\begin{vmatrix}x & 0\\
+-1 & x
+\end{vmatrix}=x^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $p_{B}\left(x\right)=det\left(xI-B\right)=\begin{vmatrix}x & 0\\
+0 & x
+\end{vmatrix}=x^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $p_{A}=p_{B}$
+\end_inset
+
+ אבל 
+\begin_inset Formula $\left(A\right)\neq\rho\left(B\right)$
+\end_inset
+
+
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+)
+\numeric on
+2
+\numeric off
+(
+\end_layout
+
+\begin_layout Standard
+אם 
+\begin_inset Formula $A$
+\end_inset
+
+ לכסינה אז:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $A^{n}=\left(P^{-1}DP\right)^{n}=\left(P^{-1}DP\right)\cdot\left(P^{-1}DP\right)\cdot....\cdot\left(P^{-1}DP\right)=P^{-1}D\left(P^{-1}P\right)D\left(P^{-1}P\right)...DP=P^{-1}D^{n}P=P^{-1}\left(diag\left(\lambda_{i}^{n}\right)P\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+)נעזרנו בכלל שמכפלת מטריצה אלכסונית בעצמה היא מכפלת האיברים באלכסון זה בזה(.
+\end_layout
+
+\begin_layout Paragraph
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+כל העתקה לכסינה שאין לה ע
+\begin_inset Quotes erd
+\end_inset
+
+ע
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+ היא איזומורפיזם.
+\end_layout
+
+\begin_layout Standard
+הוכחה: נסתכל על הייצוג של ההעתקה לפי בסיס המורכב מהוקטורים העצמיים: 
+\begin_inset Formula $\left[T\right]_{B}=diag\left(\lambda_{i}\right)$
+\end_inset
+
+.
+ נרכיב העתקה 
+\begin_inset Formula $\left[S\right]_{B'}=diag\left(\frac{1}{\lambda_{i}}\right)$
+\end_inset
+
+ )העתקה לינארית לפי משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.1.3
+\numeric off
+(.
+\end_layout
+
+\begin_layout Standard
+מתקיים 
+\begin_inset Formula $ST=I$
+\end_inset
+
+, ומכיוון ש-
+\begin_inset Formula $T$
+\end_inset
+
+ היא העתקה לאותו מרחב )ולכן גם אותו מימד( היא איזומורפיזם לפי משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+9.9.3
+\numeric off
+.
+\end_layout
+
+\begin_layout Standard
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\rho\left(A\right)=\rho\left(-A\right)$
+\end_inset
+
+ - תכונה שימושית בשאלות על ע
+\begin_inset Quotes erd
+\end_inset
+
+ע, לדוגמה 
+\begin_inset Formula $\rho\left(2I+A\right)=\rho\left(-2I-A\right)$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Standard
+הוכחה: ביצוע פעולות שורה לא משנה את מרחב השורות של מטריצה )שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7.5.12
+\numeric off
+( לכן הכפלה של כל שורות המטריצה בסקלאר 
+\begin_inset Formula $-1$
+\end_inset
+
+ לא ישנו את דרגת המטריצה.
+\end_layout
+
+\begin_layout Paragraph
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+הערה: אם 
+\begin_inset Formula $\rho\left(\lambda I-A_{nxn}\right)<n$
+\end_inset
+
+ אז 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ ע
+\begin_inset Quotes erd
+\end_inset
+
+ׂע.
+\end_layout
+
+\begin_layout Standard
+הוכחה: שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8.5.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ )
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $\rho\left(A\right)=n$
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $|A|\neq0$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+(.
+\end_layout
+
+\begin_layout Paragraph
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+אם ל-
+\begin_inset Formula $A$
+\end_inset
+
+ יש 
+\begin_inset Formula $n$
+\end_inset
+
+ וקטורים עצמיים בת
+\begin_inset Quotes erd
+\end_inset
+
+ל שכל אחד מהם הוא גם וקטור עצמי של 
+\begin_inset Formula $B$
+\end_inset
+
+, אז 
+\begin_inset Formula $AB=BA$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+הוכחה: להציג אחד כ-
+\begin_inset Formula $P^{-1}D_{1}P$
+\end_inset
+
+, ומכיוון שיש להם את אותם וקטורים עצמיים ולכן אותה מטריצה 
+\begin_inset Formula $P$
+\end_inset
+
+ השני הוא מהצורה 
+\begin_inset Formula $P^{-1}D_{2}P$
+\end_inset
+
+.
+ מכפילים את שניהם ומקבלים את התוצאה.
+\end_layout
+
+\begin_layout Subsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+הריבוי הגיאומטרי של הע
+\begin_inset Quotes erd
+\end_inset
+
+ע
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ עבור העתקה 
+\begin_inset Formula $T$
+\end_inset
+
+ הוא 
+\begin_inset Formula $dimKerT$
+\end_inset
+
+ )שקולים ל-
+\begin_inset Formula $(T\left(v\right)=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- המכפלה הסקלארית
+\end_layout
+
+\begin_layout Standard
+הגדרה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.1.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- המכפלה הסקלארית - 
+\begin_inset Formula $\left(a_{i}...\right)\left(b_{i}...\right)=\sum a_{i}b_{i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $12.1.2$
+\end_inset
+
+ - תכונות חילופיות, לינאריות )בשני הרכיבים(, חיוביות )
+\begin_inset Formula $a\cdot a\geq0$
+\end_inset
+
+, ומתקיים 
+\begin_inset Formula $a\cdot a=0$
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $a=0$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $12.1.3$
+\end_inset
+
+ - אפשר להוציא כפל סקלרי מחוץ לסכום, 
+\begin_inset Formula $\sum t_{i}a_{i}\cdot\sum s_{j}b_{j}=\sum\sum t_{i}s_{j}\left(a_{i}\cdot b_{j}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $12.1.3$
+\end_inset
+
+ - נורמה - 
+\begin_inset Formula $\left\Vert a\right\Vert =\sqrt{a\cdot a}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $12.1.4$
+\end_inset
+
+- נורמה שווה ל-0 אם ורק אם 
+\begin_inset Formula $a=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $12.1.5$
+\end_inset
+
+- 
+\begin_inset Formula $\left\Vert ta\right\Vert =t\left\Vert a\right\Vert $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.1.6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\left\Vert a+b\right\Vert ^{2}+\left\Vert a-b\right\Vert ^{2}=2\left(\left\Vert a\right\Vert ^{2}+\left\Vert b\right\Vert ^{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $12.1.4$
+\end_inset
+
+- אי שיוויון קושי-שוורץ - 
+\begin_inset Formula $|a\cdot b|\leq\left\Vert a\right\Vert \cdot\left\Vert b\right\Vert $
+\end_inset
+
+ )הערך המוחלט של המכפלה הסקלארית קטן שווה למכפלת הנורמות(.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.1.7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\left|ab\right|=\left\Vert a\right\Vert \left\Vert b\right\Vert $
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $a,b$
+\end_inset
+
+ ת
+\begin_inset Quotes erd
+\end_inset
+
+ל.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.1.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\left\Vert a+b\right\Vert \leq\left\Vert a\right\Vert +\left\Vert b\right\Vert $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $12.2.1$
+\end_inset
+
+- וקטורים הם אורתוגונליים אם ורק אם 
+\begin_inset Formula $a\cdot b=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $12.2.1$
+\end_inset
+
+- 
+\begin_inset Formula $a$
+\end_inset
+
+ אורתוגונלי לעצמו אם ורק אם הוא 0.
+ אם 
+\begin_inset Formula $ab=0$
+\end_inset
+
+ לכל 
+\begin_inset Formula $b$
+\end_inset
+
+ אז 
+\begin_inset Formula $a=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.2.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $a,b$
+\end_inset
+
+ אורתוגונליים אז 
+\begin_inset Formula $\left\Vert a+b\right\Vert ^{2}=\left\Vert a\right\Vert ^{2}+\left\Vert b\right\Vert ^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+דוגמה ג - אם 
+\begin_inset Formula $b$
+\end_inset
+
+ אורתוגונלי ל-
+\begin_inset Formula $a$
+\end_inset
+
+ אז גם לכל כפולה של 
+\begin_inset Formula $a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+הגדרה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.2.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- וקטור אורתוגונלי למרחב אם הוא אורתוגונלי לכל וקטור במרחב.
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $12.2.3$
+\end_inset
+
+ - מספיק להראות שוקטור אורתוגונלי לבסיס כדי להראות שהוא אורתוגונלי לכל המרחב
+ הנפרש.
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $12.2.4$
+\end_inset
+
+- האוסף המשלים הוא קבוצת כל הוקטורים האורתוגונליים.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.2.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- האוסף המשלים הוא תת-מרחב.
+\end_layout
+
+\begin_layout Standard
+הערה ב'- 
+\begin_inset Formula $K^{\perp}=Sp(K)^{\perp}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $12.2.6$
+\end_inset
+
+- המשלים של מרחב האפס הוא 
+\begin_inset Formula $\kaliReal^{n}$
+\end_inset
+
+, ולהיפך.
+\end_layout
+
+\begin_layout Standard
+טענה 
+\begin_inset Formula $12.3.1$
+\end_inset
+
+ - מרחב הפתרונות מתלכד עם המשלים האורתוגונלי של מרחב השורות של A.
+ משמעות:יהי 
+\begin_inset Formula $U=Sp\left(u_{1}..u_{k}\right)$
+\end_inset
+
+ תת מרחב של 
+\begin_inset Formula $F^{n}$
+\end_inset
+
+.
+ כדי למצוא את 
+\begin_inset Formula $U^{\perp}$
+\end_inset
+
+, יש למצוא קבוצה פורשת של וקטור כללי 
+\begin_inset Formula $v=\left(x,y,..\right)$
+\end_inset
+
+ כך ש 
+\begin_inset Formula $v\cdot u_{i}=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $12.3.2$
+\end_inset
+
+- 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\kaliReal^{n}=U\oplus U^{\perp}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\left(U^{\perp}\right)^{\perp}=U$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+עמוד 253 - היטל אורתוגונלי - אם 
+\begin_inset Formula $a=u+v$
+\end_inset
+
+ )
+\begin_inset Formula $a\in V,u\in U,v\in U^{\perp}$
+\end_inset
+
+( אז 
+\begin_inset Formula $u$
+\end_inset
+
+ הוא ההיטל.
+\end_layout
+
+\begin_layout Standard
+הגדרה 
+\begin_inset Formula $12.4.1$
+\end_inset
+
+- קבוצה אורתוגונלית )כל הוקטורים אורותוגונליים(, אורתונורמלית )אורתוגונליים
+ ועם נורמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+(, הגדרת 
+\begin_inset Formula $\delta_{ij}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+256
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- נירמול, וקטור יחידה.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.4.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- קבוצה אורתוגונלית מנורמלת פורשת את אותו מרחב כמו האורתוגונלית.
+\end_layout
+
+\begin_layout Standard
+משפט 
+\begin_inset Formula $12.4.2$
+\end_inset
+
+- כל קבוצה אורתוגונלית היא בת
+\begin_inset Quotes erd
+\end_inset
+
+ל.
+\end_layout
+
+\begin_layout Standard
+שאלה 
+\begin_inset Formula $12.4.4$
+\end_inset
+
+ב- אם ננרמל וקטורי בסיס אורתוגונלי נקבל בסיס אורתונורמלי
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.4.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- נסתכל על בסיס אורתונורמלי ווקטורים כלשהם.
+ מתקיים:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $a=\sum\left(a\cdot u_{i}\right)u_{i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $a\cdot b=\sum\left(a\cdot u_{i}\right)\left(b\cdot u_{i}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Vert a\Vert^{2}=\sum\left(a\cdot u_{i}\right)^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.4.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הוכחה שבסיס הוא אורתונורמלי )מקיים את אחת מהתכונות במשפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.4.4
+\numeric off
+(.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.4.10
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כללים עבור בסיס אורתוגונלי של משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.4.4
+\numeric off
+.
+\end_layout
+
+\begin_layout Standard
+מסקנה 
+\begin_inset Formula $12.4.6$
+\end_inset
+
+- היטל אורתוגונלי של a על U עבור בסיס אורתוגונלי הוא הוקטור 
+\begin_inset Formula $\sum\frac{a\cdot u_{i}}{\Vert u_{i}\Vert^{2}}u_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.5.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- גרם שמידט - עבור כל בסיס כלשהו קיים בסיס אורתוגונלי וקיים אורתונורמלי.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $u_{i+1}^{\ast}=u_{i+1}-\sum\frac{u_{i+1}\cdot u_{p}^{\ast}}{\Vert u_{p}^{\ast}\Vert}u_{p}^{\ast}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+עמוד 
+\begin_inset Formula $269$
+\end_inset
+
+ - אפשר להכפיל את כל איבר בבסיס אורתוגונלי כדי להימנע משברים.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.5.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם נבצע את תהליך גרם-שמידט על קבוצה ת
+\begin_inset Quotes erd
+\end_inset
+
+ל נקבל מתישהו וקטור
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+.
+ כדי לקבל בסיס אפשר פשוט להמשיך לאיבר הבא.
+\end_layout
+
+\begin_layout Standard
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.5.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כל קבוצה אורתוגונלית ניתנת להשלמה לבסיס אורתוגונלי.
+ הוקטורים שהתווספו פורשים את המרחב המשלים לקבוצה המקורית.
+\end_layout
+
+\begin_layout Subsection
+טענות עזר )לא לציטוט(
+\end_layout
+
+\begin_layout Subsubsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+יהיו 
+\begin_inset Formula $U,W$
+\end_inset
+
+ תת מרחבים לינאריים של מרחב 
+\begin_inset Formula $V$
+\end_inset
+
+.
+ נוכיח שמתקיים 
+\begin_inset Formula $\left(U+W\right)^{\perp}=U^{\perp}\cap W^{\perp}$
+\end_inset
+
+ וגם 
+\begin_inset Formula $U+W=\left(U^{\perp}\cap W^{\perp}\right)^{\perp}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+נתחיל בלהראות שמתקיים 
+\begin_inset Formula $\left(U+W\right)^{\perp}\subseteq U^{\perp}\cap W^{\perp}$
+\end_inset
+
+.
+ יהי 
+\begin_inset Formula $v\in\left(U+W\right)^{\perp}$
+\end_inset
+
+.
+ וקטור זה אורתוגונלי לכל איבר ב-
+\begin_inset Formula $U+W$
+\end_inset
+
+, ובפרט הוא אורתוגונלי לכל איבר ב-ֹ
+\begin_inset Formula $U$
+\end_inset
+
+ ולכל איבר ב-
+\begin_inset Formula $W$
+\end_inset
+
+ )זאת כיוון שמרחבים אלה מוכלים ב-
+\begin_inset Formula $U+W$
+\end_inset
+
+(.
+ לפיכך, 
+\begin_inset Formula $v\in U^{\perp}$
+\end_inset
+
+ וגם 
+\begin_inset Formula $v\in W^{\perp}$
+\end_inset
+
+, כלומר 
+\begin_inset Formula $v\in U^{\perp}\cap W^{\perp}$
+\end_inset
+
+.
+ ובכך הוכחנו את הכיוון הראשון.
+\end_layout
+
+\begin_layout Standard
+כעת נראה ש- 
+\begin_inset Formula $U^{\perp}\cap W^{\perp}\subseteq\left(U+W\right)^{\perp}$
+\end_inset
+
+.
+ יהי 
+\begin_inset Formula $v\in U^{\perp}\cap W^{\perp}$
+\end_inset
+
+.
+ נסתכל על וקטור 
+\begin_inset Formula $v'\in U+W$
+\end_inset
+
+.
+ וקטור זה מוגדר בצורה 
+\begin_inset Formula $v'=u+w$
+\end_inset
+
+ כך ש 
+\begin_inset Formula $u\in U$
+\end_inset
+
+ ו-
+\begin_inset Formula $w\in W$
+\end_inset
+
+.
+ מכאן נובע שהמכפלה 
+\begin_inset Formula $v\cdot v'$
+\end_inset
+
+ היא: 
+\begin_inset Formula $v\cdot v'=v\left(u+w\right)=vu+vw$
+\end_inset
+
+.
+ מכיוון ש-
+\begin_inset Formula $v$
+\end_inset
+
+ שייך ל-
+\begin_inset Formula $U^{\perp}$
+\end_inset
+
+ אז 
+\begin_inset Formula $vu=0$
+\end_inset
+
+ ומכיוון ש-
+\begin_inset Formula $v$
+\end_inset
+
+ שייך ל-
+\begin_inset Formula $W^{\perp}$
+\end_inset
+
+ אז 
+\begin_inset Formula $vw=0$
+\end_inset
+
+.
+ נסיק מכך ש-
+\begin_inset Formula $vv'=0$
+\end_inset
+
+, זאת אומרת ש-
+\begin_inset Formula $v'$
+\end_inset
+
+ אורתוגונלי לכל וקטור ב-
+\begin_inset Formula $U+W$
+\end_inset
+
+.
+ לכן הוא שייך ל-
+\begin_inset Formula $\left(U+W\right)^{\perp}$
+\end_inset
+
+.
+ ובכך הוכחנו את הכיוון השני.
+\end_layout
+
+\begin_layout Standard
+לסיכום הוכחנו ש- 
+\begin_inset Formula $\left(U+W\right)^{\perp}=U^{\perp}\cap W^{\perp}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+הטענה השניה מתקבלת אם ניקח את השיוויון הנ
+\begin_inset Quotes erd
+\end_inset
+
+ל ונמצא את האורתוגונלי של כל צד בשיוויון, בצירוף העובדה ש-
+\begin_inset Formula $\left(U^{\perp}\right)^{\perp}=U$
+\end_inset
+
+ )משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.3.2
+\numeric off
+(.
+\end_layout
+
+\begin_layout Standard
+, 
+\series bold
+מ.ש.ל.
+\end_layout
+
+\begin_layout Section
+שונות
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left(-1\right)^{x}=\frac{1}{\left(-1\right)^{x}}=\left(-1\right)^{-x}$
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

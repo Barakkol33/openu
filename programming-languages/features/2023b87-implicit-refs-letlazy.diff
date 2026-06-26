@@ -1,0 +1,93 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -19,7 +19,13 @@
+       (proc proc?))
+     (ref-val
+       (ref reference?))
++    (lazy-val
++      (lazy lazy?))
+     )
++
++  (define-datatype lazy lazy?
++    (lazy1 (rator expression?) (rand expression?) (env environment?))
++  )
+ 
+ ;;; extractors:
+ 
+--- a/interp.scm
++++ b/interp.scm
+@@ -39,7 +39,26 @@
+ 
+         ;\commentbox{ (value-of (var-exp \x{}) \r)
+         ;              = (deref (apply-env \r \x{}))}
+-        (var-exp (var) (deref (apply-env env var)))
++        (var-exp (var)
++          (let
++            (
++              (v1 (deref (apply-env env var)))
++            )
++            (cases expval v1
++              (lazy-val (lz)
++                (cases lazy lz
++                  (lazy1 (rator rand env2)
++                    (apply-procedure
++                      (expval->proc (value-of rator env2))
++                      (value-of rand env2)
++                    )
++                  )
++                )
++              )
++              (else v1)
++            )
++          )
++        )
+ 
+         ;\commentbox{\diffspec}
+         (diff-exp (exp1 exp2)
+@@ -67,9 +86,18 @@
+ 
+         ;\commentbox{\ma{\theletspecsplit}}
+         (let-exp (var exp1 body)
+-          (let ((v1 (value-of exp1 env)))
+-            (value-of body
+-              (extend-env var (newref v1) env))))
++          (let
++            (
++              (v1
++                (cases expression exp1
++                  (call-exp (rator rand) (lazy-val (lazy1 rator rand env)))
++                  (else (value-of exp1 env))
++                )
++              )
++            )
++            (value-of body (extend-env var (newref v1) env))
++          )
++        )
+ 
+         (proc-exp (var body)
+           (proc-val (procedure var body env)))
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,22 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;; note - only a CALL rhs in a let is made lazy (deferred as a thunk); it is forced \
++      ;; note - the first time the bound var is read. Other rhs forms bind eagerly as usual.
++      ;; note - (1 2) errors if forced (1 is not a proc), so returning 10 proves x was never \
++      ;; note - forced. The deferred thunk captures the env at the let, not the use site.
++      (lazy-unused-not-forced-put-in-preview "let x = (1 2) in 10" 10)
++      (lazy-used-is-forced    "let x = (1 2) in x" error)
++      (lazy-yields-value-put-in-preview "let f = proc(y) -(y,1) in let x = (f 5) in x" 4)
++      (lazy-used-in-arith
++        "let inc = proc(y) -(y,-1) in let x = (inc 9) in -(x,1)" 9)
++      (lazy-used-twice
++        "let f = proc(y) -(y,1) in let x = (f 10) in -(x,x)" 0)
++      ;; the deferred call captures the env AT THE let, not where it's forced
++      (lazy-captures-let-env
++        "let a = 100 in let x = (proc(y) -(y,a) 10) in let a = 1 in x" -90)
++      ;; non-call RHS still binds eagerly, as before
++      (lazy-noncall-rhs-eager "let x = -(3,1) in x" 2)
++
+       ))
+   )

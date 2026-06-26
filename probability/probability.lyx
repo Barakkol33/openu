@@ -1,0 +1,6569 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+% Necessary Commands:
+\usepackage{autobreak}
+\usepackage[T1]{fontenc}
+\usepackage{relsize}
+% Set vertical space before and after dislpay equations to be longer for better redability:
+\AtBeginDocument{\setlength\abovedisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+
+% Set space between words to be wider:
+\spaceskip=1.3\fontdimen2\font plus 1\fontdimen3\font minus 1.5\fontdimen4\font
+
+% Convert the Lyx colors into more pleasent colors:
+\usepackage{xcolor}
+\definecolor{blue}{RGB}{12,97,197}
+\definecolor{green}{RGB}{0,128,40}
+\definecolor{red}{RGB}{235,16,16}
+\definecolor{brown}{RGB}{154,58,0}
+\definecolor{orange}{RGB}{231,135,26}
+\definecolor{purple}{RGB}{94,53,177}
+
+% Convert the QED Symbol at the end of proofs to a solid black square (credit: Yakir Oz):
+\usepackage{amssymb}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Make the layout more similar to Hebrew Article, which I am more used to:
+\renewcommand*{\@seccntformat}[1]{\hspace{0.5cm}\csname the#1\endcsname\hspace{0.5cm}} 
+\usepackage{titlesec}
+\titleformat{\section}{\fontsize{20}{20}\bfseries}{\thesection}{10pt}{}
+\titleformat{\subsection}{\fontsize{15}{15}\bfseries}{\thesubsection}{10pt}{}
+\titleformat{\subsubsection}{\bfseries}{\thesubsubsection}{10pt}{}
+
+% Correct the reversed parentheses in labels:
+\usepackage{polyglossia}
+\setmainlanguage{hebrew}
+\newfontfamily{\hebrewfont}{David}
+\makeatletter
+\def\maketag@@@#1{\hbox{\m@th\normalfont\LRE{#1}}}
+\def\tagform@#1{\maketag@@@{(\ignorespaces#1\unskip)}}
+\makeatother
+
+% Create disjoint union symbols:
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+
+
+\newcommand{\kaliLargeLand}{\mathop{\mathlarger{\mathlarger{\mathlarger{\land}}}}}
+\newcommand{\hebtext}[1]{\mbox{\R{\#1}}}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+\end_modules
+\maintain_unincluded_children false
+\begin_local_layout
+Style Section
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size       Larger
+	  Series     Bold
+	EndFont
+	TocLevel 1
+End
+
+
+Style Section*
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size      Larger
+	  Series     Bold
+	EndFont
+End
+
+
+Style Solution
+
+	LabelString           "פיתרון: "
+End
+
+
+Style Notation
+
+	LabelString           "סימון  \thetheorem: "
+End
+
+Style Theorem
+
+	LabelString           "משפט \thetheorem: "
+End
+
+Style Property
+
+	LabelString           "תזכורת: "
+End
+\end_local_layout
+\language hebrew
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "David"
+\font_sans "default" "David"
+\font_typewriter "default" "David"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 2cm
+\rightmargin 1cm
+\bottommargin 3cm
+\headheight 0cm
+\headsep 0cm
+\footskip 2cm
+\secnumdepth -2
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation 0bp
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/barak/files/lyx/MacrosStandard.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Doublebox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "20pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\paragraph_spacing double
+\align center
+
+\series bold
+\size huge
+הסתברות סיכום
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+#לעשות
+\end_layout
+
+\begin_layout Itemize
+חשוב
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+6.7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+התפלגות משותפת של פונקציות של משתנים מקריים - להבין יותר טוב
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+447
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- למה השאלה כמה טוב אפשר להעריך הסתברות של משתנה תלויה בהתפלגותו?
+\end_layout
+
+\begin_layout Itemize
+האם יש טעות בהגדרת החוק החלש?
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+נחמד
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+קורס קומבי שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4.15
+\numeric off
+, אי סדר מלא
+\end_layout
+
+\begin_layout Itemize
+התפלגות חי בריבוע
+\end_layout
+
+\begin_layout Itemize
+עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+304
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+פסקה לפני סוף הפרק
+\end_layout
+
+\begin_layout Itemize
+לעבור על הספר ולסכם דוגמאות מעניינות
+\end_layout
+
+\begin_layout Itemize
+סטטיסטי סדר 
+\end_layout
+
+\begin_layout Itemize
+משתנים מקרים חליפיים
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מ
+\numeric on
+11
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+להבין )מביוס(
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מ
+\numeric on
+24
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+להבין
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מ
+\numeric on
+62
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+להבין )זוגות סביב שולחן(
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ ת
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6
+\numeric off
+, ת
+\numeric on
+10
+\numeric off
+, ת
+\numeric on
+14
+\numeric off
+ 
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- סיכוי למיתר קטן מצלע משו
+\begin_inset Quotes erd
+\end_inset
+
+ש - איך זה הגיוני שיש שני פתרונות שונים לבעיה?
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לא הבנתי דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\numeric off
+ז )אבל היא גם מסובכת ונישתית(
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\numeric off
+יט )לא הבנתי עד הסוף(,
+\end_layout
+
+\begin_layout Itemize
+ממן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+13
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+ג - למה אם מחלקים התפלגות פואסונית יוצא התפלגות בינומית?
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\numeric off
+ב,ג,ד - לא לגמרי הבנתי
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+למידה למבחן
+\end_layout
+
+\begin_layout Itemize
+הכלה והפרדה
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\end_layout
+
+\begin_layout Itemize
+בינום - 
+\begin_inset Formula $\text{\ensuremath{\sum_{i=0}^{n}{n \choose i}x^{i}y^{n-i}}}$
+\end_inset
+
+
+\begin_inset Formula $\left(x+y\right)^{n}=$
+\end_inset
+
+, מולטינום - 
+\begin_inset Formula $\sum_{n_{1}+...+n_{r}=n}{n \choose n_{1},...,n_{r}}x^{n_{1}}...x_{r}^{n_{r}}$
+\end_inset
+
+
+\begin_inset Formula $\left(x_{1}+...+x_{r}\right)^{n}=$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+להסתכל גם על הסיכום של בדידה.
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+40
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+-
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+כדורים לבנים,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+שחורים,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ רוצים להוציא 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+לבנים ושחור -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+דרכים - או שמרכיבים כל אפשרות או שמתייחסים לבעיה כבעיה לא סדורה ומחלקים
+ את כמות האפשרויות שמתאימות למקרה בכמות האפשרויות הכוללת )שתיהן לא סדורות(.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+41
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מוציאים 
+\begin_inset Formula $k$
+\end_inset
+
+ כדורים מתוך 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ הסיכוי להוצאי כדור כלשהו בהוצאה 
+\begin_inset Formula $A_{i}$
+\end_inset
+
+ היא 
+\begin_inset Formula $\frac{k'}{n}$
+\end_inset
+
+, הסבר
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+למה הסיכוי להוציא כדור מסוים בהוצאה 
+\begin_inset Formula $A_{i}$
+\end_inset
+
+ הוא 
+\begin_inset Formula $\frac{1}{n}$
+\end_inset
+
+?
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+42-57
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+דוגמאות
+\end_layout
+
+\begin_layout Itemize
+יש תוצאות מפתיעות!
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הסתברות שמתכנסת ל-
+\begin_inset Formula $e^{-1}$
+\end_inset
+
+ ולא ל-
+\numeric on
+1
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+51
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הסתברות שווה לנצח במשך כל העונה למרות שמספר הפסדים ונצחונות משתנה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+לא תמיד אפשר לחלק מספר אפשרויות אחד בכולל - לדוגמה אם יש
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ כדורים זהים אפשר לשים בשני תאים, יש לכאורה 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אפשרויות לסדר אבל בפועל הסתברותית מסתכלים על זה כ
+\numeric on
+4
+\numeric off
+, כלומר כמו בעיה של כדורים שונים.
+\end_layout
+
+\begin_layout Itemize
+אם יש חשיבות לסדר )לדוגמה הקלף הראשון שמוציאים הוא לבן והאחרים שחורים( אז
+ אי אפשר להשתמש בשיטה של חילוק אפשרויות 
+\begin_inset Quotes eld
+\end_inset
+
+בחירה
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+אפשר להסתכל על שליפה רנדומלית מכד בתור לקחת את הראשון ואז ההסתברות היא מספר
+ האפשרויות למקרה חלקי המספר הכולל )חישוב קלאסי(
+\end_layout
+
+\begin_layout Itemize
+הסתברות כמידת אמונה - לפעמים לאדם יש אמונה לא מוסברת עובדתית שאירועים מסוימים
+ יקרו או לא יקרו בהסתברות מסוימת.
+ אפשר כניסוי לקחת את זה כעובדה ולהמשיך הלאה.
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\end_layout
+
+\begin_layout Itemize
+להשתמש באינטואיציה, אבל גם לדעת את המגבלות שלה - לדוגמה אם נתון שיש שני
+ ילדים ואחד מהם בן ושואלים מה ההסתברות שהשני הוא בת, התשובה היא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2/3
+\numeric off
+.
+ זה כי יש
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אופציות ואחת נפסלת, ויש שתי אופציות שבהן אחד מהילדים הוא בן והשני הוא בת.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם ידוע משהו על הסדר )מ
+\numeric on
+8
+\numeric off
+( אז כן ההסתברות היא חצי-חצי.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מ
+\numeric on
+70
+\end_layout
+
+\begin_layout Itemize
+מ
+\numeric on
+72
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\end_layout
+
+\begin_layout Itemize
+תוחלת היא ה
+\begin_inset Quotes erd
+\end_inset
+
+מומנט הראשון
+\begin_inset Quotes erd
+\end_inset
+
+ של משתנה, המומנט ה-
+\begin_inset Formula $n$
+\end_inset
+
+-י נראה ככה: 
+\begin_inset Formula $\sum x^{n}p\left(x\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+משתנה פואסוני
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם אנו יודעים שיש תהליך פואסון בזמן 
+\begin_inset Formula $t$
+\end_inset
+
+ וצריך לחשב אירוע עבור מכפל של הזמן, אפשר להכפיל את פרמטר הפואסון.
+ )עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+87
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+במדריך הלמידה( )לדוגמה אם נתון קצב יומי 
+\begin_inset Formula $\lambda=3$
+\end_inset
+
+ וצריך לחשב הסתברות של 
+\begin_inset Formula $i=20$
+\end_inset
+
+ לשבוע אפשר להניח שהקצב לשבוע הוא 
+\begin_inset Formula $\lambda=7\cdot3=21$
+\end_inset
+
+ ולכן ההסתברות היא 
+\begin_inset Formula $P\left\{ i=20\right\} =e^{-21}\frac{21^{20}}{20!}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $P\left\{ X\geq n\right\} =1-P\left\{ X\leq n\right\} =1-F\left(n\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+פונקציית ההתפלגות המצטברת - ניתן לפתח באמצעות נוסחת נסיגה 
+\begin_inset Formula $\frac{P\left\{ X=i+1\right\} }{P\left\{ X=i\right\} }=\frac{\lambda}{i+1}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משתנה גיאומטרי
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לפחות 
+\begin_inset Formula $k$
+\end_inset
+
+ ניסויים - 
+\begin_inset Formula $p\cdot\sum_{k}^{\infty}\left(1-p\right)^{n-1}$
+\end_inset
+
+ או 
+\begin_inset Formula $\left(1-p\right)^{k-1}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משתנה היפר גיאומטרי
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אמידות נראות מרבית - לוכדים כמה בעלי חיים בשטח מסוים רנדומלית ומשתמשים בהסתברות
+ כדי להעריך כמה יש.
+\begin_inset Newline newline
+\end_inset
+
+אפשר היה גם להעריך שהיחס 
+\begin_inset Formula $\frac{m}{N}$
+\end_inset
+
+ בלכידה הראשונה דומה ליחס 
+\begin_inset Formula $\frac{i}{n}$
+\end_inset
+
+ בלכידה השנייה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+התפלגות זתא - 
+\begin_inset Formula $P\left\{ X=k\right\} =\frac{C}{k^{\alpha+1}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+ת
+\numeric on
+4
+\numeric off
+, ת
+\numeric on
+6
+\numeric off
+, ת
+\numeric on
+8
+\numeric off
+, ת
+\numeric on
+13
+\numeric off
+, ת
+\numeric on
+20
+\numeric off
+ )לקרוא גם את שאר התרגילים(
+\end_layout
+
+\begin_layout Itemize
+הערה - 
+\begin_inset Formula $E\left[\left(X-\mu\right)^{2}\right]=E\left[X^{2}\right]-2\mu E\left[X\right]+\mu^{2}=E\left[X^{2}\right]-\left(E\left[X\right]\right)^{2}=\sigma^{2}=Var\left(X\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\end_layout
+
+\begin_layout Subsection
+מבוא
+\end_layout
+
+\begin_layout Itemize
+ההסתברות לקבל ערך ספציפי היא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+, אם רוצים אפשר לבדוק את השטח בקטע 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ כלשהו.
+\end_layout
+
+\begin_layout Subsection
+משתנה מקרי נורמלי
+\end_layout
+
+\begin_layout Itemize
+שיטות הערכה 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אינטרפולציה - אם צריך למצוא עבור ערך 
+\begin_inset Formula $y_{1}$
+\end_inset
+
+ נתון ערך 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ עבורו 
+\begin_inset Formula $\Phi\left(x_{1}\right)=y_{1}$
+\end_inset
+
+ )או ההפך( אפשר לקחת נקודות קרובות בטבלה ולעשות 
+\begin_inset Formula $\frac{y_{1}-y_{2}}{x_{1}-x_{2}}=\frac{y_{3}-y_{2}}{x_{3}-x_{2}}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+עבור ערך שלילי לעשות 
+\begin_inset Formula $1-\Phi\left(-z\right)=\Phi\left(z\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+לחפש בין שני ערך 
+\begin_inset Formula $\Phi\left(z\right)$
+\end_inset
+
+ ולבחור את הערך הכי קרוב אם הערך גדול מ-
+\numeric on
+0.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)אם קטן אז לחשב את 
+\begin_inset Formula $1-\Phi\left(-z\right)$
+\end_inset
+
+( )למה רק מעל חצי?(
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+פונקציית סיכון
+\end_layout
+
+\begin_layout Itemize
+פונקציית סיכון - 
+\begin_inset Formula $\lambda\left(t\right)=\frac{f\left(t\right)}{\overline{F}\left(t\right)}=\frac{f\left(t\right)}{1-F\left(t\right)}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+פונקצית הסיכון של משתנה מעריכי היא קבועה, בגלל תכונת חוסר הזיכרון
+\end_layout
+
+\begin_layout Itemize
+פונקציית הסיכון קובעת בצורה חח
+\begin_inset Quotes erd
+\end_inset
+
+ע את פונקציית ההתפלגות המצטברת
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+סוגי התפלגויות נוספים
+\end_layout
+
+\begin_layout Itemize
+גמא
+\end_layout
+
+\begin_layout Itemize
+וייבול
+\end_layout
+
+\begin_layout Itemize
+קושי
+\end_layout
+
+\begin_layout Itemize
+ביתא
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6
+\end_layout
+
+\begin_layout Itemize
+משוואה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $P\left\{ a_{1}<X\leq a_{2},b_{1}<Y\leq b_{2}\right\} =F\left(a_{1},b_{1}\right)+F\left(a_{2},b_{2}\right)-F\left(a_{1},b_{2}\right)-F\left(a_{2},b_{1}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+פונקציית הסתברות שולית בדידה - סכום של משתנה אחד כאשר השני קבוע )שולית כי
+ היא נרשמת כסכום של שורות/עמודות טבלת הסתברות(.
+\end_layout
+
+\begin_layout Itemize
+התפלגות משותפת רציפה - אם קיימת פונקציה אי שלילית 
+\begin_inset Formula $f\left(x,y\right)$
+\end_inset
+
+ עבור כל זוג מספריים ממשיים אז 
+\begin_inset Formula $P\left(\left(X,Y\right)\in C\right)=\int\int f\left(x,y\right)dxdy$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $P\left\{ a<X<a+da,b<Y<b+db\right\} =\int\int f\left(x,y\right)=f\left(a,b\right)dadb$
+\end_inset
+
+ - 
+\begin_inset Formula $f$
+\end_inset
+
+ היא מידה לסבירות שוקטור מקרי יהיה קרוב לערך מסוים.
+\end_layout
+
+\begin_layout Itemize
+פונקציית הסתברות שולית רציפה - 
+\begin_inset Formula $f_{X}\left(x\right)=\int_{-\infty}^{\infty}f\left(x,y\right)dy$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+ג: 
+\begin_inset Formula $P\left\{ X<Y\right\} =\int_{0}^{\infty}\int_{0}^{y}f\left(x,y\right)dxdy$
+\end_inset
+
+, 
+\begin_inset Formula $P\left\{ X<a\right\} =\int_{0}^{a}\int_{0}^{\infty}f\left(x,y\right)dydx=...=g\left(a\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\numeric off
+א - בסכום משתנים רציפים לשים לב שסוכמים את 
+\begin_inset Formula $y$
+\end_inset
+
+ ב-
+\begin_inset Formula $\left(-\infty,\infty\right)$
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- סכום משתני גמא הוא גם משתנה גמא )טענות נוספות בסיכום הקורס(
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $f_{X|Y}\left(x|y\right)dx=P\left\{ x\leq X\leq x+dx|y\leq Y\leq y+dy\right\} $
+\end_inset
+
+ - הגודל הוא קירוב להסתברות המותנית ש-
+\begin_inset Formula $X$
+\end_inset
+
+ קרוב ל-
+\begin_inset Formula $x$
+\end_inset
+
+ בתנאי ש-
+\begin_inset Formula $Y$
+\end_inset
+
+ קרוב ל-
+\begin_inset Formula $y$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+התפלגות מותנית בדידה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+פונקציה של 
+\begin_inset Formula $x,y$
+\end_inset
+
+ כאשר 
+\begin_inset Formula $y$
+\end_inset
+
+ הוא מעין פרמטר.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+התפלגות מותנית רציפה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הגדרת פונקציית הסתברות / התפלגות מצטברת לפי אינטגרל של ההתפלגות 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $f_{X|Y}\left(x|y\right)=\frac{f\left(x,y\right)}{f_{Y}\left(y\right)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+כדי למצוא את 
+\begin_inset Formula $f_{Y}$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - 
+\begin_inset Formula $\int_{-\infty}^{\infty}f\left(x|y\right)dx$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $F_{X|Y}\left(a|y\right)=P\left\{ X\leq a\right\} =\int_{-\infty}^{a}f_{X|Y}\left(x|y\right)dx$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+303
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אפשר גם להגדיר פונקציית התפלגות
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משוואות
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.4,6.5
+\numeric off
+, דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\numeric off
+ג - 
+\begin_inset Formula $\int_{0}^{1}p^{i}\left(1-p\right)^{n-i}dp=\frac{i!\left(n-i\right)!}{\left(n+1\right)!}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+סטטיסטי סדר
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הגדרה - הערכים הסדורים של קבוצת ערכים בלתי תלויים ושווי התפלגות.
+\end_layout
+
+\begin_layout Itemize
+בפועל - צריך שקבוצת ערכים תקבל איזושהי קומבינציה של קבוצת הערכים.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $f_{X_{\left(1\right)},...X_{\left(n\right)}\left(x_{1},...,x_{n}\right)}=n!f\left(x_{1}\right)\cdot...\cdot f\left(x_{n}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6
+\numeric off
+א -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אנשים שממוקמים אקראית לאורך כביש 
+\begin_inset Formula $\int_{0}^{1-2d}\int_{x_{1}+d}^{1-d}\int_{x_{2}+d}^{1}3!dx_{3}dx_{2}dx_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+פונקציית הצפיפות של 
+\begin_inset Formula $X_{j}$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)הסיכוי שהערך במקום מוגדר יהיה ערך מסוים( - 
+\begin_inset Formula $f_{X_{j}}\left(x\right)=\frac{n!}{\left(n-j\right)!\left(j-1\right)!}\left[F\left(x\right)\right]^{j-1}\left[1-F\left(x\right)\right]^{n-j}f\left(x\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+פונקציית התפלגות מצטברת - 
+\begin_inset Formula $F_{X_{j}}\left(x\right)=\sum_{k=j}^{n}{n \choose k}\left[F\left(x\right)\right]^{k}\left[1-F\left(x\right)\right]^{n-k}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+טווח מגדם - ההפרש בין הערך הכי גבוה לערך הכי נמוך שנמדד
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משתנים מקריים חליפיים 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הגדרה - משתנים שהתפלגותם המשותפת לא תלויה בסדר שבו הם מוגדרים.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+דרך להוכיח - למצוא את הפונקציה ולראות אם היא תלויה בסדר
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+למשתנים חליפיים כמובן יש את אותה ההתפלגות
+\end_layout
+
+\end_deeper
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\end_layout
+
+\begin_layout Itemize
+אם משתנה מקרי נמצא בטווח מסוים אז גם התוחלת שלו
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+7.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+תוחלת של סכום משתנים מקריים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אפשר באמצעות אינדיקטורים לחשב הסתברות בינומית, בינומית שלילית והיפרגיאומטרית
+\end_layout
+
+\begin_layout Itemize
+יש בעיות מעניינות בפרק, ודוגמאות לחישובים עם אינדיקטורים
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+7.3
+\numeric off
+ שונות משותפת, שונות של סכום, מתאם
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם 
+\begin_inset Formula $X,Y$
+\end_inset
+
+ בלתי תלויים - 
+\begin_inset Formula $E\left[g\left(X\right)h\left(Y\right)\right]=E\left[g\left(X\right)\right]E\left[h\left(Y\right)\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+ייתכן שהשונות המשותפת תהיה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אבל המשתנים לא בלתי תלויים, סתם אם המספרים מבטלים זה את זה
+\end_layout
+
+\begin_layout Itemize
+מקדם המתאם - מתאר את מידת הלינאריות של הקשר בין המשתנים 
+\begin_inset Formula $X$
+\end_inset
+
+ ו-
+\begin_inset Formula $Y$
+\end_inset
+
+.
+ ככל שהוא קרוב ל
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+או 
+\begin_inset Formula $-1$
+\end_inset
+
+ אז סימן שהם לינאריים )ועולים/יורדים ביחד או לא(.
+ אם
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אז הם בלתי מתואמים.
+\end_layout
+
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\numeric off
+ו - במקרה של מדגם של משתנים נורמליים זהים ובלתי תלויים אז אין התאמה בין
+ הממוצע לסטייה מהממוצע.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+7.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+תוחלת מותנית
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+דברים שכבר רשומים בסיכום אבל מסביר במילים שלי:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $E\text{\left[X|Y\right]}$
+\end_inset
+
+ הוא בעצם לקחת את כל ההסתברויות של 
+\begin_inset Formula $X$
+\end_inset
+
+ בהנחה ש-
+\begin_inset Formula $Y=y$
+\end_inset
+
+ - פונקציה של 
+\begin_inset Formula $y$
+\end_inset
+
+.
+ 
+\begin_inset Formula $E\left[E\left[X|Y\right]\right]$
+\end_inset
+
+ מסתכל על כל ערכי ה
+\begin_inset Formula $y$
+\end_inset
+
+ לכן הוא פונקציה של 
+\begin_inset Formula $X$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\numeric off
+יג -
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $E\left[N\left(Y\right)|Y=t\right]=E\left[N\right]=\lambda t=\lambda Y$
+\end_inset
+
+ - 
+\begin_inset Formula $N,Y$
+\end_inset
+
+ בלתי תלויים לכן התוחלת היא פשוט של 
+\begin_inset Formula $N$
+\end_inset
+
+ והוא פואסוני ומוכפל בהתאם לזמן )
+\begin_inset Formula $Y$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Var\left(E\left[N\left(Y\right)|Y\right]\right)=Var\left(\lambda Y\right)=\left(\lambda\right)^{2}\cdot Var\left(Y\right)=\lambda^{2}\frac{T^{2}}{12}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\numeric off
+יד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - שונות סכום מספר מקרי של משתנים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $Var\left(X\right)=Var\left(\sum^{N}X\right)=E\left[Var\left(\sum X|N\right)\right]+Var\left(E\left[\sum X|N\right]\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+קודם מתייחסים ל-
+\begin_inset Formula $X$
+\end_inset
+
+, 
+\begin_inset Formula $N$
+\end_inset
+
+ קבוע.
+ ה-
+\begin_inset Formula $X$
+\end_inset
+
+ים בלתי תלויים בו לכן 
+\begin_inset Formula $E\left[\sum X\right]=NE\left[X\right]$
+\end_inset
+
+ וגם עם התוחלת.
+\end_layout
+
+\begin_layout Itemize
+לאחר מכן עושים תוחלת/שונות על 
+\begin_inset Formula $N$
+\end_inset
+
+ - פה ה-
+\begin_inset Formula $X$
+\end_inset
+
+ים קבועים לכן 
+\begin_inset Formula $Var\left(NE\left[X\right]\right)=\left(E\left[X\right]\right)^{2}Var\left(N\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+7.7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+תכונות נוספות של משתנים מקריים נורמליים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+טענה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- ממוצע המדגם 
+\begin_inset Formula $\overline{X}$
+\end_inset
+
+ ושונות המדגם 
+\begin_inset Formula $S^{2}$
+\end_inset
+
+ בלתי תלויים.
+ 
+\begin_inset Formula $\left(n-1\right)\frac{S^{2}}{\sigma^{2}}$
+\end_inset
+
+ הוא משתנה מקרי חי-בריבוע עם 
+\begin_inset Formula $n-1$
+\end_inset
+
+ דרגות חופש.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+7.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+הגדרה כללית של תוחלת
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ניתן להגדיר תוחלת למשתנים שבחלקם בדידים וחלקם רציפים.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8
+\end_layout
+
+\begin_layout Itemize
+עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+380
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- פתרון המשוואה 
+\begin_inset Formula $m\left(x\right)=1+\int_{0}^{x}m\left(u\right)du$
+\end_inset
+
+ הוא 
+\begin_inset Formula $m\left(x\right)=e^{x}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\numeric off
+ב - במקום לחשב טווח של משתנה פואסאוני אפשר להמיר להמון משתנים קטנים ולהשתמש
+ בגבול המרכזי
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- משפט הגבול המרכזי למשתנים בלתי תלויים )אבל לא בהכרח שווי התפלגות(
+\end_layout
+
+\begin_layout Itemize
+שימוש במשפט הגבול המרכזי - אסטרונאוט רוצה לבצע מדידות ולהיות בטוח עד כדי
+ 
+\begin_inset Formula $0.5$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $P\left\{ -0.5<\overline{X}_{n}-d<0.5\right\} \Rightarrow P\left\{ -0.5\frac{\sqrt{n}}{2}<Z_{n}<0.5\frac{\sqrt{n}}{2}\right\} \Rightarrow...$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\numeric off
+ב - אם קשה להשיג תוצאה מספרית )לדוגמה 
+\begin_inset Formula $\sum_{i=0}^{100}Po\left(100\right)\left\{ i\right\} $
+\end_inset
+
+.
+ אפשר לפצל ל
+\numeric on
+100
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+משתנים עם תוחלת
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+: 
+\begin_inset Formula $P\left\{ X\geq120\right\} =P\left\{ X\geq119.5\right\} =P\left\{ \frac{X-100}{\sqrt{100}}\geq\frac{119.5-100}{\sqrt{100}}\right\} \approx P\left\{ Z\geq1.95\right\} =1-\Phi\left(1.95\right)\approx0.0256$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+ההבדל בין החוק החלש לחוק החזק - בחוק החלש ייתכן שעבור ערכים גדולים מ-
+\begin_inset Formula $n^{\ast}$
+\end_inset
+
+ הממוצע לא יהיה קרוב לתוחלת עד כדי אפסילון, בחזק כן.
+\end_layout
+
+\begin_layout Itemize
+מסקנה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אי שיוויון צ'בישב החד צדדי
+\end_layout
+
+\begin_layout Itemize
+אי שיוויון צ'רנוב, אי שיוויון ינסן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - ירד במיקוד
+\end_layout
+
+\begin_layout Itemize
+משתנה מקרי פואסוני כקירוב לסכום של ברנוליים - חסם לשגיאה
+\end_layout
+
+\begin_layout Section
+למידה למבחן
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+דוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\numeric off
+ד - לשים לב שהאינטגרל של פונקציית התפלגות צריך לצאת
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+, ולכן יהיה צריך להכפיל בקבוע.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $P\left\{ X+Y=n\right\} =\sum P\left\{ X=i,Y=n-i\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2024
+\numeric off
+ב
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+94
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2
+\numeric off
+ - מה ההסתברות שד,ה יופיעו לפני צ,ק? - אפשר להזניח את כל שאר האותיות ולהסתכל
+ רק על ה-
+\numeric on
+4
+\numeric off
+, יש רק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $2\cdot2=4$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אפשרויות כאלו לכן 
+\begin_inset Formula $\frac{4}{4!}=\frac{1}{6}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- פונקציה משותפת של פגיעה ראשונה ושלישית - הסתברות של פגיעה ראשונה כפול
+ הסתברות של שאר הפגיעות
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)לא סתם מכפלת הנוסחאות(
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+-
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+משתנה שמקבל התפלגות בהסתברות שונה - אפשר להגדיר משתנה שני 
+\begin_inset Formula $Y$
+\end_inset
+
+ ושיקבל ערכים 
+\begin_inset Formula $...1,2,3$
+\end_inset
+
+ בהתאם להסתברות.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2023
+\numeric off
+ב א
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ -
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+תוחלת מחיר
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+100
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אבטיחים - או שמפצלים לסכום 
+\numeric on
+100
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ משתנים בלתי תלויים, או שמגדירים 
+\begin_inset Formula $X_{1},X_{2},X_{3}$
+\end_inset
+
+ את כמות האבטיחים מכל סוג וכל אחד מהם הוא משתנה בינומי עם 
+\begin_inset Formula $n=100$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+שונות מחיר
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+100
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אבטיחים - פיצול ל
+\numeric on
+100
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+משתנים בלתי תלויים או התפלגות מולטינומית:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $Y=a_{1}X_{1}+a_{2}X_{2}+a_{3}X_{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Var\left(Y\right)=\sum Var\left(a_{i}X_{i}\right)+\sum Cov\left(a_{i}X_{i},a_{j}X_{j}\right)=\sum a_{i}^{2}\left(np_{i}\left(1-p_{i}\right)\right)+\sum a_{i}a_{j}\left(-np_{i}p_{j}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\numeric off
+ - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כדי לחשב זמן שייקח ללקוח שלישי להיכנס לחנות עם התפלגות פואסונית - 
+\begin_inset Formula $Y=Y_{1}+Y_{2}+Y_{3}=3Y_{i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+במשך
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+שעות יכנסו
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+112
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+לקוחות - סכום של
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+112
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+משתנים פואסוניים בלתי תלויים ומשפט הגבול המרכזי
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+-
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מה הסיכוי שמספר יהיה במיקום שלו - שימוש באינדיקטורים 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+חישוב שטח מתחת לפונקציית צפיפות - לפעמים הוא פשוט משולש.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2023
+\numeric off
+ב ב - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לזכור - 
+\begin_inset Formula $\sum_{0}^{\infty}\frac{x^{i}}{i!}=e^{x}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Var\left(3^{x}\right)=E\left[\left(3^{x}\right)^{2}\right]-\left(E\left[3^{x}\right]\right)^{2}=E\left[9^{x}\right]-\left(E\left[3^{x}\right]\right)^{2}=$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $Var\left(X\right)=\sum Var\left(X_{i}\right)+\sum Cov\left(X_{i},X_{j}\right)=np\left(1-p\right)+n\left(n-1\right)\left(E\left[X_{i}X_{j}\right]-E\left[X_{i}\right]E\left[X_{j}\right]\right)=np\left(1-p\right)+n\left(n-1\right)\left(P\left\{ X_{i}=1,X_{j}=1\right\} -p^{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+לשים לב שלפעמים צריך להשתמש בהכלה והפרדה בחישוב השונות
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - 
+\begin_inset Formula $P\left\{ X_{i}\cup X_{j}\right\} =P\left\{ X_{i}\right\} +P\left\{ X_{j}\right\} -P\left\{ X_{i}\cap X_{j}\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+4
+\numeric off
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+משתנה היפרגיאומטרי 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2023
+\numeric off
+א א
+\numeric on
+2
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+יכול לצאת תוחלת אינסופית במבחן )נובע מכשעושים אינטגרל(
+\end_layout
+
+\begin_layout Itemize
+אם צריך שממוצע יהיה גדול מערך מסוים - אי שיוויון צ'בישב
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+5
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מה ההסתברות לקבל מינימום
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\numeric off
+?
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Y|\left(X=k\right)\sim Bin\left(k,0.5\right)$
+\end_inset
+
+ - התוחלת היא פונקציה של 
+\begin_inset Formula $X$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2022
+\numeric off
+ג א
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם מבין 
+\begin_inset Formula $N$
+\end_inset
+
+ עצמים צריך שיהיה 
+\begin_inset Formula $n_{1},n_{2},n_{3}$
+\end_inset
+
+ סוגים שונים - התפלגות מולטינומית
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+5
+\numeric off
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מוציאים פתקים עד שמוצא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+או
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ עם החזרה 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- גיאומטרית עם 
+\begin_inset Formula $\frac{2}{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+הוצאת כל הפתקים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1,2,3,4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ עם החזרה
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ - להגדיר ארבעה משתנים )מספר הפתקים בין כל הוצאה( - התוחלת היא סכום התוחלות,
+ כל הסתברות היא 
+\begin_inset Formula $\frac{k-i}{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+הוצאה של פתקים ללא החזרה - מתפלג אחיד עם פרמטר 
+\begin_inset Formula $\frac{1}{n}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- תוחלת מותנית, שונות מותנית
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אי שיווניות, משפט הגבול המרכזי והחוק החזק.
+\end_layout
+
+\begin_layout Itemize
+דוגמה למשתנה מקרי אחיד - בוחרים ללא החזרה סדרת עצמים כאשר
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מיוחד עד לבחירת העצם המיוחד.
+ המשתנה הוא מספר הבחירות שנעשו.
+\end_layout
+
+\begin_layout Itemize
+התפלגות של פונקציה של משתנה מקרי )בדף הנוסחאות( - מתוך 
+\begin_inset Formula $F_{X}\left(\right)$
+\end_inset
+
+ מסתכלים על 
+\begin_inset Formula $P\left\{ \right\} $
+\end_inset
+
+ ואז מגיעים ל-
+\begin_inset Formula $F_{Y}\left(\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+צריך לשים לב אם 
+\begin_inset Formula $Y=g\left(X\right)$
+\end_inset
+
+ מונוטונית עולה או יורדת!
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2022
+\numeric off
+ב א
+\numeric on
+1
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- המשקל הכולל של
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+100
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+סלסילות כאשר כל אחד הוא נורמלי - מכפילים תוחלת ושונות ב-
+\numeric on
+100
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- שימוש באינדקטורים לחישוב תוחלת - להכפיל בכמות את התוחלת של אחד
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2022
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+א
+\numeric on
+2
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+תוחלת מספר קלפים לפני הלב ה-
+\numeric on
+13
+\numeric off
+: 
+\begin_inset Formula $X=13+\sum X_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $P\left\{ X_{i}\right\} =\frac{13}{14}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2015
+\numeric off
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\numeric off
+ג - פיזור
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+29
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+דסקיות בלוח
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+על
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+כך שתהיה לפחות שורה אחת - הכלה והפרדה עם
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1,2,3,4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+שורות.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+סימן מקדם המתאם חיובי אם שני משתנים גדלים ביחד, אם לא אז שלילי.
+\end_layout
+
+\begin_layout Itemize
+עושים מדגם של
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+כדורים מתוך
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- ההסתברות להשיג כדורים היא לדוגמה 
+\begin_inset Formula $\frac{{3 \choose i}{4 \choose 3-i}}{{9 \choose 3}}$
+\end_inset
+
+.
+ בנוסף כדי להשיג תוחלת מותנית צריך לחשב 
+\begin_inset Formula $E\left[X\right]=\sum xP\left(X=x|Y=y\right)=\sum x\frac{P\left\{ X=x,Y=y\right\} }{P\left\{ Y=y\right\} }$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- ככל שהשונות קטנה יותר כך גדלים הסיכויים שמדידת משתנה תהיה יותר קרובה לתוחלת
+ שלו.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+5
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לשים לב שאם שני מאורעות בלתי תלויים )לדוגמה שתי התפצלויות במעגל חשמלי( -
+ 
+\begin_inset Formula $P\left(A\cup B\right)=P\left(A\right)+P\left(B\right)-P\left(A\right)P\left(B\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+אם מחשבים הסתברות מותנית של שני מאורעות במאורע שלישי, ונתון ההסתברות המותנית
+ של אחד מהם, והם בלתי תלויים בשני, אז אפשר להפוך את הביטוי למכפלה של המאורע
+ השני בהסתברות המותנית הנתונה.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2020
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+א
+\numeric on
+1
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+פונקציית התפלגות מצטברות יכולה לקבל ערך מקסימלי
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לשים לב
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+3
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לפעמים מרחב המדגם בבחירה הוא 
+\begin_inset Formula $\frac{10^{3}}{3!}$
+\end_inset
+
+ בניגוד ל-
+\begin_inset Formula ${10 \choose 3}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Var\left(2X+4Y\right)=Var\left(3X\right)+Var\left(4Y\right)+Cov\left(3X,4Y\right)=Cov\left(3X+4Y,3X+4Y\right)$
+\end_inset
+
+ )אפשר גם עם פירוק ישירותת ל-
+\begin_inset Formula $Cov$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - מופיע בדף נוסחאות(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+4
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+בחירה של
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אחד מתוך שני עצמים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מיוחדים מתוך
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+20
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ללא החזרה - לחזור ולראות שהבנתי )מסתמך על סידור(.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2015
+\numeric off
+א
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם יש סכום 
+\begin_inset Formula $\sum p^{i}$
+\end_inset
+
+ - אפשר להפוך ל-
+\begin_inset Formula $\frac{1-p^{n}}{1-p}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_body
+\end_document

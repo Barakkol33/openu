@@ -1,0 +1,105 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -21,6 +21,16 @@
+       (cases program pgm
+         (a-program (exp1)
+           (value-of exp1 (init-env))))))
++
++  ;; coerce an expval to a Scheme boolean (a number is true iff > 0)
++  (define to-bool
++    (lambda (val)
++      (cases expval val
++        (num-val  (number)  (> number 0))
++        (bool-val (boolean) boolean)
++      )
++    )
++  )
+ 
+   ;; value-of : Exp * Env -> ExpVal
+   ;; Page: 71
+@@ -53,10 +63,9 @@
+ 
+         ;\commentbox{\ma{\theifspec}}
+         (if-exp (exp1 exp2 exp3)
+-          (let ((val1 (value-of exp1 env)))
+-            (if (expval->bool val1)
+-              (value-of exp2 env)
+-              (value-of exp3 env))))
++          (if (to-bool (value-of exp1 env))
++            (value-of exp2 env)
++            (value-of exp3 env)))
+ 
+         ;\commentbox{\ma{\theletspecsplit}}
+         (let-exp (var exp1 body)
+@@ -64,8 +73,24 @@
+             (value-of body
+               (extend-env var val1 env))))
+ 
++        (cast-exp (typ exp1)
++          (let
++            (
++              (val (value-of exp1 env))
++            )
++            (cases cast-type typ
++              (cast-int-type ()
++                (cases expval val
++                  (num-val  (number)  (num-val number))
++                  (bool-val (boolean) (num-val (if boolean 1 0)))
++                )
++              )
++              (cast-bool-type ()
++                (bool-val (to-bool val))
++              )
++            )
++          )
++        )
+         )))
+-
+-
+   )
+ 
+--- a/lang.scm
++++ b/lang.scm
+@@ -42,6 +42,9 @@
+        ("let" identifier "=" expression "in" expression)
+        let-exp)
+ 
++      (expression (cast-type "(" expression ")") cast-exp)
++      (cast-type ("<int>")  cast-int-type)
++      (cast-type ("<bool>") cast-bool-type)
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -32,7 +32,7 @@
+       ;; test dynamic typechecking
+       (no-bool-to-diff-1 "-(zero?(0),1)" error)
+       (no-bool-to-diff-2 "-(1,zero?(0))" error)
+-      (no-int-to-if "if 1 then 2 else 3" error)
++      ;;(no-int-to-if "if 1 then 2 else 3" error)
+ 
+       ;; make sure that the test and both arms get evaluated
+       ;; properly.
+@@ -55,5 +55,21 @@
+       (check-shadowing-in-body "let x = 3 in let x = 4 in x" 4)
+       (check-shadowing-in-rhs "let x = 3 in let x = -(x,1) in x" 2)
+ 
++      ;; casting
++      (cast-implicit-number-to-true " if 9 then 100 else 200" 100)
++      (cast-implicit-number-to-false " if 0 then 100 else 200" 200)
++      ;; note - <int>(bool) maps #t->1 and #f->0; <bool>(int) is (> n 0) so 0 and negatives are false
++      ;; note - if's test is implicitly cast to bool, so "if 9 ..." takes the then-branch
++      ;; note - cast is total (never errors): every num/bool converts both ways
++      (cast-explicit-boolean-to-number-put-in-preview " -(100, <int>(zero?(0)))" 99)
++      (cast-explicit-number-to-true " if <bool> (9) then 100 else 200" 100)
++      (cast-explicit-var-to-true "
++      let w = 40
++      in
++      if <bool>(w) then 500 else 700
++      " 500)
++      (cast-explicit-boolean-to-boolean "if <bool>(zero?(0)) then 3 else 4" 3)
++      (cast-explicit-number-to-number "-(<int>(3), 2)" 1)
+       ))
++
+   )

@@ -1,0 +1,149 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -19,6 +19,12 @@
+       (proc proc?))
+     (ref-val
+       (ref reference?))
++    (unevaluated-val
++      (uproc expression?)
++      (uexps (list-of expression?))
++      (uenv environment?))
++    (list-val
++      (elems (list-of expval?)))
+     )
+ 
+ ;;; extractors:
+@@ -46,6 +52,12 @@
+       (cases expval v
+ 	(ref-val (ref) ref)
+ 	(else (expval-extractor-error 'reference v)))))
++
++  (define expval->listelem
++    (lambda (v i)
++      (cases expval v
++	(list-val (e) (list-ref e i))
++	(else (eopl:error 'listelem "expected a list, found ~s" v)))))
+ 
+   (define expval-extractor-error
+     (lambda (variant value)
+--- a/interp.scm
++++ b/interp.scm
+@@ -100,8 +100,56 @@
+               (value-of exp1 env))
+             (num-val 27)))
+ 
++        (map-exp (exp1 exps)
++          (unevaluated-val exp1 exps env)
++        )
++
++        (listref-exp (e1 e2)
++          (let*
++            (
++              (evaluate (lambda (val)
++                (cases expval val
++                  (unevaluated-val (uproc uexps uenv)
++                    (let*
++                      (
++                        (proc2 (expval->proc (value-of uproc uenv)))
++                        (elems (map
++                          (lambda (v)
++                            (apply-procedure proc2 (value-of v uenv))
++                          )
++                          uexps
++                        ))
++                      )
++                      (list-val elems)
++                    )
++                  )
++                  (else val)
++                )
++              ))
++              (evaluate-ref (lambda (ref)
++                (let*
++                  (
++                    (evaluated (evaluate (deref ref)))
++                  )
++                  (begin
++                    (setref! ref evaluated)
++                    evaluated
++                  )
++                )
++              ))
++              (index (expval->num (value-of e2 env)))
++              (listval
++                (cases expression e1
++                  (var-exp (var) (evaluate-ref (apply-env env var)))
++                  (else (evaluate (value-of e1 env)))
++                )
++              )
++            )
++            (expval->listelem listval index)
++          )
++        )
++
+         )))
+-
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+   ;; Page: 119
+--- a/lang.scm
++++ b/lang.scm
+@@ -64,6 +64,16 @@
+         ("set" identifier "=" expression)
+         assign-exp)
+ 
++      (expression
++       ("map" expression "[" (separated-list expression ",") "]")
++        map-exp
++      )
++
++      (expression
++       ("listref" "(" expression "," expression ")" )
++       listref-exp
++      )
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,39 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;; lazy map + listref
++      (map-listref-first
++        "let xs = map proc(x) -(x,1) [10, 20, 30] in listref(xs, 0)" 9)
++      (map-listref-last
++        "let xs = map proc(x) -(x,1) [10, 20, 30] in listref(xs, 2)" 29)
++      (map-listref-identity
++        "let xs = map proc(x) x [5, 6, 7] in listref(xs, 1)" 6)
++      ;; the mapping proc closes over its definition environment
++      (map-closure
++        "let n = 100
++         in let xs = map proc(x) -(x,n) [105, 110] in listref(xs, 1)" 10)
++      ;; forcing is memoized: deref it twice, still indexes correctly
++      ;; note - map builds an UNEVALUATED value; the proc is applied to every element only \
++      ;; note - when listref first forces it, then the result list is memoized back into the \
++      ;; note - store ref, so repeated listref on the same binding re-uses it (no re-map).
++      ;; note - here listref(xs,2)=29, listref(xs,0)=9, so -(29,9) = 20.
++      (map-memoized-put-in-preview
++        "let xs = map proc(x) -(x,1) [10, 20, 30]
++         in -(listref(xs, 2), listref(xs, 0))" 20)
++
++      ;; inline map: listref forces a map literal directly, no let binding
++      (inline-map-first
++        "listref(map proc(x) -(x,1) [10, 20, 30], 0)" 9)
++      (inline-map-last
++        "listref(map proc(x) -(x,1) [10, 20, 30], 2)" 29)
++      (inline-map-identity
++        "listref(map proc(x) x [5, 6, 7], 1)" 6)
++      ;; inline map whose proc closes over an outer variable
++      (inline-map-closure
++        "let n = 100 in listref(map proc(x) -(x,n) [105, 110], 1)" 10)
++      ;; the index expression is itself evaluated
++      (inline-map-computed-index
++        "listref(map proc(x) -(x,1) [10, 20, 30], -(2,1))" 19)
++
+       ))
+   )

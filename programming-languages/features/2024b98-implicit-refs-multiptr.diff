@@ -1,0 +1,175 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -19,7 +19,32 @@
+       (proc proc?))
+     (ref-val
+       (ref reference?))
++    (multiptr-val
++      (multiptr multiptr?)
+     )
++    )
++
++    (define-datatype multiptr multiptr?
++      (multiptr1 (ref reference?) (count integer?))
++    )
++
++    (define multiptr->ref (lambda (v)
++      (cases multiptr v
++        (multiptr1 (r c) r)
++      )
++    ))
++
++    (define multiptr->count (lambda (v)
++      (cases multiptr v
++        (multiptr1 (r c) c)
++      )
++    ))
++
++  (define expval->multiptr
++    (lambda (v)
++      (cases expval v
++	(multiptr-val (m) m)
++	(else (expval-extractor-error 'multiptr v)))))
+ 
+ ;;; extractors:
+ 
+--- a/interp.scm
++++ b/interp.scm
+@@ -93,12 +93,47 @@
+                      (value-of-begins (car es) (cdr es)))))))
+             (value-of-begins exp1 exps)))
+ 
+-        (assign-exp (var exp1)
+-          (begin
+-            (setref!
+-              (apply-env env var)
+-              (value-of exp1 env))
+-            (num-val 27)))
++        (assign-exp (opt var exp1)
++          (cases opt-exp opt
++            (opt-exp-ptr ()
++              (begin
++                (setref!
++                  (multiptr->ref (expval->multiptr (deref (apply-env env var))))
++                  (value-of exp1 env)
++                )
++                (num-val 27)
++              )
++            )
++            (opt-exp-empty ()
++              (begin
++                (setref!
++                  (apply-env env var)
++                  (value-of exp1 env)
++                )
++                (num-val 27)
++              )
++            )
++          )
++        )
++
++        (multiptr-exp (ptrs data)
++          (multiptr-val (multiptr1 (newref (value-of data env)) (+ (length ptrs) 1)))
++        )
++
++        (multistar-exp (stars v)
++          (let*
++            (
++              (m1 (expval->multiptr (value-of v env)))
++              (count1 (- (multiptr->count m1) (+ (length stars) 1)))
++              (ref1 (multiptr->ref m1))
++            )
++            (cond
++              ((< count1 0) (eopl:error 'value-of "invalid star amount"))
++              ((= count1 0) (deref ref1))
++              (else         (multiptr-val (multiptr1 ref1 count1)))
++            )
++          )
++        )
+ 
+         )))
+ 
+--- a/lang.scm
++++ b/lang.scm
+@@ -61,8 +61,22 @@
+       ;; new for implicit-refs
+ 
+       (expression
+-        ("set" identifier "=" expression)
++        ("set" opt-exp identifier "=" expression)
+         assign-exp)
++      (opt-exp ("@") opt-exp-ptr)
++      (opt-exp () opt-exp-empty)
++
++      (expression
++        ("&" (arbno amp) "(" expression ")")
++        multiptr-exp
++      )
++      (amp ("&") an-amp)
++
++      (expression
++        ("*" (arbno star) "(" expression ")")
++        multistar-exp
++      )
++      (star ("*") a-star)
+ 
+       ))
+ 
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,55 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;; multi-pointers (exam 2024b-98 Q2, worked examples 1-9 verbatim):
++      ;; &..&(e) builds an n-level pointer to e; *..*(p) dereferences n levels;
++      ;; set @p = e mutates the shared leaf.
++      ;; note - &..&(e) makes an n-level pointer to one shared leaf cell (n = count of &);
++      ;; note - *..*(p) peels n levels, deref'ing the leaf only when the last level is removed.
++      ;; note - peeling MORE levels than exist errors; here &&&=3 levels, **=2 then *=1 reach \
++      ;; note - the leaf 6, so -(6,2) = 4. set @p mutates the shared leaf through any pointer.
++      (mptr-ex1-put-in-preview
++        "let p = &&&(6)
++         in let q = **(p)
++            in let num = *(q)
++               in -(num, 2)" 4)
++      (mptr-ex2-error                       ; dereferencing more levels than exist
++        "let p = &&&(6)
++         in let q= **(p)
++            in let num = ****(q)
++               in -(num, 2)" error)
++      (mptr-ex3
++        "let p = **(&&&(6))
++         in -( *(p) ,5)" 1)
++      (mptr-ex4-error                       ; multistar on a non-pointer
++        "let p = *( zero?( 6))
++         in 9" error)
++      (mptr-ex5
++        "let p = &&&(proc (x) -(x,7))
++         in (***(p) 9)" 2)
++      ;; example 6 is omitted: `let p = &&&(proc..) in *(p)` returns a
++      ;; multi-pointer value, which the test harness can't represent/compare.
++      (mptr-ex7
++        "let p = &&&(proc (x) -(x,7))
++         in begin
++              set @p = 9;
++              -(***(p) , 2)
++            end" 7)
++      (mptr-ex8
++        "let p = &&&&(8)
++         in let q= **(p)
++            in begin
++                 set @q = 20;
++                 -(****(p) , 3)
++               end" 17)
++      (mptr-ex9
++        "let p = &&&&(8)
++         in let q= **(p)
++            in begin
++                 set @p = 20;
++                 set p = 5;
++                 -(** (q) , p)
++               end" 15)
++
+       ))
+   )

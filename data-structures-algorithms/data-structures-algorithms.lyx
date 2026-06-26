@@ -1,0 +1,7974 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+% Necessary Commands:
+\usepackage{autobreak}
+\usepackage[T1]{fontenc}
+\usepackage{relsize}
+% Set vertical space before and after dislpay equations to be longer for better redability:
+\AtBeginDocument{\setlength\abovedisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+
+% Set space between words to be wider:
+\spaceskip=1.3\fontdimen2\font plus 1\fontdimen3\font minus 1.5\fontdimen4\font
+
+% Convert the Lyx colors into more pleasent colors:
+\usepackage{xcolor}
+\definecolor{blue}{RGB}{12,97,197}
+\definecolor{green}{RGB}{0,128,40}
+\definecolor{red}{RGB}{235,16,16}
+\definecolor{brown}{RGB}{154,58,0}
+\definecolor{orange}{RGB}{231,135,26}
+\definecolor{purple}{RGB}{94,53,177}
+
+% Convert the QED Symbol at the end of proofs to a solid black square (credit: Yakir Oz):
+\usepackage{amssymb}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Make the layout more similar to Hebrew Article, which I am more used to:
+\renewcommand*{\@seccntformat}[1]{\hspace{0.5cm}\csname the#1\endcsname\hspace{0.5cm}} 
+\usepackage{titlesec}
+\titleformat{\section}{\fontsize{20}{20}\bfseries}{\thesection}{10pt}{}
+\titleformat{\subsection}{\fontsize{15}{15}\bfseries}{\thesubsection}{10pt}{}
+\titleformat{\subsubsection}{\bfseries}{\thesubsubsection}{10pt}{}
+
+% Correct the reversed parentheses in labels:
+\usepackage{polyglossia}
+\setmainlanguage{hebrew}
+\newfontfamily{\hebrewfont}{David}
+\makeatletter
+\def\maketag@@@#1{\hbox{\m@th\normalfont\LRE{#1}}}
+\def\tagform@#1{\maketag@@@{(\ignorespaces#1\unskip)}}
+\makeatother
+
+% Create disjoint union symbols:
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+
+
+\newcommand{\kaliLargeLand}{\mathop{\mathlarger{\mathlarger{\mathlarger{\land}}}}}
+\newcommand{\hebtext}[1]{\mbox{\R{\#1}}}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+\end_modules
+\maintain_unincluded_children false
+\begin_local_layout
+Style Section
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size       Larger
+	  Series     Bold
+	EndFont
+	TocLevel 1
+End
+
+
+Style Section*
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size      Larger
+	  Series     Bold
+	EndFont
+End
+
+
+Style Solution
+
+	LabelString           "פיתרון: "
+End
+
+
+Style Notation
+
+	LabelString           "סימון  \thetheorem: "
+End
+
+Style Theorem
+
+	LabelString           "משפט \thetheorem: "
+End
+
+Style Property
+
+	LabelString           "תזכורת: "
+End
+\end_local_layout
+\language hebrew
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "David"
+\font_sans "default" "David"
+\font_typewriter "default" "David"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 2cm
+\rightmargin 1cm
+\bottommargin 3cm
+\headheight 0cm
+\headsep 0cm
+\footskip 2cm
+\secnumdepth -2
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation 0bp
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/barak/Downloads/MacrosStandard.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Doublebox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "20pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\paragraph_spacing double
+\align center
+
+\series bold
+\size huge
+מנמא סיכום
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+#לעשות
+\end_layout
+
+\begin_layout Itemize
+אם יש זמן -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+7-4
+\numeric off
+,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7-6
+\numeric off
+,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8-3
+\numeric off
+ב,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8-4
+\numeric off
+,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.2-8
+\numeric off
+,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.2-4
+\numeric off
+,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.2-5
+\numeric off
+,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3-6
+\numeric off
+,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6-2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)ערימה 
+\begin_inset Formula $d$
+\end_inset
+
+-ית(,
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6-3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)טבלת יאנג(,
+\numeric on
+8.1-4
+\numeric off
+, שאלות מתקדמות החל מפרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+9
+\numeric off
+,
+\numeric on
+8-2
+\numeric off
+, 
+\end_layout
+
+\begin_layout Itemize
+טבלאות גיבוב - ללמוד קצת יותר טוב
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+למידה למבחן
+\end_layout
+
+\begin_layout Itemize
+לחזור על סוגים שונים וטריקים של נוסחאות נסיגה
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1,2
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מבוא
+\end_layout
+
+\begin_layout Itemize
+אלגוריתם - הליך חישובי מוגדר היטב המקבל קלט ומוציא פלט.
+ בעיה קלאסית - בעיית המיון.
+ אלגוריתם הוא נכון אם לכל מופע הוא מסתיים בפלט נכון.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לפעמים יש באלגוריתמים לא נכונים תועלת אם הטעות שלהם היא ידועה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+הערך באלגוריתמים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- חוסכים משאבים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם למחשב היה אינסוף זיכרון והמעבד היה מהיר אינסופית לא היה ערך באלגוריתמים
+ אבל זה לא המצב.
+\end_layout
+
+\begin_layout Itemize
+אלגוריתמים הם טכנולוגיה - מאפשרים יכולות רבות, ממש כמו לקנות עוד חומרה.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+בעיית הסוכן הנוסע - לא ידוע על אלגוריתם שפותר אותה אבל יש שיטות למצוא מרחק
+ קטן שלא רחוק מהקטן ביותר האפשרי.
+\end_layout
+
+\begin_layout Itemize
+הוכחת נכונות באמצעות שמורת הלולאה - נכונות כללים מסוימים בעת אתחול, תחזוקה,
+ סיום.
+\end_layout
+
+\begin_layout Itemize
+פסאודו קוד: 
+\begin_inset Formula $x\leftarrow value,if-then-else,for\ j\leftarrow2\ to\ length\left[A\right]\ ,while,repeat$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+מקרים - טוב, ממוצע, גרוע.
+ הגרוע מעניין מאוד כי זה מלמד על כל המקרים.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+באלגוריתם אקראי נבדוק את התוחלת
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+אנו משווים את שיעור/קצב הגידול של זמני הריצה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - זה הנתון העיקרי המעניין.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ההערכה עלולה להיות שגויה עבור
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ קלטים קטנים.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+גישות - אינקרמנטלי )מעבדים איבר-איבר(, הפרד ומשול )מחלקים את הבעיה לכמה
+ תתי בעיות, לרוב ברקורסיה(.
+\end_layout
+
+\begin_layout Itemize
+עץ רקורסיה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כל קריאה היא ענף, כל צומת היא עלות חישוב, הגובה של העץ הוא מספר הקריאות,
+ לא תמיד העץ מאוזן, הסכום הכולל הוא היעילות, לרוב הוא סכום של רמה כפול סכום
+ באותה הרמה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2.3-5
+\numeric off
+: חיפוש בינארי - חיפוש במערך ממויין על ידי הקטנת הטווח פי
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ בכל פעם.
+\end_layout
+
+\begin_layout Itemize
+אלגוריתם למציאת מספרים שסכומם 
+\begin_inset Formula $S$
+\end_inset
+
+ - מיון המערך ואתחול שני אינדקסים בקצוות, קידום כל קצה בהתאם להאם הסכום
+ גדול או קטן מדי.
+\end_layout
+
+\begin_layout Itemize
+בעיה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2-1
+\numeric off
+: מיון הכנסה על מערכים קטנים במיון מיזוג - ניתן לשפר את זמן הריצה של מיון
+ מיזוג על ידי ביצוע מיון הכנסה על מערכים קטנים בגודל קבוע, זמן הריצה יהיה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\Theta\left(nk+n\lg\frac{n}{k}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+בעיה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2-2
+\numeric off
+: מיון בועות - 
+\begin_inset Formula $n$
+\end_inset
+
+ פעמים עוברים על המערך עד להתחלה ומזיזים את המספר הכי קטן הכי שמאלה.
+ בתחילת המערך יש את המערך הממויין שגדל עם הזמן.
+\end_layout
+
+\begin_layout Itemize
+בעיה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2-3
+\numeric off
+: כלל הורנר - חישוב פולינום בזמן 
+\begin_inset Formula $\Theta\left(n\right)$
+\end_inset
+
+ במקום מימוש קלאסי של 
+\begin_inset Formula $\Theta\left(n^{2}\right)$
+\end_inset
+
+.
+ 
+\begin_inset Formula $p\left(x\right)=\left(\left(a_{n}\right)x+a_{n-1}\right)x+...$
+\end_inset
+
+הי
+\end_layout
+
+\begin_layout Itemize
+בעיה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2-4
+\numeric off
+: היפוך הוא כאשר מספר קטן מופיע אחרי מספר גדול, קיימת דרך לחשב את כל ההיפוכים
+ באמצעות שינוי קטן ל 
+\begin_inset Formula $mergesort$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+מיון הכנסה יציב - כי המספרים מוכנסים אחד אחד מהאזור שאחרי המערך, ומחפשים
+ את המקום המתאים מהסוף להתחלה
+\end_layout
+
+\begin_layout Itemize
+מיון מיזוג יציב - כי החלק השמאלי קודם לימני )יש בקוד 
+\begin_inset Formula $\geq$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- גידול של פונקציות
+\end_layout
+
+\begin_layout Itemize
+סימונים - 
+\begin_inset Formula $O,o,\Omega,\omega,\Theta$
+\end_inset
+
+ )בסיכום החיצוני(
+\end_layout
+
+\begin_layout Itemize
+הערות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+פונקציות צריכות להיות אי-שליליות עבור 
+\begin_inset Formula $n$
+\end_inset
+
+ גדול.
+\end_layout
+
+\begin_layout Itemize
+אפשר לכלול סימונים בתוך משוואה אם אין לנו עניין להיכנס לפרטים - לדוגמה 
+\begin_inset Formula $n^{2}+\frac{1}{2}n+\frac{1}{2}=n^{2}+\Theta\left(n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+מספר הפונקציות האלמוניות בביטוי הוא מספר המופעים בביטוי - כלומר 
+\begin_inset Formula $\sum O\left(n\right)$
+\end_inset
+
+ הוא פונקציה אחת )עדיין לא ממש הגיוני אבל נעזוב(
+\end_layout
+
+\begin_layout Itemize
+אם מופיעות פונקציות בשני צידי המשוואה )לדוגמה 
+\begin_inset Formula $2n^{2}+\Theta\left(n\right)=\Theta\left(n\right)$
+\end_inset
+
+( סימן שקיימים קבועים המקיימים את המשוואה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+יחסים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+טרנזיטיביות
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - כולם
+\end_layout
+
+\begin_layout Itemize
+רפלקסיביות - 
+\begin_inset Formula $O,\omega,\Theta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+סימטריות - 
+\begin_inset Formula $\Theta$
+\end_inset
+
+, סימטריות מוחלפת - 
+\begin_inset Formula $\left(O,\Omega\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\left(o,\omega\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Theta$
+\end_inset
+
+ אם ורק אם 
+\begin_inset Formula $O$
+\end_inset
+
+ ו-
+\begin_inset Formula $\Omega$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+קיימת הקבלה עם הסימונים 
+\begin_inset Formula $<>\geq\leq=$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אמנם לא ניתן להשוות אסימפטוטית שתי פונקציות )לדוגמה פונקציות מחזוריות ינועו
+ סביב סט ערכים שוב ושוב(.
+\begin_inset Newline newline
+\end_inset
+
+דוגמה מוגדרת: 
+\begin_inset Formula $g\left(n\right)=\begin{cases}
+n & n=2p\\
+\frac{1}{n} & n=2p+1
+\end{cases}$
+\end_inset
+
+ עם כמעט כל פונקציה אחרת.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+סימונים מתמטיים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+פולינום חיובי אסימפטוטית המקדם העליון 
+\begin_inset Formula $a_{d}$
+\end_inset
+
+ חיובי.
+\end_layout
+
+\begin_layout Itemize
+פונקציה חסומה פולינומית אם ורק אם קיים 
+\begin_inset Formula $k$
+\end_inset
+
+ כך ש-
+\begin_inset Formula $f\left(n\right)=O\left(n^{k}\right)$
+\end_inset
+
+.
+ חסומה פולילוגריתמית אם ורק אם קיים 
+\begin_inset Formula $k$
+\end_inset
+
+ כך ש-
+\begin_inset Formula $f\left(n\right)=O\left(\lg^{k}n\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+לוגריתם חוזר 
+\begin_inset Formula $\lg^{\ast}n$
+\end_inset
+
+- כמה פעמים צריך לעשות 
+\begin_inset Formula $lg$
+\end_inset
+
+ רקורסיבית עד שמגיעים ל-
+\numeric on
+1
+\numeric off
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+בעיה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3-1
+\numeric off
+: אם 
+\begin_inset Formula $p\left(n\right)$
+\end_inset
+
+ פולינום כלשהו ממעלה 
+\begin_inset Formula $a$
+\end_inset
+
+ אז היחס בין 
+\begin_inset Formula $p\left(n\right),n^{b}$
+\end_inset
+
+ נקבע לפי היחסים בין 
+\begin_inset Formula $a,b$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+בעיה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3-2
+\numeric off
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם 
+\begin_inset Formula $f=O\left(g\right)$
+\end_inset
+
+ אז לא בהכרח 
+\begin_inset Formula $2^{f}=O\left(2^{g}\right)$
+\end_inset
+
+ - דוגמה 
+\begin_inset Formula $n,2n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Omega\left(f\right)+o\left(f\right)=\Omega\left(f\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+כל פונקציה פולינומית חיובית גדלה יותר מהר מכל פונקציה לוגריתמית 
+\begin_inset Formula $\lg^{b}n=O\left(n^{a}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+הערות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כדי להראות 
+\begin_inset Formula $o/\omega$
+\end_inset
+
+ - אפשר להראות שהגבול שואף ל-
+\begin_inset Formula $0/\infty$
+\end_inset
+
+.
+ אמ
+\begin_inset Quotes erd
+\end_inset
+
+מ - אם לא אז זה לא.
+ אפשר להוכיח על ידי הכפלה ושימוש בהגדרה.
+\end_layout
+
+\begin_layout Itemize
+אינטואיציה - 
+\begin_inset Formula $O$
+\end_inset
+
+ גדול אומר שקיים קבוע נכפיל בו ונגדיל מספיק את 
+\begin_inset Formula $n$
+\end_inset
+
+ אז אחת תהיה גדולה מהשניה.
+ 
+\begin_inset Formula $o$
+\end_inset
+
+ קטן אומר שלא משנה איזה קבוע זה יהיה אז התנאי יתקיים.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+סדרי גודל של פונקציות:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\left(1,n^{\frac{1}{\lg n}}\right),\lg\lg^{\ast}n,\left(\lg^{\ast}n,\lg^{\ast}\lg n\right),2^{\lg^{\ast}n},\ln\ln n,\sqrt{\lg n},\ln n,\lg^{2}n,2^{\sqrt{2\lg n}},\sqrt{2}^{\lg n},\left(2^{\lg n},n\right),\left(n\lg n,\lg\left(n!\right)\right),\left(n^{2},4^{\lg n}\right)...$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $...\left(n^{\lg\lg n},\lg n^{\lg n}\right),\left(\lg n\right)!,\left(\frac{3}{2}\right)^{n},2^{n},n2^{n},e^{n},n!,\left(n+1\right)!,2^{2^{n}},2^{2^{n+1}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\left(\lg n^{\lg a},a^{\lg\lg n}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\left(c^{\lg n},n^{\lg c}\right)\ (prove\ by\ n=2^{\lg n},c=2^{\lg c})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape up
+\size large
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series bold
+\shape up
+\size large
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- נוסחאות נסיגה
+\end_layout
+
+\begin_layout Itemize
+פרטים טכניים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מוגדר רק עבור מספרים שלמים אז צריך לציין גם ערכי רצפה/תקרה.
+ לפעמים הם כן מהותיים ויש להתייחס אליהם.
+\end_layout
+
+\begin_layout Itemize
+שינוי 
+\begin_inset Formula $T\left(1\right)$
+\end_inset
+
+ יגרום לשינוי בקבוע בסה
+\begin_inset Quotes erd
+\end_inset
+
+כ, לכן לא מהותי להתייחס אליו.
+ בכללי עבור ערכי 
+\begin_inset Formula $n$
+\end_inset
+
+ קטנים זמן הריצה הוא 
+\begin_inset Formula $\Theta\left(1\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שיטת ההצבה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שלבים: ניחוש הפתרון הכללי, הוכחה באמצעות אינדוקציה )מוכיחים ל-
+\numeric on
+1
+\numeric off
+, מניחים ל-
+\begin_inset Formula $n-1$
+\end_inset
+
+ ומוכיחים ל-
+\begin_inset Formula $n$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+אפשר להתחיל עם חסם עליון ותחתון חלשים ולהתקדם.
+\end_layout
+
+\begin_layout Itemize
+אי דיוקים - לפעמים מקבלים תוצאה קטנה/גדולה במספר מסוים, אם כך אפשר להוסיף/לחסר
+ מהניחוש המקורי.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לדוגמה עבור 
+\begin_inset Formula $T\left(n\right)=T\left(\left\lfloor \frac{n}{2}\right\rfloor \right)+T\left(\lceil\frac{n}{2}\rceil\right)+1$
+\end_inset
+
+ )עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+56
+\numeric off
+( והניחוש 
+\begin_inset Formula $cn$
+\end_inset
+
+ מקבלים 
+\begin_inset Formula $T\left(n\right)\leq cn+1$
+\end_inset
+
+.
+ הניחוש 
+\begin_inset Formula $cn-b$
+\end_inset
+
+ עובד, כאשר 
+\begin_inset Formula $b$
+\end_inset
+
+ נקבע כרצוננו.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+לשים לב להוכיח בדיוק את האינדוקציה.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לדוגמה אם 
+\begin_inset Formula $T\left(n\right)=T\left(\left\lfloor \frac{n}{2}\right\rfloor \right)+n$
+\end_inset
+
+ אז צריך להוכיח 
+\begin_inset Formula $T\left(\left\lfloor \frac{n}{2}\right\rfloor \right)+n\leq cn$
+\end_inset
+
+ ולא 
+\begin_inset Formula $T\left(\left\lfloor \frac{n}{2}\right\rfloor \right)+n\leq cn+n$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+החלפת משתנים - ניתן להחליף משתנים וגם את נוסחת הנסיגה בביטוי שקול.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לדוגמה 
+\begin_inset Formula $T\left(n\right)=2T\left(\left\lfloor \sqrt{n}\right\rfloor \right)+\lg n$
+\end_inset
+
+ אפשר לסמן 
+\begin_inset Formula $n=2^{m},S\left(m\right)=T\left(2^{m}\right)$
+\end_inset
+
+.
+ נקבל:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $T\left(n\right)=T\left(2^{m}\right)=S\left(m\right)=2S\left(\left\lfloor \frac{n}{2}\right\rfloor \right)+m=O\left(m\lg m\right)=O\left(\lg n\lg\lg n\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+שיטת עץ הרקורסיה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כל קריאה היא ענף, כל צומת היא עלות חישוב, הגובה של העץ הוא מספר הקריאות,
+ לא תמיד העץ מאוזן, הסכום הכולל הוא היעילות, לרוב הוא סכום של רמה כפול סכום
+ באותה הרמה.
+\end_layout
+
+\begin_layout Itemize
+לדוגמה: 
+\begin_inset Formula $T\left(n\right)=3T\left(\frac{n}{4}\right)+cn^{2}$
+\end_inset
+
+, אז
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\align left
+\begin_inset Formula $T\left(n\right)=\sum^{\log_{4}n-1}\left(\frac{3}{16}\right)^{i}cn^{2}+\Theta\left(n^{\log_{4}3}\right)=\frac{\left(\frac{3}{16}\right)^{\log_{4}n}-1}{\frac{3}{16}-1}+\Theta\left(n^{\log_{4}3}\right){\color{gray}\overset{\text{חסם עליון}}{\overbrace{{\normalcolor <}}}}\sum^{\infty}\left(\frac{3}{16}\right)^{i}+\Theta\left(n^{\log_{4}3}\right)=\frac{13}{16}cn^{2}+\Theta\left(n^{\log_{4}3}\right)=O\left(n^{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+לא תמיד העץ הוא עץ מלא, אבל עדיין אפשר להשתמש בשיטת ההצבה כדי לחשב חסם.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- ניתוח הסתברותי ואלגוריתמים אקראיים
+\end_layout
+
+\begin_layout Itemize
+אלגוריתמים אקראיים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מאפשרים להבטיח תוחלת ללא תלות בקלט, כמובן על חשבון הגדלת הזמן של המקרה הטוב
+ ביותר.
+\end_layout
+
+\begin_layout Itemize
+תמורות אקראיות במערכים - איך אפשר לעשות שאפל למערך?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לתת לכל מספר עדיפות ואז למיין לפי העדיפויות.
+\end_layout
+
+\begin_layout Itemize
+לעבור על המערך ולהחליף כל איבר עם איבר רנדומלי כלשהו
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Section
+
+\numeric on
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מיון ערימה
+\end_layout
+
+\begin_layout Itemize
+עצים )הורה, שמאל, ימין(, תכונת הערמה )מקסימום / מינימום(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $max-heapify$
+\end_inset
+
+ - מורידה את הצומת הנתון כמה שיותר נמוך בעץ )רקורסיבית, עוצרת כשאי אפשר(
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $build-max-heap$
+\end_inset
+
+ - עוברת על כל האבות בעץ בסדר יורד ומורידה את הצומת כמה שיותר נמוך.
+ בסדר יורד כי אחרת ייתכן שצומת לא ירד עד הסוף, לדוגמה 
+\begin_inset Formula $\left[2,1,1,3\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $heapsort$
+\end_inset
+
+ - בונה ערמה, בלולאה מחליפה את השורש עם האיבר האחרון ואז עושה 
+\begin_inset Formula $max-heapify$
+\end_inset
+
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מיון מערך בסדר עולה או יורד עדיין 
+\begin_inset Formula $n\lg n$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+מיון ערימה לא יציב - מיון ערימת מינימום
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+עם קלט
+\numeric on
+221
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)ה
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+הראשון יעקוף את ה
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+השני(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $heap-delete$
+\end_inset
+
+ - החלפת ערך האיבר למחיקה ב-
+\begin_inset Formula $\infty$
+\end_inset
+
+, פעפוע לשורש, החלפת השורש עם סוף הערימה והקטנתה, 
+\begin_inset Formula $max-heapify$
+\end_inset
+
+ על הראש.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+תכונות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מספר איברים מינימלי -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $2^{h}$
+\end_inset
+
+, מקסימלי - 
+\begin_inset Formula $2^{h+1}-1$
+\end_inset
+
+, בעומק 
+\begin_inset Formula $h$
+\end_inset
+
+ יש בין
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ל-
+\begin_inset Formula $2^{h}$
+\end_inset
+
+ צמתים, גובה ערמה בת 
+\begin_inset Formula $n$
+\end_inset
+
+ איברים הוא 
+\begin_inset Formula $\left\lfloor \lg n\right\rfloor $
+\end_inset
+
+, העלים הם 
+\begin_inset Formula $\left\lfloor \frac{n}{2}\right\rfloor +1...n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+יש עד 
+\begin_inset Formula $\left\lceil \frac{n}{2^{h+1}}\right\rceil $
+\end_inset
+
+ צמתים בגובה 
+\begin_inset Formula $h$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Itemize
+הערך הגדול ביותר הוא בשורש
+\end_layout
+
+\begin_layout Itemize
+ערימה אינה בהכרח מערך ממויין
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+תור קדימויות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שגרות:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+העלאת ערך של צומת )
+\begin_inset Formula $heap-increase-key$
+\end_inset
+
+( - עדכון המפתח של איבר מסוים אם המפתח גדול מערך האיבר, ואז פעפוע למעלה
+ של הערך עד לקבלת ערמה תקנית.
+\end_layout
+
+\begin_layout Itemize
+הכנסת ערך - הגדלת גודל הערמה, הכנסת 
+\begin_inset Formula $-\infty$
+\end_inset
+
+ בסוף ואז העלאת ערך הצומת לפי הערך הנתון.
+\end_layout
+
+\begin_layout Itemize
+לבחון / להוציא את המקסימום - החזרת השורש וזהו או החלפה עם הסוף וביצוע 
+\begin_inset Formula $max-heapify$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שימוש - מערכת שמתווספות אליה משימות וכל פעם לוקחת את המשימה עם הקדימות הגבוהה
+ ביותר.
+\end_layout
+
+\begin_layout Itemize
+מיזוג 
+\begin_inset Formula $k$
+\end_inset
+
+ רשימות ממויינות כאשר 
+\begin_inset Formula $n$
+\end_inset
+
+ מספר כולל בזמן 
+\begin_inset Formula $O\left(n\lg k\right)$
+\end_inset
+
+ - בניית ערימת מינימום מכל הראשים של האיברים, כאשר איבר יוצא החוצה מכניסים
+ את האיבר הבא מאותה הרשימה.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מיון מהיר
+\end_layout
+
+\begin_layout Itemize
+שגרות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $partition$
+\end_inset
+
+- מגדירה את המספר האחרון בתור איבר הציר, מגדירה החל מההתחלה מערך של מספרים
+ קטנים ואז גדולים, וסורקת את המערך ומוסיפה כל פעם למערך המתאים.
+ אם מספר מסוים קטן אז הוא מוחלף עם המספר הגדול הכי קטן.
+ בסוף מחליפים את איבר הציר עם האיבר הגדול הכי קטן.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם כל האיברים שווים זה לזה - כל האיברים נכללים בתור המערך של הקטנים
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $quicksort$
+\end_inset
+
+ - חלוקת כלל המערך, מיון של מערך ה
+\begin_inset Quotes erd
+\end_inset
+
+קטנים
+\begin_inset Quotes erd
+\end_inset
+
+ ומערך ה
+\begin_inset Quotes erd
+\end_inset
+
+גדולים
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מקרה טוב - איבר הציר הוא החציון )למעשה כל חלוקה ביחס קבוע(.
+ מקרה גרוע - כל חלוקה היא 
+\begin_inset Formula $0,n-1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+צירוף של חלוקה טובה ואז חלוקה גרועה יוצר חלוקה טובה
+\end_layout
+
+\begin_layout Itemize
+מערך של איברים זהים זהה למקרה הגרוע.
+\end_layout
+
+\begin_layout Itemize
+מיון מהיר לא יציב -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3312
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)ה-
+\numeric on
+3
+\numeric off
+ים יחליפו ביניהם(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $randomized-partition,randomized-quicksort$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- איבר הציר נבחר באופן אקראי
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+הערות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+עבור מערך כמעט ממויין עדיף מיון-הכנסה שרץ ב-
+\begin_inset Formula $\Theta\left(cn\right)$
+\end_inset
+
+ במקום מיון-מהיר )החלוקה תהיה במקרה הטוב 
+\begin_inset Formula $c,n-c$
+\end_inset
+
+ וזה מוביל ל-
+\begin_inset Formula $n^{2}$
+\end_inset
+
+(
+\begin_inset Newline newline
+\end_inset
+
+אפשר לעשות אלגוריתם שממיין עם מיון מהיר עד אורך 
+\begin_inset Formula $k$
+\end_inset
+
+ ואז ממיין כל רשימה עם מיון הכנסה, ואז מיון הכנסה על המערך כולו.
+ במצב זה זמן הריצה הוא 
+\begin_inset Formula $O\left(nk+n\lg\frac{n}{k}\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\numeric on
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape up
+\size large
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מיון בזמן לינארי
+\end_layout
+
+\begin_layout Itemize
+עץ החלטה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+עץ החלטה - כל צומת היא השוואה, כל קשת היא תוצאה של ההשוואה, כל עלה הוא סידור
+ אפשרי של המערך.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+8.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כל אלגוריתם עושה 
+\begin_inset Formula $\Omega\left(n\lg n\right)$
+\end_inset
+
+ השוואות במקרה הגרוע.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מיון-ערמה ומיון-מיזוג הם אופיטמליים
+\end_layout
+
+\begin_layout Itemize
+הוכחה מתבססת על - 
+\begin_inset Formula $n!\leq2^{h}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+עומק מינימלי אפשרי בעץ החלטה - 
+\begin_inset Formula $n-1$
+\end_inset
+
+ )מערך ממויין, נכון כי גרף ההחלטות צריך להיות מקושר(.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+8.1-2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - אפשר לחסום סכום על ידי חסימה בין שני אינטגרלים.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+8.1-3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אי אפשר לעשות מיון לינארי עבור חצי / 
+\begin_inset Formula $\frac{1}{n}$
+\end_inset
+
+ וכו' מהקלטים כי זה אומר שכל הפתרונות צריכים להיות בעומק מסוים אבל אין מספיק
+ עלים - 
+\begin_inset Formula $n!$
+\end_inset
+
+ גדלה מאוד מהר.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מיון מניה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אלגוריתם - סופרים כמה פעמים כל איבר נמצא, סוכמים את המערך כדי לקבל כמה מספרים
+ קטנים או שווים למספר מסוים, ואז עוברים על האיברים במערך המקורי בסדר הפוך
+ ולפי הערך במערך המונים ממקמים אותם במערך החדש.
+\end_layout
+
+\begin_layout Itemize
+לוקח 
+\begin_inset Formula $\Theta\left(n+k\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+יציב!
+\end_layout
+
+\begin_layout Itemize
+לא מבוסס השוואות, מניח שהקלט הוא בטווח ערכים מסוים וגם משתמש במערך עזר שיכול
+ לתפוס המון מקום לא לצורך.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מיון בסיס
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אלגוריתם: למיין רשימה של 
+\begin_inset Formula $n$
+\end_inset
+
+ מספרים בעלי 
+\begin_inset Formula $d$
+\end_inset
+
+ ספרות ו-
+\begin_inset Formula $k$
+\end_inset
+
+ ערכים אפשריים באמצעות מיון כל ספרה בנפרד מהנמוכה לגבוהה.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מתחילים מהנמוכה כי ככה לא צריך לשמור על 
+\begin_inset Quotes eld
+\end_inset
+
+ערימות
+\begin_inset Quotes erd
+\end_inset
+
+ נפרדות בתהליכי הביניים
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+רץ בזמן 
+\begin_inset Formula $\Theta\left(d\left(n+k\right)\right)$
+\end_inset
+
+ )אם המיון היציב רץ בזמן 
+\begin_inset Formula $\Theta\left(n+k\right)$
+\end_inset
+
+(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+למה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כאשר יש 
+\begin_inset Formula $n$
+\end_inset
+
+ מספרים בעלי 
+\begin_inset Formula $b$
+\end_inset
+
+ ספרות ושלם 
+\begin_inset Formula $r\leq b$
+\end_inset
+
+, מיון-בסיס ממיין בזמן 
+\begin_inset Formula $\Theta\left(\frac{b}{r}\left(n+2^{r}\right)\right)$
+\end_inset
+
+ )
+\begin_inset Formula $d=\frac{b}{r}$
+\end_inset
+
+, 
+\begin_inset Formula $k=2^{r}-1$
+\end_inset
+
+, כל ספרה היא בת 
+\begin_inset Formula $r$
+\end_inset
+
+ סיביות, ממיינים את הספרות לפי מיון מניה ועושים את זה 
+\begin_inset Formula $d$
+\end_inset
+
+ פעמים(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+האם עדיף על מיון מהיר?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם 
+\begin_inset Formula $b=O\left(\lg n\right)$
+\end_inset
+
+ ו-
+\begin_inset Formula $r\approx\lg n$
+\end_inset
+
+ אז לכאורה הזמן הוא לינארי
+\end_layout
+
+\begin_layout Itemize
+האלגוריתם לא ממיין במקום
+\end_layout
+
+\begin_layout Itemize
+כל מעבר של מיון-בסיס לוקח יותר זמן מאשר מיון-מהיר.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+יציבות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מיון-הכנסה ומיון-מיזוג יציבים, מיון-ערמה ומיון-מהיר לא.
+\end_layout
+
+\begin_layout Itemize
+כדי להפוך ליציבים - להפוך כל איבר ל
+\begin_inset Formula $tuple$
+\end_inset
+
+ שמכיל גם את האינדקס ואז השוואה תשווה גם את האינדקס.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+8.3-4
+\numeric off
+: אפשר למיין 
+\begin_inset Formula $n$
+\end_inset
+
+ מספרים שלמים בתחום 
+\begin_inset Formula $\left(0,n^{2}-1\right)$
+\end_inset
+
+ ב-
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+ )ממירים לבסיס 
+\begin_inset Formula $n$
+\end_inset
+
+ )
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ספרות לפי הגדרה של בסיסי מספרים( ואז מיון-בסיס של
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ספרות(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מיון-דלי
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לחלק איברים לקבוצות לפי טווח ערכים ואז למיין כל קבוצה בנפרד.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+9
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- חציונים וערכי מיקום
+\end_layout
+
+\begin_layout Itemize
+למצוא מינימום או מקסימום לוקח 
+\begin_inset Formula $n-1$
+\end_inset
+
+ השוואות וזו גם הדרך הטובה ביותר )כל איבר חייב להשתתף(
+\end_layout
+
+\begin_layout Itemize
+למצוא מינימום ומקסימום ביחד לוקח 
+\begin_inset Formula $3\left\lfloor \frac{n}{2}\right\rfloor $
+\end_inset
+
+ השוואות - משווים כל זוג איברים ביניהם ואז למינימום ומקסימום נוכחיים.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+9.1
+\numeric off
+-
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ ניתן למצוא את האיבר השני הכי קטן ב
+\begin_inset Formula $n+\left\lceil \lg n\right\rceil -2$
+\end_inset
+
+ - אם אורך המערך הוא 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אז לוקחים את הגדול יותר.
+ אם לא אז 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+מחלקים את המערך לזוגות ומשווים אותם, ומבצעים עבור כל המספרים הקטנים רקורסיבית.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+9.3-3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- ניתן לשפר את 
+\begin_inset Formula $quicksort$
+\end_inset
+
+ לזמן גרוע 
+\begin_inset Formula $O\left(n\lg n\right)$
+\end_inset
+
+ אם כל האיברים שונים על ידי כך שקודם מוצאים את החציון ועושים חלוקה סביבו.
+ 
+\end_layout
+
+\begin_layout Itemize
+בעיית הבחירה הכללית
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+בחירה אקראית
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+רצה בתוחלת 
+\begin_inset Formula $\Theta\left(n\right)$
+\end_inset
+
+.
+ במקרה הגרוע היא 
+\begin_inset Formula $\Theta\left(n^{2}\right)$
+\end_inset
+
+ אבל בגלל האקראיות אין באמת קלט גרוע.
+\end_layout
+
+\begin_layout Itemize
+אלגוריתם - מבצעים 
+\begin_inset Formula $partitiong$
+\end_inset
+
+ לפי איבר רנדומלי במערך, מזה אפשר לדעת את ערך המיקום שלו, ולפי כך עושים
+ 
+\begin_inset Formula $partition$
+\end_inset
+
+ על אחד מתת המערכים שנוצרו.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+בחירה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+רצה תמיד ב-
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+אלגוריתם - מחפשים את החציון על ידי חלוקה לתת מערכים, מציאת החציון שלהם ואז
+ השוואת החציונים.
+ ביצוע חלוקה לפי החציון.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מבני נתונים בסיסיים
+\end_layout
+
+\begin_layout Itemize
+דוגמאות לפעולות - חיפוש, הכנסה, מחיקה, מינימום, מקסימום, עוקב, קודם
+\end_layout
+
+\begin_layout Itemize
+מחסנית - שליפה ממחסנית ריקה זה 
+\begin_inset Formula $underflow$
+\end_inset
+
+, הכנסה למחסנית מלאה זה 
+\begin_inset Formula $overflow$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+תור
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מימוש במערך סטטי - בהכנסה מקדמים את הראש וכשמגיעים לסוף עושים לופ להתחלה.
+ כאשר מוציאים אז מקדמים את הזנב.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+רשימה מקושרת
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+זקיפים - עצם דמה שמאפשר להתעלם ממקרי גבול 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ייצוג עצמים ללא מצביעים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ניתן לייצג כמות של עצמים זהפים על ידי מערך לכל תכונה.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הקצאה ושחרור - ניתן לשמור רשימה מקושרת של הזיכרון הפנוי ובעת ניסיון להקצות
+ זיכרון נוסף לקדם את הרשימה או להוסיף לרשימה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ניתן לייצג במערך אחד כמות של עצמים שונים על ידי שמירת ה
+\begin_inset Quotes erd
+\end_inset
+
+כתובת
+\begin_inset Quotes erd
+\end_inset
+
+ )אינדקס( במערך ומשם חישוב היסט מתאים בהתאם לתכונה.
+\end_layout
+
+\begin_layout Itemize
+הקצאה ושחרור
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+עצים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+יש שיטה לשמירת מספר משתנה של בנים בעץ - כל צומת מכיל מצביע להורה, לבן שמאלי
+ ולאח ימני
+\end_layout
+
+\begin_layout Itemize
+כמות העלים בעץ בגובה 
+\begin_inset Formula $h$
+\end_inset
+
+ היא במקסימום 
+\begin_inset Formula $2^{h}$
+\end_inset
+
+.
+ כל שכבה בגובה 
+\begin_inset Formula $h$
+\end_inset
+
+ מתחילה ב-
+\begin_inset Formula $2^{h-1}$
+\end_inset
+
+ ונגמרת ב-
+\begin_inset Formula $2^{h}-1$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- טבלאות גיבוב
+\end_layout
+
+\begin_layout Itemize
+טבלאות מיעון ישיר - כל מפתח מוביל לערך בודד
+\end_layout
+
+\begin_layout Itemize
+טבלאות גיבוב
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+פונקציית גיבוב ממפה מפתח לערך - מקטינה את טווח האינדקסים שצריך לטפל בהם.
+\end_layout
+
+\begin_layout Itemize
+פתרון התנגשויות על ידי שרשור - יוצרים רשימה מקושרת מכל הערכים באותו תא.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+פונקציות גיבוב
+\end_layout
+
+\begin_layout Itemize
+גיבוב עם מיעון פתוח
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שומרים כל איבר בטבלה עצמה, פונקציית הגיבוב מקבלת גם מספר ניסיון ובכך פולטת
+ כל מפתח בטבלה.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- עצי חיפוש בינאריים
+\end_layout
+
+\begin_layout Itemize
+תכונת עץ החיפוש - בן שמאלי קטן ממנו ובן ימני גדול ממנו
+\end_layout
+
+\begin_layout Itemize
+סריקות - תחילית, תוכית, סופית.
+\end_layout
+
+\begin_layout Itemize
+אפשר למיין ב-
+\begin_inset Formula $\Theta\left(n\right)$
+\end_inset
+
+ בסריקה תוכית.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ערימה אי אפשר - לוקח 
+\begin_inset Formula $O\left(n\lg n\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+יש אלגוריתמים לא רקורסיביים לסריקה תוכית )פתרון לתרגיל
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+10.4-6
+\numeric off
+(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+עם מחסנית
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - כל עוד מחסנית לא ריקה ומצביע הוא לא כלום ) כל עוד מצביע לא כלום )לך שמאלה
+ עד הסוף ותדחוף בנים למחסנית ותעדכן מצביע(, עכשיו תדפיס ואז לך אחד ימינה
+ וחוזר חלילה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+בניית עץ חיפוש לוקחת לפחות 
+\begin_inset Formula $n\lg n$
+\end_inset
+
+ כי מיון 
+\begin_inset Formula $n$
+\end_inset
+
+ איברים לוקח לפחות 
+\begin_inset Formula $n\lg n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+פעולות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+חיפוש - החלטה ימינה/שמאלה עד שמוצאים
+\end_layout
+
+\begin_layout Itemize
+מינימום - הכי שמאלי, מקסימום - הכי ימני
+\end_layout
+
+\begin_layout Itemize
+עוקב - אם יש בן ימני אז העוקב הוא המינימום של תת העץ הימני.
+ אם לא אז בלולאה מחפשים את ההורה הראשון שאנחנו בן שמאלי שלו.
+ אם מגיעים לכלום סימן שאנחנו הכי גדולים )הכי ימניים(.
+\end_layout
+
+\begin_layout Itemize
+קודם - מקביל לעוקב
+\end_layout
+
+\begin_layout Itemize
+הכנסה - ימינה/שמאלה עד שמגיעים ל-
+\begin_inset Formula $null$
+\end_inset
+
+ ואז הוספה.
+\end_layout
+
+\begin_layout Itemize
+מחיקה - אם עלה אז לאפס את הבן של ההורה, אם יש בן אחד אז לחבר הורה עם בן,
+ אם יש שני בנים אז למצוא עוקב )שבטוח אין לו בן שמאלי כי אנחנו היחידים שקטנים
+ ממנו( ואז להחליף את הערך שלו איתי ולהסיר אותו.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+נתונה סדרת מספרים.
+ האם היא יכולה להיות סדרת מספרים חוקית בעת חיפוש? - צריך לצייר את העץ ולראות
+ שלכל צומת התת עץ השמאלי קטן ממנו והתת עץ הימני גדול ממנו.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+12.2-4
+\numeric off
+: לא בהכרח כל הצמתים משמאל למסלול בעץ קטנים או שווים לו - ייתכן שמתישהו
+ לדוגמה יש פיצול שמאלה ואז יהיה צומת שגדול מהשורש.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+12.2-5
+\numeric off
+: אם לצומת יש שני בנים אז לעוקב אין בן שמאלי ולקודם אין בן ימני - נכון אחרת
+ הבנים האלה היו קטנים מהעוקב או גדולים מהקודם
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+12.2-9
+\numeric off
+: אבא של עלה הוא הכי קטן/גדול וקרוב אליו: כי קריאה עבור קודם/עוקב על הבן
+ תחזיר את האבא.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+12.3-3
+\numeric off
+: מקרה הכי גרוע של מיון עץ חיפוש הוא שהסדרה כבר ממויינת )
+\begin_inset Formula $n^{2}$
+\end_inset
+
+(, הכי טוב שהעץ מאוזן )
+\begin_inset Formula $\lg n$
+\end_inset
+
+(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+12.3-4
+\numeric off
+: מחיקה לא חילופית - לדוגמה העץ
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\begin_inset Formula $214NN3N$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+עצים שנבנים רנדומלית
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- תוחלת הגובה של עץ שנבנה רנדומלית היא 
+\begin_inset Formula $O\left(\lg n\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+עצי בסיס - כל צומת היא ערך, כל קשת היא הוספת תו.
+ אפשר למיין לקיקוגרפית על ידי הכנסה לעץ והדפסת כל איבר בו.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+13
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- עצים אדומים-שחורים
+\end_layout
+
+\begin_layout Itemize
+דרך לשמור על העץ מאוזן, ובכך כל הפעולות הן 
+\begin_inset Formula $O\left(\lg n\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+תכונות - הורה, בן ימני, בן שמאלי, מפתח וצבע.
+\end_layout
+
+\begin_layout Itemize
+תכונות האדום-שחור - כל צומת הוא אחד, שורש שחור, עלים שחורים, לכל צומת אדום
+ יש בנים שחורים, כל המסלולים הפשוטים משורש אל עלה מכילים אותו מספר של צמתים
+ שחורים.
+\end_layout
+
+\begin_layout Itemize
+סיבובים
+\end_layout
+
+\begin_layout Itemize
+הכנסה
+\end_layout
+
+\begin_layout Itemize
+מחיקה
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+14
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הרחבה של מבני נתונים
+\end_layout
+
+\begin_layout Itemize
+עץ ערכי מיקום - עץ אדום שחור שכל צומת מכיל את גודל העץ
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מציאת ערך מיקום - מציאת הצומת ומעבר אל ההורה, בכל פעם שאנחנו בן ימני אנחנו
+ מוסיפים את גודל הבן השמאלי.
+\end_layout
+
+\begin_layout Itemize
+מציאת איבר עם דירוג מסוים - מעבר ימינה/שמאלה בהתאם לדירוג לפי גודל עץ שמאלי.
+\end_layout
+
+\begin_layout Itemize
+יש צורך לתחזק את ערך הגודל בעת הכנסה והוצאה
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+הרחבת מבנה נתונים - בחירת מבנה תשתית, קביעת מידע לתחזוק, אימות יכולת לתחזק,
+ פיתוח פעולות חדשות.
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+14.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+הרחבת עץ אדום-שחור - כל שדה שאת תוכנו ניתן להסיק על פיו ועל פי בניו הישירים
+ אז ניתן לתחזק את השדה במהלך הכנסה או מחיקה בלי להשפיע על זמן הריצה של הפעולות.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+רקע מתמטי
+\end_layout
+
+\begin_layout Itemize
+א.
+\numeric on
+7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\sum_{0}^{n}\frac{1}{k}=\ln n+O\left(1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+א.
+\numeric on
+8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\text{\ensuremath{\sum_{0}^{\infty}kx^{k}=\frac{x}{\left(1-x\right)^{2}}}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+גידול של פונקציות - הוכחות
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $1=\Theta\left(n^{\frac{1}{\lg n}}\right)$
+\end_inset
+
+: מתקיים 
+\begin_inset Formula $n^{\frac{1}{\lg n}}=n^{\frac{\lg2}{\lg n}}=n^{\log_{n}2}=2$
+\end_inset
+
+ וכמובן הקשר מתקיים.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $1=\Omega\left(\lg\lg^{\ast}n\right)$
+\end_inset
+
+: אם נבחר 
+\begin_inset Formula $c_{0}=1$
+\end_inset
+
+ אז הטענה מתקיים באופן טריוויאלי.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\lg\lg^{\ast}n=\Omega\left(\lg^{\ast}n\right)$
+\end_inset
+
+: נסמן 
+\begin_inset Formula $t=\lg^{\ast}n$
+\end_inset
+
+ ונקבל 
+\begin_inset Formula $c\lg t\leq t$
+\end_inset
+
+.
+ מתקיים 
+\begin_inset Formula $\lim_{x\rightarrow\infty}\frac{x}{\lg x}=\infty$
+\end_inset
+
+ ולכן הטענה נכונה.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $:\lg^{\ast}n=\Theta\left(\lg^{\ast}\lg n\right)$
+\end_inset
+
+ ההפרש בערך מוחלט בין 
+\begin_inset Formula $\lg^{\ast}\lg n$
+\end_inset
+
+ ל-
+\begin_inset Formula $\lg^{\ast}n$
+\end_inset
+
+ הוא אחד ולכן ניתן למצוא קבועים המקיימים את הקשר 
+\begin_inset Formula $\Theta\left(\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\lg^{\ast}n=\Omega\left(2^{\lg^{\ast}n}\right)$
+\end_inset
+
+: נסמן 
+\begin_inset Formula $t=\lg^{\ast}n$
+\end_inset
+
+ ונקבל 
+\begin_inset Formula $c_{0}t\leq2^{t}$
+\end_inset
+
+, ועבור 
+\begin_inset Formula $c_{0}=1$
+\end_inset
+
+ זו טענה נכונה.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\ln\ln n=\Omega\left(\sqrt{\lg n}\right)$
+\end_inset
+
+: אם נסמן 
+\begin_inset Formula $t=\ln n$
+\end_inset
+
+ ונבצע מעבר בסיסים נקבל את הביטוי 
+\begin_inset Formula $f\left(x\right)=\frac{1}{\sqrt{\ln2}}\sqrt{t}-c\ln t\geq0$
+\end_inset
+
+.
+ עבור 
+\begin_inset Formula $4\leq n_{0},c_{0}=1$
+\end_inset
+
+ פונקציה זו חיובית )ניתן להוכיח על ידי גזירה(.
+ ולכן הטענה נכונה.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\sqrt{\lg n}=\Omega\left(\ln n\right)$
+\end_inset
+
+: שקול לביטוי 
+\begin_inset Formula $\sqrt{\ln n}\left(\sqrt{\ln n}-\frac{c_{0}}{\sqrt{\ln2}}\right)\geq0$
+\end_inset
+
+ והוא אמיתי עבור 
+\begin_inset Formula $4\leq n_{0},c_{0}=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\ln n=\Omega\left(\lg^{2}n\right)$
+\end_inset
+
+: שקול לביטוי 
+\begin_inset Formula $\ln n\left(\frac{1}{\ln^{2}n}\ln n-c_{0}\right)\geq0$
+\end_inset
+
+ והוא אמיתי עבור 
+\begin_inset Formula $2\leq n_{0},c_{0}=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\ln n=\Omega\left(\lg^{2}n\right)$
+\end_inset
+
+: 
+\begin_inset Formula $\lg^{2}n=\frac{\ln^{2}n}{\ln^{2}2}$
+\end_inset
+
+ ולכן הקשר בין שתי פונקציות אלו הוא כמו הקשר בין 
+\begin_inset Formula $n$
+\end_inset
+
+ ו-
+\begin_inset Formula $n^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $:\lg^{2}n=\Omega\left(2^{\sqrt{2\lg n}}\right)$
+\end_inset
+
+ נסמן 
+\begin_inset Formula $m=\lg n$
+\end_inset
+
+ ונקבל 
+\begin_inset Formula $c_{0}m^{4}\leq2^{\sqrt{2}}2^{m}$
+\end_inset
+
+ואמנם 
+\begin_inset Formula $\lim_{x\rightarrow\infty}\frac{a^{x}}{x^{k}}=\infty$
+\end_inset
+
+ ולכן הטענה נכונה.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $2^{\sqrt{2\lg n}}=\Omega\left(\sqrt{2}^{\lg n}\right)$
+\end_inset
+
+: קשר זה ניתן להביע בצורה 
+\begin_inset Formula $c_{0}\sqrt{2}^{\sqrt{8\lg n}}\leq\sqrt{2}^{\lg n}$
+\end_inset
+
+ כלומר 
+\begin_inset Formula $c_{0}\leq\sqrt{2}^{\lg n-\sqrt{8\lg n}}$
+\end_inset
+
+, וזה מתקיים עבור 
+\begin_inset Formula $c_{0}=1$
+\end_inset
+
+ ו-
+\begin_inset Formula $n_{0}=2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $:\sqrt{2}^{\lg n}=\Omega\left(n\right)$
+\end_inset
+
+
+\begin_inset Formula $\sqrt{2}^{\lg n}=\sqrt{n}$
+\end_inset
+
+ - קשר זה טריוויאלי.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $2^{\lg n}=\Theta\left(n\right)$
+\end_inset
+
+: 
+\begin_inset Formula $2^{\lg n}=n$
+\end_inset
+
+ - קשר טריוויאלי.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n=\Omega\left(n\lg n\right)$
+\end_inset
+
+: מתקיים עבור 
+\begin_inset Formula $c_{0}=1$
+\end_inset
+
+, 
+\begin_inset Formula $n_{0}=2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+חשוב:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $n\lg n=\Theta\left(\lg n!\right)$
+\end_inset
+
+: הקשר שצריך להוכיח הוא היחס בין 
+\begin_inset Formula $n^{n}$
+\end_inset
+
+, 
+\begin_inset Formula $n!$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כיוון ראשון: כל איבר בעצרת קטן או שווה ל-
+\begin_inset Formula $n$
+\end_inset
+
+ ולכן 
+\begin_inset Formula $n!\leq n^{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+כיוון שני: לפחות חצי מהאיברים גדולים או שווים ל-
+\begin_inset Formula $\frac{1}{2}n$
+\end_inset
+
+ ולכן 
+\begin_inset Formula $\left(\frac{1}{2}n\right)^{\frac{1}{2}n}\leq n!$
+\end_inset
+
+, לכן 
+\begin_inset Formula $\lg\left(n!\right)$
+\end_inset
+
+
+\begin_inset Formula $c_{1}n\lg n\leq\frac{1}{2}n\lg n-\frac{n}{2}=\frac{n}{2}\lg\frac{n}{2}\leq$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $n\lg n=\Omega\left(n^{2}\right)$
+\end_inset
+
+: מתקיים עבור כל 
+\begin_inset Formula $c_{0}=1,n_{0}=2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n^{2}=\Theta\left(4^{\lg n}\right)$
+\end_inset
+
+: שתי הפונקציות שוות ולכן הקשר טריוויאלי.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n^{2}=\Omega\left(n^{3}\right)$
+\end_inset
+
+: נכון לפי שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $:n^{3}=\Omega\left(n^{\lg\lg n}\right)$
+\end_inset
+
+ הביטוי בחזקה הימנית הוא פונקציה עולה ולכן קיימים אינסוף ערכי 
+\begin_inset Formula $n$
+\end_inset
+
+ עבורם הביטוי הימני גדול מהביטוי השמאלי.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $:n^{\lg\lg n}=\Theta\left(\lg n^{\lg n}\right)$
+\end_inset
+
+ אם נסמן 
+\begin_inset Formula $n=2^{m}$
+\end_inset
+
+ נקבל בשני הביטויים 
+\begin_inset Formula $m^{m}$
+\end_inset
+
+ ולכן הקשר מתקיים.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(\frac{3}{2}\right)^{n}=\Omega\left(2^{n}\right),2^{n}=\Omega\left(n2^{n}\right)$
+\end_inset
+
+: נכון עבור כל קבוע וכל 
+\begin_inset Formula $1\leq n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n2^{n}=\Omega\left(e^{n}\right)$
+\end_inset
+
+: בגלל החוק 
+\begin_inset Formula $\lim_{n\rightarrow\infty}\frac{a^{n}}{n^{k}}=\infty$
+\end_inset
+
+ ניתן למצוא קבוע המקיים את הטענה.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $e^{n}=\Omega\left(n!\right)$
+\end_inset
+
+: מתקיים לדוגמה עבור 
+\begin_inset Formula $10\leq n_{0},c_{0}=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n!=\Omega\left(\left(n+1\right)!\right)$
+\end_inset
+
+: קשר זה הינו טריוויאלי עבור כל 
+\begin_inset Formula $n$
+\end_inset
+
+ טבעי.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(n+1\right)!=\Omega\left(2^{2^{n}}\right)$
+\end_inset
+
+: מתקיים 
+\begin_inset Formula $\frac{\frac{\left(n+2\right)!}{2^{2^{n+1}}}}{\frac{\left(n+1\right)!}{2^{2^{n}}}}=\frac{n+2}{2^{2^{n+1}-2^{n}}}=\frac{n+2}{2^{2^{n}}}\rightarrow0$
+\end_inset
+
+ ולכן גם 
+\begin_inset Formula $\frac{\left(n+1\right)!}{2^{2^{n}}}$
+\end_inset
+
+ שואפת ל-
+\numeric on
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+וקיים 
+\begin_inset Formula $c_{0}$
+\end_inset
+
+ עבורו אי השיוויון נכון.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $2^{2^{n}}=\Omega\left(2^{2^{n+1}}\right)$
+\end_inset
+
+: הקשר הוא 
+\begin_inset Formula $c_{0}2^{2^{n}}\leq2^{2^{n+1}}$
+\end_inset
+
+, כלומר 
+\begin_inset Formula $c_{0}\leq2^{2^{n+1}-2^{n}}=2^{2^{n}}$
+\end_inset
+
+, וזה מתקיים עבור 
+\begin_inset Formula $c_{0}=1,2\leq n_{0}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Theta\left(\lg n^{\lg a}\right)=\Theta\left(a^{\lg\lg n}\right)$
+\end_inset
+
+.
+ הוכחה:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\left(\lg n\right)^{\lg a}=b\Rightarrow\lg a=\log_{\lg n}b=\frac{\lg b}{\lg\lg n}\Rightarrow\lg a\cdot\lg\lg n=\lg b\Rightarrow2^{\lg a\cdot\lg\lg n}=a\cdot2^{\lg\lg n}=2^{\lg b}=b{\color{gray}\overset{from\ start}{\overbrace{{\normalcolor =}}}}\left(\lg n\right)^{\lg a}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+נמצא את היחס האסימפטוטי בין 
+\begin_inset Formula $\lg\left(n!\right)$
+\end_inset
+
+ לבין 
+\begin_inset Formula $\left(\lg\lg n\right)!$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+נוכיח ש-
+\begin_inset Formula $\left(\lg\lg n\right)!\leq\lg\left(n!\right)$
+\end_inset
+
+ לכל 
+\begin_inset Formula $2\leq n$
+\end_inset
+
+.
+ נפעיל 
+\begin_inset Formula $\lg$
+\end_inset
+
+ על שני הצדדים: 
+\begin_inset Formula $\lg\left(\left(\lg\lg n\right)!\right)\leq\lg\left(\lg\left(n!\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\lg\left(\left(\lg\lg n\right)!\right)=\lg\left(m!\right)=\Theta\left(\lg m^{m}\right)=\Theta\left(\lg\left(\left(\lg\lg n\right)^{\lg\lg n}\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\lg\left(\lg\left(n!\right)\right)=\lg\left(\Theta\left(n\lg n\right)\right)=\Theta\left(\lg\left(n\lg n\right)\right)=\Theta\left(\lg n+\lg\lg n\right)=\Theta\left(\lg n\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align right
+כלומר צריך להוכיח את יחס סדר הגודל בין 
+\begin_inset Formula $\lg n$
+\end_inset
+
+ לבין 
+\begin_inset Formula $\lg\left(\left(\lg\lg n\right)^{\lg\lg n}\right)$
+\end_inset
+
+.
+ נסיר את ה
+\begin_inset Formula $\lg$
+\end_inset
+
+ ונקבל את הפונקציות 
+\begin_inset Formula $\lg\lg n^{\lg\lg n},n$
+\end_inset
+
+.
+ נסמן 
+\begin_inset Formula $n=2^{2^{r}}$
+\end_inset
+
+ ונקבל את הפונקציות 
+\begin_inset Formula $r^{r},2^{2^{r}}$
+\end_inset
+
+.
+ הפונקציה השניה היא מסדר גודל גבוה יותר, לכן נקבל ש-
+\begin_inset Formula $\left(\lg\lg n\right)!=O\left(\lg\left(n!\right)\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+דרך נוספת:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\left(\lg\lg n\right)!,\lg n!\rightarrow\lg\left(\left(\lg\lg n\right)!\right),\lg\lg n!\rightarrow\lg\lg n\cdot\lg\lg\lg n,\lg n\rightarrow\lg\left(\lg\lg n\cdot\lg\lg\lg n\right),\lg\lg n\rightarrow\lg\lg\lg n\leq\lg\lg n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+נוסחאות נסיגה - דוגמאות
+\end_layout
+
+\begin_layout Subsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $T\left(n\right)=5T\left(\frac{n}{5}\right)+\frac{n}{\lg n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+נשתמש בשיטת עץ הרקורסיה: כל רמה 
+\begin_inset Formula $i$
+\end_inset
+
+ בעץ מתפצלת ל-
+\numeric on
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ולכן יש 
+\begin_inset Formula $5^{i}$
+\end_inset
+
+ צמתים בכל רמה.
+ הערך של כל צומת הוא 
+\begin_inset Formula $\frac{\frac{n}{5^{i}}}{\lg\frac{n}{5^{i}}}$
+\end_inset
+
+.
+ ברמה של העלים ערך כל עלה הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ולכן הרמה האחרונה היא 
+\begin_inset Formula $\log_{5}n$
+\end_inset
+
+.
+ לכן הפונקציה היא
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $T\left(n\right)=\sum_{i=0}^{\log_{5}n}5^{i}\cdot\frac{\frac{n}{5^{i}}}{\lg\frac{n}{5^{i}}}=n\sum_{i=0}^{\frac{\lg n}{\lg5}}\frac{1}{\lg n-\lg5^{i}}=n\sum_{i=0}^{\frac{\lg n}{\lg5}}\frac{1}{\lg n-i\lg5}=\frac{n}{\lg5}\sum_{i=0}^{\frac{\lg n}{\lg5}}\frac{1}{\frac{\lg n}{\lg5}-i}{\color{gray}\overset{\text{היפוך סדר המחוברים}}{\overbrace{{\normalcolor =}}}}\frac{n}{\lg5}\sum_{i=0}^{\frac{\lg n}{\lg5}}\frac{1}{i}{\color{gray}\overset{\text{משפט א.7}}{\overbrace{{\normalcolor =}}}}\frac{n}{\lg5}\lg\frac{\lg n}{\lg5}=\Theta\left(n\lg\lg n\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+)
+\begin_inset Formula $\ast$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $T\left(n\right)=T\left(\frac{n}{2}\right)+T\left(\frac{n}{4}\right)+T\left(\frac{n}{8}\right)+n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+נשתמש בשיטת עץ הרקורסיה: כל צומץ בעץ הוא מהצורה 
+\begin_inset Formula $\frac{n}{2^{a}4^{b}8^{c}}$
+\end_inset
+
+ כאשר 
+\begin_inset Formula $a+b+c=i$
+\end_inset
+
+.
+ הסכום של כל הצמתים באותה הרמה הוא
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\sum_{a+b+c=i}\frac{n}{2^{a}4^{b}8^{c}}=n\sum_{a+b+c=i}\left(\frac{1}{2}\right)^{a}\left(\frac{1}{4}\right)^{b}\left(\frac{1}{8}\right)^{c}=\left(\frac{1}{2}+\frac{1}{4}+\frac{1}{8}\right)^{r}=n\left(\frac{7}{8}\right)^{r}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+והפונקציה היא הסכום של כל הרמות: 
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $T\left(n\right)=\sum_{i=0}^{\lg n}n\left(\frac{7}{8}\right)^{i}=n\sum_{i=0}^{\lg n}\left(\frac{7}{8}\right)^{i}=n\cdot\frac{1}{1-\frac{7}{8}}=8n=\Theta\left(n\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+תרגול למבחן
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2024
+\numeric off
+ 
+\numeric on
+69
+\numeric off
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+4
+\numeric off
+א החציון של איברי המסלול הימני -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $2^{\left\lceil \frac{\left\lceil \lg n\right\rceil }{2}\right\rceil }-1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+הכנסה לערימה לוקחת 
+\begin_inset Formula $\Omega\left(n\lg n\right)$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ במקרה הגרוע - 
+\begin_inset Formula $\sum\Theta\left(\lg i\right)=\Theta\left(\sum\lg i\right)=\Theta\left(\lg n!\right)=\Theta\left(n\lg n\right)=\Omega\left(n\lg n\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+מבנה שאפשר להכניס אליו ב-
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+ ולמצוא טווח בין שני מספרים ב-
+\begin_inset Formula $O\left(\lg n\right)$
+\end_inset
+
+ - עץ שחור אדום שאת הבניה מבצעים כמו בערמה ואת הטווח על ידי הכנסת שני המפתחות,
+ מציאת ה-
+\begin_inset Formula $rank$
+\end_inset
+
+ שלהם וחיסור, ואז הוצאתם.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2023
+\numeric off
+ב
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+62
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+בהוכחת מיון לשים לב להוכיח אינדוקציה חזקה - לא רק ממיינים את 
+\begin_inset Formula $n$
+\end_inset
+
+ אלא כל מספר קטן ממנו.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $select$
+\end_inset
+
+ אופיטמלי למציאת חציון, 
+\begin_inset Formula $partition$
+\end_inset
+
+ אופטימלי לחלוקה סביב איבר, 
+\begin_inset Formula $mergesort$
+\end_inset
+
+ אופטימלי למיון.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מימוש תור על ידי שתי מחסניות - דוחפים לראשונה ואם היא לא ריקה אז לשניה,
+ בהוצאה מוציאים מהראשונה ואם הראשונה לא ריקה אז הופכים את השנייה על הראשונה.
+ ככה תמיד בראשונה האיבירים נמצאים בסדר ההכנסה.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הוצאת 
+\begin_inset Formula $k$
+\end_inset
+
+ איברים קטנים בזמן 
+\begin_inset Formula $O\left(n+k\lg k\right)$
+\end_inset
+
+ - מציאת איבר עם ערך מיקום 
+\begin_inset Formula $k$
+\end_inset
+
+ )בזמן 
+\begin_inset Formula $n$
+\end_inset
+
+(, ביצוע 
+\begin_inset Formula $partiion$
+\end_inset
+
+ )בזמן 
+\begin_inset Formula $n$
+\end_inset
+
+(, מיון באמצעות 
+\begin_inset Formula $mergesort$
+\end_inset
+
+ )בזמן 
+\begin_inset Formula $k\lg k$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- שחזור עץ חיפוש בינארי - לא ניתן לבצע מסריקה תוכית )קל למצוא דוגמאות נגדיות(,
+ לא ניתן לבצע מסריקה תחילית )אם יש שני מספרים זהים לא ידוע מי מעל מי(, ניתן
+ לבצע מסריקה תחילית אם כל האיברים שונים )בצורה רקורסיבית לוקחים איבר ומחפשים
+ את האיבר הבא שגדול ממנו, כל מה שביניהם זה תת עץ שמאלי והשאר ימני(.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מבנה נתונים שמאפשר קבלת ממוצע ב-
+\begin_inset Formula $O\left(\lg n\right)$
+\end_inset
+
+ - הוספת שדה סכום, הכנסת הערכים 
+\begin_inset Formula $a,b$
+\end_inset
+
+ וחיסור הסכום וערך המיקום של אחד מהשני.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2023
+\numeric off
+ב 
+\numeric on
+99
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- ?
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2023
+\numeric off
+א
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+91
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם מקבלים את מספר הקלטים האפשריים 
+\begin_inset Formula $k$
+\end_inset
+
+ אפשר להסיק שגובה עץ ההחלטות הוא לפחות 
+\begin_inset Formula $\lg\left(k\right)$
+\end_inset
+
+ אבל מקסימום 
+\begin_inset Formula $2^{h}$
+\end_inset
+
+.
+ מכך אפשר להסיק על ערך 
+\begin_inset Formula $h$
+\end_inset
+
+ וזהו הזמן במקרה הגרוע.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+-
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ אם יודעים מרחק מקסימלי בין שני איברים במערך אפשר למצוא מינימום ומקסימום
+ ולבנות מערך מניה בגודל ההפרש, ומובטח שהמיון ירוץ ב-
+\begin_inset Formula $\Theta\left(n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מספר הקריאות ל-
+\begin_inset Formula $random$
+\end_inset
+
+ ב-
+\begin_inset Formula $randomized\ quicksort$
+\end_inset
+
+ - בפועל זהה למספר הקריאות ל-
+\begin_inset Formula $quicksort$
+\end_inset
+
+.
+ 
+\begin_inset Formula $T\left(n\right)=T\left(k\right)+T\left(n-k\right)+1$
+\end_inset
+
+, באמצעות שיטת הצבה אפשר להוכיח 
+\begin_inset Formula $T\left(n\right)=O\left(n\right)$
+\end_inset
+
+.
+ מספר הקריאות במקרה הטוב הוא 
+\begin_inset Formula $n$
+\end_inset
+
+ כי תמיד בסוף מגיעים לאיבר אחד בכל עלה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2020
+\numeric off
+ב
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+81
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לחלק בחזקה הגבוהה, הצבת משתנה 
+\begin_inset Formula $n=2^{m}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\Theta$
+\end_inset
+
+ לא אומר שהגבול הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לדוגמה 
+\begin_inset Formula $n,2n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- גם אם עושים מיון מהיר רק על טווח מסוים במערך אז המקרה הגרוע והטוב אותו
+ דבר כי ייתכן שהם בטווח.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם רוצים לעדכן ערכים בערמה - צריך לעדכן בעת החלפת מספרים ב-
+\begin_inset Formula $heapify$
+\end_inset
+
+ או ב-
+\begin_inset Formula $insert$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הכנסה לעץ חיפוש
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+זמן הריצה של בניית העץ - במקרה הגרוע גובה העץ גדל )
+\begin_inset Formula $\sum\lg i=\lg n!=n\lg n$
+\end_inset
+
+(, במקרה הטוב הוא נבנה כמו ערימה ואז 
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+האם התשובה תשתנה אם הייתה מחיקה - כן כי ייתכן שהענף קטן ב-
+\numeric on
+1
+\numeric off
+.
+\end_layout
+
+\begin_layout Itemize
+האם התשובה תשתנה אם הייתה הכנסה לעץ שחור אדום - כן כי ייתכן שהיה סיבוב.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מבנה שאפשר לבנות בזמן לינארי, למחוק מפתח חיובי קטן בזמן רגיל ולקבל שכיח
+ בזמן מיידי - לבנות עץ א
+\begin_inset Quotes erd
+\end_inset
+
+ש ממערך ממויין )לינארי(, ערימת מינימום עבור מפתחות חיוביים וערימת מקסימום
+ עבור שכיחויות, האיברים בערימות מכילים מצביעים לעץ וההפך )אפשר לעשות על
+ ידי חיפוש בעץ לאחר הכנסה(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2022
+\numeric off
+ג
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+82
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $\lg f\left(n\right)=O\left(\lg g\left(n\right)\right)$
+\end_inset
+
+ אז 
+\begin_inset Formula $f=O\left(g\right)$
+\end_inset
+
+ - לא נכון, לדוגמה 
+\begin_inset Formula $f\left(n\right)=n,g\left(n\right)=n^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- החלפת ראשון ואחרון וביצוע חלוקה לא ממיין כי ייתכן שמכניסים איבר לא קשור
+ לתחום הממויין.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+א - השוואות שמבוצעות על מיון ערמה של מערך ממויין הפוך שהוא עץ שלם- כל איבר
+ יורד עד הסוף )
+\begin_inset Formula $2h$
+\end_inset
+
+ השוואות( לכן התשובה היא סכום כל הגבהים.
+ סכום כל הגבהים בעץ שלם שגובהו 
+\begin_inset Formula $k$
+\end_inset
+
+ הוא 
+\begin_inset Formula $2^{h+1}-h-2$
+\end_inset
+
+ )הוכחה באינדוקציה(.
+\end_layout
+
+\begin_layout Itemize
+ב - רוצים להשוות
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1000
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מספרים בני
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ בתים.
+ האם ערימה או בסיס יותר יעיל?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ערמה - זמן 
+\begin_inset Formula $4n\lg4n=2\cdot4000+4000\cdot10\approx50000$
+\end_inset
+
+, בשביל מקום צריך ליצור מערך באורך 
+\begin_inset Formula $n=1000$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+בסיס - זמן 
+\begin_inset Formula $d\left(2n+2k\right)=4\left(2\cdot1000+2\cdot256\right)\approx10000$
+\end_inset
+
+, בשביל מקום צריך 
+\begin_inset Formula $n+k=1256$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הדפסת איבר מינימלי מסריקה תחילית - מחפשים פעם ראשונה שהאיבר הבא גדול יותר
+ או סוף הרשימה )כי בהתחלה הולכים הכי שמאלה(.
+\end_layout
+
+\begin_layout Itemize
+הדפסת כל האיברים שלפניהם יש רק איברים קטנים - עבור כל איבר אם האיבר שבראש
+ המחסנית קטן ממנו אז מוציאים, בסוף אם המחסנית ריקה סימן שזה באמת ככה, בסוף
+ מכניסים את האיבר למחסנית )המחסנית תכיל מקסימום קודם כלשהו ואז רצף של איברים
+ שלא גדולים מהמקסימום, ככה עד המקסימום הבא או סוף הרשימה(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הדפסת הממוצע של כל האיברים שקטנים מאיבר מסוים ונמצאים שמאלה ממנו - הכנסה
+ לעץ א
+\begin_inset Quotes erd
+\end_inset
+
+ש שמכיל גם סכום ועבור כל אחד הכנסה לעץ, מציאה וחישוב ממוצע כמו 
+\begin_inset Formula $os-rank$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+הוספת שגרה שמחזירה הפרש מינימלי שקטן מערך מסוים, בין שני איברים - שמירה
+ עבור כל צומת מינימום, מקסימום ואת שני האיברים, אם הערך הוא בתת-עץ השמאלי
+ אז הפעלה רקורסיבית עבורו, אם הוא בתת עץ הימני אז לבדוק אם הוא ביני לבין
+ הבן הימני, בגדול להשוות בין
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ערכים - הפרש בתת עץ שמאלי, הפרש בין השורש למקסימום של בן שמאלי, הפרש בין
+ שורש למינימום של בן ימני, הפרש של תת עץ ימני.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+ממנים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ממן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מספר ההשוואות המבוצעות על בניית ערמה עם 
+\begin_inset Formula $n$
+\end_inset
+
+ איברים זהים - 
+\begin_inset Formula $n-1$
+\end_inset
+
+ )
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+השוואות עבור כל הורה, יש קצת הבדל האם יש בן אחרון או לא(
+\end_layout
+
+\begin_layout Itemize
+חישוב אורך ערמה - מעבר על בנים שמאליים ואז חיפוש בינארי על רמה אחרונה.
+\end_layout
+
+\begin_layout Itemize
+מקרים טובים וגרועים:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הכנסה - מטוב ממויין 
+\begin_inset Formula $\left(n\right)$
+\end_inset
+
+, מקרה גרוע ממויין הפוך 
+\begin_inset Formula $\left(n^{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+מיזוג - בטוב המערכים מתפצלים ככה שכל הקטנים נמצאים בפיצול הקטן )ואז הגדול
+ נלקח כמו שהוא(, בגרוע האיברים מתפצלים בצורה שזורה ככה שאף פעם לא לוקחים
+ זנב אלא משווים את כל האיברים )בשניהם 
+\begin_inset Formula $n\lg n$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Itemize
+ערמה - בטוב אף מספר לא מקודם עם 
+\begin_inset Formula $heapify$
+\end_inset
+
+, רק עוברים על כל האבות
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)
+\begin_inset Formula $\frac{n}{2}$
+\end_inset
+
+(, בגרוע המערך ממויין הפוך וכל מספר יורד עד הסוף - 
+\begin_inset Formula $n\lg n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+מהיר - בטוב המערך מחולק ל-
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+כל פעם 
+\begin_inset Formula $\left(n\lg n\right)$
+\end_inset
+
+, ברע מחלקים ל
+\begin_inset Formula $\left(0,n-1\right)$
+\end_inset
+
+ בזמן 
+\begin_inset Formula $n^{2}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+לא ניתן למיין ערמת מינימום בזמן לינארי - אחרת היה אפשר למיין על ידי הכנסה
+ ואז מיון הערמה
+\end_layout
+
+\begin_layout Itemize
+ניתן למיין 
+\begin_inset Formula $\frac{n}{\lg n}$
+\end_inset
+
+ איברים קטנים בזמן לינארי - הכנסה והוצאה מערמת מינימום.
+\end_layout
+
+\begin_layout Itemize
+ניתן למיין מערך בגודל 
+\begin_inset Formula $n$
+\end_inset
+
+ שכל מספר בו הוא לכל היותר 
+\begin_inset Formula $2n\sqrt{n}$
+\end_inset
+
+ - נכון כי מפצלים לעד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ )זמן קבוע( וגדול מ-
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)נכנס ב-
+\begin_inset Formula $n^{2}-1$
+\end_inset
+
+ ואת זה אפשר למיין לפי מנייה(.
+\end_layout
+
+\begin_layout Itemize
+מציאת מספר חסר במערך בזמן לינארי - חיסור סכום תיאורטי מהסכום האמיתי.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ממן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+14
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הכנסת 
+\begin_inset Quotes eld
+\end_inset
+
+סימניות
+\begin_inset Quotes erd
+\end_inset
+
+ לתוך מערך כדי להגדיל חיפוש
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ברמה אחת
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- להכניס 
+\begin_inset Formula $\sqrt{n}$
+\end_inset
+
+ סימניות כל 
+\begin_inset Formula $\sqrt{n}$
+\end_inset
+
+ איברים.
+\end_layout
+
+\begin_layout Itemize
+בשתי רמות - רמה ראשונה - להכניס 
+\begin_inset Formula $n^{\frac{1}{3}}$
+\end_inset
+
+ סימניות, כל 
+\begin_inset Formula $n^{\frac{2}{3}}$
+\end_inset
+
+ איברים, רמה שניה - להכניס 
+\begin_inset Formula $n^{\frac{1}{3}}$
+\end_inset
+
+, כל 
+\begin_inset Formula $n^{\frac{1}{3}}$
+\end_inset
+
+ איברים )שהם שורש של 
+\begin_inset Formula $n^{\frac{2}{3}}$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+ניתן להכליל ל-
+\begin_inset Formula $n$
+\end_inset
+
+ רמות
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+נניח שקיים אלגוריתם להדפסת כמות איברים שקטנים מהמערך ונמצאים משמאלו
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+חייב להיות 
+\begin_inset Formula $n\lg n$
+\end_inset
+
+ כי אחרת אפשר למיין על ידי להפוך ולהכניס למערך לפי מיקום
+\end_layout
+
+\begin_layout Itemize
+אלגוריתם - הכנסת לעץ ערכי מיקום לפי הסדר ומציאת ערך המיקום מיידית.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- עץ א
+\begin_inset Quotes erd
+\end_inset
+
+ש שתומך בהיפוך סימן, חיפוש אי שלילי שגדול או שווה מסוים וחציון שליליים -
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+היפוך סימן על ידי הכנסה והוצאה
+\end_layout
+
+\begin_layout Itemize
+שימוש בעץ כדי לאחסן חיוביים )עם מצביעים דו כיווניים( וחיפוש אי שלילי מינימלי
+ על ידי חיפוש האיבר ואם הוא לא קיים אז הכנסתו ואז ביצוע 
+\begin_inset Formula $successor$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+חציון שליליים על ידי הוספת 
+\begin_inset Formula $size$
+\end_inset
+
+ שסופר שליליים.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2022
+\numeric off
+א
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+87
+\numeric off
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\numeric off
+ב - כדי לעשות 
+\begin_inset Formula $heap-increase-key$
+\end_inset
+
+ ב-
+\begin_inset Formula $O\left(\lg h\right)$
+\end_inset
+
+ במקום 
+\begin_inset Formula $O\left(\lg n\right)$
+\end_inset
+
+ אפשר להעתיק הצידה את האיברים במסלול מהצומת אל הראש ואז לעשות חיפוש בינארי.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- ערך מופיע 
+\begin_inset Formula $\frac{n}{3}$
+\end_inset
+
+ ושני מופיע 
+\begin_inset Formula $\frac{n}{4}$
+\end_inset
+
+ - אחד בודקים ב-
+\begin_inset Formula $\frac{n}{3},\frac{2n}{3}$
+\end_inset
+
+ ושני ב-
+\begin_inset Formula $\frac{n}{4},\frac{2n}{4},\frac{3n}{4}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מיזוג 
+\begin_inset Formula $k$
+\end_inset
+
+ עצי חיפוש בינריים עם סהכ 
+\begin_inset Formula $n$
+\end_inset
+
+ איברים ב-
+\begin_inset Formula $O\left(n\log k\right)$
+\end_inset
+
+ - הדפסה תוכית של כל עץ, הכנסת ראשי כל רשימה לערימת מינימום שכולל את מספר
+ הערמה, כאשר מוציאים איבר אז מכניסים את הבא מאותה הרשימה עד שמגיעים לסוף.
+ גובה ערימת המינימומים היא 
+\begin_inset Formula $\log k$
+\end_inset
+
+ ומכאן הסיבוכיות 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+הוכחת נכונות עץ חיפוש בינארי - יש 
+\begin_inset Formula $n$
+\end_inset
+
+ עלים, ומקסימום 
+\begin_inset Formula $2^{h}$
+\end_inset
+
+ עלים ולכן 
+\begin_inset Formula $\lg n\leq h$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+חיפוש איבר בעץ שקרוב לערך נתון מלמעלה ב-
+\begin_inset Formula $\lg n$
+\end_inset
+
+ - חיפוש בעץ, אם לא קיים אז להכניס, למצוא עוקב ולהוציא.
+ 
+\end_layout
+
+\begin_layout Itemize
+איך אפשר לבנות עץ אדום שחור בזמן לינארי עם מערך ממויין - באופן רקורסיבי
+ מגדירים שהשורש הוא האמצע, חצי שמאלי לתת עץ שמאלי וחצי ימני לתת עץ ימני.
+ )אפשר להוכיח באינדוקציה שלמה - מפצלים לשני חלקים, כל אחד מאוזן לפי ההנחה
+ וגם הכלל מאוזן(.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\lg\left(2\cdot...\cdot n\right)=\lg\left(2^{n}\cdot1\cdot...\cdot\frac{n}{2}\right)=\lg2^{n}+\lg\left(\frac{n}{2}!\right)=n+\Theta\left(\frac{n}{2}\lg\frac{n}{2}\right)=\Theta\left(\frac{n}{2}\lg\frac{n}{2}\right)=\Theta\left(n\lg n\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\lg\frac{n}{2}\leq\lg\left\lceil \frac{n}{2}\right\rceil \leq\lg\left(\frac{n}{2}+1\right)\leq\lg\frac{2n}{3}$
+\end_inset
+
+ )
+\begin_inset Formula $6\leq n$
+\end_inset
+
+(.
+ 
+\begin_inset Formula $\frac{n}{4}\leq\frac{n}{2}-1\leq\left\lfloor \frac{n}{2}\right\rfloor \leq\frac{n}{2}$
+\end_inset
+
+ )
+\begin_inset Formula $4\leq n$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+מותר לצטט למבחן ממדריך הלמידה: שיטת האב המורחבת, פונקציות שכיחות בשיטת האב,
+ שגרת מחיקת איבר מערימה, שיטת עכרה באזי.
+\end_layout
+
+\begin_layout Itemize
+מועד ??
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- קביעת סדר גודל בין 
+\begin_inset Formula $\lg\left(n!\right)$
+\end_inset
+
+ לבין 
+\begin_inset Formula $\left(\lg\lg n\right)!$
+\end_inset
+
+: 
+\begin_inset Formula $\lg n!=n^{n}$
+\end_inset
+
+ - קיים בחלק 
+\begin_inset Quotes eld
+\end_inset
+
+סדרי גודל
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מועד ??
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- צריך ליצור אלגוריתם שמקבל ערימת מינימום בת 
+\begin_inset Formula $n$
+\end_inset
+
+ איברים ומספר 
+\begin_inset Formula $k$
+\end_inset
+
+, מחזיר את 
+\begin_inset Formula $k$
+\end_inset
+
+ האיברים הקטנים ביותר
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ב-
+\begin_inset Formula $k^{2}$
+\end_inset
+
+ - לוקחים 
+\begin_inset Formula $2^{k+1}-1$
+\end_inset
+
+ מהערימה )
+\begin_inset Formula $k$
+\end_inset
+
+ הקטנים חייבים להיות שם כי זה גובה הערימה( וממיינים אותם - 
+\begin_inset Formula $k\cdot\lg h=k^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+ב-
+\begin_inset Formula $k\lg k$
+\end_inset
+
+ - עוברים על הערימה מבלי לשנות אותה, מכניסים 
+\begin_inset Quotes eld
+\end_inset
+
+מועמדים
+\begin_inset Quotes erd
+\end_inset
+
+ אל הערימה ומוציאים את המינימום.
+ גובה הערימה הוא לא יותר מ-
+\begin_inset Formula $\lg k$
+\end_inset
+
+ ולכן התהליך הוא 
+\begin_inset Formula $k\lg k$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+דוגמה נוספת - אם נתון שבמערך כל איבר נמצא במרחק 
+\begin_inset Formula $k$
+\end_inset
+
+ ביחס למיקום שלו אפשר להכניס אותם לערימה ולהוציא את המינימום, חסכוני ביחס
+ למיון רגיל.
+\end_layout
+
+\begin_layout Itemize
+הערות לגבי הוכחת עץ רקורסיה - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כדאי לבדוק את הסכומים של כמה רמות ואז אפשר להניח מה הסכום בכל רמה ולעשות
+ את החישוב, אם ממש רוצים להוכיח פורמלית אפשר אחר כך לעשות שיטת ההצבה
+\end_layout
+
+\begin_layout Itemize
+אם יש סכום מ-
+\numeric on
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+עד 
+\begin_inset Formula $\lg n$
+\end_inset
+
+ אפשר לחסום אותו בסכום עד אינסוף.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2022
+\numeric off
+א
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+89
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כדי למיין מערך בעל 
+\begin_inset Formula $\lg n$
+\end_inset
+
+ איברים שונים בזמן 
+\begin_inset Formula $n\lg\lg n$
+\end_inset
+
+ - להכניס לעץ א
+\begin_inset Quotes erd
+\end_inset
+
+ש כאשר כל צומת סופר כמה כפילויות יש ואז להדפיס
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+-
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ כדי להוסיף ערך לתת עץ שלם בזמן 
+\begin_inset Formula $O\left(\lg n\right)$
+\end_inset
+
+ אפשר להוסיף שדה לצומת שאומר כמה צריך להוסיף לערכים שתחתיו בעת 
+\begin_inset Formula $insert$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2022
+\numeric off
+ב
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+82
+\numeric off
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- יש מצב שפרמטר יגרום לאיפוס של 
+\begin_inset Formula $f\left(n\right)$
+\end_inset
+
+!
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+-
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כל איבר בתת עץ קטן משורש )לא רק בן ישיר(
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2022
+\numeric off
+ב
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+85
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $T\left(n\right)=2T\left(\frac{n}{2}\right)+\frac{n}{\lg n}$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- עץ רקורסיה, 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2022
+\numeric off
+ב
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+95
+\numeric off
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\sum i\lg i\leq\int x\lg x\approx\int x\ln x=\frac{1}{2}\left(x^{2}\ln x-x\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+נוסחאות נסיגה - אפשר לחלק בחזקה הגבוהה
+\end_layout
+
+\end_body
+\end_document

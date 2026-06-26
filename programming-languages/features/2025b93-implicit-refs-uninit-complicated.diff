@@ -1,0 +1,135 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -19,6 +19,7 @@
+       (proc proc?))
+     (ref-val
+       (ref reference?))
++    (uninit-val)
+     )
+ 
+ ;;; extractors:
+@@ -27,6 +28,7 @@
+     (lambda (v)
+       (cases expval v
+ 	(num-val (num) num)
++	(uninit-val () 900)
+ 	(else (expval-extractor-error 'num v)))))
+ 
+   (define expval->bool
+--- a/interp.scm
++++ b/interp.scm
+@@ -30,7 +30,35 @@
+ 
+   ;; value-of : Exp * Env -> ExpVal
+   ;; Page: 118, 119
+-  (define value-of
++  ;; Note - this implementation is very weird
++  ;;        but it does print exactly what is needed
++  (define value-of (lambda (exp env)
++    (let
++      (
++        (val (value-of-exp exp env))
++      )
++      (begin
++        (cases expval val
++          (uninit-val ()
++            (cases expression exp
++              (var-exp (var)
++                (eopl:printf "Warning: you are using uninitialized variable ~a~%" var))
++              (uninit-exp ()
++                #t
++              )
++              (else
++                (eopl:printf "Warning: you are using uninitialized value~%")
++              )
++            )
++          )
++          (else val)
++        )
++        val
++      )
++    )
++  ))
++
++  (define value-of-exp
+     (lambda (exp env)
+       (cases expression exp
+ 
+@@ -100,6 +128,8 @@
+               (value-of exp1 env))
+             (num-val 27)))
+ 
++        (uninit-exp () (uninit-val))
++
+         )))
+ 
+ 
+--- a/lang.scm
++++ b/lang.scm
+@@ -64,6 +64,10 @@
+         ("set" identifier "=" expression)
+         assign-exp)
+ 
++      (expression
++        ("???")
++        uninit-exp)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,53 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      (uninit-reads-as-default
++        "-(???, 0)" 900)
++      (uninit-via-var
++        "let x = ??? in -(x, 1)" 899)
++      (uninit-in-arith
++        "let x = ??? in -(x, x)" 0)
++      (uninit-then-assigned
++        "let x = ??? in begin set x = 5; -(x, 1) end" 4)
++      (uninit-untouched-binding-is-fine
++        "let x = ??? in let y = 10 in y" 10)
++      ;; an uninit value flows into a procedure and is used there
++      (uninit-passed-to-proc
++        "let f = proc (a) -(a,5) in let x = ??? in (f x)" 895)
++      ;; reassigned twice, then read -> fully initialized, no warning
++      (uninit-reassigned-twice
++        "let x = ??? in begin set x = 10; set x = 20; -(x,5) end" 15)
++      ;; two independent uninit bindings, both coerced to 900
++      (uninit-two-bindings
++        "let x = ??? in let y = ??? in -(x, y)" 0)
++      ;; nested arithmetic: -(-(900,1),2)
++      (uninit-nested-arith
++        "-(-(???, 1), 2)" 897)
++
++      ;; note - COMPLICATED variant: reproduces the exam transcript EXACTLY -- "uninitialized variable <x>" when read via a var-exp, generic "uninitialized value" when an uninit value is produced by any OTHER expression, and SILENT for the bare `???` literal.
++      ;; note - it does this by WRAPPING value-of and dispatching on the expression node that produced an uninit result -- a non-standard interp shape. The uninit-simple feature trades this exactness for a clearer one-line var-exp warning; both compute identical values.
++      ;; note - `???` is uninit-val, coerced to the sentinel 900 in any integer context.
++      ;; note - path-sensitivity in action: example 1 prints exactly z, z, a (each NAMED); example 2 prints one generic "value" warning (the uninit comes from (p 7), not a variable).
++      ;; note - the begin's earlier results are discarded; after `set z = 270`, the final (y z) = -(270,5) = 265.
++      (exam-example-1-put-in-preview "
++let z = ???
++in
++  let w = 50
++  in
++    let y = proc (a) -(a,5)
++    in
++      begin
++        -(z,w);
++        (y w);
++        (y z);
++        set z = 270;
++        -(z,w);
++        (y z)
++      end" 265)
++      (exam-example-2 "
++let p = proc (a) ???
++in
++  -((p 7) , 20)" 880)
++
+       ))
+   )

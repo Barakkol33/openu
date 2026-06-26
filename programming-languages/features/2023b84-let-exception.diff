@@ -1,0 +1,302 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -8,11 +8,16 @@
+ 
+ ;;; an expressed value is either a number, a boolean or a procval.
+ 
++  (define-datatype exception exception?
++    (Exception (msg string?)))
++
+   (define-datatype expval expval?
+     (num-val
+       (value number?))
+     (bool-val
+-      (boolean boolean?)))
++      (boolean boolean?))
++    (excp-val
++      (exn exception?)))
+ 
+ ;;; extractors:
+ 
+--- a/environments.scm
++++ b/environments.scm
+@@ -43,7 +43,7 @@
+   (define apply-env
+     (lambda (env search-sym)
+       (if (empty-env? env)
+-	(eopl:error 'apply-env "No binding for ~s" search-sym)
++	(excp-val (Exception "environment"))
+ 	(let ((sym (extended-env-record->sym env))
+ 	      (val (extended-env-record->val env))
+ 	      (old-env (extended-env-record->old-env env)))
+--- a/interp.scm
++++ b/interp.scm
+@@ -14,6 +14,11 @@
+ 
+ ;;;;;;;;;;;;;;;; the interpreter ;;;;;;;;;;;;;;;;
+ 
++  ;; Exceptions are ordinary expressed values (excp-val) that PROPAGATE: any
++  ;; sub-expression that yields an excp-val short-circuits its enclosing
++  ;; expression, which simply returns that excp-val. No Scheme-level
++  ;; raise/with-handlers is used; control flow is plain value passing.
++
+   ;; value-of-program : Program -> ExpVal
+   ;; Page: 71
+   (define value-of-program
+@@ -21,6 +26,65 @@
+       (cases program pgm
+         (a-program (exp1)
+           (value-of exp1 (init-env))))))
++
++  ;; excp-val? : ExpVal -> Bool
++  (define excp-val?
++    (lambda (v)
++      (cases expval v
++        (excp-val (e) #t)
++        (else #f))))
++
++  ;; need-num : ExpVal * (Int -> ExpVal) -> ExpVal
++  ;; propagate an exception value; run k on a number; otherwise yield the
++  ;; "not a number" exception value.
++  (define need-num
++    (lambda (v k)
++      (cases expval v
++        (excp-val (e) v)
++        (num-val (n) (k n))
++        (else (excp-val (Exception "not a number"))))))
++
++  ;; need-bool : ExpVal * (Bool -> ExpVal) -> ExpVal
++  (define need-bool
++    (lambda (v k)
++      (cases expval v
++        (excp-val (e) v)
++        (bool-val (b) (k b))
++        (else (excp-val (Exception "not a boolean"))))))
++
++  ;; except->msg : Except -> String
++  (define except->msg
++    (lambda (e)
++      (cases except e
++        (except-general () "general")
++        (except-not-a-number () "not a number")
++        (except-not-a-boolean () "not a boolean")
++        (except-environment () "environment"))))
++
++  ;; handle-exn : ExpVal(excp) * Listof(Except) * Listof(Exp) * Env -> ExpVal
++  ;; run the first catch whose message matches; if none match, return the
++  ;; exception value unchanged so it keeps propagating.
++  (define handle-exn
++    (lambda (exv excpts excptexps env)
++      (let ((msg (cases expval exv
++                   (excp-val (e) (cases exception e (Exception (m) m)))
++                   (else ""))))
++        (letrec
++          ((loop (lambda (es xs)
++            (cond
++              ((null? es) exv)
++              ((equal? (except->msg (car es)) msg) (value-of (car xs) env))
++              (else (loop (cdr es) (cdr xs)))))))
++          (loop excpts excptexps)))))
++
++  ;; run-finally : Listof(Exp) * Env -> Unspecified  (0 or 1 expressions)
++  ;; evaluated only for side effects; its value is discarded.
++  (define run-finally
++    (lambda (finexps env)
++      (if (null? finexps)
++        #f
++        (begin (value-of (car finexps) env)
++               (run-finally (cdr finexps) env)))))
+ 
+   ;; value-of : Exp * Env -> ExpVal
+   ;; Page: 71
+@@ -36,36 +100,51 @@
+ 
+         ;\commentbox{\diffspec}
+         (diff-exp (exp1 exp2)
+-          (let ((val1 (value-of exp1 env))
+-                (val2 (value-of exp2 env)))
+-            (let ((num1 (expval->num val1))
+-                  (num2 (expval->num val2)))
+-              (num-val
+-                (- num1 num2)))))
++          (need-num (value-of exp1 env)
++            (lambda (num1)
++              (need-num (value-of exp2 env)
++                (lambda (num2)
++                  (num-val (- num1 num2)))))))
+ 
+         ;\commentbox{\zerotestspec}
+         (zero?-exp (exp1)
+-          (let ((val1 (value-of exp1 env)))
+-            (let ((num1 (expval->num val1)))
++          (need-num (value-of exp1 env)
++            (lambda (num1)
+               (if (zero? num1)
+                 (bool-val #t)
+                 (bool-val #f)))))
+ 
+         ;\commentbox{\ma{\theifspec}}
+         (if-exp (exp1 exp2 exp3)
+-          (let ((val1 (value-of exp1 env)))
+-            (if (expval->bool val1)
+-              (value-of exp2 env)
+-              (value-of exp3 env))))
++          (need-bool (value-of exp1 env)
++            (lambda (b)
++              (if b
++                (value-of exp2 env)
++                (value-of exp3 env)))))
+ 
+         ;\commentbox{\ma{\theletspecsplit}}
+         (let-exp (var exp1 body)
+           (let ((val1 (value-of exp1 env)))
+-            (value-of body
+-              (extend-env var val1 env))))
++            (if (excp-val? val1)
++              val1
++              (value-of body (extend-env var val1 env)))))
++
++        (throw-exp (excpt)
++          (excp-val (Exception (except->msg excpt))))
++
++        ;; run exp1; if it yields an exception value, the first matching catch
++        ;; handles it (an unmatched one keeps propagating); finally always runs
++        ;; (its value discarded).
++        (try-exp (exp1 excpts excptexps finexps)
++          (let* ((result (value-of exp1 env))
++                 (handled (if (excp-val? result)
++                            (handle-exn result excpts excptexps env)
++                            result)))
++            (begin
++              (run-finally finexps env)
++              handled)))
+ 
+         )))
+ 
+ 
+   )
+-
+--- a/lang.scm
++++ b/lang.scm
+@@ -42,6 +42,21 @@
+        ("let" identifier "=" expression "in" expression)
+        let-exp)
+ 
++      (expression
++       ("throw" except)
++       throw-exp)
++
++      (expression
++       ("try" "{" expression "}"
++        (arbno "catch" "[" except "]" ":" expression ";")
++        (arbno "finally" ":" expression ";"))
++       try-exp)
++
++      (except ("general") except-general)
++      (except ("not a number") except-not-a-number)
++      (except ("not a boolean") except-not-a-boolean)
++      (except ("environment") except-environment)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -21,18 +21,19 @@
+       (test-var-2 "-(x,1)" 9)
+       (test-var-3 "-(1,x)" -9)
+ 
+-      ;; simple unbound variables
+-      (test-unbound-var-1 "foo" error)
+-      (test-unbound-var-2 "-(x,foo)" error)
++      ;; unbound variables now raise the "environment" exception
++      ;; (instead of aborting with eopl:error)
++      (test-unbound-var-1 "foo" "environment")
++      (test-unbound-var-2 "-(x,foo)" "environment")
+ 
+       ;; simple conditionals
+       (if-true "if zero?(0) then 3 else 4" 3)
+       (if-false "if zero?(1) then 3 else 4" 4)
+ 
+-      ;; test dynamic typechecking
+-      (no-bool-to-diff-1 "-(zero?(0),1)" error)
+-      (no-bool-to-diff-2 "-(1,zero?(0))" error)
+-      (no-int-to-if "if 1 then 2 else 3" error)
++      ;; dynamic type errors now raise exceptions instead of aborting
++      (no-bool-to-diff-1 "-(zero?(0),1)" "not a number")
++      (no-bool-to-diff-2 "-(1,zero?(0))" "not a number")
++      (no-int-to-if "if 1 then 2 else 3" "not a boolean")
+ 
+       ;; make sure that the test and both arms get evaluated
+       ;; properly.
+@@ -55,5 +56,60 @@
+       (check-shadowing-in-body "let x = 3 in let x = 4 in x" 4)
+       (check-shadowing-in-rhs "let x = 3 in let x = -(x,1) in x" 2)
+ 
++      ;;;;;;;;;;;;;;;; exceptions (exam 2023b moed-a Q1) ;;;;;;;;;;;;;;;;
++      ;; a string expected value means (excp-val (Exception <string>))
++
++      ;; example 1 — subtracting a boolean raises "not a number", which
++      ;; escapes the let and becomes the program result (not 78)
++      (exc-not-a-number
++        "let t= -(6,zero?(9))in 78" "not a number")
++      ;; example 2 — an unbound variable raises "environment"
++      (exc-environment
++        "-(t,8)" "environment")
++      ;; example 3 — throw raises the named exception
++      (exc-throw-general
++        "throw general" "general")
++      ;; note - catches are matched top-to-bottom by message; the four messages are
++      ;;        "general", "not a number", "not a boolean", "environment"
++      ;; note - -(4,6) is -2 (nonzero), so if treats it as a number test -> raises "not a boolean"
++      ;; note - finally ALWAYS runs (normal exit, caught, or propagated) but its value is discarded
++      ;; note - an uncaught exception escapes to value-of-program and becomes the result (excp-val ...),
++      ;;        which the harness compares against the expected message string
++      (try-catch-matches-put-in-preview
++        "try
++           {
++             -(if -(4,6) then 70 else 20, 45)
++           }
++           catch [general]        : 11 ;
++           catch [not a number]   : 12 ;
++           catch [not a boolean]  : 13 ;
++           catch [environment]    : 14 ;
++           finally : 200 ;
++          " 13)
++      ;; example 5 — the matching catch itself throws; that propagates
++      (try-handler-rethrows
++        "try
++           {
++             -(if  -(4,6) then 70 else 20 , 45)
++           }
++           catch  [general] : 11   ;
++           catch [not a number] : 12   ;
++           catch [not a boolean] : throw general ;
++           catch [environment] :  14 ;
++           finally : 200;
++          " "general")
++      ;; example 6 — no catch matches "not a boolean", so it propagates
++      ;; (finally still runs)
++      (try-unhandled-propagates
++        "try
++           {
++             -(if  -(4,6) then 70 else 20 , 45)
++           }
++           catch  [general] : 11   ;
++           catch [not a number] : 12   ;
++           catch [environment] :  14 ;
++           finally : 200;
++          " "not a boolean")
++
+       ))
+   )
+--- a/top.scm
++++ b/top.scm
+@@ -46,6 +46,7 @@
+       (cond
+         ((number? sloppy-val) (num-val sloppy-val))
+         ((boolean? sloppy-val) (bool-val sloppy-val))
++        ((string? sloppy-val) (excp-val (Exception sloppy-val)))
+         (else
+          (eopl:error 'sloppy->expval
+                      "Can't convert sloppy value to expval: ~s"

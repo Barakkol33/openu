@@ -1,0 +1,12506 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+% Necessary Commands:
+\usepackage{autobreak}
+\usepackage[T1]{fontenc}
+\usepackage{relsize}
+% Set vertical space before and after dislpay equations to be longer for better redability:
+\AtBeginDocument{\setlength\abovedisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+
+% Set space between words to be wider:
+\spaceskip=1.3\fontdimen2\font plus 1\fontdimen3\font minus 1.5\fontdimen4\font
+
+% Convert the Lyx colors into more pleasent colors:
+\usepackage{xcolor}
+\definecolor{blue}{RGB}{12,97,197}
+\definecolor{green}{RGB}{0,128,40}
+\definecolor{red}{RGB}{235,16,16}
+\definecolor{brown}{RGB}{154,58,0}
+\definecolor{orange}{RGB}{231,135,26}
+\definecolor{purple}{RGB}{94,53,177}
+
+% Convert the QED Symbol at the end of proofs to a solid black square (credit: Yakir Oz):
+\usepackage{amssymb}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Make the layout more similar to Hebrew Article, which I am more used to:
+\renewcommand*{\@seccntformat}[1]{\hspace{0.5cm}\csname the#1\endcsname\hspace{0.5cm}} 
+\usepackage{titlesec}
+\titleformat{\section}{\fontsize{20}{20}\bfseries}{\thesection}{10pt}{}
+\titleformat{\subsection}{\fontsize{15}{15}\bfseries}{\thesubsection}{10pt}{}
+\titleformat{\subsubsection}{\bfseries}{\thesubsubsection}{10pt}{}
+
+% Correct the reversed parentheses in labels:
+\usepackage{polyglossia}
+\setmainlanguage{hebrew}
+\newfontfamily{\hebrewfont}{David}
+\makeatletter
+\def\maketag@@@#1{\hbox{\m@th\normalfont\LRE{#1}}}
+\def\tagform@#1{\maketag@@@{(\ignorespaces#1\unskip)}}
+\makeatother
+
+% Create disjoint union symbols:
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+
+
+\newcommand{\kaliLargeLand}{\mathop{\mathlarger{\mathlarger{\mathlarger{\land}}}}}
+\newcommand{\hebtext}[1]{\mbox{\R{\#1}}}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+\end_modules
+\maintain_unincluded_children false
+\begin_local_layout
+Style Section
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size       Larger
+	  Series     Bold
+	EndFont
+	TocLevel 1
+End
+
+
+Style Section*
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size      Larger
+	  Series     Bold
+	EndFont
+End
+
+
+Style Solution
+
+	LabelString           "פיתרון: "
+End
+
+
+Style Notation
+
+	LabelString           "סימון  \thetheorem: "
+End
+
+Style Theorem
+
+	LabelString           "משפט \thetheorem: "
+End
+
+Style Property
+
+	LabelString           "תזכורת: "
+End
+\end_local_layout
+\language hebrew
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "David"
+\font_sans "default" "David"
+\font_typewriter "default" "David"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 2cm
+\rightmargin 1cm
+\bottommargin 3cm
+\headheight 0cm
+\headsep 0cm
+\footskip 2cm
+\secnumdepth -2
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation 0bp
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/barak/Downloads/MacrosStandard.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Doublebox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "20pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\paragraph_spacing double
+\align center
+
+\series bold
+\size huge
+לוגיקה סיכום
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+#לעשות
+\end_layout
+
+\begin_layout Itemize
+-
+\end_layout
+
+\begin_layout Subsection
+הכנה למבחן
+\end_layout
+
+\begin_layout Itemize
+לתרגל: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הפיכת פסוק לדיסיוניקטיבי נורמלי
+\end_layout
+
+\begin_layout Itemize
+הפיכת נוסחה לפרנקסית נורמלית + סקולמניזציה
+\end_layout
+
+\end_deeper
+\begin_layout Section
+תכנית הקורס
+\end_layout
+
+\begin_layout Itemize
+פרקים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1-4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- השפה הפסוקית
+\end_layout
+
+\begin_layout Itemize
+פרקים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5-6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- שפת היחסים
+\end_layout
+
+\begin_layout Itemize
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מבנה ותורה הקשורים לאריתמטיקה, משפט אי השלמות של גדל
+\end_layout
+
+\begin_layout Itemize
+פרקים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8-9
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- וריאציות של לוגיקת היחסים - לוגיקה רב סוגית ולוגיקה מסדר שני, לוגיקת זמן,
+ לוגיקה מודאלית.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+מבנה המבחן )סמסטר
+\family roman
+\series bold
+\shape up
+\size large
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2024
+\numeric off
+א(
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הוכחה באינדוקציה מבנית
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- שלמות קשרים או שלמות ונאותות
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- האם פסוקים אמיתיים, הוכחה פורמלית וכו'
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - מודלים/תת מודלים, גדירות
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לוגיקה ושפה פורמלית
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+1.1
+\numeric off
+ טקסט ומשמעותו 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+חשובים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+תנאים: לדעת לקרוא את הטקסט, להבין את הפירוש, ושהטקסט יהיה מועיל למטרה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+תחביר - איך לקרוא, א
+\begin_inset Quotes erd
+\end_inset
+
+ב, מה זה ביטוי תקין
+\end_layout
+
+\begin_layout Itemize
+פירוש - איך לבצע, מה עושים כאשר קוראים כל דבר
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+15
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מושגים: מקלדת, שפה, ביטוי, מחרוזת, שמות, משפטים
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+1.2
+\numeric off
+ שפה טבעית
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שימושית לביטוי ביומיום אבל לא חד משמעית ולא מוגדרת היטב )לפעמים אפשר להבין
+ לפי הפירוש(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+1.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+שפה פורמלית
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+צריכה לבטא את מה שמעניין לעסוק בו, חד משמעית, פשוטה ונוחה, מוגדרת ובלתי
+ משתנה, קלה ללמוד וללמד, כללי תחביר פשוטים, הגדרת שפה והגדרת פירוש נפרדים
+\end_layout
+
+\begin_layout Itemize
+מבנה - מקלדת )א
+\begin_inset Quotes erd
+\end_inset
+
+ב(, מחרוזת )רצף סופי של אבני שפה(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שמות עצם
+\end_layout
+
+\begin_layout Itemize
+טענות לוגיות - נוסחאות ופסוקים
+\end_layout
+
+\begin_layout Itemize
+חישובים - תכניות
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+שפות לדוגמה 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1.4
+\numeric off
+ מספרים טבעיים
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+1.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+פונקציות 
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+1.6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ שפת התכנות 
+\begin_inset Formula $while$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ניתן לחשוב עליה כפונקציה מהמספרים הטבעיים למספרים הטבעיים.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+1.7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ שפה לניהול ספריה
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לוגיקה פסוקית - התחביר
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מקלדת ושפה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\sum$
+\end_inset
+
+ - מקלדת )לדוגמה 
+\begin_inset Formula $\left\{ a,b\right\} $
+\end_inset
+
+(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\sum^{\ast}$
+\end_inset
+
+ - קבוצת כל המחרוזות מעל המקלדת )גם הקבוצה הריקה(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+פעולת השרשור
+\end_layout
+
+\begin_layout Itemize
+כל קבוצה של מחרוזות 
+\begin_inset Formula $L\subseteq\sum^{\ast}$
+\end_inset
+
+ תקרא שפה
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+השפה הפסוקית הגדרות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+המקלדת הפסוקית )מופיע בדף הגדרות(
+\end_layout
+
+\begin_layout Itemize
+הגדרה ברקורסיה / הגדרה מדורגת )אינדוקציה(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ איך מדברים בשפה הפסוקית? )הצרנה(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+צריך להגדיר כל דבר שרוצים עם פסוקים אלמנטריים...
+\end_layout
+
+\begin_layout Itemize
+לא תמיד קל לתרגם מהשפה הטבעית - לפעמים צריך לבחור בין כמה משמעויות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לא תרגום אלא ניסוח - ניחוש מה הייתה כוונת הדובר, ויתור על מידע נוסף
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+לפעמים התרגום יהיה ממש ארוך! ולא קריא לבני אדם.
+ אבל לפחות חד משמעי
+\end_layout
+
+\begin_layout Itemize
+המתקת תחביר - כדי לעזור לבני אדם )אבל לא גורע מהערך(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+הוכחה באינדוקציה מבנית
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- עוברים פסוקים אלמנטריים, קשר שלילה )מניחים שלפסוק המקורי יש תכונה(, קשר
+ דו מקומי )מניחים שלמקוריים יש תכונה(
+\end_layout
+
+\begin_layout Itemize
+האינדוקציה היא על 
+\begin_inset Formula $n$
+\end_inset
+
+ במעבר על 
+\begin_inset Formula $E_{n}$
+\end_inset
+
+, קבוצת הפסוקים בעלי עומק קשרי 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+ניסוח: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+נוכיח באינדוקציה מבנית שלכל פסוק 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ <תכונה>.
+ 
+\end_layout
+
+\begin_layout Itemize
+נוכיח שאם הוא פסוק אלמנטרי אז <מתקיימת התכונה>.
+ 
+\end_layout
+
+\begin_layout Itemize
+נוכיח שאם יש פסוק 
+\begin_inset Formula $\psi$
+\end_inset
+
+ שמקיים את התכונה כך 
+\begin_inset Formula $\varphi=\lnot\psi$
+\end_inset
+
+ אז 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ <מקיים את התכונה>.
+\end_layout
+
+\begin_layout Itemize
+נוכיח שאם יש פסוקים 
+\begin_inset Formula $\psi_{1},\psi_{2}$
+\end_inset
+
+ כך ש-
+\begin_inset Formula $\varphi=\left(\psi_{1}@\psi_{2}\right)$
+\end_inset
+
+ אז 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ <מקיים את התכונה>.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+דוגמה - ספירת סוגריים
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2.6
+\numeric off
+ משפט הקריאה היחידה ועץ מבנה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מרכיב ראשי, קשר ראשי, מרכיבים ראשיים
+\end_layout
+
+\begin_layout Itemize
+למה קריאה עוזרת? - מראה שמחרוזת היא פסוק, מוצאת קשר ראשי, מראה דרך לנתח
+ את שאר העץ, יציג את התוצאה, מראה עומק קשרי של כל תת פסוק
+\end_layout
+
+\begin_layout Itemize
+משפט הקריאה היחידה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+סימן יחיד - פסוק אלמנטרי 
+\begin_inset Formula $P_{i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+מתחיל בסימן שלילה - פסוק שלילה 
+\begin_inset Formula $\lnot\beta$
+\end_inset
+
+ )
+\begin_inset Formula $\beta$
+\end_inset
+
+ פסוק(
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+סימן ראשון סוגר - קשר דו מקומי )נמחק סוגריים ונחפש קשר שיש מימינו ומשמאלו
+ את אותה כמות סוגריים(.
+ 
+\begin_inset Formula $\left(\alpha\oplus\beta\right)$
+\end_inset
+
+ כאשר 
+\begin_inset Formula $\alpha,\beta$
+\end_inset
+
+ פסוקים.
+\end_layout
+
+\begin_layout Itemize
+אם לא - לא פסוק
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לדוגמה - אסורים סוגריים מסביב לפסוק שלילה
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- רישא שהיא פסוק היא כל הפסוק
+\end_layout
+
+\begin_layout Itemize
+עץ מבנה - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כל צומת היא קשר, כל עלה הוא פסוק 
+\end_layout
+
+\begin_layout Itemize
+עקרונית, אפשר לעצור אם רואים פסוק, לא חייבים להגיע לפסוק אלנטרי.
+\end_layout
+
+\begin_layout Itemize
+בהכרח כל עלה חייב להיות פסוק לכן אם מצאנו עלה שאינו פסוק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - אפשר לעצור.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2.7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+הגדרה באינדוקציה מבנית
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הגדרת פונקציה - הגדרה על פסוקים אלמנטריים, שלילה, קשר דו מקומי
+\end_layout
+
+\begin_layout Itemize
+פסוק חלקי - כל פסוק שיכול להיווצר כש
+\begin_inset Quotes erd
+\end_inset
+
+מפרקים
+\begin_inset Quotes erd
+\end_inset
+
+ את הפסוק המקורי )לפסוק אלמנטרי אין פירוק, פסוק מורכב - המרכיבים הראשיים
+ של הקשר(.
+\end_layout
+
+\begin_layout Itemize
+לוקליות ההגדרה באינדוקציה - אם שתי פונקציות מתלכדות על פסוקים אלמנטריים
+ שמופיעים בפסוק והן זהות על כל קשר שמופיע בפסוק - התמונה של הפסוק בשתיהן
+ היא זהה.
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.11
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כל פסוק חלקי הוא מחרוזת חלקית
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ פסוק חלקי ומחרוזת חלקית שהיא פסוק
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+למת המחרוזת החלקית - אם תת מחרוזת היא פסוק אז היא כל הפסוק או מחרוזת חלקית
+ של רכיב ראשי
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הוכחה - מראים שאם הוא כולל קשר ראשי כלשהו אז הוא בהכרח אינו פסוק
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.12
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם לשתי תת מחרוזות שהן פסוקים יש חפיפה, אז אחת היא בהכרח תת מחרוזת של
+ השניה.
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\psi$
+\end_inset
+
+ הוא פסוק חלקי של 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ אם ורק אם הוא מחרוזת חלקית של 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ שגם היא פסוק.
+ )הוכחה - כיוון אחד שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.11
+\numeric off
+(
+\end_layout
+
+\begin_layout Itemize
+מציאת דרגה של פסוק - מסמנים ב-
+\numeric on
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+פסוקים אלמנטריים, מסמנים ב-
+\begin_inset Formula $n+1$
+\end_inset
+
+ אם הרכיב הראשי הכי גבוה של קשר כלשהו הוא 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ אם בסוף מקבלים מספר - זוהי הדרגה.
+ אם לא - המחרוזת אינה פסוק.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2.9
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ הצבה והחלפת פסוק חלקי
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.14
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ומשפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.6
+\numeric off
+ - החלפת פסוק בפסוק אחר מובילה לפסוק
+\end_layout
+
+\begin_layout Itemize
+הצבה - יחידה )החלפת מופע אחד(, מלאה )החלפת כל המופעים( הכללה )החלפת כמה
+ פסוקים(
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $H$
+\end_inset
+
+ היא פונקציה, בכל פסוק אפשר להחליף זה בזה פסוקים שהם שקולים ביחס ל\SpecialChar softhyphen
+
+\begin_inset Formula $H$
+\end_inset
+
+, ולא משנה איזה אחד מציבים
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2.10
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ סדרת בניה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שימוש - רשימת פסוקים חלקיים בצורת כתיבה, לא עץ
+\end_layout
+
+\begin_layout Itemize
+סדרת בניה - סדרה של מחרוזות כאשר כל מחרוזת היא אלמנטרית או מתקבלת חיבור
+ מחרוזות קודמות לה באמצעות קשר.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+האיבר האחרון חייב להיות הפסוק עצמו! 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.9
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- רישא של סדרת בניה היא סדרת בניה, לכל פסוק יש סדרת בניה שכל מחרוזותיה הן
+ פסוקים חלקיים שלו, כל פסוק חלקי של פסוק מסוים מופיע בכל סדרת בניה של הפסוק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ )לא משנה איזו בחרנו(.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הערה: יש גם סדרות בניה שמכילות פסוקים לא קשורים! לא כל סדרת בניה מכילה רק
+ פסוקים חלקיים.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מחרוזת היא פסוק אם ורק אם יש לה סדרת בניה, פסוק הוא תת פסוק אם ורק אם הוא
+ מופיע בסדרת בניה כלשהי )של הפסוק המקורי(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+דקדוק 
+\begin_inset Formula $BNF$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $(Backus-Naur)$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הגדרה רקורסיבית בשפה מקוצרת.
+\end_layout
+
+\begin_layout Itemize
+השפה הפסוקית: )
+\begin_inset Formula $Q$
+\end_inset
+
+ פסוקים אלמנטריים, 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ פסוקים(
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\align left
+\begin_inset Formula $Q::=P_{1}|P_{2}...|P_{n}|..$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\varphi::=Q|\lnot\varphi|\left(\varphi\vee\varphi\right)|\left(\varphi\wedge\varphi\right)|\left(\varphi\rightarrow\varphi\right)|\left(\varphi\leftrightarrow\varphi\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+סיכום
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מחרוזת היא פסוק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ אם ורק אם - נבנית לפי כללי הבנייה / נמצאת בקבוצה 
+\begin_inset Formula $E_{n}$
+\end_inset
+
+ / יש לה עץ מבנה / יש לה סדרת בנייה
+\end_layout
+
+\end_deeper
+\begin_layout Section
+הערות שלי
+\end_layout
+
+\begin_layout Itemize
+תכונות של פסוקים:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+איזון סוגריים
+\end_layout
+
+\begin_layout Itemize
+מספר קשרים דו מקומיים +
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+ = מספר פסוקים אלמנטריים
+\end_layout
+
+\begin_layout Itemize
+רישא ממש של פסוק אינה פסוק )סיפא יכולה להיות(
+\end_layout
+
+\begin_layout Itemize
+קשר ראשי - היחיד שמקיים איזון סוגריים
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $p$
+\end_inset
+
+ פסוק גם 
+\begin_inset Formula $\lnot p$
+\end_inset
+
+ פסוק
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $p$
+\end_inset
+
+ לא פסוק ייתכן ש-
+\begin_inset Formula $(p$
+\end_inset
+
+ פסוק, לדוגמה 
+\begin_inset Formula $p\rightarrow q)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לוגיקה פסוקית - הפירוש
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מודל בשפה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כל פסוק אלמנטרי מקבל פירוש אמיתי מהעולם )לדוגמה 
+\begin_inset Quotes eld
+\end_inset
+
+אתמול ירד גשם
+\begin_inset Quotes erd
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Itemize
+פירוש לשפה - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אלמנטריים - פונקציה 
+\begin_inset Formula $M$
+\end_inset
+
+ מקבוצת הפסוקית האלמנטריים ל-
+\begin_inset Formula $\left\{ T,F\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+מורכבים - הגדרת 
+\begin_inset Formula $M$
+\end_inset
+
+ באינדוקציה מבנית לפי הקשרים
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $M\vDash Q$
+\end_inset
+
+ אם 
+\begin_inset Formula $Q$
+\end_inset
+
+ נכון ב-
+\begin_inset Formula $M$
+\end_inset
+
+ )או במילים אחרות 
+\begin_inset Formula $Q$
+\end_inset
+
+ נכון ב-
+\begin_inset Formula $M$
+\end_inset
+
+ / מספק / מסתפק וכו'( )ו-
+\begin_inset Formula $\neq$
+\end_inset
+
+ אם לא(
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $M$
+\end_inset
+
+ הוא מודל של קבוצת פסוקים 
+\begin_inset Formula $K$
+\end_inset
+
+ אם כל פסוקי 
+\begin_inset Formula $K$
+\end_inset
+
+ נכונים ב-
+\begin_inset Formula $M$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+אם יש 
+\begin_inset Formula $n$
+\end_inset
+
+ פסוקים אלמנטריים יכולים להיות 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+ מודלים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ לוקליות ערך האמת - אמיתות פסוק תלויה רק בפסוקים האלמנטריים התלויים בו.
+\end_layout
+
+\begin_layout Itemize
+חישוב ערך אמת של פסוק לפי טבלת אמת - יוצרים סדרת בניה, לכל פסוק אלמנטרי
+ כותבים את הערך, לכל פסוק מורכב כותבים לפי הקודמים.
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ הצבה - אפשר להציב פסוקים זהים בפסוק גדול וערכו יישמר.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+3.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אמת לוגית ושקילות לוגית
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+טאוטולוגיה - אמיתית בכל מודל )-הכוונה כל מודל הכולל את כל הפסוקים האלמנטריים
+ הכלולים בפסוק, אחרת אין משמעות(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+פסוק שקרי אם הוא לא נכון באף מודל.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שקילות לוגית - פסוקים שקולים לוגית )
+\begin_inset Formula $\equiv$
+\end_inset
+
+( אם ורק אם הם נכונים באותם המודלים 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הערה - האם 
+\begin_inset Formula $P\equiv P\wedge\left(Q\vee\left(\lnot Q\right)\right)$
+\end_inset
+
+? - רק אם 
+\begin_inset Formula $Q$
+\end_inset
+
+ מוגדר.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שני פסוקים שקולים אם ורק אם הפסוק 
+\begin_inset Formula $\left(\varphi\leftrightarrow\psi\right)$
+\end_inset
+
+ הוא טאוטולוגיה.
+\end_layout
+
+\begin_layout Itemize
+איך בודקים שקילות? 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+טבלת אמת ומראים שבכל מודל פסוק אחד נכון אם ורק אם השני נכון
+\end_layout
+
+\begin_layout Itemize
+מראים שנכונות / אי נכונות של אחד גוררת נכונות / אי נכונות של השני
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שקילויות שימושיות )
+\numeric on
+119
+\numeric off
+(
+\end_layout
+
+\begin_layout Itemize
+פסוקים שקולים הם עם אותה משמעות לוגית, אבל לא בהכרח סמנטית בעולם האמיתי
+ )בסוף אנחנו נותנים להם משמעות בעולם(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+3.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+צורות מלאות של קשרים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+קבוצת קשרים מלאה - לכל טבלת אמת יש פסוק שמתאים לה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לדוגמה - נסו להביא את 
+\begin_inset Formula $\vee$
+\end_inset
+
+ רק עם 
+\begin_inset Formula $\wedge$
+\end_inset
+
+ ותגלו שיש שורות בטבלת אמת שלא יהיה להן פסוק.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כל פסוק שקול לפסוק עם הסימנים 
+\begin_inset Formula $\left(\lnot,\vee\right)$
+\end_inset
+
+, ו-
+\begin_inset Formula $\left(\lnot,\rightarrow\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אפשר למחוק סימני שלילה עוקבים
+\end_layout
+
+\begin_layout Itemize
+קוניוניקציה - וגם, דיסיוניקציה - או
+\end_layout
+
+\begin_layout Itemize
+צורה דיסיוניקטיבית נורמלית - דיסיוניקציה של קוניוניקציות של פסוקים אלמנטריים
+ )פשוטות(.
+ לדוגמה 
+\begin_inset Formula $\left(P_{1}\wedge P_{2}\wedge\lnot P_{3}\right)\vee\left(\lnot P_{1}\wedge P_{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+קוניוניקציה פשוטה מלאה - מזכירה כל פסוק אלמנטרי פעם אחת )יש 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+ כאלה, כל אחת היא מודל( )משפטים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.4,3.5
+\numeric off
+(
+\end_layout
+
+\begin_layout Itemize
+אלגוריתם לנרמול דיסיוניקטיבי
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כל קשר חץ וחץ כפול ממירים ל
+\begin_inset Quotes erd
+\end_inset
+
+או
+\begin_inset Quotes erd
+\end_inset
+
+ ו-
+\begin_inset Quotes erd
+\end_inset
+
+וגם
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+מזיזים פנימה
+\begin_inset Quotes erd
+\end_inset
+
+ סימני שלילה לתוך סוגריים ומוחקים סימני שלילה עוקבים.
+ ממשיכים עד שכל סימן שלילה הוא לפני פסוק אלמנטרי.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+מזיזים פנימה
+\begin_inset Quotes erd
+\end_inset
+
+ קשרי 
+\begin_inset Quotes eld
+\end_inset
+
+וגם
+\begin_inset Quotes erd
+\end_inset
+
+ לתוך סוגריים לפי כללי דה מורגן
+\end_layout
+
+\begin_layout Itemize
+ניקיון: 
+\begin_inset Formula $p\vee p=p$
+\end_inset
+
+, מוחקים כל קוניוניקציה בסיסית שמכילה פסוק ושלילתו )לדוגמה 
+\begin_inset Formula $\left(\varphi\vee Q\vee\lnot Q\right)$
+\end_inset
+
+(.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+3.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+נביעה לוגית
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\psi$
+\end_inset
+
+ גורר לוגית את 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ אם רק אם בכל מודל שהראשון נכון גם השני נכון )כלומר אם ורק אם 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ הוא טאוטולוגיה( )סימון 
+\begin_inset Formula $\Leftarrow$
+\end_inset
+
+(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הגדרה לקבוצה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - הקבוצה גוררת אם ורק אם בכל מודל שפסוקי הקבוצה נכונים גם השני נכון
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- משפט הקומפקטיות - אם קבוצה גוררת לוגית פסוק אז יש לה תת קבוצה סופית שגוררת
+ לוגית את הפסוק
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+3.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+משמעות שפות נוספות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+135
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- דיון בהבדל בין אופרטור הנגזרת שפועל על שמות פונקציות לאופרטור הלוגי שפועל
+ על פונקציות - ההוכחה שם מראה שתי פונקציות הם שמות שונים של אותה פונקציה
+ לוגית, אז אופרטור הנגזרת שלהם שווה.
+\end_layout
+
+\begin_layout Itemize
+שפת הספרייה - מודל מתאר את התפתחות הספרייה לאורך הזמן )סדרה סופית של מצבים
+ רגעיים(.
+ הוא נכון אם המעבר בין כל מצב למצב הוא חוקי
+\end_layout
+
+\begin_layout Itemize
+תכנית מחשב - בדומה לספרייה - סדרה של מצבים רגעיים על הזיכרון
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+3.7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+נספח - 
+\begin_inset Quotes eld
+\end_inset
+
+הבעיה 
+\begin_inset Formula $SAT$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ היא איך להכריע האם לפסוק יש מודל.
+ בעיה נרחבת בעולם מדעי המחשב.
+ דוגמאות - צביעת המפות, סודוקו.
+\end_layout
+
+\begin_layout Subsection
+ספיקות 
+\end_layout
+
+\begin_layout Standard
+)לא בספר, כן בחומר(
+\end_layout
+
+\begin_layout Itemize
+פסוק הוא ספיק אם יש מודלים שבהם הוא נכון )או שהוא סתירה(.
+ אפשר לומר שזה האמצע בין טאוטולוגיה לסתירה.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק 
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לוגיקה פסוקית - תורת ההוכחה
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+4.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+דיאלקטים
+\end_layout
+
+\begin_layout Itemize
+בעלות כוח ביטוי שווה וניתן לתרגם מאחת לשניה.
+ שפות חסכוניות - קל לדון, שימוש קשה.
+\end_layout
+
+\begin_layout Itemize
+כתיבת השפה הפסוקית - דיון לוגי ארוך יחסית )
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+קשרים(, פשוטה ואינטואיטיבית, כללי סוגריים נוקשים
+\end_layout
+
+\begin_layout Itemize
+כתיבה עם 
+\begin_inset Formula $XOR$
+\end_inset
+
+ ו-
+\begin_inset Formula $T,F$
+\end_inset
+
+ - מוסיף עוד קשרים לכל הוכחה, צריך לשאול מה התועלת?
+\end_layout
+
+\begin_layout Itemize
+כתיבה פולנית
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)נטולת סוגריים( - פחות סימנים במקלדת אבל יותר קשה להבין
+\end_layout
+
+\begin_layout Itemize
+כתיבה עתירת סוגריים - מקל על הדיון אבל כותבים הרבה וגם השימוש נראה מוזר
+\end_layout
+
+\begin_layout Itemize
+כתיבה כעצים - קל להבין אבל קשה לכתוב, וגם קשה לתקשר ככה )עץ ולא שפה(
+\end_layout
+
+\begin_layout Itemize
+כתיבה עם מקלדת סופית - אפשר לכתוב כל פסוק בצורה 
+\begin_inset Formula $P/P'/P''''$
+\end_inset
+
+ וקשר 
+\begin_inset Formula $I/I'$
+\end_inset
+
+ וכך להסתדר עם
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+סימנים בלבד
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+4.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מהי הוכחה
+\end_layout
+
+\begin_layout Itemize
+הוכחה - נימוק בנכונות טענה שכל אדם שמבין אותה צריך לקבל - לא קשור לאמונה
+ / שכנוע.
+\end_layout
+
+\begin_layout Itemize
+צעדי גזירה )צעד(, סדרת הוכחה )סדרת הצעדים(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+יכיחות – ניתן להוכחה
+\end_layout
+
+\begin_layout Itemize
+בפרקים הקודמים הראנו שאפשר להראות שעובדה היא נכונה על ידי בדיקת כל המקרים.
+ 
+\begin_inset Newline newline
+\end_inset
+
+הוכחה היא דוגמה לנימוק שאפשר להראות על ידי צעדים לוגיים סופיים )שיכולים
+ להיות פשוטים בהרבה מבדיקת כל המקרים(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מנגנון הוכחה פורמלי נקרא 
+\begin_inset Quotes eld
+\end_inset
+
+תחשיב הוכחה
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+4.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+תחשיב הילברט
+\end_layout
+
+\begin_layout Itemize
+הקדמה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+בוחרים אקסיומות וכללי גזירה )איך מתקדמים(
+\end_layout
+
+\begin_layout Itemize
+לכל כלל גזירה יש הנחות ומסקנה
+\end_layout
+
+\begin_layout Itemize
+סדרת הוכחה - כל פסוק הוא אקסיומה או נגזר מכללים קודמים באמצעות כללי הגזירה.
+\end_layout
+
+\begin_layout Itemize
+פסוק שיש לו סדרת הוכחה הוא יכיח
+\end_layout
+
+\begin_layout Itemize
+אם פועלים נכון - כל מה שניתן להוכחה הוא טאוטולוגיה
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+תחשיב שלם
+\series default
+ - תחשיב שניתן להוכיח בו כל טאוטולוגיה
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+התחשיב של 
+\begin_inset Formula $L_{\rightarrow}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אקסיומות התחשיב
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\varphi\rightarrow\left(\psi\rightarrow\varphi\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(\varphi\rightarrow\left(\psi\rightarrow\theta\right)\right)\rightarrow\left(\left(\varphi\rightarrow\psi\right)\rightarrow\left(\varphi\rightarrow\theta\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(\left(\lnot\varphi\rightarrow\lnot\psi\right)\rightarrow\left(\psi\rightarrow\varphi\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+כלל הגזירה - 
+\begin_inset Formula $\frac{\varphi,\left(\varphi\rightarrow\psi\right)}{\psi}$
+\end_inset
+
+ )כלל הניתוק, 
+\begin_inset Formula $MP$
+\end_inset
+
+(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+סדרת הוכחה מתוך קבוצה - סדרת הוכחה שבה כל פסוק הוא אקסיומה או מתקבל מפסוקים
+ בקבוצה או משני פסוקים קודמים באמצעות כלל הניתוק.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הערה: אי אפשר להשתמש בטאוטולוגיות שלא בתחשיב.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+הגדרות נוספות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+סדרת הוכחה בתחשיב - סדרת הוכחה מתוך הקבוצה הריקה.
+\end_layout
+
+\begin_layout Itemize
+סדרת הוכחה מתוך קבוצה לפסוק - סדרת הוכחה מתוך קבוצה כאשר הפסוק הוא האחרון
+ בסדרה.
+\end_layout
+
+\begin_layout Itemize
+פסוק הוא משפט אם ורק אם יש לו סדרת הוכחה )סימון 
+\begin_inset Formula $K\vdash\varphi$
+\end_inset
+
+(.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- תכונות יסודיות של הוכחות - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כל תת סדרת הוכחה היא הוכחה וכל מחרוזת בסדרה היא משפט
+\end_layout
+
+\begin_layout Itemize
+אפשר לחבר שתי סדרות הוכחה כדי לקבל סדרת הוכחה
+\end_layout
+
+\begin_layout Itemize
+סדרת הוכחה של פסוק מתוך קבוצת פסוקים היא גם סדרת הוכחה של קבוצת פסוקים המכילה
+ אותה
+\end_layout
+
+\begin_layout Itemize
+אם פסוק ניתן להוכחה מתוך קבוצה + קבוצת משפטים אז הוא ניתן להוכחה מתוך הקבוצה
+ המקורית
+\end_layout
+
+\begin_layout Itemize
+כל משפט של קבוצת פסוקים הוא משפט של תת-קבוצת פסוקים סופית שלה
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+למה עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+165
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כל אקסיומה לוגית או פסוק בקבוצה ניתן להוכחה מהקבוצה
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $K\vdash\varphi$
+\end_inset
+
+ ו-
+\begin_inset Formula $K\vdash\left(\varphi\rightarrow\psi\right)$
+\end_inset
+
+ אז 
+\begin_inset Formula $K\vdash\psi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $K\vdash\varphi$
+\end_inset
+
+ אז לכל פסוק מתקיים 
+\begin_inset Formula $K\vdash\left(\psi\rightarrow\varphi\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+לכל פסוק 
+\begin_inset Formula $K\vdash\left(\varphi\rightarrow\varphi\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט הדדוקציה - אם 
+\begin_inset Formula $K\cup\left\{ \psi\right\} \vdash\varphi$
+\end_inset
+
+ אז 
+\begin_inset Formula $K\vdash\left(\psi\rightarrow\varphi\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ההוכחה מראה איך אפשר להמיר כל פסוק מ-
+\begin_inset Formula $\left(K\cup\left\{ \psi\right\} \right)$
+\end_inset
+
+ ב-
+\begin_inset Formula $K$
+\end_inset
+
+ כדי לקבל את טענת החץ.
+\end_layout
+
+\begin_layout Itemize
+שימוש: נניח התבקשנו להוכיח ש-
+\begin_inset Formula $\left\{ \beta\right\} \vdash\left(\alpha_{1}\rightarrow\alpha_{2}\right)$
+\end_inset
+
+.
+ נוכל בלהתחיל להוכיח 
+\begin_inset Formula $\left\{ \beta,\alpha_{1}\right\} \vdash\alpha_{2}$
+\end_inset
+
+ ואז להשתמש בדדוקציה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+הוכחה בשלילה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+קבוצה היא לא עקבית אם יש פסוק שאפשר ממנה להוכיח אותו ואפשר להוכיח גם את
+ היפוכו.
+ קבוצה שהיא לא כזו היא עקבית.
+\end_layout
+
+\begin_layout Itemize
+למה - אם כל קבוצה חלקית של קבוצה היא עקבית אז היא עקבית, אם קבוצה לא עקבית
+ אז קיימת תת קבוצה חלקית סופית שהיא לא עקבית
+\end_layout
+
+\begin_layout Itemize
+קבוצה שמכילה פסוק ואת השלילה שלו מוכיחה כל פסוק )הוכחה: שימוש באקסיומה 
+\begin_inset Formula $\left(\varphi\rightarrow\psi\right)\rightarrow\left(\lnot\psi\rightarrow\lnot\varphi\right)$
+\end_inset
+
+ ואז 
+\begin_inset Formula $\left\{ \psi,\lnot\psi\right\} $
+\end_inset
+
+ גורר כל 
+\begin_inset Formula $\varphi$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Itemize
+קבוצה לא עקבית מוכיחה כל פסוק )הוכחה: הקבוצה מוכיחה פסוק ושלילתו והם מוכיחים
+ כל פסוק, וכיוון שהם משפטים שלה אז גם יש סדרת הוכחה לכל פסוק(
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $K\cup\left\{ \lnot\varphi\right\} $
+\end_inset
+
+ לא עקבית אז 
+\begin_inset Formula $K\vdash\varphi$
+\end_inset
+
+ )הוכחה: אפשר לבצע משחקים עם האקסיומות כדי להגיע למצב שבו 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ הוא משפט של 
+\begin_inset Formula $K$
+\end_inset
+
+(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+התחשיב נאות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ התחשיב נאות - לכל קבוצת פסוקים 
+\begin_inset Formula $K$
+\end_inset
+
+ ופסוק 
+\begin_inset Formula $\varphi$
+\end_inset
+
+: אם 
+\begin_inset Formula $K\vdash\varphi$
+\end_inset
+
+ אז 
+\begin_inset Formula $K\Rightarrow\varphi$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הוכחה: כל פסוק הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אקסיומה )לכן נכון בכל מודל( או פסוק בקבוצה )לכן כמובן נובע ממנה( או נובע
+ מצעד הגזירה )ומזה נובע בהכרח שאם פסוקי הקבוצה נכונים אז גם ההיסק נכון(
+\end_layout
+
+\begin_layout Itemize
+בפרט המשפטים הניתנים להוכחה בתחשיב הם טאוטולוגיות
+\end_layout
+
+\begin_layout Itemize
+מסקנה - אם לקבוצת פסוקים יש מודל אז היא עקבית )הוכחה - אם היא לא עקבית אז
+ היא מוכיחה פסוק ושלילתו, התחשיב נאות אז שניהם נגררים מהקבוצה, ומהגדרת הגרירה
+ מקבלים פסוק שהוא נכון ולא נכון בו זמנית, סתירה(.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+שלמות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+תורה / מערכת אקסיומות - קבוצת פסוקים עקבית
+\end_layout
+
+\begin_layout Itemize
+תורה שלמה - כל פסוק ניתן להוכחה או להזמה )הפרכה(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+תחשיב שלם - כל טאוטולוגיה ניתנת להוכחה או הפרכה
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מרכיבי התורה שלמה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לתורה שלמה יש מודל יחיד
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הסבר: אם יש שני מודלים אז יש לפחות פסוק אלמנטרי אחד שונה ביניהם, ולכן הפסוק
+ והיפוכו נובעים מהקבוצה, אבל לפי
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+כל משפט של קבוצה נכון בכל מודל שלה, ולכן לא ייתכן ששניהם נובעים ממנו ולכן
+ התורה לא שלמה.
+ לכן יש מודל אחד.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ניתן להרחיב כל תורה לתורה שלמה
+\end_layout
+
+\begin_layout Itemize
+לכל תורה יש מודל )אפשר להרחיב ולקחת את המודל(
+\end_layout
+
+\begin_layout Itemize
+אם פסוק נובע לוגית מתורה אז הפסוק ניתן להוכחה מהקבוצה.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם בוחרים קבוצת פסוקים ריקה מקבלים: כל טאוטולוגיה ניתנת להוכחה
+\end_layout
+
+\begin_layout Itemize
+הוכחה - אם לפסוק אין סדרת הוכחה אז התורה בצירוף שלילת הפסוק היא עקבית לפי
+ משפט ההוכחה בשלילה )אם לא הייתה עקבית הוא היה חייב להיות משפט(, לכן יש
+ לה מודל, ובמודל זה התורה נכונה והפסוק לא לכן הוא לא נובע לוגית )ולכן כל
+ פסוק שכן נובע לוגית הוא בהכרח ניתן להוכחה(.
+\end_layout
+
+\begin_layout Itemize
+)שני המשפטים האחרונים הם בעצם צורה של אותה טענה(
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Subsection
+
+\numeric on
+4.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ משפט הקומפקטיות
+\end_layout
+
+\begin_layout Itemize
+נוסח ראשון - אם כל קבוצה חלקית סופית היא בעלת מודל אז יש מודל שבו כל פסוקי
+ הקבוצה נכונים
+\end_layout
+
+\begin_layout Itemize
+נוסח שני - אם פסוק נובע לוגית מקבוצה אז קיימת תת קבוצה סופית שממנה הוא גם
+ נובע.
+ )מוכיחים שאם אין קבוצה סופית אז הוא לא נובע(
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+4.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+סיכום
+\end_layout
+
+\begin_layout Itemize
+הסתדרנו רק עם
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אקסיומות - האם משפטי גיאומטריה הם מיותרים? אפשר עקרונית להסתדר עם תחשיב
+ הילברט אבל אז כל טענה תהיה פסוק אלמנטרי וזה יהיה ממש קשה.
+\end_layout
+
+\begin_layout Itemize
+יש בסיכום עוד הערות על הוכחות, הוכחה במחשב וכו' - מעניין
+\end_layout
+
+\begin_layout Subsection
+תוספת מהאתר
+\end_layout
+
+\begin_layout Itemize
+מערכת הוכחה נקראת נאותה בחזק אם 
+\series bold
+לכל
+\series default
+ קבוצה 
+\begin_inset Formula $K$
+\end_inset
+
+ ולכל פסוק 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ אם 
+\begin_inset Formula $K\vdash\varphi$
+\end_inset
+
+ אז 
+\begin_inset Formula $K\vDash\varphi$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+כלל היסק 
+\begin_inset Formula $\frac{\alpha_{1}...\alpha_{k}}{\alpha}$
+\end_inset
+
+ נקרא נאות כאשר: אם 
+\begin_inset Formula $\vDash\alpha_{i}$
+\end_inset
+
+ לכל 
+\begin_inset Formula $i$
+\end_inset
+
+ אז 
+\begin_inset Formula $\vDash\alpha$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+כלל היסק 
+\begin_inset Formula $\frac{\alpha_{1}...\alpha_{k}}{\alpha}$
+\end_inset
+
+ נקרא נאות בחזק או שומר תוקפות כאשר לכל קבוצת פסוקים 
+\begin_inset Formula $K$
+\end_inset
+
+ אם 
+\begin_inset Formula $\vDash\alpha_{i}$
+\end_inset
+
+ לכל 
+\begin_inset Formula $i$
+\end_inset
+
+ אז 
+\begin_inset Formula $\vDash\alpha$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ )בעצם אם ורק אם מתקיים 
+\begin_inset Formula $\left\{ \alpha_{1}...\alpha_{k}\right\} \vDash\alpha$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Itemize
+אם במערכת כל האקסיומות הן טאוטולוגיות וגם כל כללי ההיסק נאותים / נאותים
+ בחזק אז המערכת נאותה / נאותה בחזק )בהתאמה(
+\end_layout
+
+\begin_layout Itemize
+אם יש במערכת ההוכחה אקסיומה שאיננה טאוטולוגיה או כלל היסק שלא נאות בחזק
+ אז המערכת בוודאות אינה נאותה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הוכחה )נראה לי(: אם יש סתירה אז ההפך שלה הוא טאוטולוגיה, וצירוף שניהם מאפשר
+ להוכיח כל פסוק.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+הערות שלי
+\end_layout
+
+\begin_layout Itemize
+קבוצת פסוקים לא עקבית - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם אין לה מודל
+\end_layout
+
+\begin_layout Itemize
+גוררת לוגית כל פסוק באופן ריק
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+קבוצת פסוקים עקבית )תורה( - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם יש לה לפחות מודל אחד
+\end_layout
+
+\begin_layout Itemize
+הגדרות שקולות - אם לא ניתן להוכיח ממנה פסוק ושלילתו או אם קיים פסוק 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ שלא נגרר לוגית מהקבוצה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כיוון אחד: אם לא ניתן להוכיח פסוק ושלילתו אז בהכרח קיים פסוק לא ניתן להוכיח
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)שלילה של אחד הפסוקים(
+\end_layout
+
+\begin_layout Itemize
+כיוון שני: אם קיים 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ שלא יכיח בקבוצה אז יש לה מודל )אחרת כל פסוק נגרר לוגית( ואם יש לה מודל
+ אז לא ייתכן שמוכח פסוק ושלילתו.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט הקומפקטיות - עקבית אם ורק אם של תת קבוצה סופית שלה עקבית
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+תורה שלמה - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם יש לה רק מודל אחד
+\end_layout
+
+\begin_layout Itemize
+אם לכל פסוק הקבוצה מוכיחה אותו או את שלילתו.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+עקבית מקסימלית - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם יש לה רק מודל אחד
+\end_layout
+
+\begin_layout Itemize
+אם לכל פסוק הקבוצה מכילה אותו או את שלילתו
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- שפת היחסים – תחביר ופירוש
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+5.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מבוא
+\end_layout
+
+\begin_layout Itemize
+בעיה בשפה הפסוקית: כל פסוק אלמנטרי הוא אטומי ואין אפשרות לראות שיש ביניהם
+ קשר.
+ )לדוגמה להראות ש
+\begin_inset Quotes erd
+\end_inset
+
+דני הוא אדם
+\begin_inset Quotes erd
+\end_inset
+
+ ודני הוא יפה
+\begin_inset Quotes erd
+\end_inset
+
+ נראים סתם כך - 
+\begin_inset Formula $P\wedge Q$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Itemize
+תחום הדיון חייב להיות קבוצה לא ריקה! )אחרת בעייתי לטעון טענות(
+\end_layout
+
+\begin_layout Itemize
+השפה שמגדירים תלויה במטרה ובנושאים שבהן היא אמורה לעסוק
+\end_layout
+
+\begin_layout Itemize
+למה לא לשים בשפה אחת את כל היחסים והשמות וכו' הקיימים? - מסרבל את הדיון
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+5.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+שפות של שמות עצם
+\end_layout
+
+\begin_layout Itemize
+מקלדת
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+משתנים, סימני פיסוק, סימני חותם )עצמים קבועים, פונקציות(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שמות העצם
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+עומק מבני - של קבועים הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+, המחרוזת 
+\begin_inset Formula $F\left(t_{1},...,t_{k}\right)$
+\end_inset
+
+ היא שם עצם והעומק המבני שלו הוא 
+\begin_inset Formula $1+max\left\{ d\left(t_{1}\right)...d\left(t_{k}\right)\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+הוכחה והגדרה באינדוקציה מבנית - צריך להגדיר לכל שם עצם קבוע ולכל פונקציה
+ 
+\end_layout
+
+\begin_layout Itemize
+הצבה - החלפת מחרוזת במחרוזת אחרת, ייתכן שלא יהיו מופעים בכלל
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+לוקליות - שתי פונקציות שלא נבדלות ביחס לעצמים המופיעים בשם ספציפי יוצרות
+ את אותה התוצאה עבורו, הצבה של שם עצם במשתנה שווה לו תוביל לאותו שם העצם.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מבנה בשפה 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מבנה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - אוסף של תחום הדיון, עצמים קבועים ופונקציות )דוגמה: מבנה הטבעיים - תחום
+ הדיון הוא הטבעיים, קבוע 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+, פעולות חיבור, כפל ועוקב(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+השמה למשתנים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שם עצם שמופיעים בו משתנים לא מתאר עצם אלא קבוצה של עצמים
+\end_layout
+
+\begin_layout Itemize
+השמה - התאמה של משתנה לעצם קבוע.
+ השמה רלוונטית לשם עצם אם היא מכילה את כל המשתנים המופיעים בו.
+ )באופן ספציפי: כל השמה רלוונטית לשם עצם קבוע(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+פירוש שם עצם בהשמה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מוגדר רקורסיבית - פירוש קבועים, פירוש משתנים )לפי ההשמה(, פירוש פונקציות
+ )מפרשים כל עצם בנפרד ומעבירים דרך הפונקציה(.
+\end_layout
+
+\begin_layout Itemize
+גם פה לוקליות ההגדרה נכונה )משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.2
+\numeric off
+(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+פירוש שמות עצם כפונקציה במודל
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+סביבה - קבוצת השמות שמתאימות לקבוצת משתנים קבוצת ערכים מסוימת )כל השמה בנפרד
+ יכולה להכיל עוד השמות(.
+\end_layout
+
+\begin_layout Itemize
+שם עצם שמכיל משתנים יכול להיחשב כפונקציה 
+\begin_inset Formula $n$
+\end_inset
+
+-מקומית.
+ צריך להגדיר לפני מה הסדר של המשתנים )לדוגמה 
+\begin_inset Formula $t\left[n_{1},n_{2}\right]$
+\end_inset
+
+( לפני שמציבים )לדוגמה 
+\begin_inset Formula $t\left(1,2\right)$
+\end_inset
+
+(.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+המחרוזת שהיא שם העצם היא גם שם ובעצם גם מתכון לחישוב )לדוגמה 
+\begin_inset Formula $t=\left(1+x_{1}\right)\cdot x_{2}$
+\end_inset
+
+(
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+דוגמאות לשפות ומבנים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שפת המספרים הטבעיים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+קבוע אלמנטרי
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+יחיד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+, בעומק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מתקבלים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+קבועים )לדוגמה 
+\begin_inset Formula $+\left(0,0\right)=0,s\left(0\right)=1$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Itemize
+אפשר להשתמש בכתיבה מקוצרת כל עוד לקורא יש דרך להפוך אותה לפורמלית
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+פונקציות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לשים לב - כל האיברים בתחום הם פונקציות ואין מספרים!
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Subsection
+
+\numeric on
+5.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+שפת היחסים - התחביר
+\end_layout
+
+\begin_layout Itemize
+המקלדת 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+קשרים, סימני פיסוק, משתנים, כמתים, שמות ופונקציות
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שפת היחסים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שם עצם בסיסי - משתנה / קבוע
+\end_layout
+
+\begin_layout Itemize
+נוסחאות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אטומית - יחס ושמות עצם - 
+\begin_inset Formula $R\left(t_{1},...,t_{n}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+הגדרה באופן רקורסיבי עם קשרים ועם כמותים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)הערה: אין בהגדרה פונקציות ושמות עצם, הם יכולים להופיע רק בתוך יחסים(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+משפט 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הוכחה באינדוקציה - מגדירים לכל נוסחה אטומית, קשר וכמת
+\end_layout
+
+\begin_layout Itemize
+משתנה של כמת לכל הוא לא משתנה ספציפי, ובעצם אומר משהו כללי בשפה
+\end_layout
+
+\begin_layout Itemize
+אותו שם משתנה יכול להופיע במקומות שונים בתפקידים שונים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)לדוגמה 
+\begin_inset Formula $\left(\exists x\left(x<y\right)\vee\forall xR\left(x\right)\right)$
+\end_inset
+
+( וזה כי שתי הנוסחאות בנפרד הן נוסחאות לגיטימיות.
+\end_layout
+
+\begin_layout Itemize
+משתנים חופשיים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מופע של משתנה נקרא מופע חופשי, בנוסחאות עם קשרים כל כמת קושר את המשתנים
+ שלו, בנוסחה עם כמת אז אסור שהמשתנה יהיה קשור כבר לפני, והוספת כמת קושרת
+ את כל המופעים שלו בנוסחה.
+\end_layout
+
+\begin_layout Itemize
+משתנה נקרא חופשי אם יש לו מופע חופשי אחד לפחות
+\end_layout
+
+\begin_layout Itemize
+נוסחה היא פסוק אם אין בה מופעים חופשיים.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+הצבה והצבה כשרה - הצבה מחליפה כל מופע חופשי של משתנה, הצבה היא כשרה אם אין
+ לה תופעות לוואי )כלומר אף משתנה פתאום לא הופך לקשור, כמו להציב נוסחה עם
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ בנוסחה אחרת שיש בה 
+\begin_inset Formula $x$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+5.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+שפת היחסים - הפירוש
+\end_layout
+
+\begin_layout Itemize
+מודל בשפה - תחום, עצמים קבועים, פונקציות, יחסים
+\end_layout
+
+\begin_layout Itemize
+לוגיקה ללא שיוויון - לא חייבים לכלול את יחס השיוויון ואם הוא שם אז הוא יכול
+ להיות גם משהו אחר לגמרי.
+ אם זה קורה אז אומרים במפורש.
+\end_layout
+
+\begin_layout Itemize
+פירוש של נוסחה - נוסחה מקבלת ערך אמת רק לאחר השמה.
+ יחס נכון אם ורק אם העצמים שבו שייכים אליו )
+\begin_inset Formula $\left(t_{1}...t_{n}\right)\in R$
+\end_inset
+
+(.
+ כל קשר/כמת מוגדר בצורה סטנדרטית.
+\end_layout
+
+\begin_layout Itemize
+תיקון/עדכון של השמה 
+\begin_inset Formula $S\left\langle x|a\right\rangle $
+\end_inset
+
+ - משנים בהשמה את ההגדרה של 
+\begin_inset Formula $x$
+\end_inset
+
+ ל-
+\begin_inset Formula $a$
+\end_inset
+
+ )ייתכן שלא הייתה כזו(
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+א,ב 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לוקליות - שתי השמות שמלכדות על משתנים חופשיים בנוסחה מסוימת קובעים עבורה
+ אותו ערך אמת.
+\end_layout
+
+\begin_layout Itemize
+פירוש של פסוק במודל - הוא נכון/לא נכון בכל ההשמות של אותו מודל )אין משתנים
+ חופשיים(, אם נכון אז מסמנים 
+\begin_inset Formula $M\models\varphi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+סביבה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - מוגדרת בדומה למקודם.
+ נוסחה עם משתנים חופשיים מתארת יחס 
+\begin_inset Formula $n$
+\end_inset
+
+-מקומי.
+ 
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.5
+\numeric off
+ג מודולריות הפירוש ביחס להצבות - אם שתי השמות מתלכדות על עצמים שמוצבים אז
+ הפסוק הכולל נכון באחת אם ורק אם הוא נכון בשני
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+.
+\end_layout
+
+\begin_layout Itemize
+נוסחה נכונה במודל אם ורק אם היא נכונה לכל השמה במודל.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+סגור כולל - 
+\begin_inset Formula $\forall x_{1}...\forall x_{r}\varphi$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- נוסחה נכונה במודל אם ורק אם הסגור שלה נכון במודל.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+צמצום והעשרה של הסיגנטורה - צמצום / העשרה של שמות עצם / פונקציות / יחסים.
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+5.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+דוגמאות
+\end_layout
+
+\begin_layout Itemize
+מומלץ לעבור עליהן - עוזרות להבין ולתרגל
+\end_layout
+
+\begin_layout Itemize
+הערה: משתנים שונים אינם בהכרח אומרים עצמים שונים.
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+5.6
+\family roman
+\series bold
+\shape up
+\size large
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+נוסחאות שקולות ונוסחאות אמיתיות לוגית
+\end_layout
+
+\begin_layout Itemize
+נוסחה אמיתית לוגית אם היא נכונה בכל מודל.
+\end_layout
+
+\begin_layout Itemize
+נוסחאות שקולות לוגית אם ורק אם הן נכונות בכל השמה ובכל מודל.
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם שתי נוסחאות שקולות אז אפשר להפעיל עליהן כל קשר או כמת ולקבל נוסחאות שקולות.
+ 
+\end_layout
+
+\begin_layout Itemize
+בנוסף אם מחליפים נוסחה שקולה אחת בשניה בתוך בנוסחה אחרת, הנוסחה הגדולה החדשה
+ שקולה למקורית.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.9
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+טאוטולוגיות של שפת היחסים - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אפשר להחליף פסוקים אלמנטריים בנוסחאות ולקבל נוסחה
+\end_layout
+
+\begin_layout Itemize
+אם ניקח מודל )שפה פסוקית( והשמה )שפת יחסים( שהם שווים לכל פסוק / נוסחה שהצבנו
+ בהתאמה, התוצאה הכוללת תהיה זהה.
+ 
+\end_layout
+
+\begin_layout Itemize
+אם פסוק אחד טאוטולוגיה השני אמיתי לוגית )נכון בכל מודל(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+אמיתות לוגית של שיוויון
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)מופיעים שם הנוסחאות שמגדירות מהו שיוויון - רלפקסיבי, סימטרי, טרנזיטיבי.
+ בנוסף אפשר להציב שם עצם ששווה לשם עצם אחר במקומו(.
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.10
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+רענון משתנים - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם נוסחה נכונה לכל משתנה )
+\begin_inset Formula $\forall$
+\end_inset
+
+( אז הנוסחה 
+\begin_inset Formula $\forall x\varphi\rightarrow\varphi\left[t/x\right]$
+\end_inset
+
+ אמיתית לוגית )אפשר להציב שם כלשהו( )רק אם ההצבה כשרה!(
+\end_layout
+
+\begin_layout Itemize
+אם משתנה לא מופיע בנוסחה אז אפשר להחליף את המשתנה במשתנה אחר.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.15
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\forall x\left(\varphi\vee\psi\right)\neq\forall x\varphi\vee\forall x\psi$
+\end_inset
+
+ - אחד אומר שכל עצם מקיים אחת משתי תכונות, השנייה שכל העצמים מקיימים אחת
+ או שכולם מקיימים אחרת.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לדוגמה כל מספר הוא שווה ל-
+\numeric on
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+או לא שווה ל-
+\numeric on
+0
+\numeric off
+.
+ לעומת הטענה שכל המספרים שווים ל-
+\numeric on
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+או שונים מ-
+\numeric on
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+לא נכונה )לכל אחד יש הפרכה(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $\forall x\left(\varphi\wedge\psi\right)=\forall x\varphi\wedge\forall x\psi$
+\end_inset
+
+ - לעומת זאת, לומר שכל העצמים מקיימים את שתי התכונות זה בסדר
+\end_layout
+
+\begin_layout Itemize
+עם קשר ה
+\begin_inset Quotes erd
+\end_inset
+
+קיים
+\begin_inset Quotes erd
+\end_inset
+
+ שניהם מתקיימים - 
+\begin_inset Formula $\exists x\left(\varphi\vee\psi\right)=\exists x\varphi\vee\exists x\psi$
+\end_inset
+
+, 
+\begin_inset Formula $\exists x\left(\varphi\wedge\psi\right)=\exists x\varphi\wedge\exists x\psi$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט 
+\numeric on
+5.11
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+קשרים בין 
+\begin_inset Quotes eld
+\end_inset
+
+קיים
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+לכל
+\begin_inset Quotes erd
+\end_inset
+
+ וקשר השלילה - 
+\begin_inset Quotes eld
+\end_inset
+
+לא קיים זה לכל
+\begin_inset Quotes erd
+\end_inset
+
+ ו
+\begin_inset Quotes erd
+\end_inset
+
+לא לכל זה קיים
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+בקשר דו מקומי, אם משתנה לא חופשי בנוסחה שניה אז אפשר להוציא כמת - לדוגמה
+ 
+\begin_inset Formula $\forall x\left(\varphi\vee\psi\right)\leftrightarrow\left(\forall x\varphi\vee\psi\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.16
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כללי הוצאת כמתים בנוסחת חץ
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כמת על המסקנה מוציאים כפי שהוא - 
+\begin_inset Formula $\exists x\left(\varphi\rightarrow\psi\right)\leftrightarrow\left(\varphi\rightarrow\exists x\psi\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+כמת על התנאי הופכים - 
+\begin_inset Formula $\exists x\left(\varphi\rightarrow\psi\right)\leftrightarrow\left(\left(\forall x\varphi\right)\rightarrow\psi\right)$
+\end_inset
+
+ )זה כי אם הופכים ל-
+\begin_inset Formula $\vee$
+\end_inset
+
+ אז על התנאי יש שלילה(
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+
+\numeric on
+5.7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+נוסחאות בצורות מיוחדות
+\end_layout
+
+\begin_layout Itemize
+צורה פרנקסית - כל הכמתים מופיעים בראש הנוסחה.
+ 
+\end_layout
+
+\begin_layout Itemize
+פרנקסית נורמלית - הקטע שאחרי הכמתים הוא דיסיונקטיבי נורמלי )
+\numeric on
+-
+\numeric off
+דיסיוניקציה של קוניוניקציות של נוסחאות בסיסיות, וכל אחת מהן היא נוסחה אטומית
+ או שלילה של נוסחה אטומית(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שיטה - מוציאים החוצה כמתים, מכניסים פנימה קשרי שלילה וממירים קשרי חץ לקשרי
+ 
+\begin_inset Quotes eld
+\end_inset
+
+וגם
+\begin_inset Quotes erd
+\end_inset
+
+ / 
+\begin_inset Quotes eld
+\end_inset
+
+או
+\begin_inset Quotes erd
+\end_inset
+
+ )דומה לדיסיוניקטיבי נורמלי אבל עם הוצאת כמתים לפני(.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+כל נוסחה אפשר לייצג עם 
+\begin_inset Formula $\left\{ \lnot,\rightarrow,\forall\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- תחשיב, משפט שלמות ומבוא לתורת המודלים
+\end_layout
+
+\begin_layout Standard
+)הערה: חלק מהחומר ומכאן והלאה מסוכם מההקלטות של וסים / טלי ולא נמצא בספר(
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+6.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+תחשיב והוכחות
+\end_layout
+
+\begin_layout Itemize
+קבוצת נוסחאות 
+\begin_inset Formula $K$
+\end_inset
+
+ - מרשים לה להיות קבוצה של פסוקים אבל יכולנו גם להרשות לה להכיל נוסחאות.
+\end_layout
+
+\begin_layout Itemize
+אקסיומות נוספות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אקסיומת ההצבה 
+\begin_inset Formula $\forall x\varphi\rightarrow\varphi\left[t/x\right]$
+\end_inset
+
+ )בתנאי שההצבה כשרה(
+\end_layout
+
+\begin_layout Itemize
+אקסיומת הזזת הכמת 
+\begin_inset Formula $\forall x\left(\varphi\rightarrow\psi\right)\rightarrow\left(\varphi\rightarrow\forall x\psi\right)$
+\end_inset
+
+ )בתנאי ש-
+\begin_inset Formula $x$
+\end_inset
+
+ לא מופיע ב-
+\begin_inset Formula $\varphi$
+\end_inset
+
+(
+\end_layout
+
+\begin_layout Itemize
+בלוגיקה עם שיוויון מתווספות אקסיומות שקילות והחלפה - רפלקסיביות )כל איבר
+ שבה לעצמו(, סימטריות, טרנזיטיביות, אפשר להחליף עצמים בעצמים זהים להם בתוך
+ פונקציות / יחסים לקבל תוצאה זהה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+כלל גזירה נוסף - 
+\begin_inset Formula $\frac{\varphi}{\forall x\varphi}$
+\end_inset
+
+ )דומה ללומר 
+\begin_inset Quotes eld
+\end_inset
+
+יהי 
+\begin_inset Formula $,\varepsilon$
+\end_inset
+
+...
+\begin_inset Quotes erd
+\end_inset
+
+ - זה בתנאי שהעצם ב-
+\begin_inset Formula $\varphi$
+\end_inset
+
+ הוא חסר אישיות ומתאים לכל העצמים בתחום(.
+\end_layout
+
+\begin_layout Itemize
+נאותות, דדוקציה, הוכחה בשלילה.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+משפט הדדוקציה עובד רק אם הפסוק שעליו מתבססים הוא נוסחה ולא פסוק.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כמתים, קבועים ושפות חלקיות 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+רענון משתנה קשור )אם החדש לא מופיע בנוסחה(
+\end_layout
+
+\begin_layout Itemize
+הוכחה בסגנון 
+\begin_inset Quotes eld
+\end_inset
+
+יהי 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ - 
+\begin_inset Formula $c$
+\end_inset
+
+ קבוע שלא מוזכר ב
+\begin_inset Formula $K$
+\end_inset
+
+ ולא ב-
+\begin_inset Formula $\varphi$
+\end_inset
+
+, אם 
+\begin_inset Formula $K\vdash\varphi\left[c/x\right]$
+\end_inset
+
+ אז 
+\begin_inset Formula $K\vdash\forall x\varphi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+נכונות פסוק בשפה היא גם בשפת-העשרה
+\end_layout
+
+\begin_layout Itemize
+קבוצה עקבית בשפה היא גם בשפת-העשרה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.4
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\forall x\left(\varphi\rightarrow\psi\right)\rightarrow\left(\forall x\varphi\rightarrow\forall x\psi\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הערה: זה דומה לאקסיומת ההצבה אבל יותר חלש, כיוון שצריך שהתנאי יתקיים לכל
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ההפך לא בהכרח מתקיים כי אפשר לבחור טענה 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ כך שהיא מתקיימת עבור עצמים מסוימים ולא עבור 
+\begin_inset Formula $\psi$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+דדוקציה טבעית
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הרחבה על מערכת ההוכחה
+\end_layout
+
+\begin_layout Itemize
+מכילה אקסיומות נוספות )כמו 
+\begin_inset Formula $\left(\left(\alpha\wedge\beta\right)\rightarrow\alpha\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\left(\alpha\rightarrow\left(\beta\rightarrow\left(\alpha\rightarrow\beta\right)\right)\right)$
+\end_inset
+
+, אקסיומת הצבה עבור כמת(
+\end_layout
+
+\begin_layout Itemize
+כללי היסק - כלל ההכללה וההצבה הישי והכולל
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+
+\numeric on
+6.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+משפט השלמות
+\end_layout
+
+\begin_layout Itemize
+המשפטים בתחשיב הפסוקים נכונים גם כאן - כל תורה ניתנת להרחבה לתורה שלמה,
+ לכל תורה יש מודל, אם פסוק נובע לוגית מתורה אז הוא ניתן להוכחה מהתורה.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הבדל אחד - לתורה שלמה יש אינסוף מודלים, לכל עוצמה של אינסוף.
+ כל המודלים בכל עוצמה איזומורפיים זה לזה.
+ )הוכחה בהמשך הספר(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+לוגיקה בלי שיוויון
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+קבוצת הנקין - קבוצת פסוקים עקבית, מקסימלית, ומקיימת תכונת הנקין
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)אם הקבוצה מכילה את 
+\begin_inset Formula $\lnot\forall x\varphi$
+\end_inset
+
+, אז יש קבוע 
+\begin_inset Formula $c$
+\end_inset
+
+ בשפה שעבורו הקבוצה מכילה את 
+\begin_inset Formula $\lnot\varphi\left[c/x\right]$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- משפט השלמות ללוגיקה בלי שיוויון - לתורה שלמה יש לפחות מודל אחד 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הוכחה - מרחיבים את הקבוצה לקבוצת הנקין על ידי העשרה בקבועים ואז מראים שלקבוצת
+ הנקין יש מודל אחד לפחות
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+לוגיקה עם שיוויון
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+איזומורפיזם - העתקה שהיא חד חד ערכית ועל בין שני מודלים באותה השפה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+באיזומורפיזם - כל טענה במודל אחד נכונה באחר )משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.7
+\numeric off
+(
+\end_layout
+
+\begin_layout Itemize
+הומומורפיזם - פונקציה לא בהכרח חח
+\begin_inset Quotes erd
+\end_inset
+
+ע ועל, אבל שומרת על הקבועים הפונקציות והיחסים )וייתכן שהמודל השני מכיל עוד,
+ ההומומורפיזם לא 
+\begin_inset Quotes eld
+\end_inset
+
+על
+\begin_inset Quotes erd
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+בהינתן שני מודלים, נאמר שניתן להפריד ביניהם ביחס לשפה 
+\begin_inset Formula $L$
+\end_inset
+
+ אם יש פסוק שנכון באחד ושקרי באחר.
+\end_layout
+
+\begin_layout Itemize
+כדי להביא מודל שלא איזומורפי לאחר - שהתחום יהיה מעוצמה שונה
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.8
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+משפט השלמות ללוגיקה עם שיוויון - לכל קבוצת פסוקים עקבית בלוגיקה עם שיוויון
+ יש לפחות מודל אחד.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+
+\numeric on
+6.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+המשפטים היסודיים של תורת המודלים
+\end_layout
+
+\begin_layout Itemize
+מבטים על תורה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+תורת ההוכחה - מסתכלים על המחרוזות בתורה ובמניפולציה עליהן
+\end_layout
+
+\begin_layout Itemize
+תורת המודלים - מחלקת כל המבנים שהם מודלים של התורה
+\end_layout
+
+\begin_layout Itemize
+משפט השלמות מראה שזה בעצם אותו דבר - משפטים שניתנים להוכחה הם המשפטים שנכונים
+ בכל המודלים של התורה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.9
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ משפט הקומפקטיות - אם לכל תת קבוצה סופית של קבוצת פסוקים אינסופית 
+\begin_inset Formula $K$
+\end_inset
+
+ יש מודל אז יש מודל שבו כל פסוקי 
+\begin_inset Formula $K$
+\end_inset
+
+ נכונים.
+\end_layout
+
+\begin_layout Itemize
+משפט סקולם-לוונהיים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+המשפט: אם לתורה יש מודל אינסופי הרי יש לה גם מודל שהוא בן מניה )לכל היותר(.
+\end_layout
+
+\begin_layout Itemize
+המשפט הכללי: אם לתורה יש מודל אינסופי אז לכל עוצמה אינסופית יש לתורה מודל
+ שעוצמתו היא העוצמה.
+\end_layout
+
+\begin_layout Itemize
+מעיד גם על חולשה: תמיד יהיו מודלים שלא נצליח לאפיין בצורה נוחה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.12
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- בכל תורה יש מספר סופי של עצמים או שלתורה יש מודלים בכל עוצמה אינסופית.
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+6.4
+\numeric off
+ תורת המודלים - כמה תורות חשובות
+\end_layout
+
+\begin_layout Itemize
+תורת הסדר - בתורה יש את חוק אי רפלקסיביות וחוק טרנזיטיביות
+\end_layout
+
+\begin_layout Itemize
+תורת יחס סדר מלא - תורת סדר + השוואה )עבור כל שני איברים אחד גדול מהשני
+ או שהם שווים(
+\end_layout
+
+\begin_layout Itemize
+יחס סדר צפוף - סדר מלא + צפיפות )בין כל שני איברים יש עוד איבר( + לכל איבר
+ יש קטן ממנו וגדול ממנו
+\end_layout
+
+\begin_layout Itemize
+תורת השדות
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - אקסיומות השדה
+\end_layout
+
+\begin_layout Itemize
+תורת פאנו 
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+6.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+תורת המודלים - תורות שלמות
+\end_layout
+
+\begin_layout Itemize
+שאלה - האם תורה היא שלמה?
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $T=Th\left(M\right)$
+\end_inset
+
+ - קבוצת כל הפסוקים הנכונה באותו מודל.
+ התורה הזו עקבית ושלמה.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ההגדרה בפני עצמה לא עוזרת...
+ יש הרבה תורות קטנות באותו מודל.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6.18
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- תורה היא שלמה אם ורק אם בכל שני מודלים שלה ה-
+\begin_inset Formula $Th\left(\right)$
+\end_inset
+
+ שלהם שווה.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+אם 
+\begin_inset Formula $T$
+\end_inset
+
+ לא שלמה אז יש פסוק 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ כך שלתורה 
+\begin_inset Formula $T\cup\left\{ \varphi\right\} $
+\end_inset
+
+ יש מודל 
+\begin_inset Formula $M$
+\end_inset
+
+ ולתורה 
+\begin_inset Formula $T\cup\left\{ \lnot\varphi\right\} $
+\end_inset
+
+ יש מודל 
+\begin_inset Formula $M'$
+\end_inset
+
+.
+ אם היא שלמה בהכרח אפשר להוכיח פסוק או שלילתו.
+ 
+\end_layout
+
+\begin_layout Itemize
+דרך
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+: תורה היא לא שלמה אם ורק אם יש פסוק שנכון רק בחלק מהמודלים
+\end_layout
+
+\begin_layout Itemize
+זה בעצם מגנון לבניית תורות - אם נתקלים בפסוק שנכון רק בחלק מהמודלים, אז
+ מוסיפים לתורה את הפסוק או שלילתו או שמפצלים לשתי תורות.
+ )לדוגמה: ככה בונים תורה של שדות סופיים(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+דרך
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+: המבחן של ווט: אם לתורה שאין לה מודלים סופיים יש עוצמה 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ כך שכל שני מודלים של התורה שעוצמתם 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ הם איזומורפיים, אז התורה היא שלמה.
+\end_layout
+
+\begin_layout Itemize
+)יש עוד שני מבחנים אבל לא סיכמתי אותם(
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+6.6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+איזומורפיזם והומומורפיזם במתמטיקה
+\end_layout
+
+\begin_layout Itemize
+איזומורפיזם
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+איזומורפיזם מוכלל רלוונטי במקרים בהם יחס הזהות הוא לא יחס השיוויון 
+\end_layout
+
+\begin_layout Itemize
+איזומורפיזם בין שני מבנים מראה ששניהם מהווים העתקים של אותו המבנה
+\end_layout
+
+\begin_layout Itemize
+שני מבנים הם איזומורפיים אם יש ביניהם איזומורפיזם )העתקה חח
+\begin_inset Quotes erd
+\end_inset
+
+ע ועל(.
+\end_layout
+
+\begin_layout Itemize
+כשיש איזומורפיזם בין שתי מערכות, בעצם כל תובנה באחת אפשר להסיק לגבי האחרת.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+נתנו פה דוגמה עם חישוב מסובך של מספר עם 
+\begin_inset Formula $\log$
+\end_inset
+
+ - ממש מעניין
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+הומומורפיזם
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הומומורפיזם מפרק את המבנה לשני מבנים - תמונה הומומורפית וגרעין ההומומורפיזם.
+\end_layout
+
+\begin_layout Itemize
+אפימורפיזם - הומומורפיזם על '
+\begin_inset Formula $M$
+\end_inset
+
+ )מודל היעד( ייקרא אפימורפיזם אם הוא משמר כל יחס בשפה.
+ 
+\begin_inset Formula $M'$
+\end_inset
+
+הוא תמונה הומומורפית.
+\end_layout
+
+\begin_layout Itemize
+)באלגברה יש רק פעולות ולא יחסים לכן כל הומומרפיזם באלגברה שהוא על הוא אפימורפיזם
+(
+\end_layout
+
+\begin_layout Itemize
+יחס קונגורואנציה ומבנה מנה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+יחס דו מקומי ייקרא קונגרואנציה אם הוא מקיים את תכונות השיוויון - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+יחס שקילות
+\end_layout
+
+\begin_layout Itemize
+מכבד פונקציות - אם 
+\begin_inset Formula $\left(a_{1},b_{1}\right)...\left(a_{n},b_{n}\right)\in E$
+\end_inset
+
+ אז גם 
+\begin_inset Formula $\left(f\left(a_{1}...a_{n}\right),f\left(b_{1}...b_{n}\right)\right)\in E$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+מכבד יחסים - בצורה דומה
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מבנה מנה - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+קבוצת המנה של 
+\begin_inset Formula $E$
+\end_inset
+
+ היא קבוצת המחלקות של התחום לגבי היחס 
+\begin_inset Formula $E$
+\end_inset
+
+ )כל שני איברים שמקיימים את היחס הם באותה קבוצה(.
+\end_layout
+
+\begin_layout Itemize
+מבנה מנה - את היחסים, הפונקציות וכו' מפעילים על מחלקת השקילות של כל איבר
+ )נראה לי(
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+משפט האיזומורפיזם הראשון - אם 
+\begin_inset Formula $H$
+\end_inset
+
+ אפימורפיזם אז היחס 
+\begin_inset Formula $E$
+\end_inset
+
+ המקיים 
+\begin_inset Formula $\left(a,b\right)\in E\Leftrightarrow H\left(a\right)=H\left(b\right)$
+\end_inset
+
+ הוא יחס קונגרואנציה ומבנה המנה איזומורפי למבנה 
+\begin_inset Formula $M'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+הומומורפיזם מכבד נוסחאות חיוביות
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)שאין בהן שלילה וחץ(.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+גדירות 
+\end_layout
+
+\begin_layout Standard
+)הנושא לא בספר בצורה רשמית, כן בחומר(
+\end_layout
+
+\begin_layout Itemize
+אובייקט/קבוצה הם גדירים אם ניתן להצביע עליהם באמצעות נוסחה בשפה שמתארת אותם
+ ורק אותם.
+\end_layout
+
+\begin_layout Itemize
+גדירות של קבועים במבנה - קבוע 
+\begin_inset Formula $c$
+\end_inset
+
+ הוא גדיר אם ורק אם יש נוסחה במשתנה חופשי יחיד 
+\begin_inset Formula $x$
+\end_inset
+
+ כך שהנוסחה אמיתית במודל רק בהשמה 
+\begin_inset Formula $s\left(x\right)=c$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+דוגמת שימוש: האם מספר הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $P_{3}\left(x\right)=\exists y\left(P_{2}\left(y\right)\wedge\left(y+1=x\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+גדירות של יחסים 
+\begin_inset Formula $n$
+\end_inset
+
+-מקומיים - אם יש נוסחה בעלת 
+\begin_inset Formula $n$
+\end_inset
+
+ משתנים כך שהנוסחה אמיתית עבור קבוצת קבועים אם ורק אם קבוצת הקבועים שייכים
+ ליחס
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לדוגמה בתחום השלמים מספר הוא טבעי - 
+\begin_inset Formula $N\left(x\right)=\left(x>0\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+גדירות של פונקציות במבנה - פונקציה 
+\begin_inset Formula $f\left(x_{1}...x_{n}\right)$
+\end_inset
+
+ גדירה אם קיימת נוסחה 
+\begin_inset Formula $P\left(y,x_{1}...x_{n}\right)$
+\end_inset
+
+ בה 
+\begin_inset Formula $y$
+\end_inset
+
+ משתנה לא חופשי והיא אמיתית עבור 
+\begin_inset Formula $P\left(y,c_{1}...c_{n}\right)$
+\end_inset
+
+ אמ
+\begin_inset Quotes erd
+\end_inset
+
+מ 
+\begin_inset Formula $f\left(c_{1}...c_{n}\right)=y$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לדוגמה 
+\begin_inset Formula $f_{x^{3}}\left(y,x\right)=y=\left(x\cdot x\right)\cdot x$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+כדי להשתמש בגדירות שכבר עשינו - להוסיף כמת 
+\begin_inset Quotes eld
+\end_inset
+
+קיים
+\begin_inset Quotes erd
+\end_inset
+
+ ולהשתמש בנוסחה רק איתו - כמו בדוגמה של גדירות קבועים.
+\end_layout
+
+\begin_layout Itemize
+דוגמאות נוספות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מספר ממשי חיובי - רק לו יש שורש ממשי 
+\begin_inset Formula $\exists y\left(y\cdot y=x\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+אפס - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ניטרלי לחיבור - 
+\begin_inset Formula $x+x=x$
+\end_inset
+
+, אפשר גם 
+\begin_inset Formula $\forall y\left(x+y=y\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+מאפס בכפל - 
+\begin_inset Formula $\forall y\left(x\cdot y=x\right)$
+\end_inset
+
+, אם שוללים את אחד אפשר לומר 
+\begin_inset Formula $x\cdot x=x$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+אם
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אחד כבר מוגדר - המספר היחיד שעבורו 
+\begin_inset Formula $x+y=x$
+\end_inset
+
+ כאשר 
+\begin_inset Formula $x=1$
+\end_inset
+
+ או 
+\begin_inset Formula $y=1$
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+אחד - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ניטרלי לכפל - 
+\begin_inset Formula $\forall y\left(x\cdot y=y\right)$
+\end_inset
+
+, אם שוללים את אפס אפשר לומר 
+\begin_inset Formula $x\cdot x=x$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מספרים שליליים טבעיים - לכל שלילי קיים מספר טבעי כך שהסכום שלהם הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+.
+\end_layout
+
+\begin_layout Itemize
+החלק השלם 
+\begin_inset Formula $z=\left\lfloor \frac{x}{y}\right\rfloor $
+\end_inset
+
+ הוא: 
+\begin_inset Formula $R\left(x,y,z\right)=\left(\left(y\cdot z\leq x\right)\wedge\left(\left(y\cdot\left(z+1\right)>x\right)\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+השארית - 
+\begin_inset Formula $z=rm\left(x,y\right)$
+\end_inset
+
+ הוא: 
+\begin_inset Formula $R\left(x,y,z\right)=\left(\left(z<y\right)\wedge\exists t\left(y\cdot t+z=x\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- המספרים הטבעיים ולוגיקת היחסים
+\end_layout
+
+\begin_layout Itemize
+מתעניינים בקבוצת המספרים הטבעיים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)מאוד מרכזית במתמטיקה(, מגדירים קבוצת אקסיומות 
+\begin_inset Formula $P$
+\end_inset
+
+ - האקסיומות של פאנו.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שאלה ראשונה – האם התורה מוכיחה או מזימה )מפריכה( כל פסוק?
+\end_layout
+
+\begin_layout Itemize
+שאלה שניה - האם יש אלגוריתם שיכול לדעת האם יש לפסוק סדרת הוכחה )מבין האינסוף
+ שיש(? )תת שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+איך נוכל לדעת תוך כמה זמן נקבל תשובה? מה אם זה יהיה עוד מיליארד שנה(?
+\end_layout
+
+\begin_layout Itemize
+שאלה שלישית - האם התורה עקבית? 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+התחשיב נאות ולכן אם יש ל-
+\begin_inset Formula $P$
+\end_inset
+
+ מודל אז היא עקבית.
+\end_layout
+
+\begin_layout Itemize
+הערה: שימוש רק באמצעים סופיים.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+בשנת
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1900
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+הילברט הציג אוסף בעיות חשובות למאה ה
+\numeric on
+20
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+וזו הייתה הבעיה השניה.
+ חשבו שהתשובה תהיה חיובית וב
+\numeric on
+1931
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+גדל הוכיח שיש בעיה להגיע לתשובה.
+\end_layout
+
+\begin_layout Itemize
+משפט אי השלמות של גדל
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+תורת פאנו אינה שלמה ואין דרך אלגוריתמית להשלימה.
+\end_layout
+
+\begin_layout Itemize
+לתורת פאנו ולאף קבוצה עקבית שמכילה אותה אין אלגוריתם לבדוק מה ניתן להוכחה
+ ומה לא.
+\end_layout
+
+\begin_layout Itemize
+אין אפשרות להוכיח באמצעים סופיים שתורת פאנו עקבית.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+הערה: אין קשר בין המילה שלמות בהקשר גדל ובהקשר משפט השלמות.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מבנים שתחומם שמות בשפה
+\end_layout
+
+\begin_layout Itemize
+תת מודל / מודל חלקי - מודל שהתחום שלו הוא חלקי למודל הגדול, והפירוש של היחסים
+ והפונקציות זהה )והתחום של תת המודל סגור תחת הפונקציות הללו(.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+צריך להכיל את כל הקבועים של המודל המקורי )נראה לי(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- נוסחאות 
+\begin_inset Quotes eld
+\end_inset
+
+קיים
+\begin_inset Quotes erd
+\end_inset
+
+ נשמרות כלפי מעלה ונוסחאות 
+\begin_inset Quotes eld
+\end_inset
+
+לכל
+\begin_inset Quotes erd
+\end_inset
+
+ נשמרות כלפי מטה.
+\end_layout
+
+\begin_layout Itemize
+קבוצת ה
+\begin_inset Quotes erd
+\end_inset
+
+סגור
+\begin_inset Quotes erd
+\end_inset
+
+ )
+\begin_inset Formula $sagor$
+\end_inset
+
+( של קבוצה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - הגדרה מקבילת ל
+\begin_inset Quotes erd
+\end_inset
+
+פרישה
+\begin_inset Quotes erd
+\end_inset
+
+ של כל העצמים בקבוצה עם כל הפונקציות האפשריות בה.
+ )סימון 
+\begin_inset Formula $\overline{B}$
+\end_inset
+
+(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+קבוצת הסגור סגורה תחת הפונקציות האפשריות
+\end_layout
+
+\begin_layout Itemize
+היא הקבוצת המינימלית המקיימת תכונה זו - כל תת קבוצה 
+\begin_inset Formula $B_{0}$
+\end_inset
+
+ של קבוצה 
+\begin_inset Formula $A$
+\end_inset
+
+ שקיימת קבוצה 
+\begin_inset Formula $B_{0}\subseteq C\subseteq A$
+\end_inset
+
+ אז 
+\begin_inset Formula $\overline{B_{0}}\subseteq C$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+נתון מודל 
+\begin_inset Formula $M$
+\end_inset
+
+ עם קבוצה 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הגדרה של תת מודל מינימלי - אם ניקח קבוצה 
+\begin_inset Formula $A_{0}$
+\end_inset
+
+ שהיא קבוצת העצמים חסרי המשתנים האפשריים ב-
+\begin_inset Formula $A$
+\end_inset
+
+ אז 
+\begin_inset Formula $A_{0}$
+\end_inset
+
+ היא התחום תת מודל 
+\begin_inset Formula $M_{0}$
+\end_inset
+
+של 
+\begin_inset Formula $M$
+\end_inset
+
+, והוא גם תת מודל של כל תת מודל אחר.
+ 
+\begin_inset Formula $M_{0}$
+\end_inset
+
+ נקרא תת מודל מינימלי.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+הגדרה – מודל נקרא מודל מינימלי אם אין לו תת מודל לא טריוואלי פרט לעצמו.
+\end_layout
+
+\begin_layout Itemize
+לכן - מודל הוא מינימלי אם ורק אם כל עצם במודל מפרש שם עצם חסר משתנים.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+בתת מודל מינימלי חייבים להיות הקבועים של השפה.
+\end_layout
+
+\begin_layout Itemize
+לא תמיד יש תת מודל מינימלי! - לדוגמה אם אין קבועים בשפה.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- האם כל תת מבנה של תורה הוא גם תורה?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+יחס סדר חלקי/מלא - כל תת מבנה הוא גם תורה
+\end_layout
+
+\begin_layout Itemize
+יחס סדר חלקי/מלא וצפוף - המספרים הטבעיים הם תת מבנה אבל אינם צפופים.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+
+\numeric on
+8.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+משפט הרברנד 
+\end_layout
+
+\begin_layout Itemize
+אלגברה של הרברנד )לא בחומר(.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אלגברה של הרברנד - פירוש קבועים בתור עצמם ופירוש פונקציות בתור כל האפשרויות
+ להציב עצמים בתוך הפונקציה )
+\begin_inset Quotes erd
+\end_inset
+
+פרישה
+\begin_inset Quotes erd
+\end_inset
+
+ של הפונקציה עם העצמים(.
+\end_layout
+
+\begin_layout Itemize
+המודלים של הרברנד הם כל המודלים בשפה המתקבלים על ידי פירוש של יחסי השפה
+ באלגברה של הרברנד
+\end_layout
+
+\begin_layout Itemize
+כל מודל הרברנד הוא מודל מינימלי בשפה )כל עצם במודל מפרש שם עצם קבוע( לכולם
+ אותו תחום )קבוצת השמות הקבועים בשפה(.
+ הם שונים רק בסימני היחס.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+משפט
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+8.4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לכל פסוק כולל שיש לו מודל, יש מודל הרברנד שבו הוא נכון.
+ 
+\end_layout
+
+\begin_layout Itemize
+אם פסוק הוא ישי והוא נכון בכל מודל הרברנד אז הוא אמיתי לוגי.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+משפט סקולם
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+תהליך שמחליף פסוק שרירותי בפסוק אחר שהוא פסוק כולל בשפה המעושרת, כך שאם
+ לראשון יש מודל אז לשני יש.
+\end_layout
+
+\begin_layout Itemize
+המשפט:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ פסוק מהצורה 
+\begin_inset Formula $\exists x\varphi$
+\end_inset
+
+ ו-
+\begin_inset Formula $c$
+\end_inset
+
+ קבוע שאינו בשפה, אז כל מודל של 
+\begin_inset Formula $\varphi\left[c/x\right]$
+\end_inset
+
+ הוא מודל של 
+\begin_inset Formula $\exists x\varphi$
+\end_inset
+
+ וניתן להעשיר כל מודל של 
+\begin_inset Formula $\exists x\varphi$
+\end_inset
+
+ כך שיהיה מודל של 
+\begin_inset Formula $\varphi\left[c/x\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+יהי 
+\begin_inset Formula $\psi$
+\end_inset
+
+ פסוק מהצורה 
+\begin_inset Formula $\forall x_{1}...\forall x_{n}\exists y\varphi$
+\end_inset
+
+.
+ כל מודל של 
+\begin_inset Formula $\forall x_{1}...\forall x_{n}\varphi\left[f\left(x_{1}...x_{n}\right)/y\right]$
+\end_inset
+
+ בשפה המורחבת הוא מודל של הפסוק המקורי וכל מודל של הפסוק המקורי ניתן להעשרה
+ למודל של הפסוק החדש.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+התהליך - הופכים את הפסוק לצורה פרנקסית נורמלית.
+ אם הכמת הראשון הוא 
+\begin_inset Quotes eld
+\end_inset
+
+קיים
+\begin_inset Quotes erd
+\end_inset
+
+, מציבים במקומו קבוע 
+\begin_inset Formula $c$
+\end_inset
+
+.
+ אם 
+\begin_inset Formula $k$
+\end_inset
+
+ הכמתים הראשונים הם 
+\begin_inset Formula $\forall x_{1}...\forall x_{k}$
+\end_inset
+
+ ואחראים 
+\begin_inset Formula $\exists y$
+\end_inset
+
+, הופכים את 
+\begin_inset Formula $y$
+\end_inset
+
+ ל-
+\begin_inset Formula $f\left(x_{1}...x_{k}\right)$
+\end_inset
+
+ כאשר 
+\begin_inset Formula $f$
+\end_inset
+
+ הוא סימן פונקציה חדש.
+\end_layout
+
+\begin_layout Itemize
+למה זה טוב? - מאותו רגע אפשר לצמצם את הדיון לתת מודלים שמכילים את הקבועים
+ שמוזכרים בפסוק, ואז כיוון שהוא מכיל כמתי 
+\begin_inset Quotes eld
+\end_inset
+
+לכל
+\begin_inset Quotes erd
+\end_inset
+
+ אז הוא יהיה נכון בכל תת מודל.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+האלגוריתם של הרברנד )לא בחומר(
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הרברנד השתמש ברדוקציה של סקולם ויצר תהליך לבדיקה האם פסוק הוא בעל מודל או
+ שהוא סתירה )לא נכון בכל מודל(.
+\end_layout
+
+\begin_layout Itemize
+התהליך הוא כריע למחצה - יגלה אם יש מודל אבל אף פעם לא יעצור אם אין מודל.
+\end_layout
+
+\begin_layout Itemize
+בקצרה: אם יש לפסוק מודל אז יש לו מודל מינימלי שהוא איזומורפי למודל הרברנד,
+ לכן די לבדוק האם יש לו מודל שתחומו הוא קבוצת שמות העצם חסרי המשתנים בשפה
+ או קבוצת מנה של מודל כזה.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+9
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לוגיקות אחרות
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+9.1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+לוגיקה רב סוגית
+\end_layout
+
+\begin_layout Itemize
+לוגיקה רב סוגית - אפשר ליצור לוגיקה שבה יש הרבה תחומים, ולהגדיר פונקציות
+ ויחסים על כל תחום.
+ זה במקום שכולם יהיו אותו תחום ונצטרך ליצור יחסים כמו 
+\begin_inset Formula $Book\left(x\right)$
+\end_inset
+
+ ו-
+\begin_inset Formula $Student\left(x\right)$
+\end_inset
+
+ כדי לסווג עצמים.
+\end_layout
+
+\begin_layout Subsection
+
+\numeric on
+9.2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+לוגיקה מסדר שני
+\end_layout
+
+\begin_layout Itemize
+לוגיקה מסדר שני - מסתכלים על מבנה ביחד עם כל הקבוצות החלקיות של המבנה.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מתקבלת על ידי הוספת שמות קבועים ומשתנים מסדר שני והוספת סימן השייכות 
+\begin_inset Formula $\in$
+\end_inset
+
+ )יחס דו מקומי(.
+\end_layout
+
+\begin_layout Itemize
+נוסחאות אטומיות - סדר ראשון + 
+\begin_inset Formula $T=S$
+\end_inset
+
+ + 
+\begin_inset Formula $s\in S$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+נוסחאות - נוסחאות אטומיות + קשרים
+\end_layout
+
+\begin_layout Itemize
+הערה: במבחנים ותרגולים ראיתי שאפשר גם לשים כמתים על פונקציות ויחסים - לדוגמה
+ 
+\begin_inset Formula $\exists R\left(R\left(x,x\right)\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מודל, תורה - מקביל ללוגיקה מסדר ראשון
+\end_layout
+
+\begin_layout Itemize
+דוגמה - תורת פאנו בתוספת אקסיומת האינדוקציה.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מה המודלים הדו סוגיים ומסדר שני?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+המספרים הטבעיים הם היחידים מסדר שני
+\end_layout
+
+\begin_layout Itemize
+מודלים דו סוגיים יכולים להיות מגוונים - למשל קבוצת הרציונליים/ממשיים אי
+ שליליים עם פעולת העוקב יחד עם הסוג שהוא כל הקבוצות החלקיות בלי
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+גדירות בלוגיקה מסדר שני - אפשר להביע יותר
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הגדרת הטבעיים - מגדירים את הסגירות שלה 
+\begin_inset Formula $N\left(x\right)=\exists X\left(0\in X\wedge\forall y\left(y\in X\rightarrow s\left(y\right)\in X\right)\rightarrow x\in X\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+קבוצת המספרים הזוגיים - 
+\begin_inset Formula $E\left(x\right)=\exists U\left(U\left(0\right)\wedge\forall x\left(U\left(x\right)\leftrightarrow\lnot U\left(S\left(x\right)\right)\right)\wedge U\left(x\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+תמיד אחת מהטענות הבאות תיכשל בכל תחשיב מלוגיקה מסדר שני
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+תקפות
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - כל פסוק שניתן להוכחה אמיתי
+\end_layout
+
+\begin_layout Itemize
+שלמות - כל משפט אמיתי ניתן להוכחה
+\end_layout
+
+\begin_layout Itemize
+אין תורת הוכחה - אין אפשרות להכריע האם רצף פסוקים הוא הוכחה חוקית או לא
+\end_layout
+
+\begin_layout Itemize
+לכן עוסקים בעיקר בלוגיקה מסדר ראשון
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מבנה מסדר שני חלש - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הגדרה - קבוצה אחת היא תחום וקבוצה שניה היא אוסף של קבוצות חלקיות מהתחום
+ )ולא כל הקבוצות החלקיות(
+\end_layout
+
+\begin_layout Itemize
+התחשיב שלם )לכל קבוצת פסוקים עקבית יש מודל( ומשפט הקומפקטיות נכון עבורו.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+גדירות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+המודל הוא אינסופי - 
+\begin_inset Formula $\exists R\left(\forall x\forall y\forall z\left(R\left(x,y\right)\wedge R\left(y,z\right)\rightarrow R\left(x,z\right)\right)\wedge\forall x\lnot R\left(x,x\right)\wedge\forall x\exists yR\left(x,y\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+למה זה נכון? - היחס הוא יחס סדר חלקי )טרנזיטיבי ואנטי רפלקסיבי( ולכל איבר
+ קיים איבר גדול ממנו - אז יש אינסוף איברים.
+\end_layout
+
+\begin_layout Itemize
+דרך אחרת - לא כל פונקציה חד חד ערכית מהתחום לעצמו היא גם 
+\begin_inset Quotes eld
+\end_inset
+
+על
+\begin_inset Quotes erd
+\end_inset
+
+ )ונראה לי שלא צריך להוכיח את נכונות המשפט(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+אקסיומת האינדוקציה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\forall R\left(R\left(0\right)\wedge\forall y\left(R\left(y\right)\rightarrow R\left(S\left(y\right)\right)\right)\rightarrow\forall yR\left(y\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+לכל קבוצה חסומה קיים חסם עליון קטן ביותר
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+
+\numeric on
+9.3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+לוגיקה מודאלית
+\family roman
+\series bold
+\shape up
+\size large
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)לא בחומר(
+\end_layout
+
+\begin_layout Itemize
+מקרה מקביל )לא פרטי( של לוגיקת היחסים אבל קיים תרגום.
+\end_layout
+
+\begin_layout Itemize
+הרעיון - יש עובדות שהן אמיתיות בעולמנו אבל לא בהכרח תמיד )לדוגמה אם החול
+ היה סגול(, יש עובדות שהן נכונות תמיד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)כמו שטענה לא יכולה להיות אמיתית ושקרית בו זמנית(.
+\end_layout
+
+\begin_layout Itemize
+מאפשר לומר דברים כמו 
+\begin_inset Quotes eld
+\end_inset
+
+כולם יודעים שפסוק נכון
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+הפסוק יהיה נכון בעתיד
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+הפסוק נכון ויש לו הוכחה
+\begin_inset Quotes erd
+\end_inset
+
+ וכו'.
+\end_layout
+
+\begin_layout Standard
+)שאר הפרק לא בחומר(
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+טעויות / מסקנות
+\end_layout
+
+\begin_layout Itemize
+סיכום סימונים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M\vdash\varphi$
+\end_inset
+
+ או 
+\begin_inset Formula $\vdash\varphi$
+\end_inset
+
+ - יש סדרת הוכחה מ-
+\begin_inset Formula $M$
+\end_inset
+
+ או מאקסיומות התחשיב ל-
+\begin_inset Formula $\varphi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $M\vDash\varphi$
+\end_inset
+
+ - 
+\begin_inset Formula $M$
+\end_inset
+
+ הוא מודל שבו 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ נכון )הגדרה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3.1.1
+\numeric off
+(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+קומפקטיות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם לכל קבוצה חלקית סופית יש מודל אז יש מודל שבו כל פסוקי הקבוצה נכונים
+\end_layout
+
+\begin_layout Itemize
+אם קבוצה גוררת פסוק אז קיימת תת קבוצה סופית שגוררת אותו
+\end_layout
+
+\begin_layout Itemize
+דוגמאות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+האם לכל קבוצת פסוקים קיימת קבוצת פסוקים חלקית ממש כך שמודל מסתפק באחת אם
+ ורק אם הוא מסתפק בשניה? - לא, דוגמה נגדית היא הקבוצה הריקה שכל מודל מסתפק
+ בה ואין לה קבוצה חלקית ממש.
+\end_layout
+
+\begin_layout Itemize
+האם לכל קבוצת פסוקים קיימת קבוצת פסוקים חלקית כך שאחת ספיקה אם ורק אם השנייה
+ ספיקה? - כן - כיוון אחד טריוויאלי, אם קבוצת העל לא ספיקה אז היא מוכיחה
+ פסוק ושלילתו.
+ ממשפט הקומקפטיות נובע שלכל אחד קבוצה חלקית שממנה הוא נובע.
+ איחוד הקבוצות מוכיח פסוק ושלילתו והוא לא ספיק.
+ 
+\end_layout
+
+\begin_layout Itemize
+הכיוון ההפוך לא נכון: ייתכן שיש פסוק שנובע מקבוצה סופית אבל יש קבוצה אינסופית
+ שבה הוא לא מסתפק )כי היא מכילה יותר פסוקים(.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+מה ההבדל בין שפה למודל? - שפה מגדירה מקלדת ותחביר, מודל מגדיר פירוש.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לדוגמה יכול להיות פסוק בשפת היחסים עם היחסים והקבועים 
+\begin_inset Formula $R\left(x_{0},y_{0}\right)\vee T\left(v_{1},v_{2}\right)$
+\end_inset
+
+, אבל מודל אחד יהיה בתחום המספרים הממשיים והשני יהיה חברי הכנסת.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+כדי להוכיח עבור כל פסוק - אפשר הוכחה על פי מבנה 
+\end_layout
+
+\begin_layout Itemize
+הראו שאין פסוק שמתקבל מקבוצת פסוקים - מראים שהוא לא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ אקסיומה ולא יכול להתקבל מכלל ההיסק
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2023
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- נתונה קבוצת מספרים טבעיים, אפשר ליצור יחסים שיגדירו מה זה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0,1
+\end_layout
+
+\begin_layout Itemize
+ממן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ פסוק, נוכיח ש-
+\begin_inset Formula $\varphi\rightarrow\varphi$
+\end_inset
+
+ היא מחרוזת שאינה פסוק - קוראים לפי משפט הקריאה היחידה, מניחים ש
+\begin_inset Formula $\varphi=\lnot...\lnot\beta$
+\end_inset
+
+ ולכן אפשר להוריד את סימני השלילה.
+ אם 
+\begin_inset Formula $\beta$
+\end_inset
+
+ היא פסוק אלמנטרי אז המחרוזת אינה פסוק כי יש תת מחרוזת שלא טופלה.
+ אם היא מהצורה 
+\begin_inset Formula $\left(\beta_{1}@\beta_{2}\right)$
+\end_inset
+
+ אז יישאר פסוק מהצורה 
+\begin_inset Formula $\beta_{1}@\beta_{2})\rightarrow(\beta_{1}@\beta_{2}$
+\end_inset
+
+ ואין במחרוזת הזו תו מאוזן סוגריים.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+תרגולים פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+11
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אפשר להשתמש במשפט הקריאה היחידה כדי להוכיח שמחרוזת היא פסוק / לא פסוק
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- סיפא ממש של פסוק יכולה להיות פסוק, רישא לא
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- לכל פסוק 
+\series bold
+יש
+\series default
+ סדרת בניה שכל מחרוזותיה הן תת פסוקים אבל לא בהכרח - יש גם סדרות בניה שמכילות
+ פסוקים שאינם תת פסוקים של הפסוק המקוריץ עם זאת, הפסוק האחרון הוא בהכרח
+ הפסוק המקורי.
+\end_layout
+
+\begin_layout Itemize
+הוכחה לפי עץ מבנה: אפשר לעצור אם עלה הוא פסוק )גם אם לא אלמנטרי( או שאינו
+ פסוק.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ממן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+12
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+– משפט ההחלפה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2.6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ומשפט ההצבה מאפשרים לענות על שאלות שבהן מחליפים תת מחרוזות בפסוק
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ממן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+13
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - מערכת הקשרים 
+\begin_inset Formula $F\left(\right),\rightarrow$
+\end_inset
+
+ מלאה - כי 
+\begin_inset Formula $\alpha=\alpha\rightarrow F\left(\alpha\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם מערכת היסק לא מכילה קשר מסוים בטאוטולוגיות שלה, אז אי אפשר להוכיח טאוטולוגיות
+ עם אותם קשרים שלא נמצאים בה )לדוגמה אם בטאוטולוגיות יש רק 
+\begin_inset Formula $\leftarrow$
+\end_inset
+
+ אז אי אפשר להסיק את 
+\begin_inset Formula $\left(P\vee\lnot P\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+כדי לבדוק אם טענה לא ניתנת להסקה - אולי היא לא טאוטולוגיה במערכת נאותה ואז
+ אי אפשר להוכיח אותה.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+ממן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+14
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\numeric off
+ד - אם 
+\begin_inset Formula $M\vDash\varphi$
+\end_inset
+
+ אז לא בהכרח 
+\begin_inset Formula $M\vDash\lnot\varphi$
+\end_inset
+
+ – לדוגמה 
+\begin_inset Formula $"x<y"$
+\end_inset
+
+ לא נכון בכל השמה )
+\numeric on
+5,3
+\numeric off
+( וגם 
+\begin_inset Formula $"\lnot\left(x<y\right)"$
+\end_inset
+
+ לא נכון בכל השמה )לדוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3,5
+\numeric off
+(.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2
+\numeric off
+א
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אפשר להשתמש בכלל ההכללה הישי באינדוקציה טבעית )לא התחשיב עם
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אקסיומות בלבד(
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2
+\numeric off
+ב - אינטואיציה - אם קיים 
+\begin_inset Formula $x$
+\end_inset
+
+ כך ש-
+\begin_inset Formula $Q\left(x\right)$
+\end_inset
+
+ אז קיים 
+\begin_inset Formula $x$
+\end_inset
+
+ כך ש-
+\begin_inset Formula $P\left(x\right)\rightarrow Q\left(x\right)$
+\end_inset
+
+, והוא כל אחד מהאיברים שמקיימים 
+\begin_inset Formula $Q\left(x\right)$
+\end_inset
+
+ )וזה כי טענת הקצה נכונה(.
+ את הטענה אפשר לסכם כך: 
+\begin_inset Formula $\left(\exists xQ\left(x\right)\rightarrow\exists x\left(P\left(x\right)\rightarrow Q\left(x\right)\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\forall y\exists xR\left(x,y\right)\rightarrow\exists x\forall yR\left(x,y\right)$
+\end_inset
+
+ - לא נכון - בטבעיים לכל מספר קיים מספר גדול ממנו אבל אין מספר שגדול מכל
+ מספר אחר.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+תרגול למטלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+14
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+שאלה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $\varphi\left[x/y\right]\left[y/x\right]=\varphi$
+\end_inset
+
+ אם ורק אם ל-
+\begin_inset Formula $y$
+\end_inset
+
+ אין מופעים חופשיים ב-
+\begin_inset Formula $\varphi$
+\end_inset
+
+.
+ 
+\begin_inset Newline newline
+\end_inset
+
+כיוון
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+: ההחלפה מחליפה את 
+\begin_inset Formula $x$
+\end_inset
+
+ ב-
+\begin_inset Formula $y$
+\end_inset
+
+ ו
+\begin_inset Formula $y$
+\end_inset
+
+ ב-
+\begin_inset Formula $x$
+\end_inset
+
+ וכל המופעים החופשיים של 
+\begin_inset Formula $x$
+\end_inset
+
+ הם אותם מופעים שהיו מקודם 
+\begin_inset Newline newline
+\end_inset
+
+כיוון
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\numeric off
+: הוכחה בשלילה.
+ נניח שיש, אז ההצבה השניה מחליפה את המופעים החופשיים של 
+\begin_inset Formula $y$
+\end_inset
+
+ ב-
+\begin_inset Formula $x$
+\end_inset
+
+, ולכן אין מופעים חופשיים של 
+\begin_inset Formula $y$
+\end_inset
+
+ במחרוזת אחת אבל בשניה יש.
+\end_layout
+
+\begin_layout Itemize
+סעיף ג' עמוד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+231
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $x$
+\end_inset
+
+ לא מופיע חופשי ב-
+\begin_inset Formula $\beta$
+\end_inset
+
+ אפשר לבצע 
+\begin_inset Formula $\left(\left(\forall x\alpha\right)\vee\beta\rightarrow\forall x\left(\alpha\vee\beta\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מבחן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+לדוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\numeric off
+א - כל פסוק אלמנטרי הוא ספיק - כנראה שכן כי אפשר להציב בו 
+\begin_inset Formula $T$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2
+\numeric off
+ב - כדי להראות שפסוק לא ספיק - להראות שהוא סתירה
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- האיחוד של שתי תורות הוא לא בהכרח תורה )אולי באחת יש פסוק ובשני השלילה(,
+ החיתוך כן )בהכרח יש מודל(
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4
+\numeric off
+א - 
+\begin_inset Quotes eld
+\end_inset
+
+אדם אחד
+\begin_inset Quotes erd
+\end_inset
+
+ - בדיוק אדם אחד, צריך לוודא שאין עוד אובייקטים 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מבחן לדוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\numeric off
+ב - כדי להוכיח שתורה אינה שלמה )לא כל פסוק שנובע לוגית / טאוטולוגיה הוא
+ גם יכיח( - אם מצעד הגזירה יכול להתקבל רק קשר ראשי מסוים.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\left\{ \left(\lnot\alpha\vee\beta\right),\alpha\right\} $
+\end_inset
+
+ וצעד הגזירה הוא תמיד עם קשר השלילה - 
+\begin_inset Formula $\beta$
+\end_inset
+
+ אמיתי אבל לא יכיח
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+מבחן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+לדוגמה 
+\numeric on
+4
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+3
+\numeric off
+א - דוגמה של הצבה לא כשרה - הפסוק 
+\begin_inset Formula $\alpha\left(t\right)\rightarrow\exists x\alpha$
+\end_inset
+
+ נכון כל עוד ההצבה כשרה.
+ נניח 
+\begin_inset Formula $Q=\forall y\left(y=x\right)$
+\end_inset
+
+ נוסחה ב-
+\begin_inset Formula $x$
+\end_inset
+
+ ו-
+\begin_inset Formula $t=y$
+\end_inset
+
+ )הצבה לא כשרה(.
+ מתקבל פסוק אמת 
+\begin_inset Formula $Q=\forall y\left(y=y\right)$
+\end_inset
+
+.
+ אמנם, הפסוק 
+\begin_inset Formula $\exists x\forall y\left(y=x\right)$
+\end_inset
+
+ לא נכון בכל קבוצה עם תחום של יותר מאיבר אחד.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+5
+\numeric off
+ב
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Quotes eld
+\end_inset
+
+לכל משולש יש שלוש צלעות
+\begin_inset Quotes erd
+\end_inset
+
+ - 
+\begin_inset Formula $T$
+\end_inset
+
+ משולש, 
+\begin_inset Formula $P$
+\end_inset
+
+ נקודה, 
+\begin_inset Formula $R$
+\end_inset
+
+ צלע:
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\align left
+\begin_inset Formula $\forall x\left(T\left(x\right)\vee\exists y\exists z\exists t\left(P\left(y\right)\vee P\left(z\right)\vee P\left(t\right)\vee R\left(x,y\right)\vee R\left(x,z\right)\vee R\left(x,t\right)\vee\left(y\neq z\right)\vee\left(y\neq t\right)\vee\left(t\neq z\right)\vee\forall s\left(P\left(s\right)\rightarrow\left(\left(s=y\right)\vee\left(s=z\right)\vee\left(s=t\right)\right)\right)\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+מבחן לדוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+א - אם מקבוצה של נוסחאות יוצרים קבוצה שבה לכל נוסחה מוצמד 
+\begin_inset Quotes eld
+\end_inset
+
+לכל
+\begin_inset Quotes erd
+\end_inset
+
+, כל משפט של המקורית הוא גם של החדשה.
+ הוכחה באינדוקציה מבנית )כל פסוק בקבוצה המקורית מופיע בצורה עם ה-
+\begin_inset Quotes erd
+\end_inset
+
+לכל
+\begin_inset Quotes erd
+\end_inset
+
+ בחדשה, ולפי ההנחה מופיעים גם 
+\begin_inset Formula $\forall x\alpha$
+\end_inset
+
+, 
+\begin_inset Formula $\forall x\left(\alpha\rightarrow\beta\right)=\forall x\alpha\rightarrow\forall x\beta$
+\end_inset
+
+ ולכן 
+\begin_inset Formula $\forall x\beta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+ב - אותו דבר עם 
+\begin_inset Quotes eld
+\end_inset
+
+קיים
+\begin_inset Quotes erd
+\end_inset
+
+ - לא נכון כי לא בהכרח 
+\begin_inset Formula $\exists x\left(\alpha\rightarrow\beta\right)=\exists x\alpha\rightarrow\exists x\beta$
+\end_inset
+
+ - לדוגמה אם בוחרים 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ תנאי שמתקיים רק לחלק )נגיד 
+\begin_inset Formula $x$
+\end_inset
+
+ הוא מספר זוגי( ו-
+\begin_inset Formula $\beta$
+\end_inset
+
+ שלא מתקיים בכלל בתחום )נגיד 
+\begin_inset Formula $x$
+\end_inset
+
+ הוא מספר לא רציונלי( אז 
+\begin_inset Formula $\alpha,\alpha\rightarrow\beta$
+\end_inset
+
+ נכונים )הגרירה נכונה כי 
+\begin_inset Formula $\beta$
+\end_inset
+
+ שקר( והמסקנה שלהם נכונה )
+\begin_inset Formula $x$
+\end_inset
+
+ הוא מספר אי רציונלי( אבל אם מוסיפים לכל טענה 
+\begin_inset Quotes eld
+\end_inset
+
+קיים 
+\begin_inset Formula $x$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ אז הטענה 
+\begin_inset Formula $\exists x\beta$
+\end_inset
+
+ שקרית כי לא קיים מספר אי רציונלי.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- שפה רק עם שלמים,
+\begin_inset Formula $N,+$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+להגדיר את
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)
+\begin_inset Formula $x+x=x$
+\end_inset
+
+(, 
+\end_layout
+
+\begin_layout Itemize
+להגדיר את
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ )
+\begin_inset Formula $O\left(z\right)=\forall x\forall y\left(\left(N\left(z\right)\wedge\left(x+y=z\right)\right)\rightarrow\left(\varphi_{0}\left(x\right)\wedge\varphi_{0}\left(y\right)\wedge\left(x\neq y\right)\right)\right)$
+\end_inset
+
+( )אם הוא סכום של שני מספרים שונים אחד מהם בטוח 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Quotes eld
+\end_inset
+
+לא כל המורים הם לא מצליחים
+\begin_inset Quotes erd
+\end_inset
+
+ )
+\begin_inset Formula $M$
+\end_inset
+
+ מורה, 
+\begin_inset Formula $L$
+\end_inset
+
+ לא יוצלח( - הצרנה מפורשת היא 
+\begin_inset Formula $\lnot\forall x\left(M\left(x\right)\rightarrow L\left(x\right)\right)$
+\end_inset
+
+, שקול ל-
+\begin_inset Formula $\exists x\left(M\left(x\right)\wedge\lnot L\left(x\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+תרגילי הכנה למבחן
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם 
+\begin_inset Formula $M$
+\end_inset
+
+ מודל של 
+\begin_inset Formula $\sum$
+\end_inset
+
+ ו-
+\begin_inset Formula $\sum'$
+\end_inset
+
+ נובע מהתורה, אז 
+\begin_inset Formula $M$
+\end_inset
+
+ גם מודל של התורה השנייה.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הוכח שכל קבוצת פסוקים בלי קשר שלילה היא עקבית - מועתק מ
+\numeric on
+2023
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+והתשובה למטה.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- כדי להוכיח שלמות במערכת נאותה, צריך להוכיח שכל טאוטולוגיה ניתנת להוכחה
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- להוכיח ש-
+\begin_inset Formula $A\left[c/x\right]\left[d/y\right]=A\left[d/y\right]\left[c/x\right]$
+\end_inset
+
+ - צריך לפצל ל
+\numeric on
+4
+\numeric off
+ מקרים לפי אפשרויות מופעים חופשיים של כל משתנה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+אין תת מודל מינימלי אם אין קבועים
+\end_layout
+
+\begin_layout Itemize
+כדי להוכיח שדרגה של פסוק עם קשר מרכזי דו מקומי היא המקסימלי פלוס אחד )נראה
+ לי( - אם הם שווים אז בהכרח זה העומק הקשרי פלוס אחד, אם יש מקסימלי אבל לוקחים
+ את המינימלי אז נובע מכך שהפסוק המינימלי נמצא בקבוצה 
+\begin_inset Formula $E_{n}$
+\end_inset
+
+ שהיא קטנה יותר ממקודם וזה לא אפשרי.
+ 
+\end_layout
+
+\begin_layout Itemize
+להראות שמערכת קשרים לא שלמה - אם מראים שלכל פסוק במערכת הקשרים יש מספר שורות
+ זוגי של 
+\begin_inset Formula $T$
+\end_inset
+
+ ומוצאים פסוק שרוצים להביע אותו עם מספר אי זוגי של שורות 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+אם פסוק נובע לוגית מתורה אז הפסוק ניתן להוכחה מהקבוצה - מפרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\end_layout
+
+\begin_layout Itemize
+אם שואלים האם תחשיב הוא שלם - אפשר להוכיח שהוא שקול לתחשיב הילברט )שלם(
+ או שיש קשר שלא ניתן להביע )לא שלם( או שניתן להביע כל טענה )שלם(
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2022
+\numeric off
+א
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+84
+\numeric off
+ו
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- האם קיימת תת קבוצה סופית מוכלת ממש בתוך קבוצת פסוקים כך שאם טענה מסתפקת
+ בקבוצה אז היא מסתפקת בתת קבוצה? - לא כי הקבוצה הריקה מספקת כל טענה ואין
+ לה קבוצה חלקית ממש.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2022
+\numeric off
+א
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+84
+\numeric off
+ו
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- האם אפשר למצוא קבוצה אינסופית כך שאין לה תת קבוצה סופית שקולה? - אם הקבוצה
+ האינסופית מכילה כל פסוק אלמנטרי )יש אינסוף( אז הקבוצה הסופית בהכרח לא שקולה
+ כי יש פסוקים שאפשר לשחק איתם שמסתפקים רק בקבוצה האינסופית.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2021
+\numeric off
+ב
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+96
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם שואלים האם קבוצה גוררת פסוק, הטענה יכולה להתקיים גם באופן ריק אם קבוצת
+ הפסוקים לא עקבית ולכן היא לא תורה.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- להראות שמספר הוא חיובי - להראות שיש לו שורש )קיים מספר אחר שהוא כפול עצמו
+ שווה הנתון(
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2023
+\numeric off
+ב
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- קבוצת פסוקים שקשר השלילה לא מופיע בהם היא עקבית - במודל שבו כל הפסוקים
+ האלמנטריים אמיתיים אז כל פסוק מורכב הוא אמיתי, ומערכת ההוכחה נאותה אז גם
+ כל פסוק אחר יהיה אמיתי )ולכן אי אפשר להוכיח פסוק ושלילתו(.
+ לכן לקבוצה הזו יש מודל.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+דוגמה ממבחן אחר - כדי להוכיח שמערכת קשרים שלא מכילה את קשר השלילה היא לא
+ שלמה, אפשר להשתמש בפסוק 
+\begin_inset Formula $\lnot\left(p_{1}\vee p_{2}\right)$
+\end_inset
+
+ - בפסוק זה הפסוקים האלמנטריים הם כולם 
+\begin_inset Formula $T$
+\end_inset
+
+ והתוצאה היא 
+\begin_inset Formula $F$
+\end_inset
+
+, אבל בפסוקים שמכילים כל אחד משאר הקשרים אם כל הפסוקים האלמנטריים הם 
+\begin_inset Formula $T$
+\end_inset
+
+ אז בהכרח גם הפסוק הכולל הוא 
+\begin_inset Formula $T$
+\end_inset
+
+ )הוכחה באינדוקציה מבנית(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\numeric off
+ג - נתונה מערכת שיכולה להוכיח רק סתירות.
+ הוכחנו שהיא יכולה להוכיח כל סתירה.
+ אז היא לא שלמה כי כל סתירה נובעת מהמערכת אבל כפי שהוכחנו אי אפשר להוכיח
+ כל סתירה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+מתי כותבים 
+\begin_inset Quotes eld
+\end_inset
+
+וגם
+\begin_inset Quotes erd
+\end_inset
+
+ ומתי 
+\begin_inset Quotes eld
+\end_inset
+
+חץ
+\begin_inset Quotes erd
+\end_inset
+
+ בגדירות - אם טענה בהכרח נובעת, מתקיימת )כמו 
+\begin_inset Quotes eld
+\end_inset
+
+לכל שבת יש מוצאי שבת
+\begin_inset Quotes erd
+\end_inset
+
+( אז חץ, אם שני דברים בלתי קשורים אז 
+\begin_inset Quotes eld
+\end_inset
+
+וגם
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+להוכיח שקבוצה עקבית - יש לה מודל! - לדוגמה שאלת ה
+\begin_inset Quotes erd
+\end_inset
+
+האם קבוצה בלי שלילה היא עקבית
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

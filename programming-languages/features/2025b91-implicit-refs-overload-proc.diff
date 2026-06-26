@@ -1,0 +1,303 @@
+--- a/data-structures.scm
++++ b/data-structures.scm
+@@ -16,7 +16,7 @@
+     (bool-val
+       (boolean boolean?))
+     (proc-val
+-      (proc proc?))
++      (int-proc proc?) (bool-proc proc?) (func-proc proc?))
+     (ref-val
+       (ref reference?))
+     )
+@@ -35,12 +35,6 @@
+ 	(bool-val (bool) bool)
+ 	(else (expval-extractor-error 'bool v)))))
+ 
+-  (define expval->proc
+-    (lambda (v)
+-      (cases expval v
+-	(proc-val (proc) proc)
+-	(else (expval-extractor-error 'proc v)))))
+-
+ (define expval->ref
+     (lambda (v)
+       (cases expval v
+@@ -58,7 +52,8 @@
+     (procedure
+       (bvar symbol?)
+       (body expression?)
+-      (env environment?)))
++      (env environment?))
++    (empty-proc))
+ 
+   (define-datatype environment environment?
+     (empty-env)
+@@ -87,17 +82,4 @@
+ 	  (cons
+ 	    (list 'letrec p-names '...)
+ 	    (env->list saved-env))))))
+-
+-  ;; expval->printable : ExpVal -> List
+-  ;; returns a value like its argument, except procedures get cleaned
+-  ;; up with env->list
+-  (define expval->printable
+-    (lambda (val)
+-      (cases expval val
+-	(proc-val (p)
+-	  (cases proc p
+-	    (procedure (var body saved-env)
+-	      (list 'procedure var '... (env->list saved-env)))))
+-	(else val))))
+-
+ )
+--- a/environments.scm
++++ b/environments.scm
+@@ -37,11 +37,11 @@
+             ;; n : (maybe int)
+             (if n
+               (newref
+-                (proc-val
+-                  (procedure
+-                    (list-ref b-vars n)
+-                    (list-ref p-bodies n)
+-                    env)))
++                (let ((p (procedure
++                           (list-ref b-vars n)
++                           (list-ref p-bodies n)
++                           env)))
++                  (proc-val p p p)))
+               (apply-env saved-env search-var)))))))
+ 
+   ;; location : Sym * Listof(Sym) -> Maybe(Int)
+--- a/interp.scm
++++ b/interp.scm
+@@ -71,13 +71,12 @@
+             (value-of body
+               (extend-env var (newref v1) env))))
+ 
+-        (proc-exp (var body)
+-          (proc-val (procedure var body env)))
+-
+-        (call-exp (rator rand)
+-          (let ((proc (expval->proc (value-of rator env)))
+-                (arg (value-of rand env)))
+-            (apply-procedure proc arg)))
++        (proc-exp (typ var body)
++          (let ((p (procedure var body env)))
++            (cases type typ
++              (int-type ()  (proc-val p (empty-proc) (empty-proc)))
++              (bool-type () (proc-val (empty-proc) p (empty-proc)))
++              (func-type () (proc-val (empty-proc) (empty-proc) p)))))
+ 
+         (letrec-exp (p-names b-vars p-bodies letrec-body)
+           (value-of letrec-body
+@@ -100,8 +99,42 @@
+               (value-of exp1 env))
+             (num-val 27)))
+ 
++        (overload-proc (p-name typ var body)
++          (let* ((ref1 (apply-env env p-name))
++                 (v1 (deref ref1)))
++            (cases expval v1
++              (proc-val (iproc bproc fproc)
++                (let* ((newproc (procedure var body env))
++                       (newprocval
++                         (cases type typ
++                           (int-type ()  (proc-val newproc bproc   fproc))
++                           (bool-type () (proc-val iproc   newproc fproc))
++                           (func-type () (proc-val iproc   bproc   newproc)))))
++                  (begin
++                    (setref! ref1 newprocval)
++                    newprocval)))
++              (else (eopl:error 'overload-proc "~s is not a procedure" p-name)))))
++
++        (call-exp (rator rand)
++          (let ((ratorv (value-of rator env))
++                (randv  (value-of rand env)))
++            (cases expval ratorv
++              (proc-val (iproc bproc fproc)
++                (let ((chosen
++                        (cases expval randv
++                          (num-val  (n)     iproc)
++                          (bool-val (b)     bproc)
++                          (proc-val (i b f) fproc)
++                          (else (eopl:error 'call-exp
++                                  "no overload accepts argument ~s" randv)))))
++                  (cases proc chosen
++                    (empty-proc ()
++                      (eopl:error 'call-exp
++                        "operator has no overload for argument ~s" randv))
++                    (procedure (v b e) (apply-procedure chosen randv)))))
++              (else (eopl:error 'call-exp "not a procedure: ~s" ratorv)))))
++
+         )))
+-
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+   ;; Page: 119
+@@ -128,20 +161,10 @@
+                     var)
+                   (pretty-print (env->list new-env))
+                   (eopl:printf "store =~%")
+-                  (pretty-print (store->readable (get-store-as-list)))
+                   (eopl:printf "~%")))
+-              (value-of body new-env)))))))
+-
+-  ;; store->readable : Listof(List(Ref,Expval))
+-  ;;                    -> Listof(List(Ref,Something-Readable))
+-  (define store->readable
+-    (lambda (l)
+-      (map
+-        (lambda (p)
+-          (list
+-            (car p)
+-            (expval->printable (cadr p))))
+-        l)))
++              (value-of body new-env))))
++        (empty-proc ()
++          (eopl:error 'apply-procedure "applying an empty (missing) overload")))))
+ 
+   )
+ 
+--- a/lang.scm
++++ b/lang.scm
+@@ -41,8 +41,16 @@
+        let-exp)
+ 
+       (expression
+-       ("proc" "(" identifier ")" expression)
++       ("proc" "(" type identifier ")" expression)
+        proc-exp)
++
++       (type ("int") int-type)
++       (type ("bool") bool-type)
++       (type ("func") func-type)
++
++       (expression
++        ("overload" identifier "with" "(" type identifier ")" expression)
++        overload-proc)
+ 
+       (expression
+        ("(" expression expression ")")
+--- a/tests.scm
++++ b/tests.scm
+@@ -54,22 +54,22 @@
+       (check-shadowing-in-body "let x = 3 in let x = 4 in x" 4)
+       (check-shadowing-in-rhs "let x = 3 in let x = -(x,1) in x" 2)
+ 
+-      ;; simple applications
+-      (apply-proc-in-rator-pos "(proc(x) -(x,1)  30)" 29)
+-      (apply-simple-proc "let f = proc (x) -(x,1) in (f 30)" 29)
+-      (let-to-proc-1 "(proc(f)(f 30)  proc(x)-(x,1))" 29)
++      ;; simple applications  (proc now requires an argument-type annotation)
++      (apply-proc-in-rator-pos "(proc(int x) -(x,1)  30)" 29)
++      (apply-simple-proc "let f = proc (int x) -(x,1) in (f 30)" 29)
++      (let-to-proc-1 "(proc(func f)(f 30)  proc(int x)-(x,1))" 29)
+ 
+ 
+-      (nested-procs "((proc (x) proc (y) -(x,y)  5) 6)" -1)
+-      (nested-procs2 "let f = proc(x) proc (y) -(x,y) in ((f -(10,5)) 6)"
++      (nested-procs "((proc (int x) proc (int y) -(x,y)  5) 6)" -1)
++      (nested-procs2 "let f = proc(int x) proc (int y) -(x,y) in ((f -(10,5)) 6)"
+         -1)
+ 
+        (y-combinator-1 "
+-let fix =  proc (f)
+-            let d = proc (x) proc (z) ((f (x x)) z)
+-            in proc (n) ((f (d d)) n)
++let fix =  proc (func f)
++            let d = proc (func x) proc (int z) ((f (x x)) z)
++            in proc (int n) ((f (d d)) n)
+ in let
+-    t4m = proc (f) proc(x) if zero?(x) then 0 else -((f -(x,1)),-4)
++    t4m = proc (func f) proc(int x) if zero?(x) then 0 else -((f -(x,1)),-4)
+ in let times4 = (fix t4m)
+    in (times4 3)" 12)
+ 
+@@ -90,7 +90,7 @@
+ ;                  720)
+ 
+       (HO-nested-letrecs
+-"letrec even(odd)  = proc(x) if zero?(x) then 1 else (odd -(x,1))
++"letrec even(odd)  = proc(int x) if zero?(x) then 1 else (odd -(x,1))
+    in letrec  odd(x)  = if zero?(x) then 0 else ((even odd) -(x,1))
+    in (odd 13)" 1)
+ 
+@@ -107,7 +107,7 @@
+ 
+ 
+       (gensym-test
+-"let g = let count = 0 in proc(d)
++"let g = let count = 0 in proc(int d)
+                         let d = set count = -(count,-1)
+                         in count
+ in -((g 11), (g 22))"
+@@ -124,7 +124,7 @@
+    in let d = set x = 13 in (odd -99)" 1)
+ 
+       (example-for-book-1 "
+-let f = proc (x) proc (y)
++let f = proc (int x) proc (int y)
+                   begin
+                    set x = -(x,-1);
+                    -(x,y)
+@@ -132,5 +132,59 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;;;;;;;;;;;;;;;; overloaded procedures ;;;;;;;;;;;;;;;;
++      ;; a typed proc fills only the slot for its declared argument type;
++      ;; a call dispatches on the runtime type of the actual argument.
++
++      ;; a bool-typed proc is selected when called with a boolean
++      (overload-bool-call
++       "let f = proc(bool b) if b then 10 else 20 in (f zero?(0))" 10)
++
++      ;; calling a slot the proc doesn't define is an error
++      (overload-missing-slot
++       "let f = proc(int x) x in (f zero?(0))" error)
++
++      ;; `overload` adds a second slot; dispatch then picks by argument type
++      (overload-adds-bool-slot
++       "let f = proc(int x) x
++        in begin
++             overload f with (bool b) if b then 1 else 2;
++             -((f 7), (f zero?(1)))
++           end" 5)
++
++      ;; `overload` can replace an existing slot
++      (overload-replaces-slot
++       "let f = proc(int x) x
++        in begin
++             overload f with (int x) -(x,1);
++             (f 9)
++           end" 8)
++
++      ;; the func slot is selected when the argument is itself a procedure
++      (overload-func-slot
++       "let id = proc(int x) x
++        in let f = proc(int x) -(x,100)
++           in begin
++                overload f with (func g) (g 5);
++                -((f 50), (f id))
++              end" -55)
++
++      ;; note - a proc-val holds 3 slots (int/bool/func); a typed proc fills only its slot, others are empty-proc.
++      ;; note - a call dispatches on the RUNTIME type of the argument; hitting an empty slot is an error.
++      ;; note - (f 10)->-(10,3)=7, (f zero?(5)=#f)->200, (f id)->(id 42)=42; -(-(7,200),42) = -235.
++      ;; all three slots on one procedure, dispatched three ways
++      (overload-three-way-put-in-preview
++       "let id = proc(int x) x
++        in let f = proc(int x) -(x,3)
++           in begin
++                overload f with (bool b) if b then 100 else 200;
++                overload f with (func g) (g 42);
++                -(-((f 10), (f zero?(5))), (f id))
++              end" -235)
++
++      ;; overloading something that isn't a procedure is an error
++      (overload-non-proc
++       "let f = 5 in overload f with (int x) x" error)
++
+       ))
+   )

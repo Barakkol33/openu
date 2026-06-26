@@ -1,0 +1,85 @@
+--- a/interp.scm
++++ b/interp.scm
+@@ -100,8 +100,39 @@
+               (value-of exp1 env))
+             (num-val 27)))
+ 
++        ;; switch
++        (switch-exp (e1 typs ids bools exps defexp)
++          (if (null? typs)
++            (eopl:error 'switch-exp "no conditions")
++            (let ((v1 (value-of e1 env)))
++              (letrec
++                ((loop
++                  (lambda (ts is bs es)
++                    (cond
++                      ((null? ts) (value-of defexp env))
++                      ((eqv? (type-name->symbol (car ts)) (expval->symbol v1))
++                       (let ((new-env (extend-env (car is) (newref v1) env)))
++                         (if (expval->bool (value-of (car bs) new-env))
++                           (value-of (car es) new-env)
++                           (loop (cdr ts) (cdr is) (cdr bs) (cdr es)))))
++                      (else (loop (cdr ts) (cdr is) (cdr bs) (cdr es)))))))
++                (loop typs ids bools exps)))))
++
+         )))
+ 
++  (define expval->symbol
++    (lambda (v)
++      (cases expval v
++        (num-val  (n) 'number)
++        (bool-val (b) 'boolean)
++        (proc-val (p) 'function)
++        (ref-val  (r) 'reference))))
++  (define type-name->symbol
++    (lambda (typ)
++      (cases type-name typ
++        (type-name-number   () 'number)
++        (type-name-boolean  () 'boolean)
++        (type-name-function () 'function))))
+ 
+   ;; apply-procedure : Proc * ExpVal -> ExpVal
+   ;; Page: 119
+--- a/lang.scm
++++ b/lang.scm
+@@ -64,6 +64,14 @@
+         ("set" identifier "=" expression)
+         assign-exp)
+ 
++      ;; switch — first clause whose type matches AND guard holds; else default
++      (expression
++        ("switch" expression "{" (arbno type-name identifier "when" "(" expression ")" "=>" expression) "default" "=>" expression "}")
++        switch-exp)
++      (type-name ("number") type-name-number)
++      (type-name ("boolean") type-name-boolean)
++      (type-name ("function") type-name-function)
++
+       ))
+ 
+   ;;;;;;;;;;;;;;;; sllgen boilerplate ;;;;;;;;;;;;;;;;
+--- a/tests.scm
++++ b/tests.scm
+@@ -132,5 +132,23 @@
+ in ((f 44) 33)"
+ 	12)
+ 
++      ;; switch — match on runtime type + a guard, else default
++      ;; note - picks the FIRST clause whose runtime type matches AND whose guard is true; the clause id is bound to the scrutinee for guard+body.
++      ;; note - a type match with a false guard does NOT stop the scan; it continues to later clauses, then the default.
++      ;; note - an empty clause list (default only) is a "no conditions" error; here 5 is a number and -(5,5)=0 is zero? => clause 1 fires, body -(5,5)=0.
++      (switch-matches-clause-put-in-preview
++        "let k = 5
++         in switch 5 { number n when (zero?(-(n,k))) => -(n,k)
++                       boolean b when (b) => 0
++                       default => 100 }"
++        0)
++      (switch-falls-to-default
++        "let d = 42
++         in switch zero?(0) { number n when (zero?(n)) => 1
++                              default => d }"
++        42)
++      (switch-no-clauses-errors
++        "switch zero?(0) { default => 1 }" error)
++
+       ))
+   )
