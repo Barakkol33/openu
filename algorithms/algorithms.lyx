@@ -1,0 +1,6052 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+% Necessary Commands:
+\usepackage{autobreak}
+\usepackage[T1]{fontenc}
+\usepackage{relsize}
+% Set vertical space before and after dislpay equations to be longer for better redability:
+\AtBeginDocument{\setlength\abovedisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+\AtBeginDocument{\setlength\belowdisplayshortskip{12pt}}
+
+% Set space between words to be wider:
+\spaceskip=1.3\fontdimen2\font plus 1\fontdimen3\font minus 1.5\fontdimen4\font
+
+% Convert the Lyx colors into more pleasent colors:
+\usepackage{xcolor}
+\definecolor{blue}{RGB}{12,97,197}
+\definecolor{green}{RGB}{0,128,40}
+\definecolor{red}{RGB}{235,16,16}
+\definecolor{brown}{RGB}{154,58,0}
+\definecolor{orange}{RGB}{231,135,26}
+\definecolor{purple}{RGB}{94,53,177}
+
+% Convert the QED Symbol at the end of proofs to a solid black square (credit: Yakir Oz):
+\usepackage{amssymb}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% Make the layout more similar to Hebrew Article, which I am more used to:
+\renewcommand*{\@seccntformat}[1]{\hspace{0.5cm}\csname the#1\endcsname\hspace{0.5cm}} 
+\usepackage{titlesec}
+\titleformat{\section}{\fontsize{20}{20}\bfseries}{\thesection}{10pt}{}
+\titleformat{\subsection}{\fontsize{15}{15}\bfseries}{\thesubsection}{10pt}{}
+\titleformat{\subsubsection}{\bfseries}{\thesubsubsection}{10pt}{}
+
+% Correct the reversed parentheses in labels:
+\usepackage{polyglossia}
+\setmainlanguage{hebrew}
+\newfontfamily{\hebrewfont}{David}
+\makeatletter
+\def\maketag@@@#1{\hbox{\m@th\normalfont\LRE{#1}}}
+\def\tagform@#1{\maketag@@@{(\ignorespaces#1\unskip)}}
+\makeatother
+
+% Create disjoint union symbols:
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+
+
+\newcommand{\kaliLargeLand}{\mathop{\mathlarger{\mathlarger{\mathlarger{\land}}}}}
+\newcommand{\hebtext}[1]{\mbox{\R{\#1}}}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+\end_modules
+\maintain_unincluded_children false
+\begin_local_layout
+Style Section
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size       Larger
+	  Series     Bold
+	EndFont
+	TocLevel 1
+End
+
+
+Style Section*
+	Font
+	  Series     Medium
+	  Shape      Smallcaps
+	  Size      Larger
+	  Series     Bold
+	EndFont
+End
+
+
+Style Solution
+
+	LabelString           "פיתרון: "
+End
+
+
+Style Notation
+
+	LabelString           "סימון  \thetheorem: "
+End
+
+Style Theorem
+
+	LabelString           "משפט \thetheorem: "
+End
+
+Style Property
+
+	LabelString           "תזכורת: "
+End
+\end_local_layout
+\language hebrew
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "David"
+\font_sans "default" "David"
+\font_typewriter "default" "David"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing onehalf
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 2cm
+\rightmargin 1cm
+\bottommargin 3cm
+\headheight 0cm
+\headsep 0cm
+\footskip 2cm
+\secnumdepth -2
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation 0bp
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/barak/files/lyx/MacrosStandard.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Doublebox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "20pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\paragraph_spacing double
+\align center
+
+\series bold
+\size huge
+אלגוריתמים סיכום
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מבוא
+\end_layout
+
+\begin_layout Itemize
+מבוא
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אלגוריתם נכון - עוצר ומביא מצב שפותר את הבעיה.
+ אבל צריך שהוא גם יהיה יעיל! - במשאבים של זמן, זיכרון וכו'
+\end_layout
+
+\begin_layout Itemize
+חיפוש ממצה )
+\lang english
+ (exhaustive
+\lang hebrew
+-
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+\lang english
+brute force
+\end_layout
+
+\begin_layout Itemize
+לא כל אלגוריתם פולינומיאלי הוא יעיל - לדוגמה אם
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $c,d$
+\end_inset
+
+ ממש גדולים
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+זמני ריצה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אלגוריתם לינארי - עובר על כל איבר פעם אחת = לינארי.
+ אבל לא רק - אפשר גם לבקר כמה פעמים ועדיין יהיה.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $O\left(n^{2}\right)$
+\end_inset
+
+ - לכאורה בסדר אבל בבעיה של ביג דאטא אז כבר נגיע לזמן ריצה לא סביר
+\end_layout
+
+\begin_layout Itemize
+בעיית הקליקה המקסימלית - 
+\begin_inset Formula $O\left(2^{n}\cdot n^{2}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+אלגוריתמים תת לינאריים )לדוגמה מיון בינארי( ועל לינאריים )לדוגמה הסוכן הנוסע(
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אלגוריתמים בסיסיים בגרפים
+\end_layout
+
+\begin_layout Itemize
+אלגוריתם למציאת מעגל בגרף לא מכוון - מריצים 
+\begin_inset Formula $DFS$
+\end_inset
+
+.
+ בפעם הראשונה בה מגלים קשת שכבר ביקרנו בקצה שלה, יש לרשום את הקשת הזו ואז
+ לחזור אחורה ברקורסיה ולרשום את כל הקשתות שאנו פוגשים בהליכה אחורה, עד שניתקל
+ שוב באותו הקצה.
+ אוסף הקשתות האלה יוצר מעגל כי הוא מכיל מסלול המוביל מ- 
+\begin_inset Formula $u$
+\end_inset
+
+ ל- 
+\begin_inset Formula $v$
+\end_inset
+
+ וגם קשת נוספת 
+\begin_inset Formula $vu$
+\end_inset
+
+ שאיננה חלק ממסלול זה.
+ בגרף ללא מעגלים יש לכל היותר 
+\begin_inset Formula $n-1$
+\end_inset
+
+ קשתות )
+\begin_inset Formula $m\leq n$
+\end_inset
+
+(, לכן זמן הריצה של אלגוריתם זה הוא לכל היותר זמן הריצה של אלגוריתם ה-
+\begin_inset Formula $DFS$
+\end_inset
+
+, שהוא 
+\begin_inset Formula $O(n+m)=O\left(n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+כמות תרחישי 
+\begin_inset Formula $DFS$
+\end_inset
+
+ - בקו יש אחד, במעגל יש 
+\begin_inset Formula $2n$
+\end_inset
+
+ )כל פעם אפשר להתקדם בכיוון אחר(, בקליקה 
+\begin_inset Formula $K_{n}$
+\end_inset
+
+ יש 
+\begin_inset Formula $n!$
+\end_inset
+
+ )כל סדר אפשרי(, כוכב
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\begin_inset Formula $\left(n-1\right)!+\left(n-1\right)\left(n-2\right)!=2\left(n-1\right)!$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+מיון טופולוגי
+\end_layout
+
+\begin_layout Itemize
+כמות תרחישי מיון טופולוגי
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - בגרף שהוא מסלול יש אחד, אם יש כמה באותה 
+\begin_inset Quotes eld
+\end_inset
+
+רמה
+\begin_inset Quotes erd
+\end_inset
+
+ אז אפשר להחליף ביניהם.
+\end_layout
+
+\begin_layout Itemize
+בגרף מכוון נטול מעגלים, צומת הוא מקור אם ורק אם דרגת הכניסה שלו היא אפס
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)הוכחה( -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ ניתן להעביר את 
+\begin_inset Formula $u$
+\end_inset
+
+ לתחילת המיון כי עבור כל קשת בגרף או שצומת המקור שלה הוא אינו 
+\begin_inset Formula $u$
+\end_inset
+
+ ואז זה לא משנה או שהוא כן 
+\begin_inset Formula $u$
+\end_inset
+
+ אבל אז להעביר אותו להתחלה לא יהרוס את המיון, לכן המיון חוקי.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כנ
+\begin_inset Quotes erd
+\end_inset
+
+ל גם לבורות
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+אלגוריתם מיון טופולוגי: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אפס מערך A )הצמתים לפי הסדר שלהם במיון הטופולוגי(, תור Q )הצמתים בעלי דרגת
+ כניסה אפס(.
+\end_layout
+
+\begin_layout Itemize
+חשב לכל צומת בגרף את דרגת הכניסה שלו.
+ הכנס לתור Q , בסדר כלשהו, את כל הצמתים שדרגת הכניסה שלהם היא אפס.
+ 
+\end_layout
+
+\begin_layout Itemize
+אם התור Q ריק, עצור והכרז שאין לגרף מיון טופולוגי.
+ 
+\end_layout
+
+\begin_layout Itemize
+יהי u הצומת בראש התור Q .
+ הוצא את u מהתור והכנס אותו כאיבר הבא במערך A .
+\end_layout
+
+\begin_layout Itemize
+לכל אחד מהצמתים v שטרם הוכנסו למערך A ושיש להם בגרף קשת 
+\begin_inset Formula $(u,v)$
+\end_inset
+
+ , הפחת את דרגת הכניסה של v באחד.
+ 
+\end_layout
+
+\begin_layout Itemize
+אם דרגת הכניסה המעודכנת של v היא אפס, הכנס אותו לתור Q.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+התנאי קיים כי ייתכנו כמה מקורות לצומת כלשהו.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+אם במערך A כבר רשומים כל צומתי הגרף, אז החזר את 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ אחרת, בדוק שוב אם התור 
+\begin_inset Formula $Q$
+\end_inset
+
+ ריק.
+\end_layout
+
+\begin_layout Itemize
+יעילות: לינארית 
+\begin_inset Formula $O\left(|E|+|V|\right)$
+\end_inset
+
+ - כל צעד לינארי
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+ייצוג גרף
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מטריצת שכנויות - שמים בתא 
+\begin_inset Formula $i,j$
+\end_inset
+
+ אם יש קשר בין הצמתים.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+גרף מכוון אמ
+\begin_inset Quotes erd
+\end_inset
+
+מ המטריצה סימטרית.
+ 
+\end_layout
+
+\begin_layout Itemize
+נוח אבל בזבזני - מכיל הרבה יותר תאים מאשר קשתות באמת.
+ זמן הבדיקה מהיר.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+רשימת שכנויות - לכל צומת יש רשימה מקושרת שכוללת את שכניו.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+יעיל בזיכרון, זמן הבדיקה איטי.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+פירוק לרכיבים קשירים היטב
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מציאת 
+\begin_inset Formula $G^{R}$
+\end_inset
+
+ מתוך 
+\begin_inset Formula $G$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+מטריצת שכנויות - מחליפים כל איבר באיבר הסימטרי לו וסיבוכיות 
+\begin_inset Formula $O\left(n^{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+רשימת שכנויות - עוברים על כל השכנים של צומת 
+\begin_inset Formula $i$
+\end_inset
+
+ ומוסיפים ברשימה המקבילה לכל השכנים של הצומת את 
+\begin_inset Formula $i$
+\end_inset
+
+ בתוך הרשימה שלהם.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+טענות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הרכיבים הקשירים היטב ב- 
+\begin_inset Formula $G^{R}$
+\end_inset
+
+ הם בדיוק אותם רכיבים כמו ב- G .
+ 
+\end_layout
+
+\begin_layout Itemize
+אם 
+\begin_inset Formula $v_{1},...,v_{n}$
+\end_inset
+
+ הוא מיון טופולוגי של הצמתים ב- G , אז 
+\begin_inset Formula $v_{1}$
+\end_inset
+
+ , .
+ .
+ .
+ , 
+\begin_inset Formula $v_{n}$
+\end_inset
+
+ הוא מיון טופולוגי של הצמתים ב- 
+\begin_inset Formula $G^{R}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+היחס בין גרף-העל של G לגרף-העל של 
+\begin_inset Formula $G^{R}$
+\end_inset
+
+ דומה: האחרון הוא הגרף ההפוך של הראשון.
+ 
+\end_layout
+
+\begin_layout Itemize
+C הוא רכיב מקור ב- G אם ורק אם הוא רכיב בור ב- 
+\begin_inset Formula $G^{R}$
+\end_inset
+
+, C הוא רכיב בור ב- G אם ורק אם הוא רכיב מקור ב- 
+\begin_inset Formula $G^{R}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+אם נסלק את הצומת עם זמן העזיבה הגבוה ביותר בגרף, אז הצומת עם זמן העזיבה
+ הגבוה ביותר החדש יהיה המקור.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Subsubsection
+הערות
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $BFS$
+\end_inset
+
+ לא מגלה זמני עזיבה כי בעצם אף פעם לא באמת עוזבים צומת - לדוגמה אם סורקים
+ עץ אז הוא נסרק רמה-רמה ולא קורה שעוזבים אגף של העץ.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אלגוריתמים חמדניים
+\end_layout
+
+\begin_layout Itemize
+מציאת מסלולים קצרים ביותר עם משקלים טבעיים - להחליף כל משקל בכמות קשתות
+ מתאימה, 
+\begin_inset Formula $BFS$
+\end_inset
+
+ ימיין לפי המשקלים )לפי האורכים(, סיבוכיות 
+\begin_inset Formula $O\left(|V|+|E|K\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+מציאת מסלול זוגי או אי זוגי קצר ביותר בין שני צמתים - לשכפל כל צומת 
+\begin_inset Formula $u\rightarrow u',u''$
+\end_inset
+
+ וליצור קשתות בין 
+\begin_inset Formula $u'\rightarrow v''$
+\end_inset
+
+ )אם המסלול הוא בין ' ל' או ' ל'' נדע מה האורך(.
+\end_layout
+
+\begin_layout Itemize
+חישוב כמות מסלולים קצרים ביותר לצומת
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - אם לא ביקרנו בו אז לקחת את הגודל של הצומת שלפני, אם כן וגם המרחק החדש
+ הוא גם קצר ביותר אז להוסיף לגודל של אותו צומת את הגודל מהמסלול החדש.
+\end_layout
+
+\begin_layout Itemize
+גרף דו צדדי אם ורק אם לא מכיל מעגל באורך אי זוגי, כל עץ הוא גרף דו צדדי.
+\end_layout
+
+\begin_layout Itemize
+איך מוצאים מעגל שלילי? - בריצה האחרונה של בלמן-פורד לוקחים את כל הקודקודים
+ שמצאנו אליהם מסלול משופר, מחברים את כולם לקודקוד 
+\begin_inset Formula $s^{\ast}$
+\end_inset
+
+, מכריזים שכל קודקוד שנגיש ממנו המרחק שלו הוא 
+\begin_inset Formula $-\infty$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+קידוד הופמן
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+דיון 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+רוצים לקודד מידע בצורה חד משמעית ומינימלית במקום
+\end_layout
+
+\begin_layout Itemize
+קוד תחיליות
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - קידוד מאותיות לביטים כך שאף מילה היא לא התחלה של השניה )וככה תמיד התרגום
+ הוא חד משמעי(
+\end_layout
+
+\begin_layout Itemize
+אורך הקוד מאוד משתנה - יש בקידוד מילים ארוכות וקצרות
+\end_layout
+
+\begin_layout Itemize
+מסקנה: אנחנו נרצה לקודד את המילים הכי נפוצות עם הקוד הכי קצר
+\end_layout
+
+\begin_layout Itemize
+יש דחיסה מאבדת מידע ויש דחיסה משמרת מידע )בהקשר של מגבלת רזולוזציה(.
+ פה דנים על משמרת מידע.
+\end_layout
+
+\begin_layout Itemize
+לא ניתן למצוא קידוד שמכווץ את המידע ומשמר אותו - מיפוי בין קבוצות בסדר גודל
+ שונה.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+בפועל: מסתמכים על כך שקצת מילים שימושיות יקודדו עם קידוד קצר והשאר עם ארוך
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+יש קוד פענוח יחיד שהוא לא תחיליות )לדוגמה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1,10
+\numeric off
+(
+\end_layout
+
+\begin_layout Itemize
+עץ תחיליות - כל קשת היא ביט, כל עלה הוא אות, הדרך מהשורש לעלה היא הקוד
+\end_layout
+
+\begin_layout Itemize
+קוד הופמן שקול לעץ הופמן - ייצוג שונה של אותו מידע
+\end_layout
+
+\begin_layout Itemize
+עץ הופמן הוא עץ מלא - לכל צומת יש שני ילדים - זה כי אם יש רק ילד אחד עדיף
+ למחוק את הצומת ויהיה קוד יותר יעיל
+\end_layout
+
+\begin_layout Itemize
+ניתן גם לקודד מילים, ניתן גם לקודד אות + כמות מופעים אם אות חוזרת על עצמה
+ ברצף הרבה.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+שיטה למציאת קוד הופמן במספרים קטנים:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מבינים כמה עלים נצטרך שיהיו בעץ
+\end_layout
+
+\begin_layout Itemize
+מסתכלים על כל העצים הבינאריים המלאים האפשריים עם אותה כמות עלים 
+\end_layout
+
+\begin_layout Itemize
+מתאימים מילה לעלה כך שהעלים הכי קרובים לשורש עם השכיחות הכי גבוהה
+\end_layout
+
+\begin_layout Itemize
+בודקים כמה יוצא האורך של הקידוד עבור כל התאמה בין עץ לעלה ובוחרים את המינימלית.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+אלגוריתם הופמן: למצוא את שני התווים הנדירים ביותר ולהפוך אותם לעלה אחד בסוף
+ העץ, מבצעים בלולאה עד שמגיעים לעלה אחד
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series bold
+\shape smallcaps
+\size larger
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- תכנון דינמי
+\end_layout
+
+\begin_layout Subsection
+פוליד–ורשאל
+\end_layout
+
+\begin_layout Itemize
+איך למצוא מעגלים שליליים - באלגוריתם 
+\begin_inset Formula $DP-FW$
+\end_inset
+
+ מאתחלים 
+\begin_inset Formula $D\left(i,i,0\right)=\min\left(w\left(i,i\right),0\right)$
+\end_inset
+
+ ובודקים האם 
+\begin_inset Formula $D\left(i,i,n\right)<0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+מעגל המיליטוני
+\end_layout
+
+\begin_layout Itemize
+האלגוריתם במילים פשוטות: בודק עבור כל תת הקבוצות האפשריות מגודל
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1,2,3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+וכו' האם יש להן מסלול המילטוני, בכל איטרציה מסתמך על הגודל הקודם.
+\end_layout
+
+\begin_layout Itemize
+למצוא מסלול פשוט ארוך ביותר - להשתמש בטבלה 
+\begin_inset Formula $DP-HP$
+\end_inset
+
+ )מחושבת באלגוריתם( ולחפש מה המסלול ההמילטוני על תת קבוצה מגודל מקסימלי.
+\end_layout
+
+\begin_layout Itemize
+איך אפשר לפתור את בעיית המסלול ההמילטוני באמצעות הסוכן הנוסע? - ניצור מגרף
+ לא ממושקל כלשהו גרף ממושקל ומלא כך שהקשתות המקוריות משקלן
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+והשאר 
+\begin_inset Formula $n+1$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)ייקח 
+\begin_inset Formula $O\left(n^{2}\right)$
+\end_inset
+
+(, נפתור את בעיית הסוכן הנוסע, אם הפתרון הוא 
+\begin_inset Formula $n$
+\end_inset
+
+ אז סימן שיש מסלול שעובר בכל הצמתים ובכל הקשתות המקוריות פעם אחת, אם לא
+ אז לא.
+\end_layout
+
+\begin_layout Subsection
+תכנון דינמי על מספרים
+\end_layout
+
+\begin_layout Subsubsection
+בעיית סכומי תת קבוצות
+\end_layout
+
+\begin_layout Itemize
+במילים פשוטות: ממלאים מערך דו ממדי 
+\begin_inset Formula $M$
+\end_inset
+
+ על ידי מעבר על כל תתי הקבוצות 
+\begin_inset Formula $\left\{ w_{1}...w_{k}\right\} $
+\end_inset
+
+ )עמודות( ועל כל הסכומים 
+\begin_inset Formula $\left\{ 0...S\right\} $
+\end_inset
+
+ )שורות(.
+ העמודה הראשונה היא 
+\begin_inset Formula $T$
+\end_inset
+
+ )מכל קבוצה אפשר להרכיב סכום
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+(.
+ תא מסוים מקבל ערך 
+\begin_inset Formula $T$
+\end_inset
+
+ אם התא בעמודה לפניו קיבל ערך 
+\begin_inset Formula $T$
+\end_inset
+
+ )בפועל אומר שאם תא קיבל ערך 
+\begin_inset Formula $T$
+\end_inset
+
+ אפשר למלא את שאר העמודות אחריו ב-
+\begin_inset Formula $T$
+\end_inset
+
+( או אם התא שנמצא 
+\begin_inset Formula $w_{k}$
+\end_inset
+
+ מקומות מאחוריו בעמודה הקודמת הוא בטבלה וקיבל ערך 
+\begin_inset Formula $T$
+\end_inset
+
+ )סימן שאפשר להרכיב מ-
+\begin_inset Formula $\left\{ w_{1}...w_{k-1}\right\} $
+\end_inset
+
+ את הסכום 
+\begin_inset Formula $s-w_{k}$
+\end_inset
+
+(.
+ 
+\end_layout
+
+\begin_layout Itemize
+בעיית הקסטה המוכללת
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הבעיה: נתונה קבוצת מספרים, צריך לחלק לשתי קבוצות שסכום כל אחת לכל היותר
+ 
+\begin_inset Formula $S$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+פתרון: מחשבים את הטבלה 
+\begin_inset Formula $M$
+\end_inset
+
+ באלגוריתם של תת-קבוצות.
+ מחשבים את סכום כל המספרים 
+\begin_inset Formula $W$
+\end_inset
+
+, אם הוא קטן מ-
+\begin_inset Formula $S$
+\end_inset
+
+ אז התשובה בטוח נכונה )אפשר לשים את כולם בקבוצה אחת( ואם גדול מ-
+\begin_inset Formula $2S$
+\end_inset
+
+ אז בטוח לא )לא אפשרי להכניס בשתי קבוצות(.
+ עוברים על העמודה האחרונה עבור 
+\begin_inset Formula $\lceil\frac{W}{2}\rceil\leq s\leq S$
+\end_inset
+
+, אם מוצאים 
+\begin_inset Formula $M\left[s,n\right]=T$
+\end_inset
+
+ אז מחליטים שיש פתרון )מצאנו סכום שאפשר להכניס בקבוצה אחת לכן השאר ייכנסו
+ בקבוצה השניה(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+אלגוריתם פסאודו פולינומיאלי: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+דוגמה: נניח שרוצים להדפיס את המספר 
+\begin_inset Formula $2^{100}$
+\end_inset
+
+ בבסיס אונרי.
+ אם הקלט הוא בבסיס בינארי אז הפעולה היא אקספוננציאלית ביחס לקלט, אם הקלט
+ הוא בבסיס אונרי אז היא פולינומיאלית )אפילו לינארית -
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ פעולה אחת לכל ספרה בקלט(
+\end_layout
+
+\begin_layout Itemize
+באלגוריתם הזה: הקלט הוא 
+\begin_inset Formula $n+2$
+\end_inset
+
+ מספרים שגודל כל אחד הוא עד 
+\begin_inset Formula $S$
+\end_inset
+
+ ולכן הוא 
+\begin_inset Formula $n\lg S$
+\end_inset
+
+ בבסיס בינארי.
+ הסיבוכיות היא 
+\begin_inset Formula $nS$
+\end_inset
+
+, ולכן אם נבחר 
+\begin_inset Formula $S=2^{x}$
+\end_inset
+
+ אז אורך הקלט הוא 
+\begin_inset Formula $nx$
+\end_inset
+
+ אבל הסיבוכיות היא 
+\begin_inset Formula $n2^{x}$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - אקספוננציאלי.
+ אבל בבסיס אונרי אורך הקלט הוא 
+\begin_inset Formula $nS$
+\end_inset
+
+ וגם הסיבוכיות היא 
+\begin_inset Formula $nS$
+\end_inset
+
+ - לינארית )פולינומיאלית(.
+\end_layout
+
+\begin_layout Itemize
+בפועל: אם המספר הנתון הוא 
+\begin_inset Formula $S\leq2^{n}$
+\end_inset
+
+ )
+\begin_inset Formula $n$
+\end_inset
+
+ ביטים( אז 
+\begin_inset Formula $O\left(n^{k}\right)$
+\end_inset
+
+ הוא פולינומיאלי, 
+\begin_inset Formula $O\left(S^{k}\right)$
+\end_inset
+
+ הוא פסאודו-פולינומיאלי.
+ אפשר לחשוד בכל דבר שגדול מ-
+\begin_inset Formula $O\left(n^{k}\right)$
+\end_inset
+
+ כפסאודו פולינומיאלי.
+\end_layout
+
+\begin_layout Itemize
+מציאת מספר תתי הקבוצות שסכומן הוא 
+\begin_inset Formula $s$
+\end_inset
+
+ - דומה לאלגוריתם, רק מגדירים פונקציה 
+\begin_inset Formula $\left(s,k\right)\rightarrow n$
+\end_inset
+
+ שסופרת את הקבוצות ומגדירים 
+\begin_inset Formula $M\left[s,k\right]=M\left[s,k-1\right]+M\left[s-\omega_{k}\right]+$
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+בעיית תרמיל הגב
+\end_layout
+
+\begin_layout Itemize
+במילים פשוטות: דומה לסכומי תתי קבוצות, עוברים על תתי קבוצות ואז על כל המספרים
+ מ-
+\numeric on
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+עד הסכום.
+ הסכום המקסימלי עם
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ איברים הוא כמובן 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+.
+ עבור כל משקל, אם המשקל גדול מהמשקל המותר אז הסכום המקסימלי לא משתנה
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+כי אי אפשר לקחת אותו.
+ אם לא אז עושים מקסימום בין הסכום שהיה עד עכשיו לבין הסכום המקסימלי שהיה
+ באיטרציה הקודמת פחות הערך הנוכחי ) 
+\begin_inset Formula $M\left[s-w_{k},k-1\right]+v_{k}$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+סיבוכיות זהה לתתי הקבוצות.
+\end_layout
+
+\begin_layout Itemize
+בעיית דומה רק בסיבוכיות 
+\begin_inset Formula $O\left(nV\right)$
+\end_inset
+
+ )בעיית בחירת התרמיל( - נחשב טבלה 
+\begin_inset Formula $C\left[r,k\right]$
+\end_inset
+
+ שתגיד מה הסכום המינימלי של המשקלים הדרושים עבור תת-קבוצה בגודל 
+\begin_inset Formula $k$
+\end_inset
+
+ כדי להגיע לערך שערכו לפחות 
+\begin_inset Formula $r$
+\end_inset
+
+.
+ לאחר מכן נעבור מ-
+\begin_inset Formula $\sum v_{i}$
+\end_inset
+
+ ועד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ונחפש מה הערך שערכו קטן ממגבלת המשקל.
+\end_layout
+
+\begin_layout Subsection
+תכנון דינמי על מחרוזות
+\end_layout
+
+\begin_layout Subsubsection
+פירוק מחרוזת למילים
+\end_layout
+
+\begin_layout Itemize
+במילים פשוטות: רצים עם שני אינדקסים 
+\begin_inset Formula $0\leq k\leq n$
+\end_inset
+
+, 
+\begin_inset Formula $0\leq i\leq k$
+\end_inset
+
+, מגדירים 
+\begin_inset Formula $M\left[k\right]=T$
+\end_inset
+
+ אם 
+\begin_inset Formula $M\left[i\right]$
+\end_inset
+
+ היא מילה והמחרוזת שבין 
+\begin_inset Formula $s\left[i:k\right]$
+\end_inset
+
+ היא מילה במילון.
+\end_layout
+
+\begin_layout Itemize
+סיבוכיות זמן 
+\begin_inset Formula $O\left(n^{2}\right)$
+\end_inset
+
+, מקום 
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+כדי לקבל את הפירוק עצמו: שומרים מערך נוסף 
+\begin_inset Formula $P$
+\end_inset
+
+ כך ש-
+\begin_inset Formula $P\left[k\right]=i$
+\end_inset
+
+ עבור כל מצב שבו הכנסנו ערך ל-
+\begin_inset Formula $M\left[k\right]$
+\end_inset
+
+.
+ המילים הן הסדרה 
+\begin_inset Formula $n,P\left[n\right],P\left[P\left[n\right]\right]...$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+יישור מחרוזות
+\end_layout
+
+\begin_layout Itemize
+הסיפור בפרק הזה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מבוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- רוצים לדעת כמה מחרוזות 
+\begin_inset Quotes eld
+\end_inset
+
+קרובות
+\begin_inset Quotes erd
+\end_inset
+
+ זו לזו.
+ ההגדרות והטענות בסעיף הראשון מציגות את איך עושים את זה )מרחק היישור הוא
+ עלות היישור המינימלית, מרחק העריכה הוא מרחק היישור(.
+ לא מפורט איך מוצאים את היישור המינימלי.
+\end_layout
+
+\begin_layout Itemize
+יישור סדרות בביולוגיה - יש חשיבות לאלגוריתם בביולוגיה - היישור המינימלי
+ מראה כמה שתי מחרוזות 
+\begin_inset Formula $DNA$
+\end_inset
+
+ זהות.
+ יש מטריצת החלפה סימטרית שאומרת כמה 
+\begin_inset Quotes eld
+\end_inset
+
+קשה
+\begin_inset Quotes erd
+\end_inset
+
+ להחליף בין תווים ולפי זה מוצאים את היישור המינימלי )במבוא כל הערכים הם
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+כדי לערוך את 
+\begin_inset Formula $s_{1}$
+\end_inset
+
+ ל-
+\begin_inset Formula $s_{2}$
+\end_inset
+
+: לוקחים יישור מינימלי של המחרוזות, אם בראשונה יש מקף ובשנייה אות אז מוסיפים,
+ אם יש אות ואז מקף אז מורידים אות, אם יש אותיות שונות אז מחליפים אות.
+ 
+\end_layout
+
+\begin_layout Itemize
+יש שתי מחרוזות באורך 
+\begin_inset Formula $m,n$
+\end_inset
+
+, כמה יישורים אפשריים באורך 
+\begin_inset Formula $m+n$
+\end_inset
+
+? 
+\begin_inset Formula ${m+n \choose m}$
+\end_inset
+
+ כי בהכרח צריך להוסיף למחרוזת שאורכה 
+\begin_inset Formula $n$
+\end_inset
+
+ בדיוק 
+\begin_inset Formula $m$
+\end_inset
+
+ מקפים אז כל יישור מתקבל על ידי הכנסת 
+\begin_inset Formula $n$
+\end_inset
+
+ האותיות של מחרוזת אחת למקומות שונים במחרוזת שאורכה 
+\begin_inset Formula $m+n$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)והשאר מקפים(.
+\end_layout
+
+\begin_layout Itemize
+מינימליזציה של מרחק יישור היא מקסימליזציה של דמיון, הבעיות שקולות והקשר
+ בין מטריצות ההחלפה 
+\begin_inset Formula $C=-M$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+מציאת יישור מינימלי במילים פשוטות: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אנחנו יוצרים שתי מחרוזות ריקות.
+ יוצרים מטריצה 
+\begin_inset Formula $m\times n$
+\end_inset
+
+, המקור אופקית והיעד אנכית.
+\end_layout
+
+\begin_layout Itemize
+כל תא מייצג מצב של שתי המחרוזות.
+ התא הראשון מייצג את המצב ששתיהן ריקות, כל פעם שנעים בין תא לתא מוסיפים
+ תו לכל אחת.
+ מעבר עמודה - 
+\begin_inset Formula $\left(s_{i},-\right)$
+\end_inset
+
+ , מעבר שורה 
+\begin_inset Formula $\left(-,t_{j}\right)$
+\end_inset
+
+ מעבר באלכסון 
+\begin_inset Formula $\left(s_{i},t_{j}\right)$
+\end_inset
+
+.
+ כך כל השורה הראשונה מייצגת מצב שבו מחרוזת היא רק הרישא של 
+\begin_inset Formula $s$
+\end_inset
+
+ והשניה מקפים, העמודה הראשונה מייצגת מצב שבו כל המחרוזת הראשונה מקפים והשנייה
+ היא הרישא של 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+הערך של שאר התאים: המינימום בין ערך כל שכן + העלות של להגיע אליו מהשכן.
+ 
+\end_layout
+
+\begin_layout Itemize
+תכלס: עוברים שורה שורה, אם אין אותיות זהות אז מוסיפים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+לכל השכנים ועושים מינימום, אם יש אותיות זהות אז במעבר מהאלכסון מוסיפים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+.
+\end_layout
+
+\begin_layout Itemize
+אם נזכור כל פעם שקבענו ערך לתא את התא ממנו התקבל המינימום אז נוכל לאחר מילוי
+ הטבלה לטייל מהתא 
+\begin_inset Formula $\left(i,j\right)$
+\end_inset
+
+ ל-
+\begin_inset Formula $\left(0,0\right)$
+\end_inset
+
+ ולמלא בסדר הפוך את המחרוזות.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+תת מחרוזת ארוכה ביותר: נריץ את האלגוריתם עם מטריצת ההחלפה שעבורה העלות של
+ תווים שונים היא אינסוף.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+אם העלות היא סופית )נניח 
+\begin_inset Formula $k$
+\end_inset
+
+( אז קיימת תת סדרה משותפת 
+\begin_inset Formula $s$
+\end_inset
+
+, הקשר ביניהן הוא 
+\begin_inset Formula $k=|u|+|v|-2|s|$
+\end_inset
+
+ )סוכמים את אורך שתי המחרוזות ומורידים את כל האותיות שמותאמות זו לזו(.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+קבוצה בלתי תלויה מקסימלית בעצים
+\end_layout
+
+\begin_layout Itemize
+במילים פשוטות: מוצא קבוצה בלתי תלויה בגודל מקסימלי בעצים, מחזיק שני ערכים
+ לכל צומת - גודל קבוצה ב
+\begin_inset Quotes erd
+\end_inset
+
+ת עם השורש )
+\begin_inset Formula $ISI$
+\end_inset
+
+( ובלי )
+\begin_inset Formula $ISX$
+\end_inset
+
+(, גודל קבוצה ב
+\begin_inset Quotes erd
+\end_inset
+
+ת מקסימלית )
+\begin_inset Formula $IS$
+\end_inset
+
+( של השורש הוא המקסימום בין שני הערכים.
+ כדי לחשב 
+\begin_inset Formula $ISI$
+\end_inset
+
+ סוכמים את הצומת ואת ה-
+\begin_inset Formula $ISX$
+\end_inset
+
+ של בניו, כדי לחשב 
+\begin_inset Formula $ISX$
+\end_inset
+
+ סוכמים את ה-
+\begin_inset Formula $IS$
+\end_inset
+
+ של כל הבנים שלו.
+\end_layout
+
+\begin_layout Itemize
+לא בעצים - בעיה מעריכית וקשה
+\end_layout
+
+\begin_layout Itemize
+אם נתונה קבוצה משלימה לקבוצה בלתי תלויה )כלשהי( אז בהכרח קצה אחד של כל קשת
+ בגרף נמצא בקבוצה המשלימה.
+\end_layout
+
+\begin_layout Itemize
+אלגוריתם צביעת העצים שהוצג בפרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+לא מוצא בהכרח קבוצה בלתי תלויה בגודל מקסימלי - דוגמה נגדית היא גרף בצורת
+ 
+\begin_inset Formula $N$
+\end_inset
+
+.
+ אם בוחרים את כל הקודקודים בקצוות מקבלים קבוצה מקסימלית, האלגוריתם נותן
+ רק חלק מזה.
+\end_layout
+
+\begin_layout Itemize
+האלגוריתם החמדן - מצרף את הצומת הראשון ואז לסירוגין כל צומת שני.
+ לא טוב כי ייתכן שדווקא היה עדיף לדלג על הצומת הראשון.
+\end_layout
+
+\begin_layout Itemize
+מציאת קבוצה ב
+\begin_inset Quotes erd
+\end_inset
+
+ת בעץ בינארי שלם ומאוזן: סכום איברים זוגיים 
+\begin_inset Formula $\frac{2\left(2^{n}-1\right)}{3}$
+\end_inset
+
+, סכום אי זוגיים 
+\begin_inset Formula $\frac{2^{n+2\left(\left(N+1\right)\%2\right)}-1}{3}$
+\end_inset
+
+ )מקבלים מסכום סדרה הנדסית(.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הערה: גובה צומת בודד הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+, עץ ריק הוא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $-1$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+כדי למצוא את הקבוצה עצמה - אפשר להריץ שוב סריקה ולתת דגל האם כולל או לא
+ כולל ולהחליף לסירוגין.
+\end_layout
+
+\begin_layout Subsubsection
+כפל שרשראות של מטריצות
+\end_layout
+
+\begin_layout Itemize
+עלות הכפלה של מטריצה- 
+\begin_inset Formula $\left(m\times k\right)\times\left(k\times n\right)=mnk$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+במילים פשוטות: כאשר הרבה מטריצות מוכפלות זו בזו הסדר משנה, לכן צריך לדעת
+ לבחור אילו
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ להכפיל בכל רגע.
+ האלגוריתם עובר על כל האורכים האפשריים מ-
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ועד 
+\begin_inset Formula $n$
+\end_inset
+
+, עבור כל אורך רץ על האינדקסים מהתחלה ועד הסוף )ככה מתקבל טווח( ובתוך הטווח
+ בודק איפה הכי נכון 
+\begin_inset Quotes eld
+\end_inset
+
+לפצל
+\begin_inset Quotes erd
+\end_inset
+
+ את הטווח.
+ הוא מחשב את העלות המינימלית של הכפלת המטריצות בטווח 
+\begin_inset Formula $i,j$
+\end_inset
+
+ ושומר בטבלה 
+\begin_inset Formula $C\left[i,j\right]$
+\end_inset
+
+ עבור כל שני אינדקסים.
+ התשובה היא 
+\begin_inset Formula $C\left[0,n\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+אלגוריתם החיפוש הממצה הוא בעל סיבוכיות מעריכים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - מספרי קטלאן 
+\begin_inset Formula $C_{n}=\frac{\left(2n!\right)}{\left(n+1\right)!n!}\geq\frac{2^{n}}{n+1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+האלגוריתם החמדן )שמכפיל כל פעם את העלות הנמוכה ביותר( לא נכון, יש מקרים
+ שהוא טועה בהם, לדוגמה 
+\begin_inset Formula $\left(3,10,1,2\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+איך באמת למצוא את סדר ההכפלה? - בכל פעם באלגוריתם שקובעים מינימום ל-
+\begin_inset Formula $C\left[i,j\right]$
+\end_inset
+
+ לשמור גם את 
+\begin_inset Formula $k$
+\end_inset
+
+ עבורו הוא נקבע.
+\end_layout
+
+\begin_layout Subsection
+שונות
+\end_layout
+
+\begin_layout Itemize
+כללי אצבע לתכנון דינמי
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כל מה שערכו משתנה במהלך החישוב שומרים במערך
+\end_layout
+
+\begin_layout Itemize
+אם יש סדרה של ערכים אז לשמור את מספר הערך הנוכחי 
+\begin_inset Formula $i$
+\end_inset
+
+ במערך
+\end_layout
+
+\begin_layout Itemize
+בניית האלגוריתם
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+לרוב אפשר לעבור על כל הערכים האפשריים בלולאה ואז כנראה אפשר לכתוב את נוסחת
+ הנסיגה בקוד.
+\end_layout
+
+\begin_layout Itemize
+לרוב יכיל מערך שמייצג את הפתרונות עבור פרמטרים שונים של הבעיה עם החסם הנתון
+ )לדוגמה לחשב את הפתרונות עבור כל הערכים 
+\begin_inset Formula $w$
+\end_inset
+
+ מ-
+\begin_inset Formula $0$
+\end_inset
+
+ עד 
+\begin_inset Formula $W$
+\end_inset
+
+(, ולבסוף נחזיר את הנתונים בשאלה )לדוגמה 
+\begin_inset Formula $return\ M\left[n,W\right]$
+\end_inset
+
+(.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הפרד ומשול
+\end_layout
+
+\begin_layout Subsection
+משפט המאסטר 
+\end_layout
+
+\begin_layout Itemize
+תזכורת ממנמ
+\begin_inset Quotes erd
+\end_inset
+
+א - אם 
+\begin_inset Formula $T\left(n\right)=aT\left(\frac{n}{b}\right)+\Theta\left(n^{d}\log^{k}n\right)$
+\end_inset
+
+ ו-
+\begin_inset Formula $a=b^{d}$
+\end_inset
+
+ אז 
+\begin_inset Formula $T\left(n\right)=\Theta\left(n^{\log_{b}a}\log^{k+1}n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+האלגוריתם של קרטסובה
+\end_layout
+
+\begin_layout Itemize
+למה אפשר להניח שמספר הביטים הוא חזקה של
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\numeric off
+? - אפשר לרפד באפסים משמאל
+\end_layout
+
+\begin_layout Itemize
+להוכיח שעבור אלגוריתם אי אפשר לחשב בזמן 
+\begin_inset Formula $O\left(n^{\lg3}\right)$
+\end_inset
+
+ - להראות שיש שני כפלים שעבורם יש את אותן תת-המכפלות, לכן אין חד-חד ערכיות.
+\end_layout
+
+\begin_layout Itemize
+בסעיף
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+5.2.5
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אלגוריתם קרטסובה כך שזמן הריצה מקיים 
+\begin_inset Formula $T\left(n\right)\leq3T\left(\frac{n}{2}\right)+O\left(n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+זוג נקודות קרוב ביותר במישור
+\end_layout
+
+\begin_layout Itemize
+האלגוריתם במילים פשוטות: מחלקים ל-
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+צדדים לפי 
+\begin_inset Formula $x$
+\end_inset
+
+, באופן רקורסיבי בודקים מרחק מינימלי )נסמן את המינימלי מבין הצדדים ב-
+\begin_inset Formula $\delta$
+\end_inset
+
+(.
+ כדי לפסול מצב של נקודה בחצי אחד והשנייה באחר, מורידים את הנקודות שרחוקות
+ מ-
+\begin_inset Formula $2\delta$
+\end_inset
+
+ מהאמצע )רחוקות מדי(, מסדרים לפי רכיב 
+\begin_inset Formula $y$
+\end_inset
+
+ וסורקים, לכל נקודה בודקים
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+7
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+נקודות לפניה ובודקים מה המרחק המינימלי )למה נכון? - כי אפשר ליצור מלבן שרוחבו
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $2\delta$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ואורכו 
+\begin_inset Formula $\delta$
+\end_inset
+
+ ולחלק אותו ל-
+\numeric on
+8
+\numeric off
+, אין מצב שיש שתי נקודות באותו מלבן אם המרחק קטן מ-
+\begin_inset Formula $\delta$
+\end_inset
+
+(.
+ לבסוף בודקים אם התקבל מינימום קטן מ-
+\begin_inset Formula $\delta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+התמרת פורייה מהירה
+\end_layout
+
+\begin_layout Itemize
+קונבולוציה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+במילים פשוטות - לוקחים את הסדרה השנייה, הופכים אותה, ו
+\begin_inset Quotes erd
+\end_inset
+
+מריצים
+\begin_inset Quotes erd
+\end_inset
+
+ אותה על גבי הסדרה הראשונה כך שבפעם הראשונה רק האיבר הראשון והאחרון מוכפלים
+ ובהדרגה שאר המספרים גם 
+\begin_inset Quotes eld
+\end_inset
+
+נכנסים
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+משתמשים בו בעיבוד אותות עבור מערכות בעלות תכונת לינאריות ואי תלות בזמן.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+דיון
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+כפל פולינומים - מימוש טריוויאלי הוא 
+\begin_inset Formula $O\left(n^{2}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+האלגוריתם של קרטסובה לכפל פולינומים - מחלקים כל פולינום ל-
+\numeric on
+2
+\numeric off
+, משתמשים ב-
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+פעולות כפל רקורסיביות במקום
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\numeric off
+, סיבוכיות 
+\begin_inset Formula $O\left(n^{\lg3}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+אפשר לייצג פולינום שמעלתו היא עד 
+\begin_inset Formula $n-1$
+\end_inset
+
+ על ידי 
+\begin_inset Formula $n$
+\end_inset
+
+ נקודות.
+ אם נכפיל 
+\begin_inset Formula $2n-1$
+\end_inset
+
+ נקודות של שני הפולינומים )ממעלה 
+\begin_inset Formula $n-1$
+\end_inset
+
+( נוכל לשחזר את פולינום המכפלה שמעלתו 
+\begin_inset Formula $2n-1$
+\end_inset
+
+.
+ אמנם זה ייקח גם 
+\begin_inset Formula $O\left(n^{2}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+אם נצליח באופן רקורסיבי 
+\begin_inset Quotes eld
+\end_inset
+
+לחלק
+\begin_inset Quotes erd
+\end_inset
+
+ את הפולינום ל-
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+כך שנצטרך לחשב בכל פעם פי
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+פחות נקודות - ננצח.
+\end_layout
+
+\begin_layout Itemize
+הפתרון - לחלק את הפולינום ל- 
+\begin_inset Formula $f\left(x\right)=f_{e}\left(x^{2}\right)+xf_{o}\left(x^{2}\right)$
+\end_inset
+
+ להשתמש בשורשי היחידה שאם מעלים אותם בריבוע אז גודל הקבוצה קטן פי
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\numeric off
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+התמרת פוריה בדידה - למצוא עבור כל שורש יחידה את ערך הפונקציה בנקודה.
+\end_layout
+
+\begin_layout Itemize
+התמרת פורייה מהירה - מקבלים פולינום )סדרת מקדמים(, ושורש יחידה, אם המעלה
+ היא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+אז מחזירים את 
+\begin_inset Formula $a_{0}$
+\end_inset
+
+, מחלקים למקדמים זוגיים ואי זוגיים ומריצים את האלגוריתם רקורסיבית עם שורש
+ היחידה בריבוע, מחשבים את הערך ב-
+\begin_inset Formula $n$
+\end_inset
+
+ נקודות על ידי הכפלת הערכים של שני החצים לפי הנוסחה, מחריזים את ערכי הפונקציה
+ בנקודות.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+האלגוריתם במילים פשוטות - מוצאים 
+\begin_inset Formula $n$
+\end_inset
+
+ נקודות לכל אחת מהפונקציות עם 
+\begin_inset Formula $FFT$
+\end_inset
+
+, מכפילים, מחשבים את מקדמי הפולינום עם הפונקציה ההופכית 
+\begin_inset Formula $\frac{1}{2n}FFT\left(\cdot,\omega^{-1}\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הערה: האלגוריתם להכפלת פונקציות הוא בעצם ביצוע קונבולוציה מעגלית.
+ אם מרפדים באפסים אז מקבלים קונבולוציה 
+\begin_inset Quotes eld
+\end_inset
+
+ישירה
+\begin_inset Quotes erd
+\end_inset
+
+ כי האפסים משתתפים בכפל של האיברים שעוברים בצורה מעגלית.
+ מריצים 
+\begin_inset Formula $FFT$
+\end_inset
+
+ עם 
+\begin_inset Formula $2n$
+\end_inset
+
+ נקודות כאשר רק 
+\begin_inset Formula $n$
+\end_inset
+
+ מתוכן נלקחו מהפולינומים והשאר
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+0
+\numeric off
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+סיבוכיות
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - 
+\begin_inset Formula $O\left(n\lg n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+כדי למצוא את ערך הנגזרת ה-
+\begin_inset Formula $n$
+\end_inset
+
+ית - אפשר לבצע קונבולוציה, כלומר להכפיל שתי סדרות באמצעות האלגוריתם להכפלת
+ פולינומים )=קונבולוציה(:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $GET\_DERIVATIVES\_VALUES\left(\left(a_{0},...,a_{n-1}\right),x_{0}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $g=\begin{cases}
+\frac{x_{0}^{i}}{i!} & i=0...n-1\\
+0 & i=n...2n-1
+\end{cases}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $h=\begin{cases}
+\left(n-1-i\right)!a_{n-1-i} & i=0...n-1\\
+0 & i=n...2n-1
+\end{cases}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $t=\left(FFT\left(g,\omega_{2n}\right)\cdot FFT\left(h,\omega_{2n}\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $return\ \frac{1}{2n}FFT\left(t,\omega_{2n}^{-1}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+דוגמה להרצת 
+\begin_inset Formula $FFT$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+נריץ את אלגוריתם 
+\begin_inset Formula $FFT$
+\end_inset
+
+ מסדר
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+על מקדמי הפולינום 
+\begin_inset Formula $p\left(x\right)=x^{3}+2x^{2}-3x-1$
+\end_inset
+
+.
+ נשים לב ש-
+\begin_inset Formula $\omega_{4}=\cos\left(\frac{360}{4}\right)+i\sin\left(\frac{360}{4}\right)=i$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $FFT\left(\left(-1,-3,2,1\right),i\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\left(f_{e}\left(1\right),f_{e}\left(-1\right)\right)=FFT\left(\left(-1,2\right),-1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\rightarrow\left(f_{e}\left(1\right)\right)=FFT\left(\left(1\right),1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \rightarrow return\ \left(1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \left(f_{o}\left(-1\right)\right)=FFT\left(\left(2\right),1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \rightarrow return\ \left(2\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ f\left(1\right)=f_{e}\left(1\right)+1\cdot f_{o}\left(1\right)=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ f\left(-1\right)=f_{e}\left(1\right)+\left(-1\right)\cdot f_{o}\left(1\right)=-3$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ return\ \left(1,-3\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\left(f_{o}\left(1\right),f_{o}\left(-1\right)\right)=FFT\left(\left(-3,1\right),-1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\rightarrow\left(f_{e}\left(1\right)\right)=FFT\left(\left(-3\right),1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \rightarrow return\ \left(-3\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \left(f_{o}\left(-1\right)\right)=FFT\left(\left(1\right),1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \rightarrow return\ \left(1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ f\left(1\right)=f_{e}\left(1\right)+1\cdot f_{o}\left(1\right)=-2$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ f\left(-1\right)=f_{e}\left(1\right)+\left(-1\right)\cdot f_{o}\left(1\right)=-4$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ return\ \left(-2,-4\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $f\left(1\right)=f_{e}\left(1\right)+1\cdot f_{o}\left(1\right)=-1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $f\left(i\right)=f_{e}\left(-1\right)+i\cdot f_{o}\left(-1\right)=-3-4i$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $f\left(-1\right)=f_{e}\left(1\right)+-1\cdot f_{o}\left(1\right)=3$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $f\left(-i\right)=f_{e}\left(-1\right)+-i\cdot f_{o}\left(-1\right)=-3+4i$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $FFT\left(\left(2,0,-1,3\right),i\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\left(f_{e}\left(1\right),f_{e}\left(-1\right)\right)=FFT\left(\left(2,-1\right),-1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\rightarrow\left(f_{e}\left(1\right)\right)=FFT\left(\left(2\right),1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \rightarrow return\ \left(2\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \left(f_{o}\left(-1\right)\right)=FFT\left(\left(-1\right),1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \rightarrow return\ \left(-1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ f\left(1\right)=f_{e}\left(1\right)+1\cdot f_{o}\left(1\right)=2-1=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ f\left(-1\right)=f_{e}\left(1\right)+\left(-1\right)\cdot f_{o}\left(1\right)=2+1=3$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ return\ \left(1,3\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\left(f_{o}\left(1\right),f_{o}\left(-1\right)\right)=FFT\left(\left(0,3\right),-1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\rightarrow\left(f_{e}\left(1\right)\right)=FFT\left(\left(0\right),1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \rightarrow return\ \left(0\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \left(f_{o}\left(-1\right)\right)=FFT\left(\left(3\right),1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ \rightarrow return\ \left(3\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ f\left(1\right)=f_{e}\left(1\right)+1\cdot f_{o}\left(1\right)=0+3=3$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ f\left(-1\right)=f_{e}\left(1\right)+\left(-1\right)\cdot f_{o}\left(1\right)=0-3=-3$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $\ \ \ \ return\ \left(3,-3\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $(for\ w\ in\ [1,i,-1,-i]\ do\ f(w)=f_{e}(w^{2})+wf_{o}(w^{2}))$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $f\left(1\right)=f_{e}\left(1\right)+1\cdot f_{o}\left(1\right)=1+3=4$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $f\left(i\right)=f_{e}\left(-1\right)+i\cdot f_{o}\left(-1\right)=3+i(-3)=3-3i$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $f\left(-1\right)=f_{e}\left(1\right)+-1\cdot f_{o}\left(1\right)=1-3=-2$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $f\left(-i\right)=f_{e}\left(-1\right)+-i\cdot f_{o}\left(-1\right)=3+(-i)(-3)=3+3i$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula $return\ \left(4,3-3i,-2,3+3i\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+יישור מחרוזות בסיבוכיות מקום לינארית
+\end_layout
+
+\begin_layout Itemize
+במילים פשוטות: בסעיף
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+הוצג אלגוריתם לחישוב מרחק בסיבוכיות מקום לינארית אבל לא את היישור עצמו.
+ באלגוריתם הזה לחישוב היישור נבצע עוד חישובים כדי לחסוך במקום.
+ מריצים אלגוריתם מרחק יישור עבור כל רישא וסייפא ובוחרים את שני החלקים כך
+ שהעלות שלהם ביחד תהיה מינימלית, וכך למעשה מחלקים את המחרוזת רקורסיבית עד
+ שמגיעים לאורך
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+.
+ בכל פעם מחזירים את הפירוק, כאשר לפני או אחרי המילה יכולים להתווסף מקפים.
+\end_layout
+
+\begin_layout Section
+פרק
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+6
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- רשתות זרימה
+\end_layout
+
+\begin_layout Subsection
+אלגוריתם פורד-פלקרסון
+\end_layout
+
+\begin_layout Itemize
+במילים פשוטות: בונים רשת שיורית )מוסיפים קשתות נגדיות, מגדירים קיבולת שיורית
+ )
+\begin_inset Formula $c-f$
+\end_inset
+
+ לקשת רגילה ו-
+\begin_inset Formula $f$
+\end_inset
+
+ לקשת נגדית( וכל עוד יש מסלול פשוט מהמקור ליעד אז מוסיפים זרימה כגודל הקיבול
+ השיורי המינימלי )עלות 
+\begin_inset Formula $\Theta\left(|E|\right)$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+חתך מינימלי
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+יכולה להיות זרימה נכנסת לחתך - לפעמים החתך מכיל צמתים שמובילות אליהם קשתות.
+\end_layout
+
+\begin_layout Itemize
+למה קיבול חתך יכול להיות גדול? - לדוגמה בגרף שבו יש
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ צמתים )מקור, אמצע ובור( ו-
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+קשתות )אחת קיבול
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+והשנייה קיבול 
+\begin_inset Formula $n$
+\end_inset
+
+( אז הזרימה המקסימלית היא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ והחתכים הם 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+או 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+אם 
+\begin_inset Formula $A,B$
+\end_inset
+
+ חתכים מינימליים אז 
+\begin_inset Formula $A\cup B,A\cap B$
+\end_inset
+
+ גם חתכים מינימליים - 
+\begin_inset Formula $f+f=c\left(out\left(A\right)\right)+c\left(out\left(B\right)\right){\color{gray}\overset{\text{internal edges}}{\overbrace{{\normalcolor \geq}}}}c\left(out\left(A\cup B\right)\right)+c\left(out\left(A\cap B\right)\right){\color{gray}\overset{they\ are\ cuts}{\overbrace{{\normalcolor \geq}}}}f+f$
+\end_inset
+
+ ולכן יש שיוויון.
+\end_layout
+
+\begin_layout Subsection
+מסלולים זרים בגרפים
+\end_layout
+
+\begin_layout Itemize
+פירוק זרימה
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+פירוק גרף שבו דרגות היציאה והכניסה שוות: הוא בעצם מורכב רק ממעגלים, כל עוד
+ יש קשתות נעשה 
+\begin_inset Formula $BFS$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+)
+\begin_inset Formula $O\left(|E|\right)$
+\end_inset
+
+(, נמצא מעגל ונסיר אותו.
+\end_layout
+
+\begin_layout Itemize
+פירוק זרימה שלמה כלשהי עם קיבולי יחידה למסלולים זרי קשתות: נסיר קשתות ללא
+ זרימה )לא מעניינות(, נוסיף 
+\begin_inset Formula $k$
+\end_inset
+
+ קשתות 
+\begin_inset Formula $t\rightarrow s$
+\end_inset
+
+ ונמצא פירוק למעגלים )שורה מעל(.
+\end_layout
+
+\begin_layout Itemize
+פירוק זרימה מקסימלית שלמה בגרף כלשהו: נותנים לכל קשת קיבול
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+, מוצאים זרימה מקסימלית, נמצא פירוק זרימה שלמה עם קיבולי יחידה )שורה מעל(.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+משפט מנגר
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מה הרעיון? - רוצים לדעת מה המספר המינימלי של קבוצה מפרידה )לדוגמה כדי לנתק
+ מסלולי רכבות בין שתי ערים(.
+\end_layout
+
+\begin_layout Itemize
+גרסת הצמתים של משפט מנגר - ההוכחה היא שנותנים לכל צומת קיבול
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+, מפצלים כל צומת לקלט ופלט
+\end_layout
+
+\begin_layout Itemize
+הגודל של קבוצת קשתות מפרידה הוא רפלקסיבי וטרנזיטיבי אבל לא סימטרי )דוגמה
+ נגדית היא רשת טריוויאלית עם קשת אחת ושני צמתים(.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+זיווגים בגרפים דו צדדיים
+\end_layout
+
+\begin_layout Itemize
+כיסוי בצמתים בגרף כלשהו קטן או גדול לזיווג )בכיסוי אפשר להיות מחובר לכמה
+ צמתים( , אם הם שווים אז שניהם אופטמליים.
+ 
+\end_layout
+
+\begin_layout Itemize
+משפט קניג אומר שבגרף דו צדדי הם תמיד שווים.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+רעיון ההוכחה: אם מוצאים חתך אז החלק שלו שבקבוצה 
+\begin_inset Formula $A$
+\end_inset
+
+ בהכרח מחובר ל-
+\begin_inset Formula $B$
+\end_inset
+
+, והחלק של 
+\begin_inset Formula $B$
+\end_inset
+
+ שלא בחתך בהכרח מחובר לחלק המשלים של 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+בעיות נוספות
+\end_layout
+
+\begin_layout Itemize
+בעיית בחירת הפרויקטים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+רוצים למצוא קבוצת פרויקטים שניתן לבצע )לא תלויה בשום דבר( ועם ערך מינימלי
+\end_layout
+
+\begin_layout Itemize
+נחבר מקור לכל הצמתים החיוביים עם צומת שקיבולה הוא ערכם ובור לכל הצמתים השליליים
+ כאשר הקיבולים הם הערכים המוחלטים של ערכם וכל הקשתות הפנימיות עם קיבול אינסופי.
+ אם יש זרימה מקסימלית נחזיר את החתך המינימלי בלי המקור.
+ זוהי קבוצה שניתן לבצע )כי אין קיבול אינסופי - פנימי( והיא מינימלית כי 
+\begin_inset Formula $p\left(R\backslash\left\{ s\right\} \right)=p\left(V^{+}\right)-c\left(out\left(R\right)\right)$
+\end_inset
+
+, כלומר אנחנו מחפשים חתך מינימלי וזה בדיוק זרימה מקסימלית.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+בעיות הפצה עם חסמים תחתונים
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+ההמרה לבעיית הפצה רגילה - איך מחשבים ביקוש? - מורידים מהביקושים זרימה מינימלית
+ נכנסת )כי כדי שהגיוני בבעיה הרגילה שתיכנס זרימה צריך שיהיה ביקוש לכן אנחנו
+ מורידים את הביקוש ברדוקציה( ומוסיפים זרימה מינימלית יוצאת )כי כדי שתוכל
+ בכלל לצאת זרימה מינימלית מהצומת אז צריך שיהיה לו את הביקוש הזה, ברדוקציה
+ אין את הזרימה המינימלית(.
+ מחסרים מהקיבולים את הזרימות המינימליות.
+ הכי טוב - לעשות דוגמה עם צומת מקור עם ביקוש 
+\begin_inset Formula $-2$
+\end_inset
+
+, צומת יעד עם ביקוש
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+וקשת עם זרימה מינימלית
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\numeric off
+.
+\end_layout
+
+\begin_layout Itemize
+איך אפשר לפתור בעיית זרימה )לא הפצה, אין ביקוש( עם חסמים תחתונים? - קשה
+ כי אנו לא יודעים מה צריך להיות הביקוש של המקור והיעד כדי להמיר להפצה.
+ ממירים את הזרימה להפצה על ידי הגדרת ביקוש 
+\begin_inset Formula $d_{t}=-d_{s}=k$
+\end_inset
+
+ ליעד ולמקור ו-
+\numeric on
+0
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+עבור השאר.
+ באמצעות חיפוש בינארי נקבע את 
+\begin_inset Formula $k$
+\end_inset
+
+ עד שנמצא את המספר המקסימלי עבורו יש פתרון לבעיה.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+הכנה למבחן
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2024
+\numeric off
+ב
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+83
+\numeric off
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- צריך לפחות צלע אחת שלילית אבל לא שתיים ברצף - שכפול לשני גרפים, מעבר לגרף
+ השני אחרי צלע שלילית, בגרף השני שכפול צמתים כך שאסור שתיים ברצף שליליות,
+ בלמן פורד מהמקור של אחת ליעד של אחרת.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2024
+\numeric off
+ב
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+82
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - לחשב תת סדרה אנטי מונוטונית בגודל מרבי - תכנון דינמי, ללכת מהסוף להתחלה
+ ולחשב עבור כל קודקוד מה הסדרה המירבית שלו שמתחילה בירידה ומה המירבית שמתחילה
+ בעלייה.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - לומר האם עץ הוא עץ מסלולים מזעריים או לא - בעצם לחשב במקביל עץ מסלולים
+ מזעריים?
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם משקלי צלעות יכולים לחזור עד פעמיים יכולים להיות עד 
+\begin_inset Formula $2^{\frac{n}{2}}$
+\end_inset
+
+ עפ
+\begin_inset Quotes erd
+\end_inset
+
+מים - יוצרים מסלולים מקבילים שמצטלבים כל קודקוד שני, כל מסלול מקביל יוצר
+ עפ
+\begin_inset Quotes erd
+\end_inset
+
+מ חדש.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2024
+\numeric off
+א 
+\numeric on
+93
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- הורדת 
+\begin_inset Formula $k$
+\end_inset
+
+ קשתות כדי להפחית זרימה באופן מקסימלי - מציאת זרימה מקסימלית פעם אחת, ואז
+ בניית רשת שיורית, מציאת חתך ע
+\begin_inset Quotes erd
+\end_inset
+
+י 
+\begin_inset Formula $BFS$
+\end_inset
+
+, הורדת קשתות החתך עד שמגיעים לכמות הנדרשת.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- מציאת כמות מקסימלית של הצגות של מספר כסכום - 
+\begin_inset Formula $P\left(n\right)=\max\left\{ P\left(i\right)\cdot\left(n-i\right)|1\leq i\leq n\right\} $
+\end_inset
+
+ )אפשר להוסיף לכל הצגה שונה של 
+\begin_inset Formula $i$
+\end_inset
+
+ את ההפרש 
+\begin_inset Formula $n-i$
+\end_inset
+
+(.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ - מימוש תור קדימויות עם 
+\begin_inset Formula $d$
+\end_inset
+
+ בנים - הוצאת מינימום והקטנת מפתח 
+\begin_inset Formula $\lg_{d}n$
+\end_inset
+
+, עלות כוללת )כנראה( 
+\begin_inset Formula $|E|\lg_{|E|}|V|$
+\end_inset
+
+.
+ עם רשימה - שליפה 
+\begin_inset Formula $n$
+\end_inset
+
+, הקטנת מפתח 
+\begin_inset Formula $1$
+\end_inset
+
+ )בהנחה שיש מצביע(, עלות כוללת 
+\begin_inset Formula $|E||V|$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- 
+\begin_inset Formula $CNF$
+\end_inset
+
+, לשים לב שלפעמים רוצים לספק מספר מקסימלי של פסוקיות ולא את כולן.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2024
+\numeric off
+א
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+95
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם צלע שייכת לכל עפ
+\begin_inset Quotes erd
+\end_inset
+
+מ אז היא לא בהכרח 
+\begin_inset Quotes eld
+\end_inset
+
+מזערית של קודקוד 
+\begin_inset Formula $a$
+\end_inset
+
+ או קודקוד 
+\begin_inset Formula $b$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ - היא יכולה להיות המינימלית שחוצה חתך אבל לא מזערית של אף אחד מהקודקודים.
+ אם הצלע 
+\begin_inset Quotes eld
+\end_inset
+
+מזערית של קודקוד 
+\begin_inset Formula $a$
+\end_inset
+
+ או 
+\begin_inset Formula $b$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ אז היא בהכרח שייכת לכל עפ
+\begin_inset Quotes erd
+\end_inset
+
+מ - לדוגמה חוצה את החתך של 
+\begin_inset Formula $\left(a,V\backslash a\right)$
+\end_inset
+
+ ומינימלית.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- בכל איטרציה של דייקסטרא אנו מוצאים את כל הקודקודים במרחק חסם עליון כלשהו
+ 
+\begin_inset Formula $M$
+\end_inset
+
+ - נכון בגלל סדר ההוצאה מתור הקדימויות.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2024
+\numeric off
+א
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+82
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- ייתכן שצלעות הגרף שמתגלה על ידי פלויד-וורשאל יהיה הרבה יותר גדול מקבוצת
+ הקודקודים - לדוגמה אם הגרף הוא מלא אז המסלולים הקצרים ביותר כנראה יהיו
+ הצלעות.
+ גרף מלא אפשר להשיג על ידי הגדרת משקל כל צלע 
+\begin_inset Formula $n^{2}+i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- תכנון דינמי למספר הניסיונות לבירור הקומה ממנה ביצים נשברות במגדל - 
+\begin_inset Formula $f\left(n,k\right)=\max\left(f\left(i-1,k-1\right),f\left(n-i,k\right)+1\right)$
+\end_inset
+
+ - אם הביצה לא נשברה אז עדיין יש לנו 
+\begin_inset Formula $k$
+\end_inset
+
+ ביצים אבל צריך לבצע עוד ניסוי, אם היא נשברה אז יש לנו פחות ביצה אחת וצריך
+ לבדוק מהמספר הנתון ומטה.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2024
+\numeric off
+א
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+91
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- האם הרצת 
+\begin_inset Formula $BFS$
+\end_inset
+
+ בלופים מוצאת מספר מקסימלי של מסלולים זרים? - דוגמה נגדית - נמתח שני מסלולים
+ זרים, ונצייר קשת אחת שמחברת ביניהם.
+ אם בוחרים ללכת במסלול שעובר דרך שניהם אז שניהם ייחתכו, אבל לחילופין אפשר
+ לבחור בכל אחד בנפרד.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+4
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אם כל צלע שיוצאת מהחתך היא רוויה אז החתך לא בהכרח מזערי - דוגמה נגדית
+ היא מסלול פשוט, ולקחת את המקור וקודקוד אמצע כלשהו - קיבולת החתך
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+והזרימה היא
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\numeric on
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+1
+\numeric off
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+הערה: אפשר לבחור כל קבוצת קודקודים שנגישה מהמקור כחתך, לא חובה שתהיה 
+\begin_inset Quotes eld
+\end_inset
+
+רציפה
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\numeric on
+2025
+\numeric off
+א מועד
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+א
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- א - אם מפצלים גרף מוצאים עפ
+\begin_inset Quotes erd
+\end_inset
+
+מ לכל קבוצה ומאחדים באמצעות צלע מינימלית, העץ המתקבל לא בהכרח עפ
+\begin_inset Quotes erd
+\end_inset
+
+מ - כי העפ
+\begin_inset Quotes erd
+\end_inset
+
+מ יכול לכלול עוד צלעות בחתך שבין שתי הקבוצות.
+ ב - פיצול עמ
+\begin_inset Quotes erd
+\end_inset
+
+מ - נכון כי תת מסלול מזערי הוא מזערי.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- סירקולציה דרך קודקוד מיוחד 
+\begin_inset Formula $x$
+\end_inset
+
+ - אין בור/מקור לכן נפצל את 
+\begin_inset Formula $x$
+\end_inset
+
+ ל-
+\begin_inset Formula $x_{in},x_{out}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\numeric on
+3
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+- אספקה אופטימלית - כדי לספק צריכה של 
+\begin_inset Formula $n$
+\end_inset
+
+ ערים לפי המרחק מ-
+\numeric on
+2
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\numeric off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+מקורות:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+נוסחת נסיגה: 
+\begin_inset Formula $M\left(n,r_{1},r_{2}\right)=\min\left(M\left(n-1,r_{1}-k,r_{2}-\left(d_{n}-k\right)\right)+c_{n}k+p_{n}\left(d_{n}-k\right)\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+אלגוריתם: יוצרים מערך תלת ממדי 
+\begin_inset Formula $M\left[n,S_{1},S_{2}\right]$
+\end_inset
+
+, מאתחלים 
+\begin_inset Formula $M\left[0,\cdot,\cdot\right]=0$
+\end_inset
+
+, עוברים על 
+\begin_inset Formula $i:1\rightarrow n$
+\end_inset
+
+, 
+\begin_inset Formula $r_{1}:0\rightarrow S_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $r_{2}:0\rightarrow S_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $k:0\rightarrow d\left[i\right]$
+\end_inset
+
+, ומבצעים 
+\begin_inset Formula $M\left[i,r_{1},r_{2}\right]=\min\left(M\left[i,r_{1},r_{2}\right],M\left[n-1,r_{1}-k,r_{2}-\left(d_{n}-k\right)\right]+c_{n}k+p_{n}\left(d_{n}-k\right)\right)$
+\end_inset
+
+.
+ לבסוף מחזירים את 
+\begin_inset Formula $M\left[n,S_{1},S_{2}\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+עוברים על 
+\begin_inset Formula $S_{1},S_{2}$
+\end_inset
+
+ כי הם בלתי תלויים - כל איבר בטבלה מייצג את השאלה 
+\begin_inset Quotes eld
+\end_inset
+
+מה הייתה התשובה אם אלו היו הנתונים
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+שונות
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+מציאת מסלול מזערי חוקי שעובר רק דרך קשת שלילית אחת - משכפלים לשני גרפים
+ כך השני הפוך, מעבירים קשתות שליליות לגרף השני ומוחקים שליליות מהשני, מריצים
+ דייקסטרא מ-
+\begin_inset Formula $s$
+\end_inset
+
+ בגרף ודייקסטרא בגרף ההפוך מ-
+\begin_inset Formula $t$
+\end_inset
+
+ ושומרים עבור כל צומת את המרחק מכל קצה.
+ לבסוף עוברים על כל הצמתים שיש להם את שני הערכים ומוסיפים את גודל הקשת השלילית.
+\end_layout
+
+\end_deeper
+\end_body
+\end_document
