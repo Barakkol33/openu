@@ -362,8 +362,25 @@ Linear reading (⊃ = subsumes): **all-paths ⊃ all-du-paths ⊃ all-uses ⊃ {
 - **t-way / pairwise (t=2):** for every group of `t` parameters, every value-combination of those `t` appears in ≥1 test. Pairwise is the `t=2` case (every *pair*). "At least once" — it does **not** need to be balanced/equal counts.
 - **Pair:** a specific (value-of-Pi, value-of-Pj) with i≠j. E.g. `(Table=Coffee, Size=Small)`. Pairs are always across **two different** parameters.
 - **π (pi) = the set of pairs still _uncovered_.** This is your running checklist / bookkeeping object. The moment a test covers a pair, cross it off π. **You stop when π is empty** — every pair covered. Keeping π correct is where most exam marks are won or lost.
-- **Covering array `CA(N; t, k, v)`:** the produced test set — `N` tests, `k` parameters, `v` values, covering all `t`-way combos. Its size grows only **logarithmically in the number of parameters** (why pairwise scales so well).
-- **Orthogonal array `L_Runs(Levels^Factors)`** e.g. `L4(2³)` = 4 runs, 3 factors, 2 levels. Like a covering array but *stronger/balanced*: **every pair appears the exact same number of times.** Sometimes handed to you as a ready-made starting seed (see "Orthogonal-array seed" below).
+- **Covering array & orthogonal array — the mental model.** Picture your test set as a **table: one row per test, one column per parameter**, each cell holding a value. Both "arrays" are just names for such a table with a coverage guarantee about its columns:
+
+  - **Covering array `CA(N; t, k, v)`** — a table of `N` rows (tests), `k` columns (parameters), each cell one of `v` values, such that: *pick any `t` columns, and every combination of their values shows up in **at least one** row.* For pairwise (`t=2`): **every pair appears ≥ 1 time** — that's the minimum we actually want. Reading the notation: `N`=#tests, `t`=strength (2 = pairwise), `k`=#parameters, `v`=#values per parameter. Its size grows only **logarithmically in the number of parameters** — why pairwise scales so well. (When parameters have *different* value counts, people write `CA(N; t, v₁v₂…v_k)` or a "mixed-level" array; the idea is unchanged.)
+
+  - **Orthogonal array `L_Runs(Levels^Factors)`** — the *stronger, balanced* version: *pick any two columns, and every combination appears **exactly the same number of times*** (that fixed count is the array's "index", usually 1). Reading the notation `L4(2³)`: 4 **runs** (rows/tests), 3 **factors** (columns/parameters), each with 2 **levels** (values) — the `³` is the number of columns, the `2` is the values-per-column. So `L8(2⁷)` = 8 tests, 7 binary parameters.
+
+  - **How they relate:** *every orthogonal array is also a covering array, but not vice versa.* "Appears exactly-equally" (orthogonal) is a tighter demand than "appears at least once" (covering). The price of that balance: orthogonal arrays are **rigid** — they exist only for special sizes (e.g. value counts that are prime powers, equal-sized domains) and are often **bigger** than the smallest covering array for the same job. So we usually *build* covering arrays (via AETG/IPO); an orthogonal array is a nice ready-made table that's sometimes **handed to you as a starting seed** (see "Orthogonal-array seed" below).
+
+  - **Concrete `L4(2³)`** (3 binary parameters, values 1/2):
+
+    ```
+    run  P1 P2 P3
+     1    1  1  1
+     2    1  2  2
+     3    2  1  2
+     4    2  2  1
+    ```
+
+    Check any two columns — e.g. P1 & P3: the pairs (1,1),(1,2),(2,1),(2,2) each appear **exactly once** ⇒ orthogonal (balanced). It's automatically a covering array too (each pair appears ≥ once). A covering array *only* needs that "≥ once" — so for larger problems it can skip rows an orthogonal array would be forced to keep for balance.
 
 ### First skill: "list all pairs to add when extending to a new parameter"
 
