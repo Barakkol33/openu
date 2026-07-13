@@ -1,5 +1,10 @@
 # Software Tests Summary
 
+> **Start here — the one big idea.**
+> We can almost never run a program on *every* possible input (there are far too many). So testing is really about **choosing a small, smart set of inputs** that still gives us confidence the program is correct. A **coverage criterion** is just a rule that tells you *which* inputs (or paths, or combinations) you must exercise — e.g. "run every line at least once" or "make every `if` go both true and false". Most of this guide is a tour of different such rules, how to satisfy them, and how they compare in strength. Keep asking two questions while you read: *"What must this criterion make me test?"* and *"How few tests can I get away with?"*
+>
+> **How to read this doc.** Each section has: **Key definitions** (the vocabulary), **The recipe** (the mechanical steps to answer an exam question), a **Worked example**, **Exam patterns & gotchas** (traps that lose points), and a **Cheat sheet** (the compressed version to memorize). If a term looks unfamiliar, look for a `> **Plain words:**` note near its first use.
+
 ## Topics
 
 | #   | Topic                                                                                                   | Exam frequency |
@@ -20,21 +25,23 @@
 
 ## 1. Mutation Testing
 
+> **Plain words:** Mutation testing checks *how good your tests are* (not the program). The idea: deliberately break the program in tiny ways — each broken copy is a **mutant** — then see whether your test suite notices. A good suite should fail on a broken program. If a mutant slips through with all tests still passing, your tests have a blind spot. Think of it as "planting bugs on purpose to check that your bug-detector actually detects."
+
 **Key definitions:**
 
-- **Mutant** — program `Pᵢ` obtained from `P` by _one_ small syntactically-valid change (operator swap, boundary swap, etc.).
-- **Killed (dead) mutant** — some test in `T` produces a _different output_ on `Pᵢ` than on `P`. **Survived** — no test distinguishes it.
-- **Equivalent mutant** — `Pᵢ` and `P` have identical behavior on _every possible input_; impossible to kill. (General equivalence-detection is **undecidable**.)
-- **Mutation score** = `100 × D / (N − E)` — D = killed, N = total mutants, E = equivalent. Equivalents are removed from the **denominator**, never counted as killed.
-- **Competent-programmer hypothesis** — real faults are small deviations. **Coupling effect** — tests that catch simple faults also catch complex ones. These justify single-change mutants.
-- A mutant survives iff either: no test reaches the mutated line, OR a test reaches it but the _output_ is unchanged (includes equivalents).
+- **Mutant** — a copy of program `P` with _one_ small, still-compilable change, written `Pᵢ`. "Syntactically-valid change" just means the edit still compiles/runs (you can't test a program that won't build). Examples: swap an operator (`>` → `>=`, `+` → `-`), or change a boundary. One mutant = one tiny change.
+- **Killed (dead) mutant** — at least one test in your suite `T` gives a _different output_ on the mutant `Pᵢ` than on the original `P`. That difference is the test "catching" the planted bug. **Survived** — no test noticed the change (all tests give the same result on `Pᵢ` as on `P`). Surviving mutants point at weak spots in your tests.
+- **Equivalent mutant** — the change happens to make _no difference at all_: `Pᵢ` and `P` behave identically on _every possible input_ (e.g. rewriting `a*b` as `b*a`). No test can ever kill it because there is nothing to catch — it's not really a different program. Deciding in general whether two programs always agree is **undecidable** ("undecidable" = no algorithm can answer it correctly for every case; you must argue each one by hand).
+- **Mutation score** = `100 × D / (N − E)` — D = killed, N = total mutants, E = equivalent. It's the percentage of *killable* mutants your suite actually killed. Equivalents are removed from the **denominator** (they were never killable, so counting them would unfairly punish the suite), and never counted as killed. Higher score = stronger test suite.
+- **Competent-programmer hypothesis** — the assumption that real programmers write *almost*-correct code, so real bugs are small slips (a wrong operator, an off-by-one), not wild rewrites. **Coupling effect** — the observation that tests catching these small planted bugs also tend to catch bigger, more complex bugs. Together these justify why testing with *single* tiny changes is worthwhile.
+- A mutant survives if **either**: (1) no test even executes the mutated line, **or** (2) a test runs the line but the final _output_ comes out the same anyway (this case includes equivalent mutants). "iff" = "if and only if".
 
 **The recipe (per mutant):**
 
 0. **Precondition:** run the suite `T` against the original `P` first — every test must pass. A failing test means **fix `P` and retest**, not a killed mutant. The whole process iterates: after adding tests, re-run until the score clears the chosen threshold.
 1. **Locate** the mutated line and the exact change (e.g. `>` → `>=`).
-2. **Find a reaching input** that exercises the mutated code AND makes the mutated expression differ from the original (the "infection" step).
-3. **Propagate:** check the _return value / output_ actually changes for that input. If for _all_ inputs the output is identical → **equivalent** (add to E). Otherwise it is **killable**.
+2. **Find a reaching input** — an input that (a) actually runs the mutated line, AND (b) makes the mutated expression compute a different value there than the original would. Step (b) is called **infection**: the internal state is now "infected" (wrong) at that point. Just running the line isn't enough; the value has to actually diverge.
+3. **Propagate:** an infected internal value is useless unless it changes what the program finally *outputs/returns* — that's **propagation** (the wrong value has to travel out to where a test can see it). Check the return value / output actually differs for that input. If for _every_ input the output stays identical → the change never shows ⇒ **equivalent** (add to E). Otherwise it is **killable**.
 4. **Killed?** A mutant is killed iff the _existing_ test suite contains an input from step 2/3 whose asserted value now mismatches. If none → it **survives**.
 5. **Count:** N = total mutants, E = equivalents, D = killed.
 6. **Score** = `100·D/(N−E)`.
@@ -69,18 +76,23 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
 
 ## 2. Control Flow & Coverage Criteria
 
+> **Plain words:** "Control flow" = the order in which statements run and the branch points (`if`, loops) that decide the route. We draw the program as a map — the **Control Flow Graph (CFG)** — and then pick coverage rules that say how thoroughly the map must be walked: every box? every fork-direction? every combination of conditions in a fork? The rules get progressively stronger (and need more tests). The recurring exam skills are: *draw the CFG*, *pick the smallest test set that satisfies a given rule*, and *say how many tests each rule needs*.
+
 **Key definitions:**
 
-- **CFG nodes:** computation (rectangle, straight-line code), decision (diamond, T/F edges), merge (circle). Single entry, single exit; number every node.
-- **Statement (node) coverage** — every node executed once. _Weakest._
-- **Branch (edge/decision) coverage** — every decision goes both T and F. **Subsumes statement.**
-- **Basic-condition coverage** — every _elementary_ boolean (each `a`, `b` in `a&&b`) takes both T and F. _Incomparable with branch._
-- **Branch-and-condition** — both branch AND basic-condition adequacy.
-- **Compound-condition** — every _combination_ of basic conditions in a decision (≤ 2ᴺ rows; short-circuit trims).
-- **MC/DC** — for _each_ basic condition, two test cases that flip _only that condition_ and flip the _whole decision's_ outcome. ~**N+1** tests for N conditions. (DO-178B / ED-12B.)
-- **Boundary-interior** — **unfold the CFG as a tree up to the first repeated node, and provide one feasible path for every subpath of that tree.** Exiting after the first iteration = **boundary** test; ≥2 differing iterations = **interior** test.
-- **Loop-boundary adequacy** — run each loop **0, 1, and >1** times.
-- **Subsumption:** A subsumes B if every suite satisfying A (on every program) satisfies B.
+- **CFG (Control Flow Graph)** — a diagram of the program's possible routes. Three node shapes: **computation** (rectangle = straight-line code that just runs top to bottom), **decision** (diamond = a condition, with a True edge and a False edge coming out), **merge** (circle = where two branches rejoin). Assume one **entry** and one **exit**; number every node so you can name paths like `1,2,3`.
+- **Statement (node) coverage** — every node runs at least once. This is the _weakest_ rule (bare minimum: "no line of code went completely untested").
+- **Branch (edge/decision) coverage** — every decision is taken **both** ways: each `if` goes True at least once and False at least once. **Subsumes statement** (see §4 — it forces every node to run too, so it's strictly stronger).
+- **Basic-condition coverage** — in a compound condition like `a && b`, each _elementary_ (atomic) part `a` and `b` is individually made both True and False at some point. _Incomparable with branch_ (neither one guarantees the other — see §4).
+- **Branch-and-condition** — satisfy branch coverage AND basic-condition coverage at the same time.
+- **Compound-condition** — test _every combination_ of the atomic conditions in one decision. With N atoms that's up to **2ᴺ** combinations (short-circuit evaluation — where `&&`/`||` stops early once the result is decided — removes some impossible combinations).
+- **MC/DC (Modified Condition/Decision Coverage)** — for _each_ atomic condition, show it matters *on its own*: find two tests that differ in **only that one condition** and produce **opposite** overall decision results (proving that condition alone can flip the outcome). This needs about **N+1** tests for N conditions — far fewer than the 2ᴺ of compound-condition — because each test is reused across several conditions. Required by aviation-safety standards **DO-178B / ED-12B**.
+- **Boundary-interior** — a way to tame loops (which otherwise create infinitely many paths). It splits the loop paths into two classes:
+  - **Boundary tests** = paths that *enter the loop but exit after at most one iteration* (this class also includes the path that skips the loop entirely). **These are exactly what you get by unfolding the CFG into a tree up to the first repeated node** (the loop condition on its 2nd arrival), then stopping and exiting — provide one feasible path for every branch of that tree. In this course, the boundary set is the expected answer.
+  - **Interior tests** = the *more general* case: paths that iterate **2+ times, where the first two iterations differ** from each other. These need you to unfold *further* (a second iteration), so stopping at the first repeated node does **not** produce them. Mentioned for completeness; usually not required.
+  - Quick test (from the course clarification): take a feasible path that starts with the unfolded prefix — *one iteration then exit → boundary; two-or-more differing iterations → interior.* Also aim for full branch coverage on any branches **outside** the loop.
+- **Loop-boundary adequacy** — a simpler loop rule: run each loop **0 times, exactly 1 time, and more than 1 time** (the three qualitatively different loop behaviors). Note this is *different* from boundary-interior — see §4.
+- **Subsumption:** "A subsumes B" means A is at least as strong — any test set that satisfies A automatically satisfies B, for *every* program. (Full treatment in §4.)
 
 **The recipe:**
 
@@ -158,23 +170,25 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 
 ## 3. Data Flow Testing
 
+> **Plain words:** Control-flow testing cared about *which lines run*. Data-flow testing cares about *the life of each variable's value*: where it's **set** (given a value) and where it's later **used**. The worry is a broken link between them — e.g. code sets `x` but a bug means a stale or wrong `x` gets used downstream. So we pair up every "here's where `x` is set" with every "here's where that `x` is read", and require tests that actually travel from the set to the use. Vocabulary below is just names for "set" (**definition**), "read" (**use**), and "a route from set to read that doesn't overwrite `x` on the way" (**def-clear path**).
+
 **Key definitions:**
 
-- **Definition** `d_n(x)`: x is _assigned_ at node n (LHS of `=`, parameter binding at entry, input read). Params are defined at the entry line.
-- **Use** `u_n(x)`: x is _referenced_ (RHS, predicate, or call argument).
-  - **c-use (computation use)** — value feeds a computation/assignment/output; associated with a **NODE**. E.g. `return x+10`.
-  - **p-use (predicate use)** — value controls a branch; associated with an **EDGE** (both T and F out-edges of the decision). E.g. `if(flag)`.
-- **def-clear path wrt x**: a subpath whose _intermediate_ nodes contain no redefinition/undefinition of x.
-- **`d_m(x)` reaches `u_n(x)`**: there is a subpath (m)·p·(n) with p def-clear wrt x.
-- **du-path** (n1…nk): n1 has a _global_ def of x, and EITHER nk has a global c-use and the whole path is def-clear & **simple**; OR edge (n*{k-1},nk) has a p-use of x and (n1…n*{k-1}) is def-clear & **loop-free**.
-- A node such as `x = x+1` has a c-use of x **and** a def of x.
+- **Definition** `d_n(x)` ("def"): `x` is _given a value_ at node n — the left-hand side of `x = …`, a parameter receiving its argument at entry, or reading input into `x`. Parameters count as defined at the entry node.
+- **Use** `u_n(x)`: `x`'s value is _read_ (on the right-hand side of an assignment, inside a condition, or as a call argument). Two flavors:
+  - **c-use (computation use)** — the value feeds a *computation* or output (an assignment, a `return`, a `print`); attached to a **NODE**. E.g. `return x+10` is a c-use of `x`.
+  - **p-use (predicate use)** — the value is used to *decide a branch*; attached to an **EDGE** — and it counts on **both** the True and False out-edges of that decision. E.g. `if(flag)` is a p-use of `flag`.
+- **def-clear path w.r.t. `x`** ("w.r.t." = with respect to): a route where none of the _in-between_ nodes reassign or clear `x`. Meaning: the value set at the start is *still the same value* when it reaches the end — the link is intact.
+- **`d_m(x)` reaches `u_n(x)`**: there exists a def-clear path from the def at m to the use at n — i.e. the value set at m can actually arrive, unchanged, at the use at n.
+- **du-path** (definition-use path, n1…nk): a def-clear path from a *definition* of `x` to a *use* of `x`. Precisely: n1 has a def of `x`, and **either** nk has a c-use and the path is **simple** (no repeated nodes except possibly the endpoints), **or** the last edge has a p-use and the path up to it is **loop-free**.
+- A node like `x = x+1` is *both* a **use** of `x` (the old value, on the right) **and** a **def** of `x` (the new value, on the left) — order matters: it reads, then overwrites.
 
 **The recipe (mechanical):**
 
 1. **Draw the CFG**, number nodes, force a single entry/single exit (add an exit edge if a `return` dangles).
 2. **Annotate each node**: list `d_i(var)` for every assigned variable, and the uses. Predicate node → p-use on **both** out-edges; assignment/return/print node → c-use in the node.
-3. **Build the def-use table**: for every (def, use) pair of the same variable, find a def-clear path. This is the obligation set.
-4. **Satisfy a criterion:**
+3. **Build the def-use table**: for every (def, use) pair of the same variable, find a def-clear path connecting them. Each such pair is one **obligation** — a thing some test must exercise. The full list of pairs is your obligation set (the checklist to tick off).
+4. **Satisfy a criterion:** the criteria below differ only in *how many* of those def→use pairs you must cover. They range from lazy (`all-defs`: reach *some* use of each def) to thorough (`all-du-paths`: cover *every* route to *every* use). Read the table as "for each definition of `x`, how much must I cover?"
 
 | Criterion                  | Obligation per definition `d(x)`                                                          |
 | -------------------------- | ----------------------------------------------------------------------------------------- |
@@ -238,11 +252,13 @@ Tests **{w=-1, y=1}** and **{w=1, y=-1}** together take both T and F of each `if
 
 ## 4. Subsumption — Master Cheat Sheet
 
+> **Plain words:** "Subsumption" ranks coverage criteria by strength. Saying **A subsumes B** means: *if you've satisfied A, you've automatically satisfied B* — A is the tougher bar, so passing it gets B for free. (Example: branch coverage subsumes statement coverage — take every `if` both ways and you can't help but run every line.) The exam skill is almost always the *opposite* direction: **disprove** a claimed subsumption by inventing one small program + one test suite that satisfies A yet misses B. This section is the toolkit for that.
+
 **Key definitions:**
 
-- **A subsumes B** ("A includes B"): for **every** program P, **every** test suite that satisfies A on P also satisfies B on P. A is then _strictly stronger_.
-- **Equivalent**: A subsumes B and B subsumes A. **Incomparable**: neither subsumes the other.
-- Caution: subsumption is a _logical_ relation; it does **not** guarantee better real-world fault detection.
+- **A subsumes B** ("A includes B"): for **every** program P, **every** test suite that satisfies A on P also satisfies B on P. A is then _strictly stronger_. (Note the "for every program" — a single program where A implies B is *not* enough; it must always hold.)
+- **Equivalent**: A subsumes B _and_ B subsumes A (they demand the same coverage). **Incomparable**: neither subsumes the other (each can be satisfied while missing something the other requires).
+- Caution: subsumption is a _logical_ relation only — "A is stronger on paper". It does **not** guarantee A finds more real bugs in practice.
 
 **The recipe — to disprove "A subsumes B", find ONE program P + ONE suite T with: T satisfies A on P, but T does NOT satisfy B on P.**
 
@@ -325,51 +341,77 @@ Linear reading (⊃ = subsumes): **all-paths ⊃ all-du-paths ⊃ all-uses ⊃ {
 
 ## 5. Combinatorial / Pairwise Testing (AETG & IPO/IPOG)
 
+> **Plain words:** Suppose a feature has several settings (parameters), each with a few possible values — say Table ∈ {Coffee, Desk, Kitchen}, Color ∈ {Brown, White, Red}, Size ∈ {Small, Medium}. Testing *every* combination is `3×3×2 = 18` tests here, and explodes fast with more parameters. The insight behind **pairwise (2-way) testing**: most bugs are triggered by *one* setting or the *interaction of two* settings, rarely by three-plus at once. So we don't need every full combination — we only need every **pair** of values (from any two parameters) to appear together in *at least one* test. That collapses the suite dramatically (often to a handful of tests) while still catching the vast majority of interaction bugs. **AETG** and **IPO/IPOG** are two algorithms that build such a small test set.
+
+### What you're GIVEN and what you PRODUCE
+
+- **Given:** a list of **parameters**, and for each one its **set of allowed values** (its "domain"). ⚠️ **Parameters can have any number of values, and different counts each** — e.g. P1 has 3 values, P2 has 3, P3 has 2. This is normal and the exams test it deliberately. There is **no special formula** for the multi-valued case — the mechanics below are identical; the only effect of a bigger domain is *more pairs to cover* and *uneven pair counts* when you tally.
+- **Produce:** a small set of **tests** (each test = one value chosen for *every* parameter) such that for **every pair of parameters**, **every** combination of one value from each appears in **at least one** test.
+
 **Key definitions.**
 
-- **t-way / pairwise (t=2):** for every group of t parameters, every value combination appears in ≥1 test ("at least once" — _not_ balanced).
-- **Covering array CA(N; t, k, v):** N tests, k params, v values, covering all t-way combos; size grows **logarithmically in #params**.
-- **Orthogonal array `L_Runs(Levels^Factors)`** e.g. `L4(2³)` = 4 runs, 3 factors, 2 levels; extra property: **every pair appears the same number of times**.
-- **π = set of currently _uncovered_ pairs.** The bookkeeping object. Remove a pair the moment a test covers it. Stop when π empty.
-- **Conventions to state:** seed all-0s / all-1s first if valid; ties → first value in listed order.
+- **t-way / pairwise (t=2):** for every group of `t` parameters, every value-combination of those `t` appears in ≥1 test. Pairwise is the `t=2` case (every *pair*). "At least once" — it does **not** need to be balanced/equal counts.
+- **Pair:** a specific (value-of-Pi, value-of-Pj) with i≠j. E.g. `(Table=Coffee, Size=Small)`. Pairs are always across **two different** parameters.
+- **π (pi) = the set of pairs still _uncovered_.** This is your running checklist / bookkeeping object. The moment a test covers a pair, cross it off π. **You stop when π is empty** — every pair covered. Keeping π correct is where most exam marks are won or lost.
+- **Covering array `CA(N; t, k, v)`:** the produced test set — `N` tests, `k` parameters, `v` values, covering all `t`-way combos. Its size grows only **logarithmically in the number of parameters** (why pairwise scales so well).
+- **Orthogonal array `L_Runs(Levels^Factors)`** e.g. `L4(2³)` = 4 runs, 3 factors, 2 levels. Like a covering array but *stronger/balanced*: **every pair appears the exact same number of times.** Sometimes handed to you as a ready-made starting seed (see "Orthogonal-array seed" below).
 
-**AETG — the recipe** _(one complete test at a time, greedy)_:
+### First skill: "list all pairs to add when extending to a new parameter"
 
-1. **Build π** = all t-way pairs (`Σ_{i<j}|Pi|·|Pj|`). Seed `0000`,`1111`, remove their pairs.
-2. **Repeat until π empty.** Each iteration = ONE test:
-3. **Fix first (param, value)** = the one in the **most remaining pairs**. Ties → first.
-4. **Generate m candidates**, each with a (given/random) **order** of remaining params.
-5. **Greedy per-parameter pick:** for the next param, pick the value forming the **most pairs in π with the values already chosen** (only look back at _assigned_ params, never ahead). Ties → first.
-6. **Score each finished candidate** = total pairs in π it covers (re-count over whole test).
-7. **Choose max-score candidate** (ties → first); add it, remove its pairs from π.
+A very common sub-question: "you already have a pairwise set covering P1, P2; now add a new parameter P3 — list all pairs that must be covered." **Answer = only the pairs that involve the new parameter** (the P1–P2 pairs are already done, don't re-list them). That is: every value of P3 × every value of each existing parameter.
 
-**IPO/IPOG — the recipe** _(one parameter at a time; deterministic)_:
+> **Formula:** pairs to add = `Σ over each existing Pj of ( |Pj| × |P3| )`.
+> **Example (multi-valued):** P1={Coffee,Desk} (2), P2={Brown,White,Red} (3), new P3={S,M,L} (3) → P1×P3 = `2×3 = 6` pairs + P2×P3 = `3×3 = 9` pairs = **15 pairs** to add.
 
-1. **Initialization:** full t-way set for the first t params (e.g. P1×P2).
-2. **For each next parameter Pi:**
-   a. **π** = all pairs `(value of earlier Pj, value of Pi)`.
-   b. **Horizontal growth:** append a Pi-value to **each existing test**, choosing the value covering the **most pairs still in π** (ties → first). Remove covered pairs after each.
-   c. **Vertical growth:** for each leftover pair `(Pj=a, Pi=b)`, reuse an existing vertical-growth row whose slots are `a`/`*` and `b`/`*` (fill its blanks); else **add a new row** with `Pj=a, Pi=b` and **`*` (don't-care)** elsewhere.
-   d. Replace remaining `*` with any valid value; next parameter.
+**AETG — the recipe** _(builds one complete test at a time, greedy)_:
 
-**Worked example.** 4 binary params; after 3 tests, remaining:
+1. **Build π** = every pair across every parameter-pair. Count = `Σ_{i<j} |Pi|·|Pj|`. (Optional binary convention: seed with all-0s / all-1s tests first and remove their pairs.)
+2. **Repeat until π is empty.** Each pass builds exactly ONE new test:
+3. **Pick the first (parameter, value):** the one appearing in the **most remaining pairs of π**. In practice: tally, for each parameter-value, how many uncovered pairs still contain it (an "occurrence count" table), and take the max. Ties → first in listed order.
+4. **Generate `m` candidate tests.** Each candidate fills the *remaining* parameters in some **order** (given by the question, or random). `m` is a knob (e.g. m=1 or m=3).
+5. **Greedy per-parameter fill:** going through that candidate's order, for each next parameter choose the **value that forms the most pairs still in π with the values already fixed so far.** ⚠️ Only look **back** at already-assigned parameters, never ahead. Ties → first value. *(Multi-valued changes nothing here — you simply have more values to try; count each and take the max.)*
+6. **Score each finished candidate** = total pairs in π it covers (re-count over the *whole* test).
+7. **Keep the max-score candidate** (ties → first); add it as a test, remove all its pairs from π. Back to step 2.
+
+**IPO / IPOG — the recipe** _(adds one parameter at a time; deterministic)_:
+
+1. **Initialization:** write out the **full** set of tests covering all pairs of the first two parameters (P1×P2 = every combination).
+2. **For each next parameter Pᵢ (P3, then P4, …):**
+   - **a. Build π** = all pairs `(value of an earlier parameter Pj, value of Pᵢ)` — i.e. exactly the "pairs involving the new parameter" from the skill above.
+   - **b. Horizontal growth:** go down the **existing** tests and *append* a value of Pᵢ to each one, choosing the Pᵢ-value that covers the **most pairs still in π** (ties → first). Remove covered pairs from π after each. *(You have at most as many existing tests as rows; if Pᵢ has more values than there are rows, some values only get placed in vertical growth.)*
+   - **c. Vertical growth:** whatever pairs remain in π after horizontal growth get their **own new tests**. For each leftover pair `(Pj=a, Pᵢ=b)`: if there's already a vertical-growth row you can complete (its Pj slot is `a` or blank, its Pᵢ slot is `b` or blank), fill the blanks; **otherwise add a brand-new row** with `Pj=a, Pᵢ=b` and **`*` (don't-care / "any value")** in every other position.
+   - **d.** Replace leftover `*` with any valid value, then move to the next parameter.
+
+**Worked example A — binary AETG (counting candidates).** 4 binary params; after 3 tests, π has 7 pairs left:
 
 ```
 π = { p0p1:(1,0) ; p0p2:(1,1) ; p0p3:(1,1) ; p1p2:(0,0),(1,1) ; p1p3:(0,1) ; p2p3:(1,1) }   (7 pairs)
 ```
 
-First fixed: **p2=1**.
+First fixed (in most pairs): **p2=1**. Two candidate orders:
 
-- **Candidate 1, order p2,p1,p0,p3:** p1=1 (covers p1p2), p0=1 (covers p0p2), p3=1 (covers p0p3,p2p3) → test `(1,1,1,1)`, **new pairs = 4**.
-- **Candidate 2, order p2,p0,p3,p1:** p0=1 (p0p2), p3=1 (p0p3,p2p3), p1=0 (p0p1,p1p3) → test `(1,0,1,1)`, **new pairs = 5**.
+- **Candidate 1, order p2,p1,p0,p3:** p1=1 (covers p1p2), p0=1 (covers p0p2), p3=1 (covers p0p3, p2p3) → test `(1,1,1,1)`, **new pairs = 4**.
+- **Candidate 2, order p2,p0,p3,p1:** p0=1 (p0p2), p3=1 (p0p3, p2p3), p1=0 (p0p1, p1p3) → test `(1,0,1,1)`, **new pairs = 5**.
 - **Chosen: Candidate 2 (5 > 4).** Resulting `π = { p1p2:(0,0), p1p2:(1,1) }` (2 left).
+
+**Worked example B — multi-valued AETG (uneven domains).** P1={C,D,K} (3 values), P2={B,W,R} (3), P3={S,M} (2). Starting fresh, first test already fixed to P1=**C**.
+
+- Fill P3 (order P1,P3,P2): with P1=C fixed, P3=S covers pair (C,S)=1, P3=M covers (C,M)=1 — **tie → pick S**.
+- Fill P2: with (C,S) fixed, B covers {(C,B),(B,S)}=2, W covers 2, R covers 2 — **tie → pick B**.
+- Test = **(C, B, S)**, covering 3 new pairs. ⇒ Multi-valued is purely mechanical: enumerate values, tally pairs, take the max, break ties by listed order. Bigger domains just mean more values to try and more pairs to eventually cover.
+
+**Special-parameter twists** (recurring "adapt the algorithm" sub-questions):
+
+- **Fault-prone parameter — "each value of P3 must appear ≥ twice with every other value":** change π construction — **put every pair that involves P3 into π twice**; leave the other pairs at multiplicity one. Run growth/greedy normally, but **remove only ONE copy** of a doubled pair each time a test covers it — so the pair must be covered twice before it leaves π. (Works for both IPO and AETG. Do **not** try to reason about final test counts; manipulating π is the clean way.)
+- **Critical parameter — "(P2,1) must appear in ≥ 75% of tests":** this is a *frequency* constraint, not a pair constraint, so **don't fiddle with π counts** (you don't know the final test count in advance). Instead, in AETG: when choosing the first (param,value) of each new test, if (P2,1) is currently in < 75% of tests so far, **force-select it**; and after all pairs are covered, keep **adding redundant tests containing (P2,1)** until the 75% threshold is met.
+- **Orthogonal-array seed:** if you're handed an orthogonal array (or any set of prebuilt tests), use it as the **starting tests**: build the full pair list, **strike out every pair those seed tests already cover**, then run AETG/IPO only on what's left → far fewer iterations. (Note: naively *duplicating* an OA's columns to fake more parameters does **not** cover the cross-half pairs — a classic "why doesn't this work" question.)
 
 **Exam patterns & gotchas.**
 
-- **m=1 vs m=3:** larger m → more candidates → **fewer total tests** but **more computation** per step. m=1 fast but bigger suite. AETG is **non-deterministic**; IPOG **deterministic**.
-- **"Extend a 2-way set to a new P3 — list all pairs":** answer is **only pairs involving P3** (every P1–P3 and P2–P3 pair). For |P1|=|P2|=3, |P3|=2 → `3·2+3·2 = 12` pairs. Don't re-list P1–P2.
-- **Variant (a value must appear ≥ twice):** modify IPO at **π construction** — add each P3-bearing pair **twice** to π; leave P1–P2 pairs at multiplicity one; run growth normally (the doubled pairs force double coverage).
-- **Counting traps (#1 point-loser):** count only with _already-assigned_ params; a pair scores only if still in π; re-count the candidate's full-test score; reuse `*`-rows before adding new rows; **remove covered pairs from π after every assignment**.
+- **m=1 vs m=3:** larger `m` → more candidates per step → **fewer total tests** but **more computation**. m=1 is fast but yields a bigger suite. AETG is **non-deterministic** (random orders); IPOG is **deterministic**.
+- **Multi-valued parameters are not special** — no formula changes. The only visible effect: uneven pair counts (a 3-value parameter shows up in more pairs than a 2-value one), so occurrence tallies come out lopsided. Just count carefully.
+- **Counting traps (#1 point-loser):** (a) when picking a value, count pairs only against **already-assigned** parameters; (b) a pair scores only if it's **still in π**; (c) re-count the candidate's score over the **whole** finished test; (d) in IPO, try to **reuse a `*`/blank row before adding a new one**; (e) **remove covered pairs from π after every assignment** — forgetting this double-counts.
+- **"List all pairs for a new parameter" = only pairs involving that parameter** (see the formula above). Don't re-list already-covered pairs.
 
 **Cheat sheet — AETG vs IPOG:**
 
@@ -386,13 +428,15 @@ First fixed: **p2=1**.
 
 ## 6. Symbolic Execution
 
+> **Plain words:** Instead of running the program on *actual numbers*, run it on *symbols* that stand for "any input". As you walk one path through the code, you track two things: **PV** = what each variable now equals *in terms of those symbols* (e.g. `c1 = X*X`), and **PC** = the list of conditions the inputs must satisfy to have taken this exact path (e.g. `X > Y`). At the end, the PC is a set of equations; if a solver can find numbers satisfying it, those numbers are a real test input that drives this path — and if the PC is contradictory (unsatisfiable), the path is **impossible** and needs no test. This is how you prove things like "this ERROR line can never be reached".
+
 **Key definitions.**
 
-- **Symbolic value** — each input gets an uppercase symbol (`x→X`, `arr→A`, length `SIZE_OF_A`). Constants stay literal.
-- **Symbolic state / PV** — current binding of every variable to a symbolic expression. Assignments update PV; never touch PC.
-- **Path condition (PC)** — conjunction (`/\`) of branch constraints. True branch adds the condition; False branch adds its **negation**.
-- **Feasibility / SAT** — path feasible iff PC satisfiable (solver → SAT+model / UNSAT / UNKNOWN / TIMEOUT). UNSAT ⇒ infeasible ⇒ unreachable.
-- **Reaching ERROR** — conjoin the constraints of exactly the branches on the path to ERROR.
+- **Symbolic value** — instead of a concrete number, each input is given an uppercase symbol standing for "whatever the caller passes" (`x→X`, `arr→A`, its length → `SIZE_OF_A`). Literal constants (like `1`, `0`) stay as themselves.
+- **Symbolic state / PV (Program Variables)** — the current value of every variable written as a formula in those symbols. An **assignment** updates PV (e.g. after `c1 = x*x`, PV has `c1 = X*X`); it never touches the PC.
+- **Path condition (PC)** — the running list of branch conditions joined by AND (`/\`), recording what must be true to follow this path. Taking a branch's **True** side appends the condition; taking the **False** side appends its **negation** (`!condition`).
+- **Feasibility / SAT** — a path is *feasible* (a real input can follow it) exactly when its PC is **satisfiable**. You hand the PC to a constraint solver, which answers **SAT** (+ a concrete example — "here are numbers that work"), **UNSAT** (no numbers can satisfy it), **UNKNOWN**, or **TIMEOUT**. UNSAT ⇒ path infeasible ⇒ that code is unreachable via this path.
+- **Reaching ERROR** — to check whether a specific `ERROR` line can run, AND together the conditions of exactly the branches on the route to it, and test that PC for satisfiability.
 
 **The recipe — columns `line | PV | PC`:**
 
@@ -454,12 +498,14 @@ Symbolic return `2*X+1`, PC `X <= Y`. Negate last → aim at ERROR: PC becomes `
 
 ## 7. Concolic Testing (DART & CUTE)
 
+> **Plain words:** Pure symbolic execution (§6) breaks down when the maths gets too hard for the solver — a non-linear formula, a function whose source you don't have, a messy pointer. Concolic testing fixes this by running the program on **real inputs and symbols at the same time** ("**conc**rete + symb**olic**" = concolic). It keeps the symbolic PC to reason about paths, but whenever the solver gets stuck it just plugs in the *actual concrete value* from the real run and moves on. To reach a new path it takes the last branch condition and flips it, then asks the solver for an input satisfying the flipped condition — repeat until you hit the target (e.g. ERROR).
+
 **Key definitions.**
 
-- **Concolic = concrete + symbolic side by side.** Concrete values drive the run; where the solver can't help (unknown/non-linear function, pointer), the **concrete value is the fallback**.
-- **DART** — start random, record branch conditions, negate path conditions one at a time to steer to new paths. Handles a black-box function by substituting its concrete output.
-- **CUTE** — pointers/dynamic structures via **logical addresses** (same value ⇒ same logical location). NULL checks → symbolic constraints (`P==NULL`, `PN==NULL`).
-- **Pointer symbol notation:** `p→P`, `p->v→PV`, `p->next→PN`, `p->next->v→PNV`, `p->next->next→PNN`, …
+- **Concolic = concrete + symbolic, side by side.** The real (concrete) values keep the program running; the symbolic side reasons about paths. When the solver can't cope (an opaque/non-linear function, a pointer), you **fall back to the concrete value** instead of getting stuck.
+- **DART (Directed Automated Random Testing)** — start from random inputs, record the branch conditions hit, then negate them one at a time to steer execution down not-yet-taken paths. For a black-box function it just substitutes the concrete number the function actually returned.
+- **CUTE (Concolic Unit Testing Engine)** — extends this to pointers and dynamic data structures (linked lists, trees) using **logical addresses**: rather than reasoning about raw memory addresses (which change run to run), it treats "same value ⇒ same logical location". NULL tests become symbolic constraints like `P==NULL`, `PN==NULL`.
+- **Pointer symbol notation** (how a pointer chain maps to symbols): `p→P`, `p->v→PV` (the value field), `p->next→PN` (the next pointer), `p->next->v→PNV`, `p->next->next→PNN`, … — i.e. append a letter per field you follow.
 
 **The recipe — columns `line | concrete state | PV (symbolic) | PC`:**
 
@@ -518,14 +564,16 @@ computeResult(x,y){ result = thirdPartyFunction(x); if (result==y) ERROR; return
 
 ## 8. FSM-based Testing (UIO, DS, W-set)
 
+> **Plain words:** Some systems have *memory* — the same input does different things depending on what happened before (a vending machine, a login flow). We model these as a **Finite State Machine (FSM)**: a set of states with labelled transitions ("on input `a`, go from state s0 to s1 and output 0"). To test such a system you need to confirm it's really *in* the state you think it is. The three tools all answer "which state am I in?" by feeding inputs and watching outputs: a **UIO** is a fingerprint for *one* state, a **DS** is a single fingerprint that identifies *every* state at once, and a **W-set** is a *collection* of short inputs that together tell all states apart. UIO and DS don't always exist; a W-set always does (for a well-behaved FSM).
+
 **Key definitions.**
 
-- **Mealy FSM** = ⟨S, I, O, s₀, δ, λ⟩; output produced _on the transition_ (depends on state and input).
-- **Four properties:** **completely specified** (δ,λ total), **deterministic**, **reduced** (no two equivalent states), **strongly connected**. UIO/DS/W theory assumes reduced.
-- **UIO for sᵢ** — an input sequence whose output is **different from that of every other state**. An FSM "has a UIO" iff **every** state has one.
-- **Distinguishing Sequence (DS)** — a **single** input sequence whose output is distinct for **every** state. DS ⇒ every state has a UIO. Not every reduced FSM has a DS.
-- **Characterizing set W** — a set {w₁,…,wₖ} that **collectively** distinguishes all states. Always exists for a reduced FSM. DS = special case |W|=1.
-- Key implication (exam favorite): **no UIO for even one state ⇒ no DS.**
+- **Mealy FSM** = ⟨S, I, O, s₀, δ, λ⟩ — states S, inputs I, outputs O, start state s₀, a next-state function δ (state+input→state), an output function λ (state+input→output). "Mealy" means the output is produced **on the transition** (it depends on both the current state and the input), not just on the state.
+- **Four assumed properties:** **completely specified** (every state has a defined transition & output for every input — δ,λ are "total"), **deterministic** (one input → exactly one next state), **reduced** (no two states behave identically — otherwise you couldn't tell them apart), **strongly connected** (you can get from any state to any other). The UIO/DS/W theory assumes *reduced*.
+- **UIO (Unique Input-Output) for state sᵢ** — an input sequence whose *output* is **different from what every other state would produce** on that same sequence. So observing that output proves "I was in sᵢ" — a fingerprint for one state. An FSM "has a UIO" only if **every** state has one.
+- **Distinguishing Sequence (DS)** — one *single* input sequence that yields a **different output for every state** — one fingerprint that identifies all states at once. A DS ⇒ every state trivially has a UIO. Not every reduced FSM has a DS.
+- **Characterizing set W** — a *set* of sequences {w₁,…,wₖ} that **together** tell all states apart (no single one has to; the combination does). Always exists for a reduced FSM. A DS is just the special case where one sequence suffices (|W|=1).
+- Key implication (exam favorite): **if even one state has no UIO ⇒ there is no DS** (because a DS would hand every state a UIO). The reverse isn't true.
 
 **The recipes.**
 
@@ -543,7 +591,9 @@ First D2 ⇒ DS = that input path. All branches die D1/D3 ⇒ **no DS**.
 
 _(c) Characterizing set W:_ build the output table for short words (length 1, then 2, …); greedily pick words so **every pair of states differs on ≥1 word**; present W + per-state output table; the per-state output **column-vectors must all be distinct**.
 
-_(d) Conformance tests:_ BFS spanning tree from s₀ → **state cover** (transfer sequences). **State coverage:** for each sᵢ run `transfer(sᵢ)·V(sᵢ)`, V = UIO/DS/W. **Transition coverage:** for each edge sᵢ—x→sⱼ run `transfer(sᵢ)·x·V(sⱼ)`. Transition coverage ⊋ state coverage. (Alternative: transition tour from s₀ — weaker, checks outputs not target states.)
+_(d) Conformance tests:_ "conformance testing" = checking a real implementation matches the FSM spec. A **transfer sequence** `transfer(sᵢ)` is just a shortest input sequence that drives the machine from the start state s₀ to state sᵢ (so you can reach the state you want to test). Build them with a BFS **spanning tree** from s₀; the collection is the **state cover**. Then `V` is your chosen state-identifier (UIO, DS, or W).
+- **State coverage** (verify every state exists): for each sᵢ, run `transfer(sᵢ)·V(sᵢ)` — go to sᵢ, then apply its fingerprint to confirm you're really there.
+- **Transition coverage** (verify every transition, stronger): for each edge sᵢ—x→sⱼ, run `transfer(sᵢ)·x·V(sⱼ)` — go to sᵢ, take input `x`, then fingerprint to confirm you landed in the expected sⱼ. Transition coverage ⊋ state coverage (⊋ = strictly stronger). (Weaker alternative: a **transition tour** from s₀ that just walks every edge and checks outputs, without confirming the target state.)
 
 **Worked example 1 — prove no UIO ⇒ no DS.** 3 states, I={a,b}, O={0,1}:
 
@@ -597,16 +647,18 @@ DS-tree pruning: **D1** repeated state in a block = dead; **D2** all singletons 
 
 ## 9. Black-box Techniques (ECP, BVA, Decision Tables, Domain)
 
+> **Plain words:** "Black-box" means you pick test inputs from the *specification* alone, without looking at the code inside. The problem is still "too many inputs" — so these techniques are smart ways to choose a few representatives. **ECP:** group inputs that *should be treated the same* and test one from each group. **BVA:** bugs love edges, so test right at and just past the boundaries between groups. **Decision tables:** when the output depends on several yes/no conditions, tabulate the combinations. **Domain testing:** picture the input space as regions separated by boundary lines, and test points *on and just off* each boundary to catch a mis-drawn boundary.
+
 **Key definitions.**
 
-- **Equivalence class (EC):** subset of inputs handled the same; split valid / invalid; one representative tests the class.
-- **Boundary value:** at or adjacent to an EC edge; defects cluster here.
-- **Decision table:** conditions (Y/N/`–`) × **rules** → actions; `2ⁿ` combos, collapsible with don't-cares; each surviving column = one test.
-- **Category-partition:** category (characteristic) → choices (partitions) → constraints (`[property]`,`[if…]`,`[error]`,`[single]`) → test frames.
-- **Domain vs computation error:** domain error = wrong _path_ (faulty **predicate**); computation error = correct path, wrong _value_ (faulty **assignment**). A program is a **classifier** partitioning input into subdomains.
-- **Boundary geometry:** **closed** = boundary points included (`≤/≥`); **open** = excluded (`</>`); adjacent domains share a boundary; extreme point = boundaries intersect.
-- **Three boundary errors:** **closure** (`≤` coded `<`), **shifted** (wrong constant: `x+y>5`→`>4`), **tilted** (wrong coefficient: `x+y>5`→`x+0.5y>5`).
-- **ON point:** on the boundary (equality holds). **OFF point:** just off it — for a **closed** boundary, just _outside_ (adjacent domain); for an **open** boundary, just _inside_ the domain.
+- **Equivalence class / partition (EC):** a group of inputs the program *should* handle identically (e.g. "all ages 18–65"). Split into **valid** and **invalid** groups. Testing one representative per group stands in for the whole group — that's the saving.
+- **Boundary value:** a value right at, or just next to, the edge of an equivalence class. Off-by-one and `<` vs `≤` bugs cluster exactly here, so these are high-value tests.
+- **Decision table:** a table of conditions (each Y / N / `–` where `–` = "doesn't matter") across the top × **rules** (columns) → resulting actions. `n` conditions give up to `2ⁿ` combinations; combine columns that share the same action using don't-cares (`–`); each surviving column becomes one test case.
+- **Category-partition:** a systematic method — break the spec into **categories** (input characteristics) → each into **choices** (the partitions) → add **constraints** to prune nonsense combinations (`[property]`, `[if…]`, `[error]`, `[single]`) → generate **test frames** (concrete combinations).
+- **Domain vs computation error:** think of the program as sorting each input into a region ("subdomain") and computing a result for it. A **domain error** = the input took the *wrong region/path* because a **condition** (`if`) is wrong. A **computation error** = right region/path but the *value* computed is wrong because an **assignment** is wrong. A program is thus a **classifier** that partitions the input space into subdomains.
+- **Boundary geometry:** a **closed** boundary *includes* its edge points (`≤` / `≥`); an **open** boundary *excludes* them (`<` / `>`). **Adjacent domains** share a boundary; an **extreme point** is where two boundaries cross.
+- **Three boundary errors** (ways a boundary line can be coded wrong): **closure** (`≤` written as `<` — right line, wrong include/exclude), **shifted** (right slope, wrong position — wrong constant, e.g. `x+y>5` coded `x+y>4`), **tilted** (wrong slope — wrong coefficient, e.g. `x+y>5` coded `x+0.5y>5`).
+- **ON point:** a point lying *exactly on* the boundary (the equality holds). **OFF point:** a point *just off* the boundary — for a **closed** boundary it sits just *outside* (in the adjacent domain); for an **open** boundary it sits just *inside* the domain. (This flip is the #1 thing to get right — see gotchas.)
 
 **The recipe.**
 
@@ -645,12 +697,14 @@ DS-tree pruning: **D1** repeated state in a block = dead; **D2** all singletons 
 
 ## 10. JUnit & Tooling Reference (Pitest, JaCoCo)
 
+> **Plain words:** This section is the *practical* toolkit — the actual Java tools that implement the ideas above. **JUnit** = the framework you write tests in (an `assert…` that throws if the program misbehaves). **Pitest** = the tool that automates mutation testing from §1 (it plants the mutants and runs your tests against each). **JaCoCo** = the tool that measures coverage from §2 (which lines/branches your tests actually ran). Exam questions here are usually "given this code and these tests, what does the tool report?" — so know how each tool *counts*.
+
 **Key definitions.**
 
-- **JUnit:** instantiate → inputs → expected → execute → **assert**; failed assertion throws `AssertionFailedError`; tests group into suites.
-- **Mutant / killed / survived / equivalent** and **score `100·D/(N−E)`** — see §1.
-- **Pitest (PIT):** JVM mutation tool; applies default mutators to bytecode, runs your tests per mutant.
-- **JaCoCo:** coverage tool; counters instruction/line/branch/complexity/method/class. Exam cares about **statement (line)** and **branch**. Setup: `mvn test jacoco:report`.
+- **JUnit:** the Java unit-test framework. A test does: create the object → set up inputs → state the expected result → run the code → **assert** the result matches. A failed assertion throws `AssertionFailedError`; related tests group into *suites*.
+- **Mutant / killed / survived / equivalent** and the **score `100·D/(N−E)`** — all defined in §1.
+- **Pitest (PIT):** a JVM mutation-testing tool. It applies its default **mutators** (the tiny changes) to your compiled bytecode and re-runs your test suite once per mutant, reporting which survived.
+- **JaCoCo:** a coverage tool. It has several counters (instruction / line / branch / complexity / method / class); the exam cares about **statement (line)** and **branch** coverage. Run with `mvn test jacoco:report`.
 
 **JUnit assertions (write precisely).**
 
@@ -685,6 +739,8 @@ DS-tree pruning: **D1** repeated state in a block = dead; **D2** all singletons 
 ---
 
 ## 11. Exam Playbook & Master Cheat Sheets
+
+> **Plain words:** This is the exam-day section — no new theory, just *how to attack a question*. The first table maps a question's shape ("archetype") to the section that answers it, so you can jump straight there. The second table is the single most important thing to get right under pressure: **denominators** — when a question asks for "coverage %" you must state *exactly what is being counted* (lines? edges? conditions?). The last list is the recurring reasons students lose marks.
 
 ### Question archetype → topic
 
