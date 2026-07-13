@@ -1,9 +1,8 @@
 # Software Tests Summary
 
-> **Start here — the one big idea.**
-> We can almost never run a program on *every* possible input (there are far too many). So testing is really about **choosing a small, smart set of inputs** that still gives us confidence the program is correct. A **coverage criterion** is just a rule that tells you *which* inputs (or paths, or combinations) you must exercise — e.g. "run every line at least once" or "make every `if` go both true and false". Most of this guide is a tour of different such rules, how to satisfy them, and how they compare in strength. Keep asking two questions while you read: *"What must this criterion make me test?"* and *"How few tests can I get away with?"*
->
-> **How to read this doc.** Each section has: **Key definitions** (the vocabulary), **The recipe** (the mechanical steps to answer an exam question), a **Worked example**, **Exam patterns & gotchas** (traps that lose points), and a **Cheat sheet** (the compressed version to memorize). If a term looks unfamiliar, look for a `> **Plain words:**` note near its first use.
+We can almost never run a program on *every* possible input (there are far too many). So testing is really about **choosing a small, smart set of inputs** that still gives us confidence the program is correct. A **coverage criterion** is just a rule that tells you *which* inputs (or paths, or combinations) you must exercise — e.g. "run every line at least once" or "make every `if` go both true and false". Most of this guide is a tour of different such rules, how to satisfy them, and how they compare in strength. Keep asking two questions while you read: *"What must this criterion make me test?"* and *"How few tests can I get away with?"*
+
+**How to read this doc.** Each section has: **Key definitions** (the vocabulary), **The recipe** (the mechanical steps to answer an exam question), a **Worked example**, **Exam patterns & gotchas** (traps that lose points), and a **Cheat sheet** (the compressed version to memorize). If a term looks unfamiliar, look for a `> **Plain words:**` note near its first use.
 
 ## Topics
 
@@ -91,7 +90,17 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
   - **Boundary tests** = paths that *enter the loop but exit after at most one iteration* (this class also includes the path that skips the loop entirely). **These are exactly what you get by unfolding the CFG into a tree up to the first repeated node** (the loop condition on its 2nd arrival), then stopping and exiting — provide one feasible path for every branch of that tree. In this course, the boundary set is the expected answer.
   - **Interior tests** = the *more general* case: paths that iterate **2+ times, where the first two iterations differ** from each other. These need you to unfold *further* (a second iteration), so stopping at the first repeated node does **not** produce them. Mentioned for completeness; usually not required.
   - Quick test (from the course clarification): take a feasible path that starts with the unfolded prefix — *one iteration then exit → boundary; two-or-more differing iterations → interior.* Also aim for full branch coverage on any branches **outside** the loop.
-- **Loop-boundary adequacy** — a simpler loop rule: run each loop **0 times, exactly 1 time, and more than 1 time** (the three qualitatively different loop behaviors). Note this is *different* from boundary-interior — see §4.
+- **Loop-boundary adequacy** — a simpler loop rule: run each loop **0 times, exactly 1 time, and more than 1 time** (the three qualitatively different loop behaviors).
+
+> **⚠️ Loop-boundary vs boundary-interior — don't confuse them** (the word "boundary" means different things):
+> | | **Loop-boundary** | **Boundary-interior** |
+> |---|---|---|
+> | Cares about | iteration **count** | iteration **paths** |
+> | Requirement | run loop **0, 1, >1** times | every subpath of the CFG unfolded to the first repeated node (the *boundary* tests) |
+> | Granularity | coarse — ignores which body path runs | fine — distinguishes the body's branches (`if`-T vs `if`-F count separately) |
+> | Strength | **base** of the hierarchy; **incomparable** with statement | **near the top**; **subsumes branch** |
+>
+> Here "boundary" is a false friend: a *loop-boundary* "boundary" is an **iteration-count edge case** (0/1/many); a *boundary-interior* "boundary" test is a **path that barely enters the loop**. Example `while(c){ if(d) X else Y }`: loop-boundary just needs it run 0×, 1×, ≥2× (3 tests, indifferent to `d`); boundary-interior forces both the `X` and `Y` body paths.
 - **Subsumption:** "A subsumes B" means A is at least as strong — any test set that satisfies A automatically satisfies B, for *every* program. (Full treatment in §4.)
 
 **The recipe:**
