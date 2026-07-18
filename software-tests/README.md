@@ -787,12 +787,12 @@ Root: on **a**, s0,s1 both →s1/0 (D1); on **b**, s0,s2 both →s2/0 (D1) ⇒ *
 **Cheat sheet — UIO vs DS vs W:**
 
 |                | UIO                     | DS                     | W                        |
-| -------------- | ----------------------- | ---------------------- | ------------------------ | --- | ---------------------- |
+| -------------- | ----------------------- | ---------------------- | ------------------------ | ----------------------------- |
 | What           | one seq per state       | one seq for all states | a _set_ of seqs          |
 | Count          | n seqs (varied lengths) | 1                      | k≥1                      |
 | Always exists? | No                      | No                     | **Yes** (reduced FSM)    |
 | Built via      | UIO tree                | DS tree                | output table, pair-cover |
-| Relation       | DS ⇒ all UIOs           | DS ⇒ each UIO          |                          | W   | =1 ⇒ that word is a DS |
+| Relation       | DS ⇒ all UIOs           | DS ⇒ each UIO          |                          | len(W) =1 ⇒ that word is a DS |
 
 DS-tree pruning: **D1** repeated state in a block = dead; **D2** all singletons = DS found; **D3** repeated block = loop. Conformance: spanning tree → state cover → `transfer·V` per state; transition cover = `transfer(sᵢ)·x·V(sⱼ)` per edge.
 
