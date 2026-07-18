@@ -333,16 +333,18 @@ STRUCTURAL hierarchy:
         |              |               |
    Cyclomatic       MC/DC        LCSAJ / Compound-condition
         |              |
-        +------ Branch-and-condition ------+
-                       |
-                    Branch  (= all-edges = decision)
-                       |
-        +--------------+--------------+
-        |                             |
-    Statement                  Basic-condition          Loop-boundary
-   (= all-nodes)               (incomparable                (0,1,many;
-                                with branch)            incomparable w/ statement)
+        +------ Branch-and-condition ------+       (= branch obligations ∪ basic-condition obligations)
+              /                       \
+        Branch                   Basic-condition
+   (= all-edges = decision)      (INCOMPARABLE with branch — neither subsumes the
+        |                         other, CE2 — so it hangs off branch-and-condition,
+    Statement                     a SIBLING of branch, never below it)
+   (= all-nodes)
+
+   Loop-boundary (0,1,many) — incomparable with statement; sits at the base on its own
 ```
+
+Read the fork carefully: **branch-and-condition** subsumes *both* branch and basic-condition, so those two are its children. Branch in turn subsumes statement. Branch and basic-condition are **side by side on purpose** — the tree never routes one through the other.
 
 Core spine: **Path ⊃ … ⊃ MC/DC ⊃ Branch-and-condition ⊃ Branch ⊃ Statement.** Branch ⊃ Statement is tested most.
 
@@ -727,9 +729,41 @@ computeResult(x,y){ result = thirdPartyFunction(x); if (result==y) ERROR; return
 - **Characterizing set W** — a _set_ of sequences {w₁,…,wₖ} that **together** tell all states apart (no single one has to; the combination does). Always exists for a reduced FSM. A DS is just the special case where one sequence suffices (|W|=1).
 - Key implication (exam favorite): **if even one state has no UIO ⇒ there is no DS** (because a DS would hand every state a UIO). The reverse isn't true.
 
+**Small example — one FSM, all three fingerprints side by side.** 3 states, I={a,b}, O={0,1} (read `s2 / 0` as "go to s2, output 0"):
+
+| state  | on `a` | on `b` |
+| ------ | ------ | ------ |
+| **s1** | s2 / 0 | s1 / 0 |
+| **s2** | s3 / 1 | s1 / 0 |
+| **s3** | s1 / 1 | s2 / 0 |
+
+- **DS = `aa`.** Feed the input sequence `aa` starting from each state and read off the two outputs: s1→`01`, s2→`11`, s3→`10`. All three output strings differ ⇒ this one sequence identifies *every* state. (Trace s1: `a` outputs 0 and moves s1→s2, then `a` outputs 1 and moves s2→s3 ⇒ `01`.)
+- **UIO per state** (one fingerprint each; lengths may differ). Length-1 `a` gives outputs s1=0, s2=1, s3=1 — so output `0` on `a` is unique to **s1** ⇒ **UIO(s1) = `a`**. s2 and s3 tie on `a` (both 1) and `b` outputs 0 everywhere, so they need length 2: **UIO(s2) = `aa`** (output `11`), **UIO(s3) = `aa`** (output `10`). Note a DS automatically serves as a UIO for every state — that's why `aa` works for all three.
+- **W = {`aa`}.** Because a DS exists, the characterizing set collapses to just that one sequence (|W|=1 ⇔ the single word *is* a DS). No length-1 set could do it here — `a` can't separate s2 from s3 and `b` outputs `0` for all states, so s2 and s3 only diverge from length 2 onward. Contrast **Worked example 3** below, where there is *no* DS and W genuinely needs two words `{a, b}`.
+
 **The recipes.**
 
-_(a) Find/refute a UIO for sᵢ:_ build a UIO tree of path vectors; apply each input, split states by output, track next-states. Terminal when sᵢ becomes a **singleton** (success — path = UIO), or sᵢ shares (output, next-state) with another state (**dead**), or path **repeats** (loop). No branch yields a singleton ⇒ **sᵢ has no UIO**. Rigorous refutation: for each input, show sᵢ shares the same output AND next-state with another state ⇒ inseparable forever.
+_(a) Find or refute a UIO for a state sᵢ — the **UIO tree**._ Restated goal: find the shortest input sequence `w` whose output from sᵢ differs from the output *every other* state gives on that same `w`. Observing that output then proves "I was in sᵢ." You search for `w` by growing a tree, one input at a time.
+
+At every node carry a **confusion set**: the states that _so far_ are still producing the same outputs as sᵢ (the ones you have **not** yet told apart from sᵢ), and — for each — the state it has now moved to. Then:
+
+- **Root (empty sequence):** nothing tells any states apart yet, so the confusion set is **all states**, each sitting at itself.
+- **Apply an input `x`:** look at the output `x` produces from sᵢ's *current* state — call it `o`. Every other state in the confusion set whose output on `x` is **different** from `o` is now distinguished ⇒ **drop it**. The states whose output **equals** `o` stay confused; advance each (and sᵢ) to its next state.
+- **Success (singleton):** the confusion set shrinks to just **{sᵢ}** ⇒ the inputs along this path are a **UIO** for sᵢ.
+- **Dead branch:** sᵢ's current state _coincides with_ another still-confused state's current state — they are now literally the same state with the same output and next-state, a **collision** that no future input can undo; or the confusion set **repeats** one seen earlier (a loop).
+- **No UIO:** if _every_ branch dies (collision/loop) without ever reaching {sᵢ}, then sᵢ has no UIO.
+
+**Worked mini-example (the 3-state machine above): find UIO(s2).**
+
+```
+root:  confused {s1, s2, s3}   (each state at itself)
+  └─ a → s2 outputs 1, moves →s3.   s1 outputs 0 ⇒ distinguished, drop.   s3 outputs 1 ⇒ still confused, →s1
+         confused { s2@s3 , s3@s1 }        (not a singleton — s3 still shadows s2)
+      └─ a → s2 (at s3) outputs 1, →s1.    s3 (at s1) outputs 0 ⇒ distinguished, drop
+             confused { s2 }               ★ singleton ⇒ UIO(s2) = `aa`  (s2's output = 11)
+```
+
+Reading it: the first `a` already peels off s1 (it alone output 0), but s3 still shadows s2 (both output 1); the second `a` finally splits them (s2 → 1, s3 → 0), leaving s2 alone. s1 needed no tree at all — a single `a` makes its output `0` unique (see the small example above). **To _refute_** a UIO you run the same tree and show every branch hits a collision or loop — worked next.
 
 _(b) DS tree:_ node = **partition of S into blocks**. Develop on input x: within each block group states by output on x; child blocks = each group's next-states. Prune:
 
@@ -756,8 +790,14 @@ _(d) Conformance tests:_ "conformance testing" = checking a real implementation 
 | s1    | s0 / 1 | s2 / 0 |
 | s2    | s1 / 0 | s0 / 1 |
 
-s0 on **a**: s0→(0)s1 and s2→(0)s1 — same output AND next-state ⇒ inseparable. s0 on **b**: s0→(0)s2 and s1→(0)s2 — same. Every UIO starts with a or b; both fail ⇒ **s0 has no UIO ⇒ no UIO ⇒ no DS.** DS tree confirms: both root children homogeneous (D1).
-_Change (s2→s0) to b/0:_ the blocking collisions (a: s0,s2→s1/0; b: s0,s1→s2/0) don't involve that edge ⇒ **still no UIO, no DS.** (Always re-check the changed edge first.)
+**Why s0 has no UIO** — run the UIO tree from s0 and try each possible *first* input:
+
+- Start with **a**: s0 outputs 0 and goes to s1 — but s2 *also* outputs 0 and *also* goes to s1. After `a`, s0 and s2 sit in the **same state** having produced the **same output**, so from here they behave identically forever. **Collision** — this branch is dead.
+- Start with **b**: s0 outputs 0 and goes to s2 — but s1 *also* outputs 0 and goes to s2. Same trap, this time with s1. Dead.
+
+Both possible first inputs trap s0 in a collision (same output **and** same next-state as another state), and a collision can never be undone ⇒ **s0 has no UIO.** And a single state with no UIO is enough to conclude **there is no DS** (a DS would have to hand *every* state a UIO). _(The DS tree agrees: both children of the root contain a repeated state — rule D1.)_
+
+_If instead a question changes one edge_ — say `s2 —b→ s0` becomes `s2 —b→ s0 / 0`: first re-check the changed edge, but the two blocking collisions above (on `a`: s0,s2→s1/0; on `b`: s0,s1→s2/0) don't involve it ⇒ **still no UIO, no DS.** (Always re-check the changed edge first.)
 
 **Worked example 2 — DS exists; show the tree.** 5 states; following branch **aba**:
 
@@ -802,29 +842,38 @@ DS-tree pruning: **D1** repeated state in a block = dead; **D2** all singletons 
 
 > **Plain words:** "Black-box" means you pick test inputs from the _specification_ alone, without looking at the code inside. The problem is still "too many inputs" — so these techniques are smart ways to choose a few representatives. **ECP:** group inputs that _should be treated the same_ and test one from each group. **BVA:** bugs love edges, so test right at and just past the boundaries between groups. **Decision tables:** when the output depends on several yes/no conditions, tabulate the combinations. **Domain testing:** picture the input space as regions separated by boundary lines, and test points _on and just off_ each boundary to catch a mis-drawn boundary.
 
-**Key definitions.**
+Black-box has four techniques. Each is given below as **definition-in-context → recipe → worked example** (there is no separate glossary — every term is defined the first time the technique that needs it uses it). Running spec for the examples: `discount(qty)` = **0%** if `qty<10`, **10%** if `10≤qty≤99`, **20%** if `qty≥100`; `qty` is a positive int.
 
-- **Equivalence class / partition (EC):** a group of inputs the program _should_ handle identically (e.g. "all ages 18–65"). Split into **valid** and **invalid** groups. Testing one representative per group stands in for the whole group — that's the saving.
-- **Boundary value:** a value right at, or just next to, the edge of an equivalence class. Off-by-one and `<` vs `≤` bugs cluster exactly here, so these are high-value tests.
-- **Decision table:** a table of conditions (each Y / N / `–` where `–` = "doesn't matter") across the top × **rules** (columns) → resulting actions. `n` conditions give up to `2ⁿ` combinations; combine columns that share the same action using don't-cares (`–`); each surviving column becomes one test case.
-- **Category-partition:** a systematic method — break the spec into **categories** (input characteristics) → each into **choices** (the partitions) → add **constraints** to prune nonsense combinations (`[property]`, `[if…]`, `[error]`, `[single]`) → generate **test frames** (concrete combinations).
-- **Domain vs computation error:** think of the program as sorting each input into a region ("subdomain") and computing a result for it. A **domain error** = the input took the _wrong region/path_ because a **condition** (`if`) is wrong. A **computation error** = right region/path but the _value_ computed is wrong because an **assignment** is wrong. A program is thus a **classifier** that partitions the input space into subdomains.
-- **Boundary geometry:** a **closed** boundary _includes_ its edge points (`≤` / `≥`); an **open** boundary _excludes_ them (`<` / `>`). **Adjacent domains** share a boundary; an **extreme point** is where two boundaries cross.
-- **Three boundary errors** (ways a boundary line can be coded wrong): **closure** (`≤` written as `<` — right line, wrong include/exclude), **shifted** (right slope, wrong position — wrong constant, e.g. `x+y>5` coded `x+y>4`), **tilted** (wrong slope — wrong coefficient, e.g. `x+y>5` coded `x+0.5y>5`).
-- **ON point:** a point lying _exactly on_ the boundary (the equality holds). **OFF point:** a point _just off_ the boundary — for a **closed** boundary it sits just _outside_ (in the adjacent domain); for an **open** boundary it sits just _inside_ the domain. (This flip is the #1 thing to get right — see gotchas.)
+**① Equivalence Class Partitioning (ECP).** An **equivalence class (EC)** is a group of inputs the program _should_ treat identically (e.g. "all ages 18–65"); you split the input space into **valid** classes and **invalid** classes, and test **one representative per class** — that one input stands in for the whole class, which is the saving.
 
-**The recipe.**
+- _Recipe._ A **range** → 1 valid + 2 invalid (one below, one above); a **set/enum** → 1 valid per member + 1 invalid (a non-member); a **"must be X"** rule → 1 valid + 1 invalid. Combine valid classes into shared tests, but give **each invalid class its own test** — never combine two invalids (below).
+- _Worked example._ `discount(qty)`: the one invalid class is `qty≤0`; the valid classes are `[1,9]`, `[10,99]`, `[100,∞)`. Four tests, e.g. `qty = −3` (invalid), `5`, `50`, `500`.
 
-- _ECP:_ range → 1 valid + 2 invalid; set → 1 valid per member + 1 invalid; "must be" → 1 valid + 1 invalid. One test per valid class (combine valids); **one separate test per invalid class** (never combine invalids).
-- _BVA:_ for `[a,b]` test `a−ε, a, a+ε, b−ε, b, b+ε` + nominal. Classic `[−10,10]` → `−10.1, −10, 9.9, 10, 10.1`.
-- _Decision table:_ `2ⁿ` rules → fill effects → merge don't-care columns → each column = test.
-- _Domain (ON–OFF–ON):_ per boundary, two **ON** points (A,B) spread along it + one **OFF** point (C) → sequence A,C,B. Two ONs catch tilt; ON/OFF pair catches shift + closure.
+**② Boundary Value Analysis (BVA).** A **boundary value** is an input right at, or one step past, the edge of an EC. Off-by-one and `<`-vs-`≤` bugs cluster exactly here, so these are the highest-value tests. BVA **extends** ECP (it adds edge tests to the class representatives), it doesn't replace it.
 
-**Worked example.** `discount(qty)`: 0% if `qty<10`, 10% if `10≤qty≤99`, 20% if `qty≥100`; positive int.
+- _Recipe._ For a class spanning `[a,b]`, test `a−ε, a, a+ε` and `b−ε, b, b+ε` plus one nominal interior value (`ε` = one smallest step; `ε=1` for ints). Classic `[−10,10]` → `−10.1, −10, −9.9, 9.9, 10, 10.1`.
+- _Worked example._ `discount(qty)` boundaries are `9|10` and `99|100`, so test `0, 1, 9, 10, 99, 100, large`. The pairs straddling `9|10` and `99|100` are what expose a closure or shift fault in the `<`/`≤` operators.
 
-- ECP: invalid `qty≤0`; valid `[1,9]`,`[10,99]`,`[100,∞)`.
-- BVA: `0,1,9,10,99,100,large`. Boundaries `9|10`, `99|100` hide closure/shift faults.
-- Domain: boundary `qty=10` closed on 10%-side; ON=`10` (10%), OFF=`9` (0%). If code wrote `qty>10` (closure error), ON point `10` wrongly gets 0% → caught.
+**③ Decision Tables.** A **decision table** lists **conditions** down the side (each cell **Y** / **N** / `–`, where `–` = "doesn't matter") against **rules** in the columns, mapping each rule to its **action(s)**. With `n` conditions there are up to `2ⁿ` rule columns; you **merge** columns that produce the same action using `–` don't-cares, and each surviving column becomes one test case. _(Its systematic cousin, **category-partition**, works spec → **categories** (input characteristics) → **choices** (the partitions of each) → **constraints** that prune nonsense combos (`[property]`, `[if…]`, `[error]`, `[single]`) → **test frames** = concrete combinations.)_
+
+- _Recipe._ Enumerate the `2ⁿ` rules → fill in each rule's action → merge adjacent columns with identical actions into a `–` column → one test per surviving column.
+- _Worked example._ `shipping(member, orderOver50)` = **free** if `member` OR `order≥$50`, else **$5**. Two conditions ⇒ `2²=4` rules; three collapse into one via don't-cares:
+
+  | Condition        | Rule A | Rule B | Rule C |
+  | ---------------- | :----: | :----: | :----: |
+  | member?          |   Y    |   N    |   N    |
+  | order ≥ \$50?    |   –    |   Y    |   N    |
+  | **→ action**     |  free  |  free  |  \$5   |
+
+  Rule A merges the two original `member=Y` columns (shipping is free regardless of order size). Three columns ⇒ **3 tests**: `(member, any)`, `(non-member, $60)`, `(non-member, $20)`.
+
+**④ Domain Testing.** Picture the program as a **classifier**: it sorts each input into a **subdomain** (region of the input space) and computes a result for that region. Two fault kinds follow: a **domain error** = the input landed in the _wrong region_ because a **predicate** (`if` condition) is wrong; a **computation error** = right region but _wrong value_ because an **assignment** is wrong. Domain testing hunts the **domain (boundary) errors**. Supporting vocabulary, defined where it bites:
+
+- _Boundary geometry._ A **closed** boundary _includes_ its edge points (`≤` / `≥`); an **open** boundary _excludes_ them (`<` / `>`). **Adjacent domains** share a boundary; an **extreme point** is where two boundaries cross.
+- _Three ways a boundary is mis-coded._ **Closure** (`≤` written as `<` — right line, wrong include/exclude), **shifted** (right slope, wrong constant, e.g. `x+y>5` coded `x+y>4`), **tilted** (wrong coefficient, e.g. `x+y>5` coded `x+0.5y>5`).
+- _ON / OFF points._ An **ON point** lies _exactly on_ the boundary (the equality holds). An **OFF point** lies _just off_ it — and which side flips with closure: for a **closed** boundary the OFF sits just _outside_ (in the adjacent domain), for an **open** boundary it sits just _inside_. (This flip is the single biggest point-earner — see gotchas.)
+- _Recipe (ON–OFF–ON)._ Per boundary, pick two **ON** points A, B spread apart along the boundary line + one **OFF** point C → test the sequence A, C, B. The two ONs catch a **tilt** (a wrong slope shows at one end), the ON/OFF pair catches **shift** + **closure**.
+- _Worked example._ `discount(qty)` boundary `qty=10` is **closed on the 10%-side** (`10≤qty`). ON = `10` (should give 10%), OFF = `9` (just outside → 0%). If the code wrongly wrote `qty>10` (a **closure** error), the ON point `10` falls through to 0% instead of 10% ⇒ the test catches it.
 
 **Exam patterns & gotchas.**
 
