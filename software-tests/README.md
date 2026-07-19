@@ -392,7 +392,7 @@ Linear reading (⊃ = subsumes): **all-paths ⊃ all-du-paths ⊃ all-uses ⊃ {
 
 ### What you're GIVEN and what you PRODUCE
 
-- **Given:** a list of **parameters**, and for each one its **set of allowed values** (its "domain"). ⚠️ **Parameters can have any number of values, and different counts each** — e.g. P1 has 3 values, P2 has 3, P3 has 2. This is normal and the exams test it deliberately. There is **no special formula** for the multi-valued case — the mechanics below are identical; the only effect of a bigger domain is _more pairs to cover_ and _uneven pair counts_ when you tally.
+- **Given:** a list of **parameters**, and for each one its **set of allowed values** (its "domain"). ⚠️ **Parameters can have any number of values, and different counts each** — e.g. P1 has 3 values, P2 has 3, P3 has 2. This is normal and the exams test it deliberately. There is **no special formula** for the multi-valued case — the mechanics below are identical; the only effect of a bigger domain is _more pairs to cover_ and _uneven pair counts_ when you count.
 - **Produce:** a small set of **tests** (each test = one value chosen for _every_ parameter) such that for **every pair of parameters**, **every** combination of one value from each appears in **at least one** test.
 
 **Key definitions.**
@@ -405,7 +405,7 @@ Linear reading (⊃ = subsumes): **all-paths ⊃ all-du-paths ⊃ all-uses ⊃ {
 
   - **Orthogonal array `L_Runs(Levels^Factors)`** — the _stronger, balanced_ version: \*pick any two columns, and every combination appears **exactly the same number of times\*** (that fixed count is the array's "index", usually 1). Reading the notation `L4(2³)`: 4 **runs** (rows/tests), 3 **factors** (columns/parameters), each with 2 **levels** (values) — the `³` is the number of columns, the `2` is the values-per-column. So `L8(2⁷)` = 8 tests, 7 binary parameters.
 
-  - **How they relate:** _every orthogonal array is also a covering array, but not vice versa._ "Appears exactly-equally" (orthogonal) is a tighter demand than "appears at least once" (covering). The price of that balance: orthogonal arrays are **rigid** — they exist only for special sizes (e.g. value counts that are prime powers, equal-sized domains) and are often **bigger** than the smallest covering array for the same job. So we usually _build_ covering arrays (via AETG/IPO); an orthogonal array is a nice ready-made table that's sometimes **handed to you as a starting seed** (see "Orthogonal-array seed" below).
+  - **How they relate:** _every orthogonal array is also a covering array, but not vice versa._ "Appears exactly-equally" (orthogonal) is a tighter demand than "appears at least once" (covering). The price of that balance: orthogonal arrays are **rigid** — they exist only for special sizes (e.g. value counts that are prime powers, equal-sized domains) and are often **bigger** than the smallest covering array for the same job. So we usually _build_ covering arrays (via AETG/IPO); an orthogonal array is a nice ready-made table that's sometimes **handed to you as a ready-made starting set** (see "Orthogonal-array as a starting set" below).
 
   - **Concrete `L4(2³)`** (3 binary parameters, values 1/2):
 
@@ -434,9 +434,9 @@ Linear reading (⊃ = subsumes): **all-paths ⊃ all-du-paths ⊃ all-uses ⊃ {
 
 **AETG** (**A**utomatic **E**fficient **T**est **G**enerator) **— the recipe** _(builds one complete test at a time, greedy)_:
 
-1. **Build π** = every pair across every parameter-pair. Count = `Σ_{i<j} |Pi|·|Pj|`. (Optional binary convention: seed with all-0s / all-1s tests first and remove their pairs.)
+1. **Build π** = every pair across every parameter-pair. Count = `Σ_{i<j} |Pi|·|Pj|`. (Optional binary convention: start with all-0s / all-1s tests first and remove their pairs.)
 2. **Repeat until π is empty.** Each pass builds exactly ONE new test:
-3. **Pick the first (parameter, value):** the one appearing in the **most remaining pairs of π**. In practice: tally, for each parameter-value, how many uncovered pairs still contain it (an "occurrence count" table), and take the max. Ties → first in listed order.
+3. **Pick the first (parameter, value):** the one appearing in the **most remaining pairs of π**. In practice: count, for each parameter-value, how many uncovered pairs still contain it (an "occurrence count" table), and take the max. Ties → first in listed order.
 4. **Generate `m` candidate tests.** Each candidate fills the _remaining_ parameters in some **order** (given by the question, or random). `m` is a setting you choose (e.g. m=1 or m=3).
 5. **Greedy per-parameter fill:** going through that candidate's order, for each next parameter choose the **value that forms the most pairs still in π with the values already fixed so far.** ⚠️ Only look **back** at already-assigned parameters, never ahead. Ties → first value. _(Multi-valued changes nothing here — you simply have more values to try; count each and take the max.)_
 6. **Score each finished candidate** = total pairs in π it covers (re-count over the _whole_ test).
@@ -460,7 +460,7 @@ The core idea: start with a table that's already pairwise-correct for the **firs
    - **c. Vertical (downward) growth — add new rows for the leftovers.** Any pair still in π after horizontal growth needs a fresh row. For each leftover pair `(Pj=a, Pᵢ=b)`: **first try to reuse** an existing vertical-growth row — one whose Pj slot is already `a` **or** blank _and_ whose Pᵢ slot is already `b` **or** blank — and fill in its blanks. **Only if none fits, add a brand-new row** with `Pj=a`, `Pᵢ=b`, and **`*` (don't-care = "any value")** in every other column. Reusing rows before adding new ones is what keeps the suite small.
    - **d.** Replace any leftover `*` with any valid value, then move on to the next parameter Pᵢ₊₁ (its horizontal growth now runs over _all_ rows, including the ones vertical growth just added).
 
-**Worked example A — AETG from scratch (3 binary parameters, full run).** P1,P2,P3 ∈ {0,1}. Conventions (state them in your answer): one candidate per test (**m=1**); within a candidate, fill the still-unassigned parameters in **index order** P1→P2→P3; all ties (seed and value) break to the **first-listed** value/parameter. Show every step.
+**Worked example A — AETG from scratch (3 binary parameters, full run).** P1,P2,P3 ∈ {0,1}. Conventions (state them in your answer): one candidate per test (**m=1**); within a candidate, fill the still-unassigned parameters in **index order** P1→P2→P3; all ties (first pick and value) break to the **first-listed** value/parameter. Show every step.
 
 **Build π** — `Σ_{i<j}|Pi|·|Pj| = 4+4+4 = 12` pairs (subscript = which parameter-pair):
 
@@ -468,13 +468,13 @@ The core idea: start with a table that's already pairwise-correct for the **firs
 P1P2: (0,0)(0,1)(1,0)(1,1)   P1P3: (0,0)(0,1)(1,0)(1,1)   P2P3: (0,0)(0,1)(1,0)(1,1)
 ```
 
-_Test 1._ **Seed tally** — every value sits in 2 pairs of each of its 2 parameter-pairs ⇒ all six values score **4**, all tied ⇒ seed = **P1=0**. **Greedy fill:** P2 — with P1=0, P2=0 makes (0,0)ₚ₁₂=1, P2=1 makes (0,1)ₚ₁₂=1 → tie → **P2=0**; P3 — with (P1,P2)=(0,0), P3=0 makes (0,0)ₚ₁₃+(0,0)ₚ₂₃=2, P3=1 makes 2 → tie → **P3=0**. ⇒ **Test 1 = (0,0,0)**, score 3, remove (0,0)ₚ₁₂,(0,0)ₚ₁₃,(0,0)ₚ₂₃ → **9 pairs left**.
+_Test 1._ **Count** — every value sits in 2 pairs of each of its 2 parameter-pairs ⇒ all six values score **4**, all tied ⇒ first pick = **P1=0**. **Greedy fill:** P2 — with P1=0, P2=0 makes (0,0)ₚ₁₂=1, P2=1 makes (0,1)ₚ₁₂=1 → tie → **P2=0**; P3 — with (P1,P2)=(0,0), P3=0 makes (0,0)ₚ₁₃+(0,0)ₚ₂₃=2, P3=1 makes 2 → tie → **P3=0**. ⇒ **Test 1 = (0,0,0)**, score 3, remove (0,0)ₚ₁₂,(0,0)ₚ₁₃,(0,0)ₚ₂₃ → **9 pairs left**.
 
-_Test 2._ **Seed tally** on the 9 remaining: P1=1→4 (its 2 P1P2 + 2 P1P3 pairs all alive), P2=1→4, P3=1→4, while P1=0/P2=0/P3=0 →2 each. Tie at 4 → first parameter → seed = **P1=1**. **Fill:** P2 — P2=0 makes (1,0)ₚ₁₂=1, P2=1 makes (1,1)ₚ₁₂=1 → tie → **P2=0**; P3 — with (1,0): P3=0 makes (1,0)ₚ₁₃=1 [(0,0)ₚ₂₃ already gone], P3=1 makes (1,1)ₚ₁₃+(0,1)ₚ₂₃=2 → **P3=1**. ⇒ **Test 2 = (1,0,1)**, score 3, remove (1,0)ₚ₁₂,(1,1)ₚ₁₃,(0,1)ₚ₂₃ → **6 left**: P1P2:(0,1)(1,1) · P1P3:(0,1)(1,0) · P2P3:(1,0)(1,1).
+_Test 2._ **Count** on the 9 remaining: P1=1→4 (its 2 P1P2 + 2 P1P3 pairs all alive), P2=1→4, P3=1→4, while P1=0/P2=0/P3=0 →2 each. Tie at 4 → first parameter → first pick = **P1=1**. **Fill:** P2 — P2=0 makes (1,0)ₚ₁₂=1, P2=1 makes (1,1)ₚ₁₂=1 → tie → **P2=0**; P3 — with (1,0): P3=0 makes (1,0)ₚ₁₃=1 [(0,0)ₚ₂₃ already gone], P3=1 makes (1,1)ₚ₁₃+(0,1)ₚ₂₃=2 → **P3=1**. ⇒ **Test 2 = (1,0,1)**, score 3, remove (1,0)ₚ₁₂,(1,1)ₚ₁₃,(0,1)ₚ₂₃ → **6 left**: P1P2:(0,1)(1,1) · P1P3:(0,1)(1,0) · P2P3:(1,0)(1,1).
 
-_Test 3._ **Seed tally:** P2=1 → (0,1)ₚ₁₂+(1,1)ₚ₁₂ + (1,0)ₚ₂₃+(1,1)ₚ₂₃ = **4** (the max) → seed = **P2=1**. **Fill** (remaining P1,P3 in index order): P1 — with P2=1: P1=0 makes (0,1)ₚ₁₂=1, P1=1 makes (1,1)ₚ₁₂=1 → tie → **P1=0**; P3 — with (P1,P2)=(0,1): P3=0 makes 0 [(0,0)ₚ₁₃ gone, (1,0)ₚ₂₃ alive→ wait uses P2=1 ⇒ (1,0)ₚ₂₃=1]; recount → P3=0: (0,0)ₚ₁₃ gone + (1,0)ₚ₂₃=1 → 1; P3=1: (0,1)ₚ₁₃=1 + (1,1)ₚ₂₃=1 → 2 → **P3=1**. ⇒ **Test 3 = (0,1,1)**, score 3, remove (0,1)ₚ₁₂,(0,1)ₚ₁₃,(1,1)ₚ₂₃ → **3 left**: P1P2:(1,1) · P1P3:(1,0) · P2P3:(1,0).
+_Test 3._ **First pick:** P2=1 → (0,1)ₚ₁₂+(1,1)ₚ₁₂ + (1,0)ₚ₂₃+(1,1)ₚ₂₃ = **4** (the max) → first pick = **P2=1**. **Fill** (remaining P1,P3 in index order): P1 — with P2=1: P1=0 makes (0,1)ₚ₁₂=1, P1=1 makes (1,1)ₚ₁₂=1 → tie → **P1=0**; P3 — with (P1,P2)=(0,1): P3=0 makes 0 [(0,0)ₚ₁₃ gone, (1,0)ₚ₂₃ alive→ wait uses P2=1 ⇒ (1,0)ₚ₂₃=1]; recount → P3=0: (0,0)ₚ₁₃ gone + (1,0)ₚ₂₃=1 → 1; P3=1: (0,1)ₚ₁₃=1 + (1,1)ₚ₂₃=1 → 2 → **P3=1**. ⇒ **Test 3 = (0,1,1)**, score 3, remove (0,1)ₚ₁₂,(0,1)ₚ₁₃,(1,1)ₚ₂₃ → **3 left**: P1P2:(1,1) · P1P3:(1,0) · P2P3:(1,0).
 
-_Test 4._ **Seed tally:** P1=1→2, P2=1→2, P3=0→2 (all others 0); tie → first → seed = **P1=1**. **Fill:** P2 — P2=1 makes (1,1)ₚ₁₂=1 → **P2=1**; P3 — with (1,1): P3=0 makes (1,0)ₚ₁₃+(1,0)ₚ₂₃=2 → **P3=0**. ⇒ **Test 4 = (1,1,0)**, score 3, π **empty**.
+_Test 4._ **First pick:** P1=1→2, P2=1→2, P3=0→2 (all others 0); tie → first → first pick = **P1=1**. **Fill:** P2 — P2=1 makes (1,1)ₚ₁₂=1 → **P2=1**; P3 — with (1,1): P3=0 makes (1,0)ₚ₁₃+(1,0)ₚ₂₃=2 → **P3=0**. ⇒ **Test 4 = (1,1,0)**, score 3, π **empty**.
 
 **Answer — 4 tests:** `(0,0,0), (1,0,1), (0,1,1), (1,1,0)`. Verify (write this too): every one of the 12 pairs appears — e.g. P2P3 gets (0,0)t1,(0,1)t2,(1,1)t3,(1,0)t4. ✓
 
@@ -488,19 +488,19 @@ _Test 4._ **Seed tally:** P1=1→2, P2=1→2, P3=0→2 (all others 0); tie → f
 P1P2: (C,B)(C,W)(C,R)(D,B)(D,W)(D,R)   P1P3: (C,S)(C,M)(D,S)(D,M)   P2P3: (B,S)(B,M)(W,S)(W,M)(R,S)(R,M)
 ```
 
-_Test 1._ **Seed tally:** C→5 (3 in P1P2 + 2 in P1P3), D→5, S→5 (2 in P1P3 + 3 in P2P3), M→5, each of B/W/R→4. Tie at 5 → first → seed = **P1=C**. **Fill:** P2 — (C,B)(C,W)(C,R) all =1 → tie → **B**; P3 — with (C,B): S makes (C,S)ₚ₁₃+(B,S)ₚ₂₃=2, M makes 2 → tie → **S**. ⇒ **Test 1 = (C,B,S)**, score 3, remove (C,B),(C,S),(B,S) → **13 left**.
+_Test 1._ **First pick:** C→5 (3 in P1P2 + 2 in P1P3), D→5, S→5 (2 in P1P3 + 3 in P2P3), M→5, each of B/W/R→4. Tie at 5 → first → first pick = **P1=C**. **Fill:** P2 — (C,B)(C,W)(C,R) all =1 → tie → **B**; P3 — with (C,B): S makes (C,S)ₚ₁₃+(B,S)ₚ₂₃=2, M makes 2 → tie → **S**. ⇒ **Test 1 = (C,B,S)**, score 3, remove (C,B),(C,S),(B,S) → **13 left**.
 
-_Test 2._ **Seed tally** (13 left): D→5 [(D,B)(D,W)(D,R)+(D,S)(D,M)], M→5 [(C,M)(D,M)+(B,M)(W,M)(R,M)], C→3, W→4, R→4, S→3, B→2. Tie D vs M at 5 → first parameter → seed = **P1=D**. **Fill:** P2 — (D,B)(D,W)(D,R) all=1 → **B**; P3 — with (D,B): S makes (D,S)ₚ₁₃=1 [(B,S) gone], M makes (D,M)ₚ₁₃+(B,M)ₚ₂₃=2 → **M**. ⇒ **Test 2 = (D,B,M)**, score 3, remove (D,B),(D,M),(B,M) → **10 left**.
+_Test 2._ **Count** (13 left): D→5 [(D,B)(D,W)(D,R)+(D,S)(D,M)], M→5 [(C,M)(D,M)+(B,M)(W,M)(R,M)], C→3, W→4, R→4, S→3, B→2. Tie D vs M at 5 → first parameter → first pick = **P1=D**. **Fill:** P2 — (D,B)(D,W)(D,R) all=1 → **B**; P3 — with (D,B): S makes (D,S)ₚ₁₃=1 [(B,S) gone], M makes (D,M)ₚ₁₃+(B,M)ₚ₂₃=2 → **M**. ⇒ **Test 2 = (D,B,M)**, score 3, remove (D,B),(D,M),(B,M) → **10 left**.
 
-_Test 3._ **Seed tally:** W→4 [(C,W)(D,W)+(W,S)(W,M)], R→4, else ≤3. Tie W vs R → **P2=W**. **Fill** (remaining P1,P3): P1 — with P2=W: (C,W)=1,(D,W)=1 → tie → **C**; P3 — with (C,W): S makes 0+(W,S)=1 [(C,S) gone], M makes (C,M)ₚ₁₃+(W,M)ₚ₂₃=2 → **M**. ⇒ **Test 3 = (C,W,M)**, score 3, remove (C,W),(C,M),(W,M) → **7 left**: P1P2:(C,R)(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,S)(R,M).
+_Test 3._ **First pick:** W→4 [(C,W)(D,W)+(W,S)(W,M)], R→4, else ≤3. Tie W vs R → **P2=W**. **Fill** (remaining P1,P3): P1 — with P2=W: (C,W)=1,(D,W)=1 → tie → **C**; P3 — with (C,W): S makes 0+(W,S)=1 [(C,S) gone], M makes (C,M)ₚ₁₃+(W,M)ₚ₂₃=2 → **M**. ⇒ **Test 3 = (C,W,M)**, score 3, remove (C,W),(C,M),(W,M) → **7 left**: P1P2:(C,R)(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,S)(R,M).
 
-_Test 4._ **Seed tally:** R→4 [(C,R)(D,R)+(R,S)(R,M)] is the max → seed = **P2=R**. **Fill:** P1 — (C,R)=1,(D,R)=1 → tie → **C**; P3 — with (C,R): S makes (R,S)ₚ₂₃=1 [(C,S) gone], M makes (R,M)ₚ₂₃=1 → tie → **S**. ⇒ **Test 4 = (C,R,S)**, score **2** (only (C,R),(R,S); (C,S) already covered) → **5 left**: P1P2:(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,M).
+_Test 4._ **First pick:** R→4 [(C,R)(D,R)+(R,S)(R,M)] is the max → first pick = **P2=R**. **Fill:** P1 — (C,R)=1,(D,R)=1 → tie → **C**; P3 — with (C,R): S makes (R,S)ₚ₂₃=1 [(C,S) gone], M makes (R,M)ₚ₂₃=1 → tie → **S**. ⇒ **Test 4 = (C,R,S)**, score **2** (only (C,R),(R,S); (C,S) already covered) → **5 left**: P1P2:(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,M).
 
-_Test 5._ **Seed tally:** D→3 [(D,W)(D,R)+(D,S)] → seed = **P1=D**. **Fill:** P2 — (D,W)=1,(D,R)=1 → tie → **W**; P3 — with (D,W): S makes (D,S)ₚ₁₃+(W,S)ₚ₂₃=2, M makes 0 → **S**. ⇒ **Test 5 = (D,W,S)**, score 3, remove (D,W),(D,S),(W,S) → **2 left**: P1P2:(D,R) · P2P3:(R,M).
+_Test 5._ **First pick:** D→3 [(D,W)(D,R)+(D,S)] → first pick = **P1=D**. **Fill:** P2 — (D,W)=1,(D,R)=1 → tie → **W**; P3 — with (D,W): S makes (D,S)ₚ₁₃+(W,S)ₚ₂₃=2, M makes 0 → **S**. ⇒ **Test 5 = (D,W,S)**, score 3, remove (D,W),(D,S),(W,S) → **2 left**: P1P2:(D,R) · P2P3:(R,M).
 
-_Test 6._ **Seed tally:** R→2 [(D,R)+(R,M)] → seed = **P2=R**. **Fill:** P1 — (D,R)=1 → **D**; P3 — with (D,R): M makes (R,M)ₚ₂₃=1 → **M**. ⇒ **Test 6 = (D,R,M)**, score 2, π **empty**.
+_Test 6._ **First pick:** R→2 [(D,R)+(R,M)] → first pick = **P2=R**. **Fill:** P1 — (D,R)=1 → **D**; P3 — with (D,R): M makes (R,M)ₚ₂₃=1 → **M**. ⇒ **Test 6 = (D,R,M)**, score 2, π **empty**.
 
-**Answer — 6 tests** (vs `2×3×2 = 12` exhaustive): `(C,B,S), (D,B,M), (C,W,M), (C,R,S), (D,W,S), (D,R,M)`. Verify: P1P2 gets all 6, P1P3 all 4 [(C,S)t1,(C,M)t3,(D,S)t5,(D,M)t2], P2P3 all 6. ✓ Takeaway: multi-valued is purely mechanical — bigger domains just mean more values to tally and more pairs to clear; the not-every-test-scores-3 rows (t4, t6) are normal near the end.
+**Answer — 6 tests** (vs `2×3×2 = 12` exhaustive): `(C,B,S), (D,B,M), (C,W,M), (C,R,S), (D,W,S), (D,R,M)`. Verify: P1P2 gets all 6, P1P3 all 4 [(C,S)t1,(C,M)t3,(D,S)t5,(D,M)t2], P2P3 all 6. ✓ Takeaway: multi-valued is purely mechanical — bigger domains just mean more values to count and more pairs to clear; the not-every-test-scores-3 rows (t4, t6) are normal near the end.
 
 **Worked example C — IPOG (full trace: init → horizontal → vertical).** Three parameters: P1={1,2}, P2={1,2}, P3={1,2,3}. (P3 has 3 values, so horizontal growth _can't_ place them all in the 4 existing rows — that's what forces vertical growth, the part exams love to test.)
 
@@ -559,7 +559,7 @@ Sanity-check one pair-type: P2×P3 → (1,1) r1, (2,2) r2, (1,2) r3, (2,1) r4, (
 
 - **Fault-prone parameter — "each value of P3 must appear ≥ twice with every other value":** change π construction — **put every pair that involves P3 into π twice**; leave the other pairs at multiplicity one. Run growth/greedy normally, but **remove only ONE copy** of a doubled pair each time a test covers it — so the pair must be covered twice before it leaves π. (Works for both IPO and AETG. Do **not** try to reason about final test counts; manipulating π is the clean way.)
 - **Critical parameter — "(P2,1) must appear in ≥ 75% of tests":** this is a _frequency_ constraint, not a pair constraint, so **don't fiddle with π counts** (you don't know the final test count in advance). Instead, in AETG: when choosing the first (param,value) of each new test, if (P2,1) is currently in < 75% of tests so far, **force-select it**; and after all pairs are covered, keep **adding redundant tests containing (P2,1)** until the 75% threshold is met.
-- **Orthogonal-array seed:** if you're handed an orthogonal array (or any set of prebuilt tests), use it as the **starting tests**: build the full pair list, **strike out every pair those seed tests already cover**, then run AETG/IPO only on what's left → far fewer iterations.
+- **Orthogonal-array as a starting set:** if you're handed an orthogonal array (or any set of prebuilt tests), use it as the **starting tests**: build the full pair list, **strike out every pair those starting tests already cover**, then run AETG/IPO only on what's left → far fewer iterations.
 
   > ⚠️ **Why you can't just _duplicate_ an OA's columns to fake more parameters** (a classic "why doesn't this work?"). Tempting shortcut: you have `L4(2³)` covering 3 parameters and you want 6, so you copy the 3 columns to the right (P4:=P1, P5:=P2, P6:=P3):
   >
@@ -684,31 +684,89 @@ Symbolic return `2*X+1`, PC `X <= Y`. Negate last → aim at ERROR: PC becomes `
 4. **Negate the last branch constraint**, solve for next input (increment int from 0 until PC holds; grow list by one cell when `->next != NULL` needed).
 5. **Repeat until ERROR.** Linked-list NULL-check ⇒ **4 iterations**; black-box equality ⇒ **2 tables**.
 
-**Worked example — CUTE, logical addresses, start ints at 0, 4 iterations:**
+**Worked example A — CUTE, linked list, start ints at 0 (full 4-iteration walk-through).**
 
 ```
-void bar(cell* p){ if (p==NULL || p->next==NULL) return; if (p->v > p->next->v) ERROR; }
+void bar(cell* p){
+1:  if (p == NULL || p->next == NULL) return;
+2:  if (p->v > p->next->v) ERROR;
+}
 ```
 
-| iter | concrete                   | PC                                                           |
-| ---- | -------------------------- | ------------------------------------------------------------ |
-| 1    | `p=NULL`                   | `P == NULL` (True) → return                                  |
-| 2    | 1-cell list (`next=NULL`)  | `P==NULL \|\| PN==NULL` (True) → return                      |
-| 3    | 2-cell list, both non-null | `P==NULL \|\| PN==NULL` (False); `PV > PNV` (False) → return |
-| 4    | 2-cell, `PV=1, PNV=0`      | `...` (False); `PV > PNV` (True) → **ERROR**                 |
+Pointer symbols: `p→P`, `p->v→PV`, `p->next→PN`, `p->next->v→PNV`. Each iteration: pick the input, run the table, read off output, then **negate the last branch constraint** to derive the next input.
 
-Final PC to ERROR: `P != NULL /\ PN != NULL /\ PV > PNV`. (A variant has the same shape with inner `(PV-PNV)²>4`; the non-linear term is exactly where the **concrete** value is needed — pick `PV=3, PNV=0` so `9>4` ⇒ ERROR.)
+**Iteration 1** — Input: `p = NULL` (pointers start NULL).
 
-**Worked example — black-box `thirdPartyFunction` (start x,y=1, 2 tables):**
+| line  | concrete state          | PV (symbolic) | PC                        |
+| ----- | ----------------------- | ------------- | ------------------------- |
+| entry | `p = NULL`              | `p→P`         | —                         |
+| 1     | `p==NULL` → **true** (`\|\|` short-circuits, 2nd atom not evaluated) | — | `P == NULL` (True) → return |
+
+Output: **returns normally, no ERROR.** &nbsp; **Negate** `P == NULL` (True) → `P != NULL` ⇒ next input needs a non-null pointer → build a **1-cell** list.
+
+**Iteration 2** — Input: `p = [v=0] → NULL` (1 cell).
+
+| line  | concrete state            | PV (symbolic)             | PC                                    |
+| ----- | ------------------------- | ------------------------- | ------------------------------------- |
+| entry | `p = [0]→NULL`            | `p→P, p->v→PV, p->next→PN`| `P != NULL` (carried from the flip)   |
+| 1     | `p==NULL` false; `p->next==NULL` **true** → cond true | — | `P != NULL /\ PN == NULL` (True) → return |
+
+Output: **returns normally, no ERROR.** &nbsp; **Negate** `PN == NULL` (True) → `PN != NULL` ⇒ next input needs a non-null `next` → grow to a **2-cell** list.
+
+**Iteration 3** — Input: `p = [v=0] → [v=0] → NULL` (2 cells, values from 0).
+
+| line  | concrete state             | PV (symbolic)           | PC                                            |
+| ----- | -------------------------- | ----------------------- | --------------------------------------------- |
+| entry | `p = [0]→[0]→NULL`         | `…, p->next->v→PNV`     | `P != NULL /\ PN != NULL` (carried)           |
+| 1     | false `\|\|` false → **fall through** | —             | `P != NULL /\ PN != NULL` (False)             |
+| 2     | `p->v > p->next->v` → `0 > 0` **false** → no ERROR | — | `… /\ PV > PNV` (False) → return          |
+
+Output: **returns normally, no ERROR.** &nbsp; **Negate** `PV > PNV` (False) → `PV > PNV` (True) ⇒ need the first value bigger: increment to `PV=1, PNV=0`.
+
+**Iteration 4** — Input: `p = [v=1] → [v=0] → NULL`.
+
+| line  | concrete state             | PV (symbolic)       | PC                                                 |
+| ----- | -------------------------- | ------------------- | -------------------------------------------------- |
+| entry | `p = [1]→[0]→NULL`         | as above            | `P != NULL /\ PN != NULL` (carried)                |
+| 1     | false `\|\|` false → fall through | —            | `P != NULL /\ PN != NULL` (False)                  |
+| 2     | `1 > 0` **true** → **ERROR** | —                 | `P != NULL /\ PN != NULL /\ PV > PNV` (True) → **ERROR** |
+
+Output: **ERROR reached.** &nbsp; **Final PC:** `P != NULL /\ PN != NULL /\ PV > PNV`; **input that triggers it:** the 2-cell list `[1]→[0]`.
+
+> _Non-linear variant:_ if line 2 were `if ((p->v - p->next->v)² > 4)`, the solver can't invert the square — that's exactly where concolic **falls back to the concrete value**: try increasing concrete values until the real run satisfies it, e.g. `PV=3, PNV=0` gives `9 > 4` ⇒ ERROR.
+
+**Worked example B — black-box `thirdPartyFunction`, start x=y=1 (full 2-table walk-through).**
 
 ```
-computeResult(x,y){ result = thirdPartyFunction(x); if (result==y) ERROR; return result; }
-// hidden: 100x³+200x²+300x+20346
+computeResult(x, y){
+1:  result = thirdPartyFunction(x);   // hidden: f(x) = 100x³ + 200x² + 300x + 20346
+2:  if (result == y) ERROR;
+3:  return result;
+}
 ```
 
-- **Table 1** `x=1, y=1`: engine runs f for real → concrete `result = 20346`; PV token `THIRD_PARTY_FUNCTION`; PC `THIRD_PARTY_FUNCTION != Y`; returns 20346.
-- Negate ⇒ need `THIRD_PARTY_FUNCTION == Y`; solver can't invert the opaque function, so **reuse the concrete output**: set `y = 20346, x = 1`.
-- **Table 2** `x=1, y=20346`: `result=20346`, PC `THIRD_PARTY_FUNCTION == Y` → **ERROR**. Input `(1, 20346)`.
+Symbols `x→X, y→Y`; `result` gets the opaque token `THIRD_PARTY_FUNCTION` because the solver can't see inside `f`.
+
+**Table 1** — Input: `x = 1, y = 1`.
+
+| line  | concrete state                       | PV (symbolic)                     | PC                                  |
+| ----- | ------------------------------------ | --------------------------------- | ----------------------------------- |
+| entry | `x=1, y=1`                           | `x→X, y→Y`                        | —                                   |
+| 1     | engine runs `f(1)=20946` → `result=20946` | `result→THIRD_PARTY_FUNCTION` | —                                   |
+| 2     | `20946 == 1` **false** → no ERROR    | —                                 | `THIRD_PARTY_FUNCTION != Y` (False) |
+| 3     | `return 20946`                       | —                                 | —                                   |
+
+Output: **returns 20946, no ERROR.** &nbsp; **Negate** `THIRD_PARTY_FUNCTION != Y` → `THIRD_PARTY_FUNCTION == Y`. The solver can't invert `f`, so **reuse the concrete output**: keep `x=1` (so `result` stays 20946) and set `y = 20946`.
+
+**Table 2** — Input: `x = 1, y = 20946`.
+
+| line  | concrete state                       | PV (symbolic)                     | PC                                       |
+| ----- | ------------------------------------ | --------------------------------- | ---------------------------------------- |
+| entry | `x=1, y=20946`                       | `x→X, y→Y`                        | —                                        |
+| 1     | `f(1)=20946` → `result=20946`        | `result→THIRD_PARTY_FUNCTION`     | —                                        |
+| 2     | `20946 == 20946` **true** → **ERROR** | —                                | `THIRD_PARTY_FUNCTION == Y` (True) → **ERROR** |
+
+Output: **ERROR reached.** &nbsp; **Input that triggers it:** `(x=1, y=20946)`.
 
 **Exam patterns & gotchas.**
 
