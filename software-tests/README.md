@@ -86,6 +86,7 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
 - **Branch-and-condition** — satisfy branch coverage AND basic-condition coverage at the same time.
 - **Compound-condition** — test _every combination_ of the atomic conditions in one decision. With N atoms that's up to **2ᴺ** combinations (short-circuit evaluation — where `&&`/`||` stops early once the result is decided — removes some impossible combinations).
 - **MC/DC (Modified Condition/Decision Coverage)** — for _each_ atomic condition, show it matters _on its own_: find two tests that differ in **only that one condition** and produce **opposite** overall decision results (proving that condition alone can flip the outcome). This needs about **N+1** tests for N conditions — far fewer than the 2ᴺ of compound-condition — because each test is reused across several conditions. Required by aviation-safety standards **DO-178B / ED-12B**.
+- **Path (all-paths) coverage** — execute **every complete route from entry to exit** at least once. It is the **strongest** structural criterion (it subsumes all the others — cover every path and you cover every edge, node, and condition combination along the way), but it is usually **infeasible**: a single loop creates unboundedly many paths (0, 1, 2, … iterations ⇒ infinitely many tests), and even loop-free code with `k` independent decisions has up to **2ᵏ** paths. That blow-up is exactly why the weaker criteria (and, for loops, **boundary-interior** below) exist. When you *are* asked for a path-coverage test set (loop-free code only — see 2025b-a2), list one input per feasible entry→exit path and mark any **infeasible** path (no input can drive it) rather than inventing one.
 - **Boundary-interior** — a way to tame loops (which otherwise create infinitely many paths). It splits the loop paths into two classes:
   - **Boundary tests** = paths that _enter the loop but exit after at most one iteration_ (this class also includes the path that skips the loop entirely). **These are exactly what you get by unfolding the CFG into a tree up to the first repeated node** (the loop condition on its 2nd arrival), then stopping and exiting — provide one feasible path for every branch of that tree. In this course, the boundary set is the expected answer.
   - **Interior tests** = the _more general_ case: paths that iterate **2+ times, where the first two iterations differ** from each other. These need you to unfold _further_ (a second iteration), so stopping at the first repeated node does **not** produce them. Mentioned for completeness; usually not required.
@@ -256,7 +257,7 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 
 ### Counterexample library
 
-_This is the one place every non-subsumption / incomparability in the doc is proved, each with **one program + one suite**. Other sections point here by ID (**CE1–CE5**). Template for all of them: show T satisfies A (every A-obligation met), then name the single B-obligation T misses._
+_This is the one place every non-subsumption / incomparability in the doc is proved, each with **one program + one suite**. Other sections point here by ID (**CE1–CE6**). Template for all of them: show T satisfies A (every A-obligation met), then name the single B-obligation T misses._
 
 **CE1 — branch ⊉ compound-condition** (equivalently, branch ⊉ "all 2ᴺ combinations").
 
@@ -314,9 +315,21 @@ void foo(int x, int y) {        // node 1: d(x), d(y)
 - **all-c-uses/some-p-uses** satisfied by **1-2-4-6**: def-clear to every c-use; NEVER takes True branch to node 3 → **p-use at 3 missed**.
 - Conclusion: suite {1-2-4-6} satisfies all-c-uses/some-p-uses but fails all-p-uses/some-c-uses, and symmetrically {1-2-3-5-6} the other way ⇒ **incomparable.** _(Referenced from §3.)_
 
+**CE6 — full branch coverage ⊉ all-c-uses (dataflow).**
+
+```
+1 int f(int w, int y) {
+2   int x, r;
+3   if (w < 0) x = 1;  else x = 2;      // TWO defs of x (one per arm)
+4   if (y < 0) r = x + 10;  else r = 99; // c-use of x ONLY on the y<0 arm
+5   return r; }
+```
+
+`x` is defined on both arms of the first `if`, and has one **c-use** (`x + 10`) on the true arm of the second `if`. all-c-uses therefore has **two** obligations: *def-from-the-`w<0`-arm → the c-use* and *def-from-the-`w≥0`-arm → the c-use*. Tests **{w=−1, y=1}** and **{w=1, y=−1}** take both T and F of each `if` ⇒ **full branch coverage**. But the first test defines `x` on the `w<0` arm and then takes `y≥0` (never reaching the c-use), while the c-use is only reached by the second test, which defined `x` on the `w≥0` arm ⇒ the pair *def-on-`w<0`-arm → c-use* is **never exercised** ⇒ all-c-uses unmet ⇒ branch ⊉ all-c-uses. _(Referenced from §3; asked directly on 2025b-a2.)_
+
 **Exam patterns & gotchas:**
 
-- The counterexample MUST include **both code and the explicit suite**; state for each test which obligation it covers. All the ready-made ones are in the [Counterexample library](#counterexample-library) above (**CE1–CE5**).
+- The counterexample MUST include **both code and the explicit suite**; state for each test which obligation it covers. All the ready-made ones are in the [Counterexample library](#counterexample-library) above (**CE1–CE6**).
 - Branch = "all-edges"; statement = "all-nodes"; decision ≡ branch. Branch subsumes statement; **statement does NOT subsume branch** (an `if` with no else).
 - **MC/DC subsumes branch.** **Basic-condition vs branch: incomparable** ([CE2](#counterexample-library)). **Branch vs compound-condition: branch ⊉ compound** ([CE1](#counterexample-library)).
 - **Boundary-interior subsumes branch.**
@@ -743,24 +756,24 @@ computeResult(x,y){ result = thirdPartyFunction(x); if (result==y) ERROR; return
 
 **The recipes.**
 
-_(a) Find or refute a UIO for a state sᵢ — the **UIO tree**._ Restated goal: find the shortest input sequence `w` whose output from sᵢ differs from the output *every other* state gives on that same `w`. Observing that output then proves "I was in sᵢ." You search for `w` by growing a tree, one input at a time.
+_(a) Find or refute a UIO for a state sᵢ — the **UIO tree**._ Goal: find the shortest input sequence `w` whose output from sᵢ differs from the output *every other* state gives on that same `w`. Observing that output then proves "I was in sᵢ." You search for `w` by growing a tree one input at a time.
 
-At every node carry a **confusion set**: the states that _so far_ are still producing the same outputs as sᵢ (the ones you have **not** yet told apart from sᵢ), and — for each — the state it has now moved to. Then:
+The idea in one sentence: **start by assuming every state could be mistaken for sᵢ, then feed inputs that peel away the states whose output differs, until only sᵢ is left.** The group you track is the **look-alike set** — the states that, on the inputs applied so far, have produced the **exact same output string as sᵢ** (so from the outside they still look identical to sᵢ, i.e. you cannot yet tell them apart from it). For each look-alike also record **which state it has now moved to**, since that determines its next output.
 
-- **Root (empty sequence):** nothing tells any states apart yet, so the confusion set is **all states**, each sitting at itself.
-- **Apply an input `x`:** look at the output `x` produces from sᵢ's *current* state — call it `o`. Every other state in the confusion set whose output on `x` is **different** from `o` is now distinguished ⇒ **drop it**. The states whose output **equals** `o` stay confused; advance each (and sᵢ) to its next state.
-- **Success (singleton):** the confusion set shrinks to just **{sᵢ}** ⇒ the inputs along this path are a **UIO** for sᵢ.
-- **Dead branch:** sᵢ's current state _coincides with_ another still-confused state's current state — they are now literally the same state with the same output and next-state, a **collision** that no future input can undo; or the confusion set **repeats** one seen earlier (a loop).
-- **No UIO:** if _every_ branch dies (collision/loop) without ever reaching {sᵢ}, then sᵢ has no UIO.
+- **Root (no input yet):** no output seen, so no state can be ruled out — the look-alike set is **all states**, each still sitting at itself.
+- **Apply input `x`:** compute the output `x` gives from sᵢ's *current* state — call it `o`. Any look-alike whose output on `x` **≠ `o`** has just revealed itself as different ⇒ **remove it**. The ones whose output **= `o`** still look like sᵢ; advance each of them (and sᵢ) to its next state.
+- **Success:** the look-alike set shrinks to just **{sᵢ}** — no other state still matches sᵢ's output string ⇒ the inputs along this path are a **UIO** for sᵢ.
+- **Dead branch:** sᵢ's current state becomes the **same** state as another look-alike's current state (a **collision** — from here they give identical output and next-state forever, so no input can ever separate them), or the look-alike set repeats one seen earlier (a loop).
+- **No UIO:** if *every* branch dies (collision/loop) before the set reaches {sᵢ}, then sᵢ has no UIO.
 
-**Worked mini-example (the 3-state machine above): find UIO(s2).**
+**Worked mini-example (the 3-state machine above): find UIO(s2).** "look-alikes" = states still matching s2's output so far; `@` shows where each has moved.
 
 ```
-root:  confused {s1, s2, s3}   (each state at itself)
-  └─ a → s2 outputs 1, moves →s3.   s1 outputs 0 ⇒ distinguished, drop.   s3 outputs 1 ⇒ still confused, →s1
-         confused { s2@s3 , s3@s1 }        (not a singleton — s3 still shadows s2)
-      └─ a → s2 (at s3) outputs 1, →s1.    s3 (at s1) outputs 0 ⇒ distinguished, drop
-             confused { s2 }               ★ singleton ⇒ UIO(s2) = `aa`  (s2's output = 11)
+start:  look-alikes {s1, s2, s3}         (no input yet — anyone could be s2)
+  └─ a → s2 outputs 1 (moves →s3).  s1 outputs 0 ≠ 1 ⇒ removed.  s3 outputs 1 = 1 ⇒ still a look-alike (→s1)
+         look-alikes { s2@s3 , s3@s1 }    (s3 still matches s2's output "1" so far)
+      └─ a → s2 (now at s3) outputs 1 (→s1).  s3 (now at s1) outputs 0 ≠ 1 ⇒ removed
+             look-alikes { s2 }           ★ only s2 remains ⇒ UIO(s2) = `aa`  (s2's outputs = 1,1)
 ```
 
 Reading it: the first `a` already peels off s1 (it alone output 0), but s3 still shadows s2 (both output 1); the second `a` finally splits them (s2 → 1, s3 → 0), leaving s2 alone. s1 needed no tree at all — a single `a` makes its output `0` unique (see the small example above). **To _refute_** a UIO you run the same tree and show every branch hits a collision or loop — worked next.
@@ -815,6 +828,30 @@ Verification (all 5 outputs of `aba` distinct): s0=001, s1=100, s2=101, s3=110, 
 **Worked example 3 — no DS, give W.** FSM: s0 a/0→s1, b/0→s2; s1 a/0→s1, b/1→s1; s2 a/1→s2, b/0→s2.
 Root: on **a**, s0,s1 both →s1/0 (D1); on **b**, s0,s2 both →s2/0 (D1) ⇒ **no DS.**
 **W = {a, b}** (minimal): _a_ separates {s0,s1} from s2; _b_ separates {s0,s2} from s1. Output vectors s0=(0,0), s1=(0,1), s2=(1,0) — distinct ✓. Dropping either word merges a pair.
+
+**Worked example 4 — full conformance test table (the "write all the test cases" question).** For **every** transition you write one test row and record the outputs you expect; the table format below is the one used in class. FSM = a **mod-3 counter**, start state **s0**; inputs `inc` (advance), `q` (report the count), `RESET` (back to s0):
+
+| state  | `inc`     | `q`      | `RESET`   |
+| ------ | --------- | -------- | --------- |
+| **s0** | s1 / ok   | s0 / **0** | s0 / ok |
+| **s1** | s2 / ok   | s1 / **1** | s0 / ok |
+| **s2** | s0 / ok   | s2 / **2** | s0 / ok |
+
+Set-up (state this first): the **distinguishing sequence is `q`** — its output `0/1/2` is unique per state, so it doubles as the **state-verification sequence**; the **reset sequence is `RESET`**; the input alphabet under test is {`inc`, `q`, `RESET`}. The **transfer sequences** (from s0) are `transfer(s0)=ε`, `transfer(s1)=inc`, `transfer(s2)=inc inc`. In the *Input sequence* column, `@` separates the **transfer** that reaches the state under test from the **input under test** itself. There are `3 states × 3 inputs = 9` transitions ⇒ 9 rows:
+
+| State under test | Input under test | Input sequence | Expected output for the input under test | Which state is reached with the input under test | Expected output for the state verification sequence |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| s0 | `inc`   | `inc`          | ok | s1 | **1** |
+| s0 | `q`     | `q`            | 0  | s0 | **0** |
+| s0 | `RESET` | `RESET`        | ok | s0 | **0** |
+| s1 | `inc`   | `inc@inc`      | ok | s2 | **2** |
+| s1 | `q`     | `inc@q`        | 1  | s1 | **1** |
+| s1 | `RESET` | `inc@RESET`    | ok | s0 | **0** |
+| s2 | `inc`   | `inc inc@inc`  | ok | s0 | **0** |
+| s2 | `q`     | `inc inc@q`    | 2  | s2 | **2** |
+| s2 | `RESET` | `inc inc@RESET`| ok | s0 | **0** |
+
+**After each test case, apply `RESET` to return the FSM to its initial state s0.** The last two columns come straight from the transition table: column 5 = `δ(state, input)`, column 6 = that reached state's `q`-output. Each row passes iff the implementation gives the expected output for the input under test **and** the expected `q`-output afterwards (which confirms it really landed in the stated state). _(For **state coverage** only — the weaker criterion — keep one row per state: transfer to sᵢ, then apply `q`.)_
 
 **Exam patterns & gotchas.**
 
@@ -1051,8 +1088,10 @@ Why these tests: `withdraw` has the comparison `amount > balance`, so the two bo
 | **Branch-and-condition**     | branch + basic-condition obligations                                                |
 | **Compound condition**       | **2ᴺ** combinations of the N atoms in a decision                                    |
 | **MC/DC**                    | one independence obligation per atom → suite ≈ **N+1**                              |
+| **Path (all-paths)**         | feasible entry→exit paths (**∞ with loops**; ≤ **2ᵏ** for k loop-free decisions)    |
 
 Sanity: `if (A && B)` → branch **4**, basic-condition **4**, compound **2²=4**, MC/DC **3** tests.
+(Boundary-interior and loop-boundary are path-shaped, not condition-counts — their obligations are in the §2 criteria table, not here.)
 
 ### Things examiners always deduct for
 
