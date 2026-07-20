@@ -56,7 +56,7 @@ We can almost never run a program on _every_ possible input (there are far too m
 - **Branch coverage ≠ mutants all killed:** 100% branch coverage does NOT guarantee killing all `CONDITIONALS_BOUNDARY` mutants — you cover both branches without testing the _boundary value_ that distinguishes `>` from `>=`. Counterexample: `if(x>0)` tested with x=5 and x=−5 covers both branches, but x=0 (where `>` vs `>=` differ) is never tried → the mutant survives.
 - **Writing a surviving mutant on purpose:** pick a comparison, test only inputs _far_ from the boundary so the boundary swap doesn't change any asserted result.
 
-**Cheat sheet — Pitest default mutators:**
+**Cheat sheet — Pitest DEFAULT mutators** _(this is the group the exam draws from — memorize these; the exam really only uses the first three)_:
 
 | Mutator (NAME)                                      | What it does                                           | Example                              |
 | --------------------------------------------------- | ------------------------------------------------------ | ------------------------------------ |
@@ -65,11 +65,15 @@ We can almost never run a program on _every_ possible input (there are far too m
 | **Math** (`MATH`)                                   | swap arithmetic op                                     | `*`→`/`, `+`→`-`, `%`→`*`, `<<`→`>>` |
 | **Increments** (`INCREMENTS`)                       | `++`↔`--`                                              |                                      |
 | **Invert Negatives** (`INVERT_NEGS`)                | `-x` → `x`                                             |                                      |
-| **Return Values** (`*_RETURNS`)                     | mutate returns: `true`↔`false`, `0`→`1`, non-null→null |                                      |
+| **Return Values**                                   | mutate returns: `true`↔`false`, `0`→`1`, non-null→null | see version note below               |
 | **Void Method Calls** (`VOID_METHOD_CALLS`)         | delete a void call                                     |                                      |
 
 Exact boundary table (memorize): `<→<=`, `<=→<`, `>→>=`, `>=→>`.
 Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`.
+
+> **Return-values naming (old vs current PIT):** the classic **`OLD_DEFAULTS`** set (what the course/exam framing uses) had a single **`RETURN_VALS`**. Current PIT (`DEFAULTS`) replaces it with **five** finer mutators — `EMPTY_RETURNS`, `FALSE_RETURNS`, `TRUE_RETURNS`, `NULL_RETURNS`, `PRIMITIVE_RETURNS`. Everything else in the two sets is identical, and **no past-exam question touches a return-value mutator anyway** — so recognize both names, don't sweat the split.
+>
+> **Beyond the default set (recognize, don't memorize — never examined):** PIT also ships _optional_ mutators (`REMOVE_CONDITIONALS`, `CONSTRUCTOR_CALLS`, `INLINE_CONSTS`, `NON_VOID_METHOD_CALLS`, plus legacy `RETURN_VALS`) and ~10 _experimental_ ones (`ABS`, `AOR`, `AOD`, `CRCR`, `OBBN`, `ROR`, `UOI`, `EXPERIMENTAL_*`). All are **off by default** and never appear in the exams — full list at pitest.org/quickstart/mutators.
 
 ---
 
@@ -87,10 +91,14 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
 - **Compound-condition** — test _every combination_ of the atomic conditions in one decision. With N atoms that's up to **2ᴺ** combinations (short-circuit evaluation — where `&&`/`||` stops early once the result is decided — removes some impossible combinations).
 - **MC/DC (Modified Condition/Decision Coverage)** — for _each_ atomic condition, show it matters _on its own_: find two tests that differ in **only that one condition** and produce **opposite** overall decision results (proving that condition alone can flip the outcome). This needs about **N+1** tests for N conditions — far fewer than the 2ᴺ of compound-condition — because each test is reused across several conditions. Required by aviation-safety standards **DO-178B / ED-12B**.
 - **Path (all-paths) coverage** — execute **every complete route from entry to exit** at least once. It is the **strongest** structural criterion (it subsumes all the others — cover every path and you cover every edge, node, and condition combination along the way), but it is usually **infeasible**: a single loop creates unboundedly many paths (0, 1, 2, … iterations ⇒ infinitely many tests), and even loop-free code with `k` independent decisions has up to **2ᵏ** paths. That blow-up is exactly why the weaker criteria (and, for loops, **boundary-interior** below) exist. When you *are* asked for a path-coverage test set (loop-free code only — see 2025b-a2), list one input per feasible entry→exit path and mark any **infeasible** path (no input can drive it) rather than inventing one.
-- **Boundary-interior** — a way to tame loops (which otherwise create infinitely many paths). It splits the loop paths into two classes:
-  - **Boundary tests** = paths that _enter the loop but exit after at most one iteration_ (this class also includes the path that skips the loop entirely). **These are exactly what you get by unfolding the CFG into a tree up to the first repeated node** (the loop condition on its 2nd arrival), then stopping and exiting — provide one feasible path for every branch of that tree. In this course, the boundary set is the expected answer.
-  - **Interior tests** = the _more general_ case: paths that iterate **2+ times, where the first two iterations differ** from each other. These need you to unfold _further_ (a second iteration), so stopping at the first repeated node does **not** produce them. Mentioned for completeness; usually not required.
-  - Quick test (from the course clarification): take a feasible path that starts with the unfolded prefix — _one iteration then exit → boundary; two-or-more differing iterations → interior._ Also aim for full branch coverage on any branches **outside** the loop.
+- **Infeasible (inexecutable) path** — a route that exists on the CFG diagram but **no input can ever actually make the program take**, because the branch choices along it **contradict each other**. Simple example: a path that needs `x > 0` at one `if` and later `x < 0` at another `if`, with `x` never changed in between — no single `x` is both, so the path can never run. **How to detect it:** walk the path and AND together the condition each decision forces (True → the condition, False → its negation) into one big formula — the **path condition** — then ask "can any input satisfy all of these at once?" (this is exactly symbolic execution, §6). If the formula is **contradictory (unsatisfiable / UNSAT)** → the path is **infeasible**; if some assignment satisfies it → the path is **feasible** and that assignment is an input that drives it. Infeasible paths are why you can rarely reach 100% path- or du-path coverage: you **drop them and write "infeasible" (with the contradiction)** instead of inventing an input.
+- **Boundary-interior** — a way to tame loops (which otherwise create infinitely many paths). It splits the loop paths into two classes. **Full coverage of each is about *every subpath through the loop body*, not just iteration count** — this is the part people get wrong:
+  - **Boundary tests (full coverage)** = for **every distinct subpath through the loop body**, one feasible path that _enters the loop and exits after that single iteration_ — **plus** the path that _skips the loop entirely_. Mechanically: unfold the CFG into a tree up to the **first repeated node** (the loop condition on its 2nd arrival), then stop and exit; **provide one feasible path per branch of that tree.** ⚠️ One single-iteration path is **not** enough if the body has an `if` — you need *one per body-subpath*. In this course, this boundary set is the expected answer.
+  - **Interior tests (full coverage)** = paths that iterate **≥2 times where the first two iterations take *different* body-subpaths**; you enumerate the body's branch outcomes over iterations 1 and 2. Needs unfolding a **second** iteration, so the first-repeated-node tree does **not** produce them. The _more general_ requirement — usually not required on the exam.
+  - **Concrete `while(c){ if(d) X else Y }`:** the body has two subpaths (`d`-True→X, `d`-False→Y).
+    - **Boundary (3 tests):** skip loop (`c` false at once) · one iteration through **X** (`d`=T) · one iteration through **Y** (`d`=F).
+    - **Interior (4 tests):** two iterations with `d` = **TT, TF, FT, FF** (the TF/FT cases — where the iterations differ — are the ones that truly define "interior").
+  - Quick test (course clarification): a feasible path starting with the unfolded prefix — _one iteration then exit → boundary; two-or-more **differing** iterations → interior._ Also aim for full **branch** coverage on any branches **outside** the loop.
 - **Loop-boundary adequacy** — a simpler loop rule: run each loop **0 times, exactly 1 time, and more than 1 time** (the three qualitatively different loop behaviors).
 
 > **⚠️ Loop-boundary vs boundary-interior — don't confuse them** (the word "boundary" means different things):
@@ -108,6 +116,8 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
 **The recipe:**
 
 _Drawing the CFG:_ one node per basic block; each `if`/loop condition = a diamond with T/F edges; loop back-edge returns to the condition node; merge after branches. Number nodes; label which source line each represents (line numbers are required).
+
+_Drawing a CFG that spans **two functions** (caller + a callee you're told to include, e.g. `f()` calls `printProduct()`):_ **inline the callee's own CFG at the call site** — don't draw it as a single opaque node. At the call, add an edge **into the callee's entry**, draw the callee's full subgraph (its own diamonds/nodes), then an edge from the callee's **exit back to the caller's next node** — and if the callee **returns a value**, draw that return edge back to where the caller uses it (a classic lost point: forgetting the return-value edge). Number nodes continuously across **both** functions so you can name paths/du-paths over the whole thing.
 
 _Branch coverage + denominator:_ denominator = **number of outgoing edges from decision nodes** = 2 × (number of decisions counted as branches). Example: two `if`s → **4 branches**. Pick a minimal input set hitting each diamond's T and F.
 
@@ -175,7 +185,7 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 | Loop-boundary        | loop runs **0, 1, >1**                              | 3 per loop      | — (incomparable w/ statement) |
 | Path / all-paths     | every path                                          | ∞ w/ loops      | everything                    |
 
-**Subsumption ladder (strong → weak):** all-paths ⊃ boundary-interior ⊃ {MC/DC, compound-condition, cyclomatic, LCSAJ} ⊃ branch-and-condition ⊃ branch ⊃ statement; basic-condition and loop-boundary sit at the base, _incomparable_ to branch/statement respectively.
+**Subsumption ladder (strong → weak):** all-paths ⊃ boundary-interior ⊃ {MC/DC, compound-condition, cyclomatic, LCSAJ} ⊃ branch-and-condition ⊃ branch ⊃ statement; basic-condition and loop-boundary sit at the base, _incomparable_ to branch/statement respectively. _(This is the **idealized, possibly-infeasible** model — the one the exams use; see the note at §4's diagrams.)_
 
 ---
 
@@ -188,9 +198,10 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 - **Definition** `d_n(x)` ("def"): `x` is _given a value_ at node n — the left-hand side of `x = …`, a parameter receiving its argument at entry, or reading input into `x`. Parameters count as defined at the entry node.
 - **Use** `u_n(x)`: `x`'s value is _read_ (on the right-hand side of an assignment, inside a condition, or as a call argument). Two flavors:
   - **c-use (computation use)** — the value feeds a _computation_ or output (an assignment, a `return`, a `print`); attached to a **NODE**. E.g. `return x+10` is a c-use of `x`.
-  - **p-use (predicate use)** — the value is used to _decide a branch_; attached to an **EDGE** — and it counts on **both** the True and False out-edges of that decision. E.g. `if(flag)` is a p-use of `flag`.
+  - **p-use (predicate use)** — the value is read _in a decision_ (an `if`/loop condition). A p-use is attached to an **EDGE, not a node** — and a predicate node has **two** out-edges (True and False), so **one variable read in a condition creates two _separate_ p-uses: one on the True edge, one on the False edge.** Each individual p-use is a single `(variable, edge)` pair. E.g. `if(flag)` gives p-use of `flag` on edge `→True` **and** p-use of `flag` on edge `→False` — two obligations. _So "cover **a** p-use" = traverse **one** edge; "cover the condition's p-uses" (or **all-p-uses**) = traverse **both** edges._
 - **def-clear path w.r.t. `x`** ("w.r.t." = with respect to): a route where none of the _in-between_ nodes reassign or clear `x`. Meaning: the value set at the start is _still the same value_ when it reaches the end — the link is intact.
 - **`d_m(x)` reaches `u_n(x)`**: there exists a def-clear path from the def at m to the use at n — i.e. the value set at m can actually arrive, unchanged, at the use at n.
+- **complete path** — a path that runs all the way from the **entry node to an exit node** (a whole execution route). This is what a **test case actually runs**: a du-path or def-clear path is usually only a _segment_ of the program, so to exercise it you pick a complete path `entry → … → exit` that _contains_ that segment. (In the dataflow criteria, you "select complete paths which include the required def-clear paths.") **simple path** = no repeated nodes _except possibly the two endpoints_ (so a single loop back to the start is allowed); **loop-free path** = all nodes distinct (no repeat at all).
 - **du-path** (definition-use path, n1…nk): a def-clear path from a _definition_ of `x` to a _use_ of `x`. Precisely: n1 has a def of `x`, and **either** nk has a c-use and the path is **simple** (no repeated nodes except possibly the endpoints), **or** the last edge has a p-use and the path up to it is **loop-free**.
 - A node like `x = x+1` is _both_ a **use** of `x` (the old value, on the right) **and** a **def** of `x` (the new value, on the left) — order matters: it reads, then overwrites.
 
@@ -205,7 +216,7 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 | -------------------------- | ----------------------------------------------------------------------------------------- |
 | **all-defs**               | one def-clear path from each def to **some** (any one) use it reaches                     |
 | **all-c-uses**             | a def-clear path from each def to **every c-use** it reaches                              |
-| **all-p-uses**             | a def-clear path from each def to **every p-use** (both edges) it reaches                 |
+| **all-p-uses**             | a def-clear path from each def to **every p-use it reaches — i.e. to BOTH out-edges (True and False) of every decision the def reaches** (⇒ all-p-uses subsumes all-branches) |
 | **all-c-uses/some-p-uses** | all c-uses; if a def reaches **no** c-use, then at least one p-use                        |
 | **all-p-uses/some-c-uses** | all p-uses; if a def reaches **no** p-use, then at least one c-use                        |
 | **all-uses**               | a def-clear path to **every** use (all c-uses AND all p-uses)                             |
@@ -216,7 +227,7 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 **Worked examples — the two dataflow subsumption disproofs** (both live in §4's [Counterexample library](#counterexample-library), so all subsumption counterexamples sit in one place):
 
 - **[CE4](#counterexample-library) — full branch coverage ⊉ all-defs:** a two-`if` program where both tests give 100% branch coverage yet the def of `x` never reaches one of its uses. This is the canonical "all-defs is easy to break" trap (bullet below).
-- **[CE5](#counterexample-library) — all-c-uses/some-p-uses ⇎ all-p-uses/some-c-uses:** a nested-`if` program whose one suite satisfies each `/some` criterion while missing the other's obligation, proving the two are **incomparable**.
+- **[CE5](#counterexample-library) — all-c-uses/some-p-uses ⇎ all-p-uses/some-c-uses:** two small programs (one per direction) proving the pair **incomparable**. Direction 1 (the one asked on 2023b-b) is the `foo(x,y)` program: suite `{1-2-4-6}` covers the only c-uses but skips p-use edges. Key fact used: **all-p-uses requires *both* out-edges of every decision**, so a single path can never satisfy it.
 
 **Exam patterns & gotchas:**
 
@@ -226,6 +237,7 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 - all-c-uses and all-p-uses are **incomparable**.
 - For "/some" criteria: the "some" clause only fires when a def reaches **zero** uses of the other kind.
 - all-du-paths can be exponential; when asked to "list all du-paths," include both branches around a diamond.
+- **Variable appears in two functions:** if you're asked for the du-paths of `x` and `x` is defined/used in **both** functions (e.g. a caller and the callee you inlined into the CFG — see §2), **list the du-paths in _each_ function.** Don't report only one; a `def→use` pair in the callee and one in the caller are separate obligations (they don't cross the function boundary unless a value is passed and the CFG is genuinely inlined).
 
 **Cheat sheet — criteria table (slide CFG `1:d(x) → {2:u(x),3:u(x)} → 4 → {5:u(x),6}`):**
 
@@ -298,22 +310,37 @@ _Direction 2 (statement adequate, NOT loop-boundary adequate):_ suite `foo(0,0)`
 
 Tests **{w=-1, y=1}** and **{w=1, y=-1}** together take both T and F of each `if` ⇒ **full branch coverage**. But the **def of x at line 2** reaching the use at line 9 needs `w≥0` (skip line 4) AND `y<0` — neither test does this ⇒ **all-defs NOT satisfied** at 100% branch coverage ⇒ branch ⊉ all-defs. _(Referenced from §3.)_
 
-**CE5 — all-c-uses/some-p-uses ⇎ all-p-uses/some-c-uses (incomparable, dataflow).**
+**CE5 — all-c-uses/some-p-uses ⇎ all-p-uses/some-c-uses (incomparable, dataflow).** Reminder (textbook): a p-use of a variable in a predicate is associated with **each out-edge**, so **all-p-uses forces *both* the T and F edge of every decision** (that's why all-p-uses ⊇ all-branches). A single path can therefore never satisfy all-p-uses. Each direction below needs its **own** program.
+
+_Direction 1 — all-c-uses/some-p-uses ⊉ all-p-uses/some-c-uses._
 
 ```
-void foo(int x, int y) {        // node 1: d(x), d(y)
-  if (x > 0 && y < 0) {         // node 2: p-use of x,y  (edges 2->3 True, 2->4 False)
-    if (x > 10) { return; }     // node 3: p-use of x    (edge 3->5)
+void foo(int x, int y) {        // 1: def x, def y
+  if (x > 0 && y < 0) {         // 2: p-use x,y — edges 2->3 (T), 2->4 (F)
+    if (x > 10) return;         // 3: p-use x   — edges 3->5 (T), 3->6 (F)
   } else {
-    print(x, y);                // node 4: c-use of x,y
+    print(x, y);                // 4: c-use x,y
   }
-}                               // 5: return, 6: exit (edge 5->6 added for single exit)
+}                               // 5: return, 6: exit
 ```
 
-- Defs: `d_1(x), d_1(y)`. Uses: nodes 2 & 3 are **p-uses**; node 4 holds the **c-uses**.
-- **all-p-uses/some-c-uses** satisfied by **1-2-3-5-6**: def-clear to every p-use; NEVER reaches node 4 → **c-uses at 4 missed**.
-- **all-c-uses/some-p-uses** satisfied by **1-2-4-6**: def-clear to every c-use; NEVER takes True branch to node 3 → **p-use at 3 missed**.
-- Conclusion: suite {1-2-4-6} satisfies all-c-uses/some-p-uses but fails all-p-uses/some-c-uses, and symmetrically {1-2-3-5-6} the other way ⇒ **incomparable.** _(Referenced from §3.)_
+Suite **{ 1-2-4-6 }** (one test with `x≤0`, so the outer `if` is false → `print`). The only c-uses are `x,y` at node 4, reached def-clear ⇒ **all-c-uses/some-p-uses satisfied** (x and y have c-uses, so the criterion asks no p-use of them). But all-p-uses needs *both* edges of every predicate — `2->3`, `3->5`, `3->6` are never taken ⇒ **all-p-uses/some-c-uses fails.**
+
+_Direction 2 — all-p-uses/some-c-uses ⊉ all-c-uses/some-p-uses_ (needs a def that gets **killed** on the paths p-use coverage happens to use):
+
+```
+void bar(int v, int w) {        // 1: def v, def w
+  if (v > 0) { }                // 2: p-use v — edges 2->3 (T), 2->4 (F)
+  else       { v = 1; }         // 4: v=1  → KILLS v   (node 3 = empty T-branch)
+  if (w > 0) { v = 2; }         // 5: p-use w — edges 5->6 (T), 5->7 (F);  6: v=2 → KILLS v
+  else       { }                // 7 = empty F-branch
+  print(v);                     // 8: c-use v
+}
+```
+
+Suite **{ (v>0,w>0): 1-2-3-5-6-8 , (v≤0,w≤0): 1-2-4-5-7-8 }** takes both edges of both predicates ⇒ **all-p-uses/some-c-uses satisfied** (v and w have p-uses). But the c-use of the *original* `v` (def@1) needs a def-clear path to node 8, which exists **only** via node-2-True **and** node-5-False (`1-2-3-5-7-8`, i.e. `v>0 ∧ w≤0`) — a corner neither test hits (each test kills `v` at node 4 or 6 first) ⇒ that c-use pair is missed ⇒ **all-c-uses/some-p-uses fails.**
+
+Both directions ⇒ **incomparable.** _(Direction 1 is the one asked on 2023b-b. Referenced from §3.)_
 
 **CE6 — full branch coverage ⊉ all-c-uses (dataflow).**
 
@@ -336,6 +363,8 @@ void foo(int x, int y) {        // node 1: d(x), d(y)
 - **Loop-boundary (0,1,many) is at the BASE** — incomparable with statement ([CE3](#counterexample-library)); do not confuse with boundary-interior.
 
 **Cheat sheet — BOTH diagrams (A → B means "A subsumes B", i.e. A stronger):**
+
+> **Which model? The _idealized_ (possibly-infeasible) one — textbook Figure 5.5 / Rapps–Weyuker.** Here subsumption is the pure "for every program" logical relation and paths need **not** be feasible. **This is the model every exam uses** — subsumption questions never restrict to feasible paths (in the exams "feasibility" shows up only inside _symbolic execution_, never here). The alternative _feasible-only_ model (FDF, Figure 5.6) rearranges the lattice — e.g. data-flow criteria no longer subsume branch/statement — and is **not** examined, so use the diagrams below as-is.
 
 STRUCTURAL hierarchy:
 
@@ -557,7 +586,7 @@ Sanity-check one pair-type: P2×P3 → (1,1) r1, (2,2) r2, (1,2) r3, (2,1) r4, (
 
 **Special-parameter twists** (recurring "adapt the algorithm" sub-questions):
 
-- **Fault-prone parameter — "each value of P3 must appear ≥ twice with every other value":** change π construction — **put every pair that involves P3 into π twice**; leave the other pairs at multiplicity one. Run growth/greedy normally, but **remove only ONE copy** of a doubled pair each time a test covers it — so the pair must be covered twice before it leaves π. (Works for both IPO and AETG. Do **not** try to reason about final test counts; manipulating π is the clean way.)
+- **Fault-prone parameter — "each value of P3 must appear ≥ twice with every other value":** change π construction — **put every pair that involves P3 into π twice**; leave the other pairs at multiplicity one. Run growth/greedy normally, but **remove only ONE copy** of a doubled pair each time a test covers it — so the pair must be covered twice before it leaves π. (Works for both IPO and AETG).
 - **Critical parameter — "(P2,1) must appear in ≥ 75% of tests":** this is a _frequency_ constraint, not a pair constraint, so **don't fiddle with π counts** (you don't know the final test count in advance). Instead, in AETG: when choosing the first (param,value) of each new test, if (P2,1) is currently in < 75% of tests so far, **force-select it**; and after all pairs are covered, keep **adding redundant tests containing (P2,1)** until the 75% threshold is met.
 - **Orthogonal-array as a starting set:** if you're handed an orthogonal array (or any set of prebuilt tests), use it as the **starting tests**: build the full pair list, **strike out every pair those starting tests already cover**, then run AETG/IPO only on what's left → far fewer iterations.
 
@@ -653,7 +682,14 @@ Symbolic return `2*X+1`, PC `X <= Y`. Negate last → aim at ERROR: PC becomes `
 - **Unreachable errors:** spot UNSAT PCs — `x*x+1==0`, `v+1==0 /\ v-1==0`, `x>0 /\ y>0 /\ x+y<0`. Answer "not reachable" + algebraic reason; never invent an input.
 - **Satisfying input:** if the PC is SAT, give one concrete tuple that satisfies it (for PC `X<=Y`, answer `x=0, y=0`). **Finding an array out-of-bounds bug is the same skill:** an access `arr[b+1]` is only safe while `0 ≤ b+1 ≤ SIZE_OF_A − 1`, so to _hit_ the bug you add the violating constraint `b+1 > SIZE_OF_A − 1` to the PC and solve. E.g. `arr` has 4 slots (indices 0–3, `SIZE_OF_A = 4`) and the code reads `arr[b+1]`: solving `b+1 > 3` gives `b = 3`, which reads index 4 — one past the end ⇒ out-of-bounds.
 - **MC/DC variant:** build MC/DC cases first, then one symbolic run per case, adding each basic condition's required truth value to the PC. For `a /\ b /\ c`: runs `a/\b/\c`, `!a/\b/\c`, `a/\!b/\c`, `a/\b/\!c`. If MC/DC impossible for a condition, fall back to ordinary symbolic execution.
+- **To get the next path, negate the _last_ constraint of the previous run's PC** (not an earlier one), then re-solve. Walking `X<=Y /\ X!=X+1` → flip the last → `X<=Y /\ X==X+1`. Always the most recently added conjunct.
+- **`for` loop — the update (`i++`) runs _last_ in each iteration.** For `for(i=0; i<n; i++) { body }` the order per iteration is **init → test `i<n` → body → `i++` → back to test**. So in the PV/PC table the `i++` row comes **after** the whole body, not next to the `i<n` test — a common ordering slip when a use of `i` inside the body must see the *pre-increment* value.
 - Assignments update PV only; branches update PC only — never both on one row.
+- **"Does symbolic execution guarantee full branch coverage?"** (recurring true/false — state assumptions explicitly, then split into three cases; a tiny example for each):
+  1. **Infeasible branch → doesn't count.** Symbolic execution can't find an input for it (its PC is UNSAT), **but no test suite could cover it either**, so it's not a real gap. _Example:_ `if (x > 10) { if (x < 5) DEAD; }` — reaching `DEAD` needs `X>10 /\ X<5`, which is UNSAT; that edge is uncoverable by *anyone*, so failing to cover it isn't a failure of symbolic execution.
+  2. **Loops / unbounded (or too-large) tree → may not terminate.** The tree can be infinite, so the run might never finish. _Example:_ `while (i < n) i++;` with `n` symbolic unfolds to 0, 1, 2, … iterations — infinitely many paths. If the question *assumes* "we run symbolic execution" means it **does** finish exploring the whole tree, the statement is **trivially true**; otherwise it may cover nothing conclusive.
+  3. **Otherwise (bounded tree, fully explored) → true, and stronger.** _Example:_ `if (x>0) A else B; if (y>0) C else D;` — no loops, exactly 4 feasible paths; symbolic execution walks all 4, so it takes **both** edges of each `if` (full branch) **and** every path (full **path** coverage ⊃ branch coverage).
+  ⇒ Under the "whole tree explored" assumption, symbolic execution gives **full branch coverage** (in fact full *path* coverage); the only escapes are non-termination (case 2) or genuinely infeasible — hence uncoverable — branches (case 1).
 
 **Cheat sheet.**
 
@@ -918,6 +954,7 @@ Set-up (state this first): the **distinguishing sequence is `q`** — its output
 - **"Change one label":** re-check whether the changed edge is one of the colliding ones; one label change can create or destroy a DS.
 - **Min DS size:** ⌈log_m n⌉ (+1 binary). Memorize n=5→3, n=23→5.
 - **No DS ⇒ use W** (always works for reduced FSM); substitute W wherever you'd use the DS in conformance tests.
+- **Which input is the "input under test" in a state-verification row?** To verify that transition `Sᵢ —x→ Sⱼ` lands you in `Sⱼ`, the **input under test is `x`** (the transition's own input) — you apply `x`, then apply `Sⱼ`'s **DS/UIO** to confirm you actually reached `Sⱼ`. So: input under test = the edge label that enters the state; verification sequence = the reached state's DS/UIO (see Worked example 4). Don't confuse the input-under-test (`x`) with the verification sequence (the DS).
 
 **Cheat sheet — UIO vs DS vs W:**
 
