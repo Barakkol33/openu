@@ -227,3 +227,5 @@ ignore/*
 #*.lyx#
 *.emergency
 *.lyx.emergency
+
+.obsidian*
