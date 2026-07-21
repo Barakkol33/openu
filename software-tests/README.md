@@ -90,6 +90,19 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
 - **Branch-and-condition** — satisfy branch coverage AND basic-condition coverage at the same time.
 - **Compound-condition** — test _every combination_ of the atomic conditions in one decision. With N atoms that's up to **2ᴺ** combinations (short-circuit evaluation — where `&&`/`||` stops early once the result is decided — removes some impossible combinations).
 - **MC/DC (Modified Condition/Decision Coverage)** — for _each_ atomic condition, show it matters _on its own_: find two tests that differ in **only that one condition** and produce **opposite** overall decision results (proving that condition alone can flip the outcome). This needs about **N+1** tests for N conditions — far fewer than the 2ᴺ of compound-condition — because each test is reused across several conditions. Required by aviation-safety standards **DO-178B / ED-12B**.
+- **Cyclomatic complexity (McCabe, `V(G)`)** — a number measuring a module's **branching complexity** = the count of **linearly independent paths** through its CFG (equivalently, the size of a *basis set* of paths). Both course books define it as **`V = e − n + 2`** (`e` = edges, `n` = nodes of the CFG; with `P` disconnected components it's `e − n + 2P`). Two equivalent shortcuts:
+  - **`V = (# binary decision points) + 1`** — count each `if`/`while`/`for`/`case` and each `&&`/`||`; an `else` is **not** a decision. (Fastest by hand.)
+  - `V` = number of enclosed regions of the planar CFG, `+1`.
+  It measures *control structure, not size*, and equals the number of independent paths **cyclomatic testing** aims to cover. Rule of thumb (P&Y): `<20` simple, `>50` may be untestable.
+  - _Worked example_ (`calculateCyclomaticComplexity` from 2024b-a2):
+    ```
+    while (y < 100) {          // decision 1
+      if (y % 5 == 0) ...      // decision 2
+      else if (y % 3 == 0) ... // decision 3
+      else ...                 // (else is NOT a decision)
+    }
+    ```
+    3 binary decisions (`while`, `if %5`, `else-if %3`) ⇒ **`V = 3 + 1 = 4`** (the same 4 you'd get from `e − n + 2` after drawing the CFG).
 - **Path (all-paths) coverage** — execute **every complete route from entry to exit** at least once. It is the **strongest** structural criterion (it subsumes all the others — cover every path and you cover every edge, node, and condition combination along the way), but it is usually **infeasible**: a single loop creates unboundedly many paths (0, 1, 2, … iterations ⇒ infinitely many tests), and even loop-free code with `k` independent decisions has up to **2ᵏ** paths. That blow-up is exactly why the weaker criteria (and, for loops, **boundary-interior** below) exist. When you _are_ asked for a path-coverage test set (loop-free code only — see 2025b-a2), list one input per feasible entry→exit path and mark any **infeasible** path (no input can drive it) rather than inventing one.
 - **Infeasible (inexecutable) path** — a route that exists on the CFG diagram but **no input can ever actually make the program take**, because the branch choices along it **contradict each other**. Simple example: a path that needs `x > 0` at one `if` and later `x < 0` at another `if`, with `x` never changed in between — no single `x` is both, so the path can never run. **How to detect it:** walk the path and AND together the condition each decision forces (True → the condition, False → its negation) into one big formula — the **path condition** — then ask "can any input satisfy all of these at once?" (this is exactly symbolic execution, §6). If the formula is **contradictory (unsatisfiable / UNSAT)** → the path is **infeasible**; if some assignment satisfies it → the path is **feasible** and that assignment is an input that drives it. Infeasible paths are why you can rarely reach 100% path- or du-path coverage: you **drop them and write "infeasible" (with the contradiction)** instead of inventing an input.
 - **Boundary-interior** — a way to tame loops (which otherwise create infinitely many paths). It splits the loop paths into two classes. **Full coverage of each is about _every subpath through the loop body_, not just iteration count** — this is the part people get wrong:
@@ -219,8 +232,8 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 | **all-p-uses**             | a def-clear path from each def to **every p-use it reaches — i.e. to BOTH out-edges (True and False) of every decision the def reaches** (⇒ all-p-uses subsumes all-branches) |
 | **all-c-uses/some-p-uses** | all c-uses; if a def reaches **no** c-use, then at least one p-use                                                                                                            |
 | **all-p-uses/some-c-uses** | all p-uses; if a def reaches **no** p-use, then at least one c-use                                                                                                            |
-| **all-uses**               | a def-clear path to **every** use (all c-uses AND all p-uses)                                                                                                                 |
-| **all-du-paths**           | **every** def-clear du-path (cycle-free / simple-cycle) to every use — may be exponential                                                                                     |
+| **all-uses**               | **one (any)** def-clear path to **every** use (all c-uses AND all p-uses) — one route per use suffices                                                                        |
+| **all-du-paths**           | **every** def-clear du-path (cycle-free / simple-cycle) to every use — *all* routes, not just one ⇒ trivially includes all-uses; may be exponential                          |
 
 5. **Feasibility check**: drop infeasible paths; you rarely hit 100%.
 
@@ -936,7 +949,7 @@ _(b) DS tree:_ node = **partition of S into blocks**. Develop on input x: within
 
 First D2 ⇒ DS = that input path. All branches die D1/D3 ⇒ **no DS**.
 
-_(c) Characterizing set W:_ build the output table for short words (length 1, then 2, …); greedily pick words so **every pair of states differs on ≥1 word**; present W + per-state output table; the per-state output **column-vectors must all be distinct**.
+_(c) Characterizing set W:_ build the output table for short words (length 1, then 2, …); greedily pick words so **every pair of states differs on ≥1 word**; present W + per-state output table; the per-state output **column-vectors must all be distinct (no 2 columns have the same values)**.
 
 _(d) Conformance tests:_ "conformance testing" = checking a real implementation matches the FSM spec. A **transfer sequence** `transfer(sᵢ)` is just a shortest input sequence that drives the machine from the start state s₀ to state sᵢ (so you can reach the state you want to test). Build them with a BFS **spanning tree** from s₀; the collection is the **state cover**. Then `V` is your chosen state-identifier (UIO, DS, or W).
 
