@@ -90,11 +90,11 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
 - **Branch-and-condition** — satisfy branch coverage AND basic-condition coverage at the same time.
 - **Compound-condition** — test _every combination_ of the atomic conditions in one decision. With N atoms that's up to **2ᴺ** combinations (short-circuit evaluation — where `&&`/`||` stops early once the result is decided — removes some impossible combinations).
 - **MC/DC (Modified Condition/Decision Coverage)** — for _each_ atomic condition, show it matters _on its own_: find two tests that differ in **only that one condition** and produce **opposite** overall decision results (proving that condition alone can flip the outcome). This needs about **N+1** tests for N conditions — far fewer than the 2ᴺ of compound-condition — because each test is reused across several conditions. Required by aviation-safety standards **DO-178B / ED-12B**.
-- **Path (all-paths) coverage** — execute **every complete route from entry to exit** at least once. It is the **strongest** structural criterion (it subsumes all the others — cover every path and you cover every edge, node, and condition combination along the way), but it is usually **infeasible**: a single loop creates unboundedly many paths (0, 1, 2, … iterations ⇒ infinitely many tests), and even loop-free code with `k` independent decisions has up to **2ᵏ** paths. That blow-up is exactly why the weaker criteria (and, for loops, **boundary-interior** below) exist. When you *are* asked for a path-coverage test set (loop-free code only — see 2025b-a2), list one input per feasible entry→exit path and mark any **infeasible** path (no input can drive it) rather than inventing one.
+- **Path (all-paths) coverage** — execute **every complete route from entry to exit** at least once. It is the **strongest** structural criterion (it subsumes all the others — cover every path and you cover every edge, node, and condition combination along the way), but it is usually **infeasible**: a single loop creates unboundedly many paths (0, 1, 2, … iterations ⇒ infinitely many tests), and even loop-free code with `k` independent decisions has up to **2ᵏ** paths. That blow-up is exactly why the weaker criteria (and, for loops, **boundary-interior** below) exist. When you _are_ asked for a path-coverage test set (loop-free code only — see 2025b-a2), list one input per feasible entry→exit path and mark any **infeasible** path (no input can drive it) rather than inventing one.
 - **Infeasible (inexecutable) path** — a route that exists on the CFG diagram but **no input can ever actually make the program take**, because the branch choices along it **contradict each other**. Simple example: a path that needs `x > 0` at one `if` and later `x < 0` at another `if`, with `x` never changed in between — no single `x` is both, so the path can never run. **How to detect it:** walk the path and AND together the condition each decision forces (True → the condition, False → its negation) into one big formula — the **path condition** — then ask "can any input satisfy all of these at once?" (this is exactly symbolic execution, §6). If the formula is **contradictory (unsatisfiable / UNSAT)** → the path is **infeasible**; if some assignment satisfies it → the path is **feasible** and that assignment is an input that drives it. Infeasible paths are why you can rarely reach 100% path- or du-path coverage: you **drop them and write "infeasible" (with the contradiction)** instead of inventing an input.
-- **Boundary-interior** — a way to tame loops (which otherwise create infinitely many paths). It splits the loop paths into two classes. **Full coverage of each is about *every subpath through the loop body*, not just iteration count** — this is the part people get wrong:
-  - **Boundary tests (full coverage)** = for **every distinct subpath through the loop body**, one feasible path that _enters the loop and exits after that single iteration_ — **plus** the path that _skips the loop entirely_. Mechanically: unfold the CFG into a tree up to the **first repeated node** (the loop condition on its 2nd arrival), then stop and exit; **provide one feasible path per branch of that tree.** ⚠️ One single-iteration path is **not** enough if the body has an `if` — you need *one per body-subpath*. In this course, this boundary set is the expected answer.
-  - **Interior tests (full coverage)** = paths that iterate **≥2 times where the first two iterations take *different* body-subpaths**; you enumerate the body's branch outcomes over iterations 1 and 2. Needs unfolding a **second** iteration, so the first-repeated-node tree does **not** produce them. The _more general_ requirement — usually not required on the exam.
+- **Boundary-interior** — a way to tame loops (which otherwise create infinitely many paths). It splits the loop paths into two classes. **Full coverage of each is about _every subpath through the loop body_, not just iteration count** — this is the part people get wrong:
+  - **Boundary tests (full coverage)** = for **every distinct subpath through the loop body**, one feasible path that _enters the loop and exits after that single iteration_ — **plus** the path that _skips the loop entirely_. Mechanically: unfold the CFG into a tree up to the **first repeated node** (the loop condition on its 2nd arrival), then stop and exit; **provide one feasible path per branch of that tree.** ⚠️ One single-iteration path is **not** enough if the body has an `if` — you need _one per body-subpath_. In this course, this boundary set is the expected answer.
+  - **Interior tests (full coverage)** = paths that iterate **≥2 times where the first two iterations take _different_ body-subpaths**; you enumerate the body's branch outcomes over iterations 1 and 2. Needs unfolding a **second** iteration, so the first-repeated-node tree does **not** produce them. The _more general_ requirement — usually not required on the exam.
   - **Concrete `while(c){ if(d) X else Y }`:** the body has two subpaths (`d`-True→X, `d`-False→Y).
     - **Boundary (3 tests):** skip loop (`c` false at once) · one iteration through **X** (`d`=T) · one iteration through **Y** (`d`=F).
     - **Interior (4 tests):** two iterations with `d` = **TT, TF, FT, FF** (the TF/FT cases — where the iterations differ — are the ones that truly define "interior").
@@ -212,22 +212,22 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 3. **Build the def-use table**: for every (def, use) pair of the same variable, find a def-clear path connecting them. Each such pair is one **obligation** — a thing some test must exercise. The full list of pairs is your obligation set (the checklist to tick off).
 4. **Satisfy a criterion:** the criteria below differ only in _how many_ of those def→use pairs you must cover. They range from lazy (`all-defs`: reach _some_ use of each def) to thorough (`all-du-paths`: cover _every_ route to _every_ use). Read the table as "for each definition of `x`, how much must I cover?"
 
-| Criterion                  | Obligation per definition `d(x)`                                                          |
-| -------------------------- | ----------------------------------------------------------------------------------------- |
-| **all-defs**               | one def-clear path from each def to **some** (any one) use it reaches                     |
-| **all-c-uses**             | a def-clear path from each def to **every c-use** it reaches                              |
+| Criterion                  | Obligation per definition `d(x)`                                                                                                                                              |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **all-defs**               | one def-clear path from each def to **some** (any one) use it reaches                                                                                                         |
+| **all-c-uses**             | a def-clear path from each def to **every c-use** it reaches                                                                                                                  |
 | **all-p-uses**             | a def-clear path from each def to **every p-use it reaches — i.e. to BOTH out-edges (True and False) of every decision the def reaches** (⇒ all-p-uses subsumes all-branches) |
-| **all-c-uses/some-p-uses** | all c-uses; if a def reaches **no** c-use, then at least one p-use                        |
-| **all-p-uses/some-c-uses** | all p-uses; if a def reaches **no** p-use, then at least one c-use                        |
-| **all-uses**               | a def-clear path to **every** use (all c-uses AND all p-uses)                             |
-| **all-du-paths**           | **every** def-clear du-path (cycle-free / simple-cycle) to every use — may be exponential |
+| **all-c-uses/some-p-uses** | all c-uses; if a def reaches **no** c-use, then at least one p-use                                                                                                            |
+| **all-p-uses/some-c-uses** | all p-uses; if a def reaches **no** p-use, then at least one c-use                                                                                                            |
+| **all-uses**               | a def-clear path to **every** use (all c-uses AND all p-uses)                                                                                                                 |
+| **all-du-paths**           | **every** def-clear du-path (cycle-free / simple-cycle) to every use — may be exponential                                                                                     |
 
 5. **Feasibility check**: drop infeasible paths; you rarely hit 100%.
 
 **Worked examples — the two dataflow subsumption disproofs** (both live in §4's [Counterexample library](#counterexample-library), so all subsumption counterexamples sit in one place):
 
 - **[CE4](#counterexample-library) — full branch coverage ⊉ all-defs:** a two-`if` program where both tests give 100% branch coverage yet the def of `x` never reaches one of its uses. This is the canonical "all-defs is easy to break" trap (bullet below).
-- **[CE5](#counterexample-library) — all-c-uses/some-p-uses ⇎ all-p-uses/some-c-uses:** two small programs (one per direction) proving the pair **incomparable**. Direction 1 (the one asked on 2023b-b) is the `foo(x,y)` program: suite `{1-2-4-6}` covers the only c-uses but skips p-use edges. Key fact used: **all-p-uses requires *both* out-edges of every decision**, so a single path can never satisfy it.
+- **[CE5](#counterexample-library) — all-c-uses/some-p-uses ⇎ all-p-uses/some-c-uses:** two small programs (one per direction) proving the pair **incomparable**. Direction 1 (the one asked on 2023b-b) is the `foo(x,y)` program: suite `{1-2-4-6}` covers the only c-uses but skips p-use edges. Key fact used: **all-p-uses requires _both_ out-edges of every decision**, so a single path can never satisfy it.
 
 **Exam patterns & gotchas:**
 
@@ -310,7 +310,7 @@ _Direction 2 (statement adequate, NOT loop-boundary adequate):_ suite `foo(0,0)`
 
 Tests **{w=-1, y=1}** and **{w=1, y=-1}** together take both T and F of each `if` ⇒ **full branch coverage**. But the **def of x at line 2** reaching the use at line 9 needs `w≥0` (skip line 4) AND `y<0` — neither test does this ⇒ **all-defs NOT satisfied** at 100% branch coverage ⇒ branch ⊉ all-defs. _(Referenced from §3.)_
 
-**CE5 — all-c-uses/some-p-uses ⇎ all-p-uses/some-c-uses (incomparable, dataflow).** Reminder (textbook): a p-use of a variable in a predicate is associated with **each out-edge**, so **all-p-uses forces *both* the T and F edge of every decision** (that's why all-p-uses ⊇ all-branches). A single path can therefore never satisfy all-p-uses. Each direction below needs its **own** program.
+**CE5 — all-c-uses/some-p-uses ⇎ all-p-uses/some-c-uses (incomparable, dataflow).** Reminder (textbook): a p-use of a variable in a predicate is associated with **each out-edge**, so **all-p-uses forces _both_ the T and F edge of every decision** (that's why all-p-uses ⊇ all-branches). A single path can therefore never satisfy all-p-uses. Each direction below needs its **own** program.
 
 _Direction 1 — all-c-uses/some-p-uses ⊉ all-p-uses/some-c-uses._
 
@@ -324,7 +324,7 @@ void foo(int x, int y) {        // 1: def x, def y
 }                               // 5: return, 6: exit
 ```
 
-Suite **{ 1-2-4-6 }** (one test with `x≤0`, so the outer `if` is false → `print`). The only c-uses are `x,y` at node 4, reached def-clear ⇒ **all-c-uses/some-p-uses satisfied** (x and y have c-uses, so the criterion asks no p-use of them). But all-p-uses needs *both* edges of every predicate — `2->3`, `3->5`, `3->6` are never taken ⇒ **all-p-uses/some-c-uses fails.**
+Suite **{ 1-2-4-6 }** (one test with `x≤0`, so the outer `if` is false → `print`). The only c-uses are `x,y` at node 4, reached def-clear ⇒ **all-c-uses/some-p-uses satisfied** (x and y have c-uses, so the criterion asks no p-use of them). But all-p-uses needs _both_ edges of every predicate — `2->3`, `3->5`, `3->6` are never taken ⇒ **all-p-uses/some-c-uses fails.**
 
 _Direction 2 — all-p-uses/some-c-uses ⊉ all-c-uses/some-p-uses_ (needs a def that gets **killed** on the paths p-use coverage happens to use):
 
@@ -338,7 +338,7 @@ void bar(int v, int w) {        // 1: def v, def w
 }
 ```
 
-Suite **{ (v>0,w>0): 1-2-3-5-6-8 , (v≤0,w≤0): 1-2-4-5-7-8 }** takes both edges of both predicates ⇒ **all-p-uses/some-c-uses satisfied** (v and w have p-uses). But the c-use of the *original* `v` (def@1) needs a def-clear path to node 8, which exists **only** via node-2-True **and** node-5-False (`1-2-3-5-7-8`, i.e. `v>0 ∧ w≤0`) — a corner neither test hits (each test kills `v` at node 4 or 6 first) ⇒ that c-use pair is missed ⇒ **all-c-uses/some-p-uses fails.**
+Suite **{ (v>0,w>0): 1-2-3-5-6-8 , (v≤0,w≤0): 1-2-4-5-7-8 }** takes both edges of both predicates ⇒ **all-p-uses/some-c-uses satisfied** (v and w have p-uses). But the c-use of the _original_ `v` (def@1) needs a def-clear path to node 8, which exists **only** via node-2-True **and** node-5-False (`1-2-3-5-7-8`, i.e. `v>0 ∧ w≤0`) — a corner neither test hits (each test kills `v` at node 4 or 6 first) ⇒ that c-use pair is missed ⇒ **all-c-uses/some-p-uses fails.**
 
 Both directions ⇒ **incomparable.** _(Direction 1 is the one asked on 2023b-b. Referenced from §3.)_
 
@@ -352,7 +352,7 @@ Both directions ⇒ **incomparable.** _(Direction 1 is the one asked on 2023b-b.
 5   return r; }
 ```
 
-`x` is defined on both arms of the first `if`, and has one **c-use** (`x + 10`) on the true arm of the second `if`. all-c-uses therefore has **two** obligations: *def-from-the-`w<0`-arm → the c-use* and *def-from-the-`w≥0`-arm → the c-use*. Tests **{w=−1, y=1}** and **{w=1, y=−1}** take both T and F of each `if` ⇒ **full branch coverage**. But the first test defines `x` on the `w<0` arm and then takes `y≥0` (never reaching the c-use), while the c-use is only reached by the second test, which defined `x` on the `w≥0` arm ⇒ the pair *def-on-`w<0`-arm → c-use* is **never exercised** ⇒ all-c-uses unmet ⇒ branch ⊉ all-c-uses. _(Referenced from §3; asked directly on 2025b-a2.)_
+`x` is defined on both arms of the first `if`, and has one **c-use** (`x + 10`) on the true arm of the second `if`. all-c-uses therefore has **two** obligations: _def-from-the-`w<0`-arm → the c-use_ and _def-from-the-`w≥0`-arm → the c-use_. Tests **{w=−1, y=1}** and **{w=1, y=−1}** take both T and F of each `if` ⇒ **full branch coverage**. But the first test defines `x` on the `w<0` arm and then takes `y≥0` (never reaching the c-use), while the c-use is only reached by the second test, which defined `x` on the `w≥0` arm ⇒ the pair _def-on-`w<0`-arm → c-use_ is **never exercised** ⇒ all-c-uses unmet ⇒ branch ⊉ all-c-uses. _(Referenced from §3; asked directly on 2025b-a2.)_
 
 **Exam patterns & gotchas:**
 
@@ -386,7 +386,7 @@ STRUCTURAL hierarchy:
    Loop-boundary (0,1,many) — incomparable with statement; sits at the base on its own
 ```
 
-Read the fork carefully: **branch-and-condition** subsumes *both* branch and basic-condition, so those two are its children. Branch in turn subsumes statement. Branch and basic-condition are **side by side on purpose** — the tree never routes one through the other.
+Read the fork carefully: **branch-and-condition** subsumes _both_ branch and basic-condition, so those two are its children. Branch in turn subsumes statement. Branch and basic-condition are **side by side on purpose** — the tree never routes one through the other.
 
 Core spine: **Path ⊃ … ⊃ MC/DC ⊃ Branch-and-condition ⊃ Branch ⊃ Statement.** Branch ⊃ Statement is tested most.
 
@@ -497,13 +497,29 @@ The core idea: start with a table that's already pairwise-correct for the **firs
 P1P2: (0,0)(0,1)(1,0)(1,1)   P1P3: (0,0)(0,1)(1,0)(1,1)   P2P3: (0,0)(0,1)(1,0)(1,1)
 ```
 
-_Test 1._ **Count** — every value sits in 2 pairs of each of its 2 parameter-pairs ⇒ all six values score **4**, all tied ⇒ first pick = **P1=0**. **Greedy fill:** P2 — with P1=0, P2=0 makes (0,0)ₚ₁₂=1, P2=1 makes (0,1)ₚ₁₂=1 → tie → **P2=0**; P3 — with (P1,P2)=(0,0), P3=0 makes (0,0)ₚ₁₃+(0,0)ₚ₂₃=2, P3=1 makes 2 → tie → **P3=0**. ⇒ **Test 1 = (0,0,0)**, score 3, remove (0,0)ₚ₁₂,(0,0)ₚ₁₃,(0,0)ₚ₂₃ → **9 pairs left**.
+_Test 1._
+- **Count → first pick:** every value sits in 2 pairs of each of its 2 parameter-pairs ⇒ all six score **4**, tied → **P1 = 0**.
+- **Fill P2** (P1=0): `P2=0`→(0,0)ₚ₁₂=1; `P2=1`→(0,1)ₚ₁₂=1 → tie → **P2 = 0**.
+- **Fill P3** (P1=0,P2=0): `P3=0`→(0,0)ₚ₁₃+(0,0)ₚ₂₃=2; `P3=1`→2 → tie → **P3 = 0**.
+- ⇒ **Test 1 = (0,0,0)**, score 3; remove (0,0)ₚ₁₂,(0,0)ₚ₁₃,(0,0)ₚ₂₃ → **9 pairs left**.
 
-_Test 2._ **Count** on the 9 remaining: P1=1→4 (its 2 P1P2 + 2 P1P3 pairs all alive), P2=1→4, P3=1→4, while P1=0/P2=0/P3=0 →2 each. Tie at 4 → first parameter → first pick = **P1=1**. **Fill:** P2 — P2=0 makes (1,0)ₚ₁₂=1, P2=1 makes (1,1)ₚ₁₂=1 → tie → **P2=0**; P3 — with (1,0): P3=0 makes (1,0)ₚ₁₃=1 [(0,0)ₚ₂₃ already gone], P3=1 makes (1,1)ₚ₁₃+(0,1)ₚ₂₃=2 → **P3=1**. ⇒ **Test 2 = (1,0,1)**, score 3, remove (1,0)ₚ₁₂,(1,1)ₚ₁₃,(0,1)ₚ₂₃ → **6 left**: P1P2:(0,1)(1,1) · P1P3:(0,1)(1,0) · P2P3:(1,0)(1,1).
+_Test 2._
+- **Count → first pick:** on the 9 left, P1=1→4, P2=1→4, P3=1→4, and P1=0/P2=0/P3=0→2 each. Tie at 4 → first parameter → **P1 = 1**.
+- **Fill P2** (P1=1): `P2=0`→(1,0)ₚ₁₂=1; `P2=1`→(1,1)ₚ₁₂=1 → tie → **P2 = 0**.
+- **Fill P3** (P1=1,P2=0): `P3=0`→(1,0)ₚ₁₃=1 [(0,0)ₚ₂₃ gone]; `P3=1`→(1,1)ₚ₁₃+(0,1)ₚ₂₃=2 → **P3 = 1**.
+- ⇒ **Test 2 = (1,0,1)**, score 3; remove (1,0)ₚ₁₂,(1,1)ₚ₁₃,(0,1)ₚ₂₃ → **6 left**: P1P2:(0,1)(1,1) · P1P3:(0,1)(1,0) · P2P3:(1,0)(1,1).
 
-_Test 3._ **First pick:** P2=1 → (0,1)ₚ₁₂+(1,1)ₚ₁₂ + (1,0)ₚ₂₃+(1,1)ₚ₂₃ = **4** (the max) → first pick = **P2=1**. **Fill** (remaining P1,P3 in index order): P1 — with P2=1: P1=0 makes (0,1)ₚ₁₂=1, P1=1 makes (1,1)ₚ₁₂=1 → tie → **P1=0**; P3 — with (P1,P2)=(0,1): P3=0 makes 0 [(0,0)ₚ₁₃ gone, (1,0)ₚ₂₃ alive→ wait uses P2=1 ⇒ (1,0)ₚ₂₃=1]; recount → P3=0: (0,0)ₚ₁₃ gone + (1,0)ₚ₂₃=1 → 1; P3=1: (0,1)ₚ₁₃=1 + (1,1)ₚ₂₃=1 → 2 → **P3=1**. ⇒ **Test 3 = (0,1,1)**, score 3, remove (0,1)ₚ₁₂,(0,1)ₚ₁₃,(1,1)ₚ₂₃ → **3 left**: P1P2:(1,1) · P1P3:(1,0) · P2P3:(1,0).
+_Test 3._
+- **Count → first pick:** P2=1 is in (0,1)ₚ₁₂,(1,1)ₚ₁₂,(1,0)ₚ₂₃,(1,1)ₚ₂₃ = **4** (the max) → **P2 = 1**.
+- **Fill P1** (P2=1): `P1=0`→(0,1)ₚ₁₂=1; `P1=1`→(1,1)ₚ₁₂=1 → tie → **P1 = 0**.
+- **Fill P3** (P1=0,P2=1): `P3=0`→(1,0)ₚ₂₃=1 [(0,0)ₚ₁₃ gone]; `P3=1`→(0,1)ₚ₁₃+(1,1)ₚ₂₃=2 → **P3 = 1**.
+- ⇒ **Test 3 = (0,1,1)**, score 3; remove (0,1)ₚ₁₂,(0,1)ₚ₁₃,(1,1)ₚ₂₃ → **3 left**: P1P2:(1,1) · P1P3:(1,0) · P2P3:(1,0).
 
-_Test 4._ **First pick:** P1=1→2, P2=1→2, P3=0→2 (all others 0); tie → first → first pick = **P1=1**. **Fill:** P2 — P2=1 makes (1,1)ₚ₁₂=1 → **P2=1**; P3 — with (1,1): P3=0 makes (1,0)ₚ₁₃+(1,0)ₚ₂₃=2 → **P3=0**. ⇒ **Test 4 = (1,1,0)**, score 3, π **empty**.
+_Test 4._
+- **Count → first pick:** P1=1→2, P2=1→2, P3=0→2 (others 0); tie → first → **P1 = 1**.
+- **Fill P2** (P1=1): `P2=1`→(1,1)ₚ₁₂=1 → **P2 = 1**.
+- **Fill P3** (P1=1,P2=1): `P3=0`→(1,0)ₚ₁₃+(1,0)ₚ₂₃=2 → **P3 = 0**.
+- ⇒ **Test 4 = (1,1,0)**, score 3; π **empty**.
 
 **Answer — 4 tests:** `(0,0,0), (1,0,1), (0,1,1), (1,1,0)`. Verify (write this too): every one of the 12 pairs appears — e.g. P2P3 gets (0,0)t1,(0,1)t2,(1,1)t3,(1,0)t4. ✓
 
@@ -517,17 +533,41 @@ _Test 4._ **First pick:** P1=1→2, P2=1→2, P3=0→2 (all others 0); tie → f
 P1P2: (C,B)(C,W)(C,R)(D,B)(D,W)(D,R)   P1P3: (C,S)(C,M)(D,S)(D,M)   P2P3: (B,S)(B,M)(W,S)(W,M)(R,S)(R,M)
 ```
 
-_Test 1._ **First pick:** C→5 (3 in P1P2 + 2 in P1P3), D→5, S→5 (2 in P1P3 + 3 in P2P3), M→5, each of B/W/R→4. Tie at 5 → first → first pick = **P1=C**. **Fill:** P2 — (C,B)(C,W)(C,R) all =1 → tie → **B**; P3 — with (C,B): S makes (C,S)ₚ₁₃+(B,S)ₚ₂₃=2, M makes 2 → tie → **S**. ⇒ **Test 1 = (C,B,S)**, score 3, remove (C,B),(C,S),(B,S) → **13 left**.
+_Test 1._
+- **Count → first pick:** C→5, D→5, S→5, M→5, each of B/W/R→4. Tie at 5 → first → **P1 = C**.
+- **Fill P2** (P1=C): (C,B),(C,W),(C,R) all =1 → tie → **B**.
+- **Fill P3** (C,B): `S`→(C,S)ₚ₁₃+(B,S)ₚ₂₃=2; `M`→2 → tie → **S**.
+- ⇒ **Test 1 = (C,B,S)**, score 3; remove (C,B),(C,S),(B,S) → **13 left**.
 
-_Test 2._ **Count** (13 left): D→5 [(D,B)(D,W)(D,R)+(D,S)(D,M)], M→5 [(C,M)(D,M)+(B,M)(W,M)(R,M)], C→3, W→4, R→4, S→3, B→2. Tie D vs M at 5 → first parameter → first pick = **P1=D**. **Fill:** P2 — (D,B)(D,W)(D,R) all=1 → **B**; P3 — with (D,B): S makes (D,S)ₚ₁₃=1 [(B,S) gone], M makes (D,M)ₚ₁₃+(B,M)ₚ₂₃=2 → **M**. ⇒ **Test 2 = (D,B,M)**, score 3, remove (D,B),(D,M),(B,M) → **10 left**.
+_Test 2._
+- **Count → first pick:** on 13 left: D→5, M→5, W→4, R→4, C→3, S→3, B→2. Tie D vs M → first parameter → **P1 = D**.
+- **Fill P2** (P1=D): (D,B),(D,W),(D,R) all =1 → tie → **B**.
+- **Fill P3** (D,B): `S`→(D,S)ₚ₁₃=1 [(B,S) gone]; `M`→(D,M)ₚ₁₃+(B,M)ₚ₂₃=2 → **M**.
+- ⇒ **Test 2 = (D,B,M)**, score 3; remove (D,B),(D,M),(B,M) → **10 left**.
 
-_Test 3._ **First pick:** W→4 [(C,W)(D,W)+(W,S)(W,M)], R→4, else ≤3. Tie W vs R → **P2=W**. **Fill** (remaining P1,P3): P1 — with P2=W: (C,W)=1,(D,W)=1 → tie → **C**; P3 — with (C,W): S makes 0+(W,S)=1 [(C,S) gone], M makes (C,M)ₚ₁₃+(W,M)ₚ₂₃=2 → **M**. ⇒ **Test 3 = (C,W,M)**, score 3, remove (C,W),(C,M),(W,M) → **7 left**: P1P2:(C,R)(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,S)(R,M).
+_Test 3._
+- **Count → first pick:** W→4 [(C,W)(D,W)+(W,S)(W,M)], R→4, else ≤3. Tie W vs R → **P2 = W**.
+- **Fill P1** (P2=W): (C,W)=1, (D,W)=1 → tie → **C**.
+- **Fill P3** (C,W): `S`→(W,S)ₚ₂₃=1 [(C,S) gone]; `M`→(C,M)ₚ₁₃+(W,M)ₚ₂₃=2 → **M**.
+- ⇒ **Test 3 = (C,W,M)**, score 3; remove (C,W),(C,M),(W,M) → **7 left**: P1P2:(C,R)(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,S)(R,M).
 
-_Test 4._ **First pick:** R→4 [(C,R)(D,R)+(R,S)(R,M)] is the max → first pick = **P2=R**. **Fill:** P1 — (C,R)=1,(D,R)=1 → tie → **C**; P3 — with (C,R): S makes (R,S)ₚ₂₃=1 [(C,S) gone], M makes (R,M)ₚ₂₃=1 → tie → **S**. ⇒ **Test 4 = (C,R,S)**, score **2** (only (C,R),(R,S); (C,S) already covered) → **5 left**: P1P2:(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,M).
+_Test 4._
+- **Count → first pick:** R→4 [(C,R)(D,R)+(R,S)(R,M)] is the max → **P2 = R**.
+- **Fill P1** (P2=R): (C,R)=1, (D,R)=1 → tie → **C**.
+- **Fill P3** (C,R): `S`→(R,S)ₚ₂₃=1 [(C,S) gone]; `M`→(R,M)ₚ₂₃=1 → tie → **S**.
+- ⇒ **Test 4 = (C,R,S)**, score **2** (only (C,R),(R,S); (C,S) already covered) → **5 left**: P1P2:(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,M).
 
-_Test 5._ **First pick:** D→3 [(D,W)(D,R)+(D,S)] → first pick = **P1=D**. **Fill:** P2 — (D,W)=1,(D,R)=1 → tie → **W**; P3 — with (D,W): S makes (D,S)ₚ₁₃+(W,S)ₚ₂₃=2, M makes 0 → **S**. ⇒ **Test 5 = (D,W,S)**, score 3, remove (D,W),(D,S),(W,S) → **2 left**: P1P2:(D,R) · P2P3:(R,M).
+_Test 5._
+- **Count → first pick:** D→3 [(D,W)(D,R)+(D,S)] → **P1 = D**.
+- **Fill P2** (P1=D): (D,W)=1, (D,R)=1 → tie → **W**.
+- **Fill P3** (D,W): `S`→(D,S)ₚ₁₃+(W,S)ₚ₂₃=2; `M`→0 → **S**.
+- ⇒ **Test 5 = (D,W,S)**, score 3; remove (D,W),(D,S),(W,S) → **2 left**: P1P2:(D,R) · P2P3:(R,M).
 
-_Test 6._ **First pick:** R→2 [(D,R)+(R,M)] → first pick = **P2=R**. **Fill:** P1 — (D,R)=1 → **D**; P3 — with (D,R): M makes (R,M)ₚ₂₃=1 → **M**. ⇒ **Test 6 = (D,R,M)**, score 2, π **empty**.
+_Test 6._
+- **Count → first pick:** R→2 [(D,R)+(R,M)] → **P2 = R**.
+- **Fill P1** (P2=R): (D,R)=1 → **D**.
+- **Fill P3** (D,R): `M`→(R,M)ₚ₂₃=1 → **M**.
+- ⇒ **Test 6 = (D,R,M)**, score 2; π **empty**.
 
 **Answer — 6 tests** (vs `2×3×2 = 12` exhaustive): `(C,B,S), (D,B,M), (C,W,M), (C,R,S), (D,W,S), (D,R,M)`. Verify: P1P2 gets all 6, P1P3 all 4 [(C,S)t1,(C,M)t3,(D,S)t5,(D,M)t2], P2P3 all 6. ✓ Takeaway: multi-valued is purely mechanical — bigger domains just mean more values to count and more pairs to clear; the not-every-test-scores-3 rows (t4, t6) are normal near the end.
 
@@ -683,13 +723,13 @@ Symbolic return `2*X+1`, PC `X <= Y`. Negate last → aim at ERROR: PC becomes `
 - **Satisfying input:** if the PC is SAT, give one concrete tuple that satisfies it (for PC `X<=Y`, answer `x=0, y=0`). **Finding an array out-of-bounds bug is the same skill:** an access `arr[b+1]` is only safe while `0 ≤ b+1 ≤ SIZE_OF_A − 1`, so to _hit_ the bug you add the violating constraint `b+1 > SIZE_OF_A − 1` to the PC and solve. E.g. `arr` has 4 slots (indices 0–3, `SIZE_OF_A = 4`) and the code reads `arr[b+1]`: solving `b+1 > 3` gives `b = 3`, which reads index 4 — one past the end ⇒ out-of-bounds.
 - **MC/DC variant:** build MC/DC cases first, then one symbolic run per case, adding each basic condition's required truth value to the PC. For `a /\ b /\ c`: runs `a/\b/\c`, `!a/\b/\c`, `a/\!b/\c`, `a/\b/\!c`. If MC/DC impossible for a condition, fall back to ordinary symbolic execution.
 - **To get the next path, negate the _last_ constraint of the previous run's PC** (not an earlier one), then re-solve. Walking `X<=Y /\ X!=X+1` → flip the last → `X<=Y /\ X==X+1`. Always the most recently added conjunct.
-- **`for` loop — the update (`i++`) runs _last_ in each iteration.** For `for(i=0; i<n; i++) { body }` the order per iteration is **init → test `i<n` → body → `i++` → back to test**. So in the PV/PC table the `i++` row comes **after** the whole body, not next to the `i<n` test — a common ordering slip when a use of `i` inside the body must see the *pre-increment* value.
+- **`for` loop — the update (`i++`) runs _last_ in each iteration.** For `for(i=0; i<n; i++) { body }` the order per iteration is **init → test `i<n` → body → `i++` → back to test**. So in the PV/PC table the `i++` row comes **after** the whole body, not next to the `i<n` test — a common ordering slip when a use of `i` inside the body must see the _pre-increment_ value.
 - Assignments update PV only; branches update PC only — never both on one row.
 - **"Does symbolic execution guarantee full branch coverage?"** (recurring true/false — state assumptions explicitly, then split into three cases; a tiny example for each):
-  1. **Infeasible branch → doesn't count.** Symbolic execution can't find an input for it (its PC is UNSAT), **but no test suite could cover it either**, so it's not a real gap. _Example:_ `if (x > 10) { if (x < 5) DEAD; }` — reaching `DEAD` needs `X>10 /\ X<5`, which is UNSAT; that edge is uncoverable by *anyone*, so failing to cover it isn't a failure of symbolic execution.
-  2. **Loops / unbounded (or too-large) tree → may not terminate.** The tree can be infinite, so the run might never finish. _Example:_ `while (i < n) i++;` with `n` symbolic unfolds to 0, 1, 2, … iterations — infinitely many paths. If the question *assumes* "we run symbolic execution" means it **does** finish exploring the whole tree, the statement is **trivially true**; otherwise it may cover nothing conclusive.
+  1. **Infeasible branch → doesn't count.** Symbolic execution can't find an input for it (its PC is UNSAT), **but no test suite could cover it either**, so it's not a real gap. _Example:_ `if (x > 10) { if (x < 5) DEAD; }` — reaching `DEAD` needs `X>10 /\ X<5`, which is UNSAT; that edge is uncoverable by _anyone_, so failing to cover it isn't a failure of symbolic execution.
+  2. **Loops / unbounded (or too-large) tree → may not terminate.** The tree can be infinite, so the run might never finish. _Example:_ `while (i < n) i++;` with `n` symbolic unfolds to 0, 1, 2, … iterations — infinitely many paths. If the question _assumes_ "we run symbolic execution" means it **does** finish exploring the whole tree, the statement is **trivially true**; otherwise it may cover nothing conclusive.
   3. **Otherwise (bounded tree, fully explored) → true, and stronger.** _Example:_ `if (x>0) A else B; if (y>0) C else D;` — no loops, exactly 4 feasible paths; symbolic execution walks all 4, so it takes **both** edges of each `if` (full branch) **and** every path (full **path** coverage ⊃ branch coverage).
-  ⇒ Under the "whole tree explored" assumption, symbolic execution gives **full branch coverage** (in fact full *path* coverage); the only escapes are non-termination (case 2) or genuinely infeasible — hence uncoverable — branches (case 1).
+     ⇒ Under the "whole tree explored" assumption, symbolic execution gives **full branch coverage** (in fact full _path_ coverage); the only escapes are non-termination (case 2) or genuinely infeasible — hence uncoverable — branches (case 1).
 
 **Cheat sheet.**
 
@@ -733,39 +773,39 @@ Pointer symbols: `p→P`, `p->v→PV`, `p->next→PN`, `p->next->v→PNV`. Each 
 
 **Iteration 1** — Input: `p = NULL` (pointers start NULL).
 
-| line  | concrete state          | PV (symbolic) | PC                        |
-| ----- | ----------------------- | ------------- | ------------------------- |
-| entry | `p = NULL`              | `p→P`         | —                         |
-| 1     | `p==NULL` → **true** (`\|\|` short-circuits, 2nd atom not evaluated) | — | `P == NULL` (True) → return |
+| line  | concrete state                                                       | PV (symbolic) | PC                          |
+| ----- | -------------------------------------------------------------------- | ------------- | --------------------------- |
+| entry | `p = NULL`                                                           | `p→P`         | —                           |
+| 1     | `p==NULL` → **true** (`\|\|` short-circuits, 2nd atom not evaluated) | —             | `P == NULL` (True) → return |
 
 Output: **returns normally, no ERROR.** &nbsp; **Negate** `P == NULL` (True) → `P != NULL` ⇒ next input needs a non-null pointer → build a **1-cell** list.
 
 **Iteration 2** — Input: `p = [v=0] → NULL` (1 cell).
 
-| line  | concrete state            | PV (symbolic)             | PC                                    |
-| ----- | ------------------------- | ------------------------- | ------------------------------------- |
-| entry | `p = [0]→NULL`            | `p→P, p->v→PV, p->next→PN`| `P != NULL` (carried from the flip)   |
-| 1     | `p==NULL` false; `p->next==NULL` **true** → cond true | — | `P != NULL /\ PN == NULL` (True) → return |
+| line  | concrete state                                        | PV (symbolic)              | PC                                        |
+| ----- | ----------------------------------------------------- | -------------------------- | ----------------------------------------- |
+| entry | `p = [0]→NULL`                                        | `p→P, p->v→PV, p->next→PN` | `P != NULL` (carried from the flip)       |
+| 1     | `p==NULL` false; `p->next==NULL` **true** → cond true | —                          | `P != NULL /\ PN == NULL` (True) → return |
 
 Output: **returns normally, no ERROR.** &nbsp; **Negate** `PN == NULL` (True) → `PN != NULL` ⇒ next input needs a non-null `next` → grow to a **2-cell** list.
 
 **Iteration 3** — Input: `p = [v=0] → [v=0] → NULL` (2 cells, values from 0).
 
-| line  | concrete state             | PV (symbolic)           | PC                                            |
-| ----- | -------------------------- | ----------------------- | --------------------------------------------- |
-| entry | `p = [0]→[0]→NULL`         | `…, p->next->v→PNV`     | `P != NULL /\ PN != NULL` (carried)           |
-| 1     | false `\|\|` false → **fall through** | —             | `P != NULL /\ PN != NULL` (False)             |
-| 2     | `p->v > p->next->v` → `0 > 0` **false** → no ERROR | — | `… /\ PV > PNV` (False) → return          |
+| line  | concrete state                                     | PV (symbolic)       | PC                                  |
+| ----- | -------------------------------------------------- | ------------------- | ----------------------------------- |
+| entry | `p = [0]→[0]→NULL`                                 | `…, p->next->v→PNV` | `P != NULL /\ PN != NULL` (carried) |
+| 1     | false `\|\|` false → **fall through**              | —                   | `P != NULL /\ PN != NULL` (False)   |
+| 2     | `p->v > p->next->v` → `0 > 0` **false** → no ERROR | —                   | `… /\ PV > PNV` (False) → return    |
 
 Output: **returns normally, no ERROR.** &nbsp; **Negate** `PV > PNV` (False) → `PV > PNV` (True) ⇒ need the first value bigger: increment to `PV=1, PNV=0`.
 
 **Iteration 4** — Input: `p = [v=1] → [v=0] → NULL`.
 
-| line  | concrete state             | PV (symbolic)       | PC                                                 |
-| ----- | -------------------------- | ------------------- | -------------------------------------------------- |
-| entry | `p = [1]→[0]→NULL`         | as above            | `P != NULL /\ PN != NULL` (carried)                |
-| 1     | false `\|\|` false → fall through | —            | `P != NULL /\ PN != NULL` (False)                  |
-| 2     | `1 > 0` **true** → **ERROR** | —                 | `P != NULL /\ PN != NULL /\ PV > PNV` (True) → **ERROR** |
+| line  | concrete state                    | PV (symbolic) | PC                                                       |
+| ----- | --------------------------------- | ------------- | -------------------------------------------------------- |
+| entry | `p = [1]→[0]→NULL`                | as above      | `P != NULL /\ PN != NULL` (carried)                      |
+| 1     | false `\|\|` false → fall through | —             | `P != NULL /\ PN != NULL` (False)                        |
+| 2     | `1 > 0` **true** → **ERROR**      | —             | `P != NULL /\ PN != NULL /\ PV > PNV` (True) → **ERROR** |
 
 Output: **ERROR reached.** &nbsp; **Final PC:** `P != NULL /\ PN != NULL /\ PV > PNV`; **input that triggers it:** the 2-cell list `[1]→[0]`.
 
@@ -785,22 +825,22 @@ Symbols `x→X, y→Y`; `result` gets the opaque token `THIRD_PARTY_FUNCTION` be
 
 **Table 1** — Input: `x = 1, y = 1`.
 
-| line  | concrete state                       | PV (symbolic)                     | PC                                  |
-| ----- | ------------------------------------ | --------------------------------- | ----------------------------------- |
-| entry | `x=1, y=1`                           | `x→X, y→Y`                        | —                                   |
+| line  | concrete state                            | PV (symbolic)                 | PC                                  |
+| ----- | ----------------------------------------- | ----------------------------- | ----------------------------------- |
+| entry | `x=1, y=1`                                | `x→X, y→Y`                    | —                                   |
 | 1     | engine runs `f(1)=20946` → `result=20946` | `result→THIRD_PARTY_FUNCTION` | —                                   |
-| 2     | `20946 == 1` **false** → no ERROR    | —                                 | `THIRD_PARTY_FUNCTION != Y` (False) |
-| 3     | `return 20946`                       | —                                 | —                                   |
+| 2     | `20946 == 1` **false** → no ERROR         | —                             | `THIRD_PARTY_FUNCTION != Y` (False) |
+| 3     | `return 20946`                            | —                             | —                                   |
 
 Output: **returns 20946, no ERROR.** &nbsp; **Negate** `THIRD_PARTY_FUNCTION != Y` → `THIRD_PARTY_FUNCTION == Y`. The solver can't invert `f`, so **reuse the concrete output**: keep `x=1` (so `result` stays 20946) and set `y = 20946`.
 
 **Table 2** — Input: `x = 1, y = 20946`.
 
-| line  | concrete state                       | PV (symbolic)                     | PC                                       |
-| ----- | ------------------------------------ | --------------------------------- | ---------------------------------------- |
-| entry | `x=1, y=20946`                       | `x→X, y→Y`                        | —                                        |
-| 1     | `f(1)=20946` → `result=20946`        | `result→THIRD_PARTY_FUNCTION`     | —                                        |
-| 2     | `20946 == 20946` **true** → **ERROR** | —                                | `THIRD_PARTY_FUNCTION == Y` (True) → **ERROR** |
+| line  | concrete state                        | PV (symbolic)                 | PC                                             |
+| ----- | ------------------------------------- | ----------------------------- | ---------------------------------------------- |
+| entry | `x=1, y=20946`                        | `x→X, y→Y`                    | —                                              |
+| 1     | `f(1)=20946` → `result=20946`         | `result→THIRD_PARTY_FUNCTION` | —                                              |
+| 2     | `20946 == 20946` **true** → **ERROR** | —                             | `THIRD_PARTY_FUNCTION == Y` (True) → **ERROR** |
 
 Output: **ERROR reached.** &nbsp; **Input that triggers it:** `(x=1, y=20946)`.
 
@@ -844,21 +884,21 @@ Output: **ERROR reached.** &nbsp; **Input that triggers it:** `(x=1, y=20946)`.
 | **s2** | s3 / 1 | s1 / 0 |
 | **s3** | s1 / 1 | s2 / 0 |
 
-- **DS = `aa`.** Feed the input sequence `aa` starting from each state and read off the two outputs: s1→`01`, s2→`11`, s3→`10`. All three output strings differ ⇒ this one sequence identifies *every* state. (Trace s1: `a` outputs 0 and moves s1→s2, then `a` outputs 1 and moves s2→s3 ⇒ `01`.)
+- **DS = `aa`.** Feed the input sequence `aa` starting from each state and read off the two outputs: s1→`01`, s2→`11`, s3→`10`. All three output strings differ ⇒ this one sequence identifies _every_ state. (Trace s1: `a` outputs 0 and moves s1→s2, then `a` outputs 1 and moves s2→s3 ⇒ `01`.)
 - **UIO per state** (one fingerprint each; lengths may differ). Length-1 `a` gives outputs s1=0, s2=1, s3=1 — so output `0` on `a` is unique to **s1** ⇒ **UIO(s1) = `a`**. s2 and s3 tie on `a` (both 1) and `b` outputs 0 everywhere, so they need length 2: **UIO(s2) = `aa`** (output `11`), **UIO(s3) = `aa`** (output `10`). Note a DS automatically serves as a UIO for every state — that's why `aa` works for all three.
-- **W = {`aa`}.** Because a DS exists, the characterizing set collapses to just that one sequence (|W|=1 ⇔ the single word *is* a DS). No length-1 set could do it here — `a` can't separate s2 from s3 and `b` outputs `0` for all states, so s2 and s3 only diverge from length 2 onward. Contrast **Worked example 3** below, where there is *no* DS and W genuinely needs two words `{a, b}`.
+- **W = {`aa`}.** Because a DS exists, the characterizing set collapses to just that one sequence (|W|=1 ⇔ the single word _is_ a DS). No length-1 set could do it here — `a` can't separate s2 from s3 and `b` outputs `0` for all states, so s2 and s3 only diverge from length 2 onward. Contrast **Worked example 3** below, where there is _no_ DS and W genuinely needs two words `{a, b}`.
 
 **The recipes.**
 
-_(a) Find or refute a UIO for a state sᵢ — the **UIO tree**._ Goal: find the shortest input sequence `w` whose output from sᵢ differs from the output *every other* state gives on that same `w`. Observing that output then proves "I was in sᵢ." You search for `w` by growing a tree one input at a time.
+_(a) Find or refute a UIO for a state sᵢ — the **UIO tree**._ Goal: find the shortest input sequence `w` whose output from sᵢ differs from the output _every other_ state gives on that same `w`. Observing that output then proves "I was in sᵢ." You search for `w` by growing a tree one input at a time.
 
 The idea in one sentence: **start by assuming every state could be mistaken for sᵢ, then feed inputs that peel away the states whose output differs, until only sᵢ is left.** The group you track is the **look-alike set** — the states that, on the inputs applied so far, have produced the **exact same output string as sᵢ** (so from the outside they still look identical to sᵢ, i.e. you cannot yet tell them apart from it). For each look-alike also record **which state it has now moved to**, since that determines its next output.
 
 - **Root (no input yet):** no output seen, so no state can be ruled out — the look-alike set is **all states**, each still sitting at itself.
-- **Apply input `x`:** compute the output `x` gives from sᵢ's *current* state — call it `o`. Any look-alike whose output on `x` **≠ `o`** has just revealed itself as different ⇒ **remove it**. The ones whose output **= `o`** still look like sᵢ; advance each of them (and sᵢ) to its next state.
+- **Apply input `x`:** compute the output `x` gives from sᵢ's _current_ state — call it `o`. Any look-alike whose output on `x` **≠ `o`** has just revealed itself as different ⇒ **remove it**. The ones whose output **= `o`** still look like sᵢ; advance each of them (and sᵢ) to its next state.
 - **Success:** the look-alike set shrinks to just **{sᵢ}** — no other state still matches sᵢ's output string ⇒ the inputs along this path are a **UIO** for sᵢ.
 - **Dead branch:** sᵢ's current state becomes the **same** state as another look-alike's current state (a **collision** — from here they give identical output and next-state forever, so no input can ever separate them), or the look-alike set repeats one seen earlier (a loop).
-- **No UIO:** if *every* branch dies (collision/loop) before the set reaches {sᵢ}, then sᵢ has no UIO.
+- **No UIO:** if _every_ branch dies (collision/loop) before the set reaches {sᵢ}, then sᵢ has no UIO.
 
 **Worked mini-example (the 3-state machine above): find UIO(s2).** "look-alikes" = states still matching s2's output so far; `@` shows where each has moved.
 
@@ -869,6 +909,20 @@ start:  look-alikes {s1, s2, s3}         (no input yet — anyone could be s2)
       └─ a → s2 (now at s3) outputs 1 (→s1).  s3 (now at s1) outputs 0 ≠ 1 ⇒ removed
              look-alikes { s2 }           ★ only s2 remains ⇒ UIO(s2) = `aa`  (s2's outputs = 1,1)
 ```
+
+**UIOs really can be a _different word per state_** (each state's tree terminates as soon as _that_ state is isolated — via whatever input does it, at whatever depth). On this machine:
+
+| state  | on `a`     | on `b`     |
+| ------ | ---------- | ---------- |
+| **s1** | s1 / **1** | s2 / 0     |
+| **s2** | s3 / 0     | s2 / **1** |
+| **s3** | s2 / 0     | s1 / 0     |
+
+- **UIO(s1) = `a`** — `a` gives s1 output **1**, unique (s2,s3 give 0). Tree isolates s1 in **one** step via `a`.
+- **UIO(s2) = `b`** — `b` gives s2 output **1**, unique (s1,s3 give 0). Isolated in one step via a **different input** (`b`, not `a`).
+- **UIO(s3) = `ab`** — s3 outputs `0` on both `a` and `b` (ties with someone each time), so length-1 fails; `ab` gives s3 → `01`, unique (s1→`10`, s2→`00`). Needs **two** steps.
+
+So the three UIO trees genuinely diverge: `a`, `b`, `ab` — different first inputs _and_ different lengths. (This machine also happens to have a DS = `ab`, which is why s3's shortest UIO equals it — but s1 and s2 get away with far shorter, state-specific words. That's the whole point of UIOs over a DS: **per-state, often cheaper**.)
 
 Reading it: the first `a` already peels off s1 (it alone output 0), but s3 still shadows s2 (both output 1); the second `a` finally splits them (s2 → 1, s3 → 0), leaving s2 alone. s1 needed no tree at all — a single `a` makes its output `0` unique (see the small example above). **To _refute_** a UIO you run the same tree and show every branch hits a collision or loop — worked next.
 
@@ -897,12 +951,12 @@ _(d) Conformance tests:_ "conformance testing" = checking a real implementation 
 | s1    | s0 / 1 | s2 / 0 |
 | s2    | s1 / 0 | s0 / 1 |
 
-**Why s0 has no UIO** — run the UIO tree from s0 and try each possible *first* input:
+**Why s0 has no UIO** — run the UIO tree from s0 and try each possible _first_ input:
 
-- Start with **a**: s0 outputs 0 and goes to s1 — but s2 *also* outputs 0 and *also* goes to s1. After `a`, s0 and s2 sit in the **same state** having produced the **same output**, so from here they behave identically forever. **Collision** — this branch is dead.
-- Start with **b**: s0 outputs 0 and goes to s2 — but s1 *also* outputs 0 and goes to s2. Same trap, this time with s1. Dead.
+- Start with **a**: s0 outputs 0 and goes to s1 — but s2 _also_ outputs 0 and _also_ goes to s1. After `a`, s0 and s2 sit in the **same state** having produced the **same output**, so from here they behave identically forever. **Collision** — this branch is dead.
+- Start with **b**: s0 outputs 0 and goes to s2 — but s1 _also_ outputs 0 and goes to s2. Same trap, this time with s1. Dead.
 
-Both possible first inputs trap s0 in a collision (same output **and** same next-state as another state), and a collision can never be undone ⇒ **s0 has no UIO.** And a single state with no UIO is enough to conclude **there is no DS** (a DS would have to hand *every* state a UIO). _(The DS tree agrees: both children of the root contain a repeated state — rule D1.)_
+Both possible first inputs trap s0 in a collision (same output **and** same next-state as another state), and a collision can never be undone ⇒ **s0 has no UIO.** And a single state with no UIO is enough to conclude **there is no DS** (a DS would have to hand _every_ state a UIO). _(The DS tree agrees: both children of the root contain a repeated state — rule D1.)_
 
 _If instead a question changes one edge_ — say `s2 —b→ s0` becomes `s2 —b→ s0 / 0`: first re-check the changed edge, but the two blocking collisions above (on `a`: s0,s2→s1/0; on `b`: s0,s1→s2/0) don't involve it ⇒ **still no UIO, no DS.** (Always re-check the changed edge first.)
 
@@ -925,25 +979,25 @@ Root: on **a**, s0,s1 both →s1/0 (D1); on **b**, s0,s2 both →s2/0 (D1) ⇒ *
 
 **Worked example 4 — full conformance test table (the "write all the test cases" question).** For **every** transition you write one test row and record the outputs you expect; the table format below is the one used in class. FSM = a **mod-3 counter**, start state **s0**; inputs `inc` (advance), `q` (report the count), `RESET` (back to s0):
 
-| state  | `inc`     | `q`      | `RESET`   |
-| ------ | --------- | -------- | --------- |
-| **s0** | s1 / ok   | s0 / **0** | s0 / ok |
-| **s1** | s2 / ok   | s1 / **1** | s0 / ok |
-| **s2** | s0 / ok   | s2 / **2** | s0 / ok |
+| state  | `inc`   | `q`        | `RESET` |
+| ------ | ------- | ---------- | ------- |
+| **s0** | s1 / ok | s0 / **0** | s0 / ok |
+| **s1** | s2 / ok | s1 / **1** | s0 / ok |
+| **s2** | s0 / ok | s2 / **2** | s0 / ok |
 
-Set-up (state this first): the **distinguishing sequence is `q`** — its output `0/1/2` is unique per state, so it doubles as the **state-verification sequence**; the **reset sequence is `RESET`**; the input alphabet under test is {`inc`, `q`, `RESET`}. The **transfer sequences** (from s0) are `transfer(s0)=ε`, `transfer(s1)=inc`, `transfer(s2)=inc inc`. In the *Input sequence* column, `@` separates the **transfer** that reaches the state under test from the **input under test** itself. There are `3 states × 3 inputs = 9` transitions ⇒ 9 rows:
+Set-up (state this first): the **distinguishing sequence is `q`** — its output `0/1/2` is unique per state, so it doubles as the **state-verification sequence**; the **reset sequence is `RESET`**; the input alphabet under test is {`inc`, `q`, `RESET`}. The **transfer sequences** (from s0) are `transfer(s0)=ε`, `transfer(s1)=inc`, `transfer(s2)=inc inc`. In the _Input sequence_ column, `@` separates the **transfer** that reaches the state under test from the **input under test** itself. There are `3 states × 3 inputs = 9` transitions ⇒ 9 rows:
 
-| State under test | Input under test | Input sequence | Expected output for the input under test | Which state is reached with the input under test | Expected output for the state verification sequence |
-| :-: | :-: | :-: | :-: | :-: | :-: |
-| s0 | `inc`   | `inc`          | ok | s1 | **1** |
-| s0 | `q`     | `q`            | 0  | s0 | **0** |
-| s0 | `RESET` | `RESET`        | ok | s0 | **0** |
-| s1 | `inc`   | `inc@inc`      | ok | s2 | **2** |
-| s1 | `q`     | `inc@q`        | 1  | s1 | **1** |
-| s1 | `RESET` | `inc@RESET`    | ok | s0 | **0** |
-| s2 | `inc`   | `inc inc@inc`  | ok | s0 | **0** |
-| s2 | `q`     | `inc inc@q`    | 2  | s2 | **2** |
-| s2 | `RESET` | `inc inc@RESET`| ok | s0 | **0** |
+| State under test | Input under test | Input sequence  | Expected output for the input under test | Which state is reached with the input under test | Expected output for the state verification sequence |
+| :--------------: | :--------------: | :-------------: | :--------------------------------------: | :----------------------------------------------: | :-------------------------------------------------: |
+|        s0        |      `inc`       |      `inc`      |                    ok                    |                        s1                        |                        **1**                        |
+|        s0        |       `q`        |       `q`       |                    0                     |                        s0                        |                        **0**                        |
+|        s0        |     `RESET`      |     `RESET`     |                    ok                    |                        s0                        |                        **0**                        |
+|        s1        |      `inc`       |    `inc@inc`    |                    ok                    |                        s2                        |                        **2**                        |
+|        s1        |       `q`        |     `inc@q`     |                    1                     |                        s1                        |                        **1**                        |
+|        s1        |     `RESET`      |   `inc@RESET`   |                    ok                    |                        s0                        |                        **0**                        |
+|        s2        |      `inc`       |  `inc inc@inc`  |                    ok                    |                        s0                        |                        **0**                        |
+|        s2        |       `q`        |   `inc inc@q`   |                    2                     |                        s2                        |                        **2**                        |
+|        s2        |     `RESET`      | `inc inc@RESET` |                    ok                    |                        s0                        |                        **0**                        |
 
 **After each test case, apply `RESET` to return the FSM to its initial state s0.** The last two columns come straight from the transition table: column 5 = `δ(state, input)`, column 6 = that reached state's `q`-output. Each row passes iff the implementation gives the expected output for the input under test **and** the expected `q`-output afterwards (which confirms it really landed in the stated state). _(For **state coverage** only — the weaker criterion — keep one row per state: transfer to sᵢ, then apply `q`.)_
 
@@ -991,11 +1045,11 @@ Black-box has four techniques. Each is given below as **definition-in-context �
 - _Recipe._ Enumerate the `2ⁿ` rules → fill in each rule's action → merge adjacent columns with identical actions into a `–` column → one test per surviving column.
 - _Worked example._ `shipping(member, orderOver50)` = **free** if `member` OR `order≥$50`, else **$5**. Two conditions ⇒ `2²=4` rules; three collapse into one via don't-cares:
 
-  | Condition        | Rule A | Rule B | Rule C |
-  | ---------------- | :----: | :----: | :----: |
-  | member?          |   Y    |   N    |   N    |
-  | order ≥ \$50?    |   –    |   Y    |   N    |
-  | **→ action**     |  free  |  free  |  \$5   |
+  | Condition     | Rule A | Rule B | Rule C |
+  | ------------- | :----: | :----: | :----: |
+  | member?       |   Y    |   N    |   N    |
+  | order ≥ \$50? |   –    |   Y    |   N    |
+  | **→ action**  |  free  |  free  |  \$5   |
 
   Rule A merges the two original `member=Y` columns (shipping is free regardless of order size). Three columns ⇒ **3 tests**: `(member, any)`, `(non-member, $60)`, `(non-member, $20)`.
 
