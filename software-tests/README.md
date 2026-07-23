@@ -734,7 +734,11 @@ Symbolic return `2*X+1`, PC `X <= Y`. Negate last → aim at ERROR: PC becomes `
 - **Branch denominator** = `2 × #decisions` (loop conditions count).
 - **Unreachable errors:** spot UNSAT PCs — `x*x+1==0`, `v+1==0 /\ v-1==0`, `x>0 /\ y>0 /\ x+y<0`. Answer "not reachable" + algebraic reason; never invent an input.
 - **Satisfying input:** if the PC is SAT, give one concrete tuple that satisfies it (for PC `X<=Y`, answer `x=0, y=0`). **Finding an array out-of-bounds bug is the same skill:** an access `arr[b+1]` is only safe while `0 ≤ b+1 ≤ SIZE_OF_A − 1`, so to _hit_ the bug you add the violating constraint `b+1 > SIZE_OF_A − 1` to the PC and solve. E.g. `arr` has 4 slots (indices 0–3, `SIZE_OF_A = 4`) and the code reads `arr[b+1]`: solving `b+1 > 3` gives `b = 3`, which reads index 4 — one past the end ⇒ out-of-bounds.
-- **MC/DC variant:** build MC/DC cases first, then one symbolic run per case, adding each basic condition's required truth value to the PC. For `a /\ b /\ c`: runs `a/\b/\c`, `!a/\b/\c`, `a/\!b/\c`, `a/\b/\!c`. If MC/DC impossible for a condition, fall back to ordinary symbolic execution.
+- **What changes in symbolic execution to guarantee MC/DC coverage?** (2024b-a1 Q5). Normally a compound decision is treated as **one** branch — you add the whole condition (or its negation) to the PC and fork just True/False. The change:
+  1. For each decision, **first build its MC/DC cases** — the ~N+1 rows: all-true, then flip **one** atom at a time (each flip must flip the overall result).
+  2. **Run one symbolic execution per MC/DC row**, and to the PC add **each atomic condition's required truth value separately** (not the compound condition as a single unit).
+  3. **Fallback:** if MC/DC is impossible for some condition, run ordinary symbolic execution for that condition.
+  - _Example_ `a /\ b /\ c` → 4 MC/DC rows ⇒ 4 runs with path conditions `a/\b/\c`, `!a/\b/\c`, `a/\!b/\c`, `a/\b/\!c`.
 - **To get the next path, negate the _last_ constraint of the previous run's PC** (not an earlier one), then re-solve. Walking `X<=Y /\ X!=X+1` → flip the last → `X<=Y /\ X==X+1`. Always the most recently added conjunct.
 - **`for` loop — the update (`i++`) runs _last_ in each iteration.** For `for(i=0; i<n; i++) { body }` the order per iteration is **init → test `i<n` → body → `i++` → back to test**. So in the PV/PC table the `i++` row comes **after** the whole body, not next to the `i<n` test — a common ordering slip when a use of `i` inside the body must see the _pre-increment_ value.
 - Assignments update PV only; branches update PC only — never both on one row.
@@ -865,6 +869,7 @@ Output: **ERROR reached.** &nbsp; **Input that triggers it:** `(x=1, y=20946)`.
 - **Black-box/non-linear:** keep a symbolic token, fill concrete column with the real value, and reuse that concrete value as the next input when inverting. Never algebraically solve the opaque function.
 - **Choose the initial input by convention:** 0-and-increment for lists, 1 for black-box; pointers start NULL.
 - Always **negate the last constraint** (not an earlier one); grow the structure by one node when the negated constraint needs a non-null `next`.
+- **Negation is per _atomic predicate actually evaluated_, never the whole source `&&`/`||`.** Concolic instruments individual conditional statements, and short-circuit means an un-evaluated operand is **not** in the PC. So for `if (p==NULL || p->next==NULL)` with `p=NULL`: only `P==NULL` (true) is recorded (the `||` stops early, so `p->next==NULL` isn't evaluated) — the next run negates **just `P==NULL` → `P!=NULL`**, not the whole condition. (This is why `bar()` needs 4 iterations: the atoms `P==NULL`, then `PN==NULL`, then `PV>PNV` are peeled one run at a time. Refs: DART & CUTE papers — path constraint = conjunction of executed predicates, negate one conjunct.)
 
 **Cheat sheet.**
 
