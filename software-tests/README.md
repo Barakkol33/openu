@@ -46,7 +46,40 @@ We can almost never run a program on _every_ possible input (there are far too m
 6. **Score** = `100·D/(N−E)`.
 7. **To reach 100%:** for each surviving non-equivalent mutant, add a test whose input flips the mutated expression's outcome AND whose assertion checks the differing result. Boundary-adjacent inputs (the two values straddling a comparison) kill the most mutants per test.
 
-**Worked example:** method `compute(a,b)` with mutants `a*b→a/b`, `a*b→b*a`, `a*b+a→a*b+b`. The `a*b→b*a` mutant is **equivalent** (multiplication is commutative ⇒ no input distinguishes it). Of the 2 non-equivalent mutants, the given suite kills 1 → **score = 1/2 = 50%** (denominator excludes the equivalent one). Adding `assertEquals(3, compute(1,2))` kills the survivor → 100%.
+**Worked example — one function, one test, four mutants.** (`foo(x) = 2x` if `x<0`, else `x`.)
+
+```java
+int foo(int x) {
+2:  int y = 0;
+3:  if (x < 0)          // C1
+4:    y = -x;
+5:  else
+6:    y = x;
+7:  if (x < 0)          // C2
+8:    y = 2 * x;        // overwrites y when x<0
+9:  return y;
+}
+```
+
+The suite is a **single** test: `assertEquals(-2, foo(-1))` (passes on the original: `x=-1` → line4 `y=1`, then line8 `y=-2`). Four mutants, applied one at a time:
+
+| # | mutator | change | on `foo(-1)` | verdict |
+| - | ------- | ------ | ------------ | ------- |
+| M1 | `CONDITIONALS_BOUNDARY` (line 3) | `x<0` → `x<=0` | `-2` (same) | **equivalent** |
+| M2 | `MATH` (line 8) | `2*x` → `2/x` | `2/-1 = -2` (same) | killable, survives |
+| M3 | `INVERT_NEGS` (line 4) | `y=-x` → `y=x` | `-2` (same) | **equivalent** |
+| M4 | `NEGATE_CONDITIONALS` (line 3) | `x<0` → `x>=0` | `-2` (same) | killable, survives |
+
+- **Which are killed by the test? None — all 4 survive** (each computes `-2` on `x=-1`, matching the assertion). M2 survives only by luck: `2*(-1)` and `2/(-1)` both equal `-2`.
+- **Which are equivalent?**
+  - **M1** — `x<0` vs `x<=0` differ only at `x=0`; there original takes the else (`y=0`) and the mutant takes `y=-0=0` — same output. No input distinguishes them.
+  - **M3** — line 4 runs only when `x<0`, but then line 8 (`x<0` true) **overwrites** `y=2*x`, so line 4's value is **dead**; changing `-x`→`x` never reaches the output.
+- **Coverage of the one test?** `foo(-1)` only ever takes the `x<0` path, so the **else (line 6) never runs** ⇒ statement coverage < 100%, and each `if` takes only its True edge ⇒ **branch coverage = 2/4 = 50%**. (Full coverage still wouldn't kill the equivalents — the weak-oracle point.)
+- **Score:** killed `D=0`, total `N=4`, equivalent `E=2` ⇒ `100·D/(N−E) = 0/(4−2) =` **0%**.
+- **Add tests to kill the two killable ones → 100%:**
+  - `assertEquals(-4, foo(-2))` **kills M2** (`2*-2=-4` ≠ `2/-2=-1`).
+  - `assertEquals(3, foo(3))` **kills M4** (original `3` ≠ mutant `-3`) — and this hits the else branch, fixing coverage too.
+  - Leave M1, M3 alone (equivalent — unkillable). New score `2/(4−2) =` **100%**.
 
 **Exam patterns & gotchas:**
 
