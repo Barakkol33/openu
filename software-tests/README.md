@@ -18,13 +18,14 @@ We can almost never run a program on _every_ possible input (there are far too m
 | 8   | [FSM-based Testing (UIO, DS, W)](#8-fsm-based-testing-uio-ds-w-set)                                     | every exam     |
 | 9   | [Black-box (ECP, BVA, Decision Tables, Domain)](#9-black-box-techniques-ecp-bva-decision-tables-domain) | sometimes      |
 | 10  | [JUnit & Tooling (Pitest, JaCoCo)](#10-junit--tooling-reference-pitest-jacoco)                          | support        |
-| 11  | [Exam Playbook & Master Cheat Sheets](#11-exam-playbook--master-cheat-sheets)                           | —              |
 
 ---
 
 ## 1. Mutation Testing
 
-> **Plain words:** Mutation testing checks _how good your tests are_ (not the program). The idea: deliberately break the program in tiny ways — each broken copy is a **mutant** — then see whether your test suite notices. A good suite should fail on a broken program. If a mutant slips through with all tests still passing, your tests have a blind spot. Think of it as "planting bugs on purpose to check that your bug-detector actually detects."
+#### Plain words
+
+Mutation testing checks _how good your tests are_ (not the program). The idea: deliberately break the program in tiny ways — each broken copy is a **mutant** — then see whether your test suite notices. A good suite should fail on a broken program. If a mutant slips through with all tests still passing, your tests have a blind spot. Think of it as "planting bugs on purpose to check that your bug-detector actually detects."
 
 **Key definitions:**
 
@@ -83,9 +84,7 @@ The suite is a **single** test: `assertEquals(-2, foo(-1))` (passes on the origi
 
 **Exam patterns & gotchas:**
 
-- **Equivalent-mutant arguments that recur:** (a) _commutativity/algebra_ — `a*b`→`b*a` is equivalent. (b) _unreachable difference_ — the mutated value differs only on an input a guard already excludes (e.g. mutating `purchases>=0` when the spec guarantees `purchases≥0`, so the only differing input `0` never changes the output). (c) `>`→`>=` is equivalent only when the boundary value can never occur. Always justify by exhibiting either a _distinguishing input_ (not equivalent) or an _argument that no input distinguishes them_ (equivalent).
-- **Score formula:** memorize `100·D/(N−E)`. Equivalents leave the denominator; they are NOT killed. If a question says "considering the equivalent mutants," it means _exclude them from the denominator_.
-- **Killing test must assert the differing output**, not just execute the line. Trap: a test can give _full statement/branch coverage yet leave a mutant alive_ because its assertion is too weak. The fix adds the boundary input (e.g. `foo(0)`).
+- **Score formula:** memorize `100·D/(N−E)`. Equivalents leave the denominator; they are NOT killed.
 - **Branch coverage ≠ mutants all killed:** 100% branch coverage does NOT guarantee killing all `CONDITIONALS_BOUNDARY` mutants — you cover both branches without testing the _boundary value_ that distinguishes `>` from `>=`. Counterexample: `if(x>0)` tested with x=5 and x=−5 covers both branches, but x=0 (where `>` vs `>=` differ) is never tried → the mutant survives.
 - **Writing a surviving mutant on purpose:** pick a comparison, test only inputs _far_ from the boundary so the boundary swap doesn't change any asserted result.
 
@@ -104,15 +103,13 @@ The suite is a **single** test: `assertEquals(-2, foo(-1))` (passes on the origi
 Exact boundary table (memorize): `<→<=`, `<=→<`, `>→>=`, `>=→>`.
 Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`.
 
-> **Return-values naming (old vs current PIT):** the classic **`OLD_DEFAULTS`** set (what the course/exam framing uses) had a single **`RETURN_VALS`**. Current PIT (`DEFAULTS`) replaces it with **five** finer mutators — `EMPTY_RETURNS`, `FALSE_RETURNS`, `TRUE_RETURNS`, `NULL_RETURNS`, `PRIMITIVE_RETURNS`. Everything else in the two sets is identical, and **no past-exam question touches a return-value mutator anyway** — so recognize both names, don't sweat the split.
->
-> **Beyond the default set (recognize, don't memorize — never examined):** PIT also ships _optional_ mutators (`REMOVE_CONDITIONALS`, `CONSTRUCTOR_CALLS`, `INLINE_CONSTS`, `NON_VOID_METHOD_CALLS`, plus legacy `RETURN_VALS`) and ~10 _experimental_ ones (`ABS`, `AOR`, `AOD`, `CRCR`, `OBBN`, `ROR`, `UOI`, `EXPERIMENTAL_*`). All are **off by default** and never appear in the exams — full list at pitest.org/quickstart/mutators.
-
 ---
 
 ## 2. Control Flow & Coverage Criteria
 
-> **Plain words:** "Control flow" = the order in which statements run and the branch points (`if`, loops) that decide the route. We draw the program as a map — the **Control Flow Graph (CFG)** — and then pick coverage rules that say how thoroughly the map must be walked: every box? every fork-direction? every combination of conditions in a fork? The rules get progressively stronger (and need more tests). The recurring exam skills are: _draw the CFG_, _pick the smallest test set that satisfies a given rule_, and _say how many tests each rule needs_.
+#### Plain words
+
+"Control flow" = the order in which statements run and the branch points (`if`, loops) that decide the route. We draw the program as a map — the **Control Flow Graph (CFG)** — and then pick coverage rules that say how thoroughly the map must be walked: every box? every fork-direction? every combination of conditions in a fork? The rules get progressively stronger (and need more tests). The recurring exam skills are: _draw the CFG_, _pick the smallest test set that satisfies a given rule_, and _say how many tests each rule needs_.
 
 **Key definitions:**
 
@@ -147,15 +144,10 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
   - Quick test (course clarification): a feasible path starting with the unfolded prefix — _one iteration then exit → boundary; two-or-more **differing** iterations → interior._ Also aim for full **branch** coverage on any branches **outside** the loop.
 - **Loop-boundary adequacy** — a simpler loop rule: run each loop **0 times, exactly 1 time, and more than 1 time** (the three qualitatively different loop behaviors).
 
-> **⚠️ Loop-boundary vs boundary-interior — don't confuse them** (the word "boundary" means different things):
-> | | **Loop-boundary** | **Boundary-interior** |
-> |---|---|---|
-> | Cares about | iteration **count** | iteration **paths** |
-> | Requirement | run loop **0, 1, >1** times | every subpath of the CFG unfolded to the first repeated node (the _boundary_ tests) |
-> | Granularity | coarse — ignores which body path runs | fine — distinguishes the body's branches (`if`-T vs `if`-F count separately) |
-> | Strength | **base** of the hierarchy; **incomparable** with statement | **near the top**; **subsumes branch** |
->
-> Here "boundary" is a false friend: a _loop-boundary_ "boundary" is an **iteration-count edge case** (0/1/many); a _boundary-interior_ "boundary" test is a **path that barely enters the loop**. Example `while(c){ if(d) X else Y }`: loop-boundary just needs it run 0×, 1×, ≥2× (3 tests, indifferent to `d`); boundary-interior forces both the `X` and `Y` body paths.
+#### ⚠️ Loop-boundary vs boundary-interior — don't confuse them
+
+The word "boundary" means different things.
+Here "boundary" is a false friend: a _loop-boundary_ "boundary" is an **iteration-count edge case** (0/1/many); a _boundary-interior_ "boundary" test is a **path that barely enters the loop**.
 
 - **Subsumption:** "A subsumes B" means A is at least as strong — any test set that satisfies A automatically satisfies B, for _every_ program. (Full treatment in §4.)
 
@@ -231,21 +223,15 @@ Unfold to the first repeated node (2 on its 2nd arrival) → **minimal boundary-
 1,2(T),3(F),6,2(F),8           input [3]  -> odd -> nothing
 ```
 
-Note the **first path (loop not entered, empty array)** is mandatory and the most-missed.
-
 **Exam patterns & gotchas:**
 
-- **State the boundary-interior definition exactly** ("every subpath until reaching a repeated node").
 - **Don't forget the loop-not-entered path** — always part of the boundary set.
-- **Nested loops are out of scope** — only single-loop unfolding needed.
-- **Infeasible prefixes:** when a tree prefix can't be satisfied (closest-pair: `i<n` true but `j<n` false on first iteration → contradiction), write "infeasible" with the reason; don't invent inputs.
 - **Subsumption facts to quote** (all disproofs live in §4's [Counterexample library](#counterexample-library)):
   - boundary-interior **subsumes branch** (covering every subpath including in-loop branches covers every T/F edge).
   - branch **subsumes statement**; statement does NOT subsume branch.
   - branch does **NOT** subsume compound-condition → [CE1](#counterexample-library) (`if(a&&b)`, suite (T,T),(T,F): full branch, never tests (F,T)/(F,F)).
   - **basic-condition and branch are incomparable** → [CE2](#counterexample-library).
   - **loop-boundary and statement have NO subsumption either way** → [CE3](#counterexample-library) (both-directions counterexample).
-- **MC/DC test count = N+1**, NOT 2ᴺ.
 
 **Cheat sheet — criteria, denominators, subsumption:**
 
@@ -267,7 +253,9 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 
 ## 3. Data Flow Testing
 
-> **Plain words:** Control-flow testing cared about _which lines run_. Data-flow testing cares about _the life of each variable's value_: where it's **set** (given a value) and where it's later **used**. The worry is a broken link between them — e.g. code sets `x` but a bug means a stale or wrong `x` gets used downstream. So we pair up every "here's where `x` is set" with every "here's where that `x` is read", and require tests that actually travel from the set to the use. Vocabulary below is just names for "set" (**definition**), "read" (**use**), and "a route from set to read that doesn't overwrite `x` on the way" (**def-clear path**).
+#### Plain words
+
+Control-flow testing cared about _which lines run_. Data-flow testing cares about _the life of each variable's value_: where it's **set** (given a value) and where it's later **used**. The worry is a broken link between them — e.g. code sets `x` but a bug means a stale or wrong `x` gets used downstream. So we pair up every "here's where `x` is set" with every "here's where that `x` is read", and require tests that actually travel from the set to the use. Vocabulary below is just names for "set" (**definition**), "read" (**use**), and "a route from set to read that doesn't overwrite `x` on the way" (**def-clear path**).
 
 **Key definitions:**
 
@@ -327,7 +315,9 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 
 ## 4. Subsumption — Master Cheat Sheet
 
-> **Plain words:** "Subsumption" ranks coverage criteria by strength. Saying **A subsumes B** means: _if you've satisfied A, you've automatically satisfied B_ — A is the tougher bar, so passing it gets B for free. (Example: branch coverage subsumes statement coverage — take every `if` both ways and you can't help but run every line.) The exam skill is almost always the _opposite_ direction: **disprove** a claimed subsumption by inventing one small program + one test suite that satisfies A yet misses B. This section is the toolkit for that.
+#### Plain words
+
+"Subsumption" ranks coverage criteria by strength. Saying **A subsumes B** means: _if you've satisfied A, you've automatically satisfied B_ — A is the tougher bar, so passing it gets B for free. (Example: branch coverage subsumes statement coverage — take every `if` both ways and you can't help but run every line.) The exam skill is almost always the _opposite_ direction: **disprove** a claimed subsumption by inventing one small program + one test suite that satisfies A yet misses B. This section is the toolkit for that.
 
 **Key definitions:**
 
@@ -335,11 +325,7 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 - **Equivalent**: A subsumes B _and_ B subsumes A (they demand the same coverage). **Incomparable**: neither subsumes the other (each can be satisfied while missing something the other requires).
 - Caution: subsumption is a _logical_ relation only — "A is stronger on paper". It does **not** guarantee A finds more real bugs in practice.
 
-> **⚠️ An example is NOT a proof (the asymmetry that loses marks).** Because "A subsumes B" is a **∀-program** claim, the two directions need opposite evidence:
-> - **To PROVE "A subsumes B":** you must give a **general argument** that holds for *every* program (e.g. "any suite covering every edge necessarily runs every node, so branch ⊇ statement"). **Showing one program where A happens to imply B proves nothing** — the next program could break it.
-> - **To DISPROVE "A subsumes B" (⊉):** **one** concrete counterexample (program + suite) is **enough** — a single case where A holds but B fails kills a ∀-claim.
->
-> So: *disprove → exhibit an example; prove → argue in general.* Writing "here's an example where it works" for a **prove** question earns ~0.
+**⚠️ An example is NOT a proof.** Because "A subsumes B" is a **∀-program** claim, the two directions need opposite evidence.
 
 **The recipe — to disprove "A subsumes B", find ONE program P + ONE suite T with: T satisfies A on P, but T does NOT satisfy B on P.**
 
@@ -383,14 +369,16 @@ _Direction 2 (statement adequate, NOT loop-boundary adequate):_ suite `foo(0,0)`
 **CE4 — full branch coverage ⊉ all-defs (dataflow).**
 
 ```
-1 int foo(int w, int y) {
-2   int x, z = MAX_INT-1;     // d(x), d(z)
-3   if (w < 0) 4: x++;  else 6: z++;     // u+d of x / u+d of z
-8   if (y < 0) 9: x++;  else 11: z++;    // u+d of x / u+d of z
-13  return 0; }
+1 int f(int a, int b) {
+2   int x = 0;        // def D1 of x
+3   if (a > 0)
+4     x = 1;          // def D2 of x  (overwrites D1 on this path)
+5   if (b > 0)
+6     print(x);       // the only use of x
+7 }
 ```
 
-Tests **{w=-1, y=1}** and **{w=1, y=-1}** together take both T and F of each `if` ⇒ **full branch coverage**. But the **def of x at line 2** reaching the use at line 9 needs `w≥0` (skip line 4) AND `y<0` — neither test does this ⇒ **all-defs NOT satisfied** at 100% branch coverage ⇒ branch ⊉ all-defs. _(Referenced from §3.)_
+Suite **{ (a=1,b=1), (a=-1,b=-1) }** takes both edges of each `if` ⇒ **full branch coverage**. But **D1 (`x=0`)** can reach the use only via `a≤0` (so it isn't overwritten) **and** `b>0` (so line 6 runs) — and neither test does both: the first overwrites `x` (D2), the second keeps `x=0` but skips the use. So **D1 reaches no use ⇒ all-defs fails** at 100% branch coverage ⇒ branch ⊉ all-defs. _(Referenced from §3.)_
 
 **CE5 — all-c-uses/some-p-uses ⇎ all-p-uses/some-c-uses (incomparable, dataflow).** Reminder (textbook): a p-use of a variable in a predicate is associated with **each out-edge**, so **all-p-uses forces _both_ the T and F edge of every decision** (that's why all-p-uses ⊇ all-branches). A single path can therefore never satisfy all-p-uses. Each direction below needs its **own** program.
 
@@ -438,15 +426,11 @@ Both directions ⇒ **incomparable.**
 
 **Exam patterns & gotchas:**
 
-- The counterexample MUST include **both code and the explicit suite**; state for each test which obligation it covers. All the ready-made ones are in the [Counterexample library](#counterexample-library) above (**CE1–CE6**).
-- Branch = "all-edges"; statement = "all-nodes"; decision ≡ branch. Branch subsumes statement; **statement does NOT subsume branch** (an `if` with no else).
-- **MC/DC subsumes branch.** **Basic-condition vs branch: incomparable** ([CE2](#counterexample-library)). **Branch vs compound-condition: branch ⊉ compound** ([CE1](#counterexample-library)).
+- Branch = "all-edges"; statement = "all-nodes"; decision ≡ branch.
 - **Boundary-interior subsumes branch.**
 - **Loop-boundary (0,1,many) is at the BASE** — incomparable with statement ([CE3](#counterexample-library)); do not confuse with boundary-interior.
 
-**Cheat sheet — BOTH diagrams (A → B means "A subsumes B", i.e. A stronger):**
-
-> **Which model? The _idealized_ (possibly-infeasible) one — textbook Figure 5.5 / Rapps–Weyuker.** Here subsumption is the pure "for every program" logical relation and paths need **not** be feasible. **This is the model every exam uses** — subsumption questions never restrict to feasible paths (in the exams "feasibility" shows up only inside _symbolic execution_, never here). The alternative _feasible-only_ model (FDF, Figure 5.6) rearranges the lattice — e.g. data-flow criteria no longer subsume branch/statement — and is **not** examined, so use the diagrams below as-is.
+**Cheat sheet (A → B means "A subsumes B", i.e. A stronger):**
 
 STRUCTURAL hierarchy:
 
@@ -468,10 +452,6 @@ STRUCTURAL hierarchy:
    Loop-boundary (0,1,many) — incomparable with statement; sits at the base on its own
 ```
 
-Read the fork carefully: **branch-and-condition** subsumes _both_ branch and basic-condition, so those two are its children. Branch in turn subsumes statement. Branch and basic-condition are **side by side on purpose** — the tree never routes one through the other.
-
-Core spine: **Path ⊃ … ⊃ MC/DC ⊃ Branch-and-condition ⊃ Branch ⊃ Statement.** Branch ⊃ Statement is tested most.
-
 DATAFLOW hierarchy (Rapps–Weyuker "includes"); top = strongest:
 
 ```
@@ -491,15 +471,13 @@ DATAFLOW hierarchy (Rapps–Weyuker "includes"); top = strongest:
                               All-Nodes (statement)
 ```
 
-Linear reading (⊃ = subsumes): **all-paths ⊃ all-du-paths ⊃ all-uses ⊃ {all-c-uses/some-p-uses, all-p-uses/some-c-uses} ⊃ {all-c-uses, all-defs, all-p-uses} ⊃ all-branches ⊃ all-statements.** Note: **all-c-uses and all-p-uses are incomparable**; **all-c-uses/some-p-uses and all-p-uses/some-c-uses are incomparable**; all-p-uses subsumes all-edges.
-
-**Quick disproof template:** _"To show A does not subsume B: program P = [smallest code isolating B's extra obligation]; suite T = [tests meeting every A-obligation]. T satisfies A because [list A-obligations, each met]. T fails B because it never [the B-obligation A is blind to — an unexecuted statement / untaken edge / unexercised def-use pair / a loop iteration count]. Hence A ⊉ B."_
-
 ---
 
 ## 5. Combinatorial / Pairwise Testing (AETG & IPO/IPOG)
 
-> **Plain words:** Suppose a feature has several settings (parameters), each with a few possible values — say Table ∈ {Coffee, Desk, Kitchen}, Color ∈ {Brown, White, Red}, Size ∈ {Small, Medium}. Testing _every_ combination is `3×3×2 = 18` tests here, and explodes fast with more parameters. The insight behind **pairwise (2-way) testing**: most bugs are triggered by _one_ setting or the _interaction of two_ settings, rarely by three-plus at once. So we don't need every full combination — we only need every **pair** of values (from any two parameters) to appear together in _at least one_ test. That collapses the suite dramatically (often to a handful of tests) while still catching the vast majority of interaction bugs. **AETG** and **IPO/IPOG** are two algorithms that build such a small test set.
+#### Plain words
+
+Suppose a feature has several settings (parameters), each with a few possible values — say Table ∈ {Coffee, Desk, Kitchen}, Color ∈ {Brown, White, Red}, Size ∈ {Small, Medium}. Testing _every_ combination is `3×3×2 = 18` tests here, and explodes fast with more parameters. The insight behind **pairwise (2-way) testing**: most bugs are triggered by _one_ setting or the _interaction of two_ settings, rarely by three-plus at once. So we don't need every full combination — we only need every **pair** of values (from any two parameters) to appear together in _at least one_ test. That collapses the suite dramatically (often to a handful of tests) while still catching the vast majority of interaction bugs. **AETG** and **IPO/IPOG** are two algorithms that build such a small test set.
 
 ### What you're GIVEN and what you PRODUCE
 
@@ -555,10 +533,10 @@ Linear reading (⊃ = subsumes): **all-paths ⊃ all-du-paths ⊃ all-uses ⊃ {
 
 **Sub-skill: "list all pairs to add when extending to a new parameter"** (a very common AETG/IPO sub-question). "You already have a pairwise set covering P1, P2; now add a new parameter P3 — list all pairs that must be covered." **Answer = only the pairs that involve the new parameter** (the P1–P2 pairs are already done, don't re-list them). That is: every value of P3 × every value of each existing parameter.
 
-> **Formula:** pairs to add = `Σ over each existing Pj of ( |Pj| × |P3| )`.
-> **Example (multi-valued):** P1={Coffee,Desk} (2), P2={Brown,White,Red} (3), new P3={S,M,L} (3) → P1×P3 = `2×3 = 6` pairs + P2×P3 = `3×3 = 9` pairs = **15 pairs** to add.
->
-> ⚠️ **This counts _pairs_, not _tests_.** All 15 are distinct (P1×P3 pairs use P1's values, P2×P3 pairs use P2's values — nothing overlaps), so you can't lower the 15. But the number of _tests_ needed is far smaller, because **one test covers several pairs at once**: a row `(Coffee, Brown, S)` knocks out `(Coffee,S)` _and_ `(Brown,S)` together. That reuse is exactly what IPO horizontal growth does — append a P3 value to an existing row and it covers one P1×P3 pair and one P2×P3 pair simultaneously.
+**Formula:** pairs to add = `Σ over each existing Pj of ( |Pj| × |P3| )`.
+**Example (multi-valued):** P1={Coffee,Desk} (2), P2={Brown,White,Red} (3), new P3={S,M,L} (3) → P1×P3 = `2×3 = 6` pairs + P2×P3 = `3×3 = 9` pairs = **15 pairs** to add.
+
+⚠️ **This counts _pairs_, not _tests_.** All 15 are distinct (P1×P3 pairs use P1's values, P2×P3 pairs use P2's values — nothing overlaps), so you can't lower the 15. But the number of _tests_ needed is far smaller, because **one test covers several pairs at once**: a row `(Coffee, Brown, S)` knocks out `(Coffee,S)` _and_ `(Brown,S)` together. That reuse is exactly what IPO horizontal growth does — append a P3 value to an existing row and it covers one P1×P3 pair and one P2×P3 pair simultaneously.
 
 **IPO** (**I**n-**P**arameter-**O**rder; the _t_-way generalization is **IPOG**, IPO-**G**eneral) **— the recipe** _(adds one parameter at a time; deterministic)_:
 
@@ -571,43 +549,7 @@ The core idea: start with a table that's already pairwise-correct for the **firs
    - **c. Vertical (downward) growth — add new rows for the leftovers.** Any pair still in π after horizontal growth needs a fresh row. For each leftover pair `(Pj=a, Pᵢ=b)`: **first try to reuse** an existing vertical-growth row — one whose Pj slot is already `a` **or** blank _and_ whose Pᵢ slot is already `b` **or** blank — and fill in its blanks. **Only if none fits, add a brand-new row** with `Pj=a`, `Pᵢ=b`, and **`*` (don't-care = "any value")** in every other column. Reusing rows before adding new ones is what keeps the suite small.
    - **d.** Replace any leftover `*` with any valid value, then move on to the next parameter Pᵢ₊₁ (its horizontal growth now runs over _all_ rows, including the ones vertical growth just added).
 
-**Worked example A — AETG from scratch (3 binary parameters, full run).** P1,P2,P3 ∈ {0,1}. Conventions (state them in your answer): one candidate per test (**m=1**); within a candidate, fill the still-unassigned parameters in **index order** P1→P2→P3; all ties (first pick and value) break to the **first-listed** value/parameter. Show every step.
-
-**Build π** — `Σ_{i<j}|Pi|·|Pj| = 4+4+4 = 12` pairs (subscript = which parameter-pair):
-
-```
-P1P2: (0,0)(0,1)(1,0)(1,1)   P1P3: (0,0)(0,1)(1,0)(1,1)   P2P3: (0,0)(0,1)(1,0)(1,1)
-```
-
-_Test 1._
-- **Count → first pick:** every value sits in 2 pairs of each of its 2 parameter-pairs ⇒ all six score **4**, tied → **P1 = 0**.
-- **Fill P2** (P1=0): `P2=0`→(0,0)ₚ₁₂=1; `P2=1`→(0,1)ₚ₁₂=1 → tie → **P2 = 0**.
-- **Fill P3** (P1=0,P2=0): `P3=0`→(0,0)ₚ₁₃+(0,0)ₚ₂₃=2; `P3=1`→2 → tie → **P3 = 0**.
-- ⇒ **Test 1 = (0,0,0)**, score 3; remove (0,0)ₚ₁₂,(0,0)ₚ₁₃,(0,0)ₚ₂₃ → **9 pairs left**.
-
-_Test 2._
-- **Count → first pick:** on the 9 left, P1=1→4, P2=1→4, P3=1→4, and P1=0/P2=0/P3=0→2 each. Tie at 4 → first parameter → **P1 = 1**.
-- **Fill P2** (P1=1): `P2=0`→(1,0)ₚ₁₂=1; `P2=1`→(1,1)ₚ₁₂=1 → tie → **P2 = 0**.
-- **Fill P3** (P1=1,P2=0): `P3=0`→(1,0)ₚ₁₃=1 [(0,0)ₚ₂₃ gone]; `P3=1`→(1,1)ₚ₁₃+(0,1)ₚ₂₃=2 → **P3 = 1**.
-- ⇒ **Test 2 = (1,0,1)**, score 3; remove (1,0)ₚ₁₂,(1,1)ₚ₁₃,(0,1)ₚ₂₃ → **6 left**: P1P2:(0,1)(1,1) · P1P3:(0,1)(1,0) · P2P3:(1,0)(1,1).
-
-_Test 3._
-- **Count → first pick:** P2=1 is in (0,1)ₚ₁₂,(1,1)ₚ₁₂,(1,0)ₚ₂₃,(1,1)ₚ₂₃ = **4** (the max) → **P2 = 1**.
-- **Fill P1** (P2=1): `P1=0`→(0,1)ₚ₁₂=1; `P1=1`→(1,1)ₚ₁₂=1 → tie → **P1 = 0**.
-- **Fill P3** (P1=0,P2=1): `P3=0`→(1,0)ₚ₂₃=1 [(0,0)ₚ₁₃ gone]; `P3=1`→(0,1)ₚ₁₃+(1,1)ₚ₂₃=2 → **P3 = 1**.
-- ⇒ **Test 3 = (0,1,1)**, score 3; remove (0,1)ₚ₁₂,(0,1)ₚ₁₃,(1,1)ₚ₂₃ → **3 left**: P1P2:(1,1) · P1P3:(1,0) · P2P3:(1,0).
-
-_Test 4._
-- **Count → first pick:** P1=1→2, P2=1→2, P3=0→2 (others 0); tie → first → **P1 = 1**.
-- **Fill P2** (P1=1): `P2=1`→(1,1)ₚ₁₂=1 → **P2 = 1**.
-- **Fill P3** (P1=1,P2=1): `P3=0`→(1,0)ₚ₁₃+(1,0)ₚ₂₃=2 → **P3 = 0**.
-- ⇒ **Test 4 = (1,1,0)**, score 3; π **empty**.
-
-**Answer — 4 tests:** `(0,0,0), (1,0,1), (0,1,1), (1,1,0)`. Verify (write this too): every one of the 12 pairs appears — e.g. P2P3 gets (0,0)t1,(0,1)t2,(1,1)t3,(1,0)t4. ✓
-
-> **When m>1** the only change is step "generate candidates": at each test you build `m` candidates (each with its own fill order), **score every candidate over its whole finished test**, and keep the highest (ties → first). E.g. at Test 2 above, a second candidate with fill order P3→P2 yields `(1,1,0)` also scoring 3 — a genuine tie, so m=1 vs m=2 give the same test here; on larger problems a second order often scores higher and is kept, shrinking the final suite.
-
-**Worked example B — multi-valued AETG (uneven domains), full run.** P1={C,D} (2), P2={B,W,R} (3), P3={S,M} (2). Same conventions (m=1, index fill order, ties→first).
+**Worked example A — multi-valued AETG (uneven domains), full run.** P1={C,D} (2), P2={B,W,R} (3), P3={S,M} (2). Conventions (state them in your answer): **m=1** (one candidate per test); fill the still-unassigned parameters in **index order** P1→P2→P3; all ties (first pick and value) break to the **first-listed** value/parameter.
 
 **Build π** — `|P1||P2| + |P1||P3| + |P2||P3| = 6+4+6 = 16` pairs:
 
@@ -653,7 +595,11 @@ _Test 6._
 
 **Answer — 6 tests** (vs `2×3×2 = 12` exhaustive): `(C,B,S), (D,B,M), (C,W,M), (C,R,S), (D,W,S), (D,R,M)`. Verify: P1P2 gets all 6, P1P3 all 4 [(C,S)t1,(C,M)t3,(D,S)t5,(D,M)t2], P2P3 all 6. ✓ Takeaway: multi-valued is purely mechanical — bigger domains just mean more values to count and more pairs to clear; the not-every-test-scores-3 rows (t4, t6) are normal near the end.
 
-**Worked example C — IPOG (full trace: init → horizontal → vertical).** Three parameters: P1={1,2}, P2={1,2}, P3={1,2,3}. (P3 has 3 values, so horizontal growth _can't_ place them all in the 4 existing rows — that's what forces vertical growth, the part exams love to test.)
+#### When m>1
+
+The run above uses **m=1** (one candidate per test). With **m>1** the only change is the "generate candidates" step: at each test you build `m` candidates (each with its own fill order), **score every candidate over its whole finished test**, and keep the highest (ties → first). Larger `m` → more candidates per step → usually **fewer total tests**, at more computation.
+
+**Worked example B — IPOG (full trace: init → horizontal → vertical).** Three parameters: P1={1,2}, P2={1,2}, P3={1,2,3}. (P3 has 3 values, so horizontal growth _can't_ place them all in the 4 existing rows — that's what forces vertical growth, the part exams love to test.)
 
 **Step 1 — Initialize** with the P1×P2 cross-product (4 rows):
 
@@ -711,7 +657,7 @@ Sanity-check one pair-type: P2×P3 → (1,1) r1, (2,2) r2, (1,2) r3, (2,1) r4, (
 - **Fault-prone parameter — "each value of P3 must appear ≥ twice with every other value":** change π construction — **put every pair that involves P3 into π twice**; leave the other pairs at multiplicity one. Run growth/greedy normally, but **remove only ONE copy** of a doubled pair each time a test covers it — so the pair must be covered twice before it leaves π. (Works for both IPO and AETG).
 - **Critical parameter — "(P2,1) must appear in ≥ 75% of tests":** this is a _frequency_ constraint, not a pair constraint, so **don't fiddle with π counts** (you don't know the final test count in advance). Instead, in AETG: when choosing the first (param,value) of each new test, if (P2,1) is currently in < 75% of tests so far, **force-select it**; and after all pairs are covered, keep **adding redundant tests containing (P2,1)** until the 75% threshold is met.
 - **Orthogonal-array as a starting set:** if you're handed an orthogonal array (or any set of prebuilt tests), use it as the **starting tests**: build the full pair list, **strike out every pair those starting tests already cover**, then run AETG/IPO only on what's left → far fewer iterations.
-  - **Seed IPO with an `Lₙ(2^(k-2))` OA** (2024b-a2 Q2): an OA is already a minimal pairwise-covering set for the parameters it contains, so `Lₙ(2^(k-2))` gives you `n` rows that **already cover all pairs among `k-2` of the `k` boolean parameters — for free**. So instead of IPO's usual Step 1 (start from the full `P1×P2` cross-product), **use the OA's `n` rows as the initial test set**, then run IPO's parameter-addition (**horizontal → vertical growth**) for the remaining `k-(k-2)=2` parameters — building π from **only the pairs that involve those 2 new parameters** (the OA already covers the rest). You skip covering the first `k-2` parameters entirely.
+  - **Seed IPO with an `Lₙ(2^(k-2))` OA** : an OA is already a minimal pairwise-covering set for the parameters it contains, so `Lₙ(2^(k-2))` gives you `n` rows that **already cover all pairs among `k-2` of the `k` boolean parameters — for free**. So instead of IPO's usual Step 1 (start from the full `P1×P2` cross-product), **use the OA's `n` rows as the initial test set**, then run IPO's parameter-addition (**horizontal → vertical growth**) for the remaining `k-(k-2)=2` parameters — building π from **only the pairs that involve those 2 new parameters** (the OA already covers the rest). You skip covering the first `k-2` parameters entirely.
 
   > ⚠️ **Why you can't just _duplicate_ an OA's columns to fake more parameters** (a classic "why doesn't this work?"). Tempting shortcut: you have `L4(2³)` covering 3 parameters and you want 6, so you copy the 3 columns to the right (P4:=P1, P5:=P2, P6:=P3):
   >
@@ -728,9 +674,6 @@ Sanity-check one pair-type: P2×P3 → (1,1) r1, (2,2) r2, (1,2) r3, (2,1) r4, (
 **Exam patterns & gotchas.**
 
 - **m=1 vs m=3:** larger `m` → more candidates per step → **fewer total tests** but **more computation**. m=1 is fast but yields a bigger suite. AETG is **non-deterministic** (random orders); IPOG is **deterministic**.
-- **Multi-valued parameters are not special** — no formula changes. The only visible effect: uneven pair counts (a 3-value parameter shows up in more pairs than a 2-value one), so occurrence tallies come out uneven. Just count carefully.
-- **Counting traps (#1 point-loser):** (a) when picking a value, count pairs only against **already-assigned** parameters; (b) a pair scores only if it's **still in π**; (c) re-count the candidate's score over the **whole** finished test; (d) in IPO, try to **reuse a `*`/blank row before adding a new one**; (e) **remove covered pairs from π after every assignment** — forgetting this double-counts.
-- **"List all pairs for a new parameter" = only pairs involving that parameter** (see the formula above). Don't re-list already-covered pairs.
 
 **Cheat sheet — AETG vs IPOG:**
 
@@ -747,7 +690,9 @@ Sanity-check one pair-type: P2×P3 → (1,1) r1, (2,2) r2, (1,2) r3, (2,1) r4, (
 
 ## 6. Symbolic Execution
 
-> **Plain words:** Instead of running the program on _actual numbers_, run it on _symbols_ that stand for "any input". As you walk one path through the code, you track two things: **PV** = what each variable now equals _in terms of those symbols_ (e.g. `c1 = X*X`), and **PC** = the list of conditions the inputs must satisfy to have taken this exact path (e.g. `X > Y`). At the end, the PC is a set of equations; if a solver can find numbers satisfying it, those numbers are a real test input that drives this path — and if the PC is contradictory (unsatisfiable), the path is **impossible** and needs no test. This is how you prove things like "this ERROR line can never be reached".
+#### Plain words
+
+Instead of running the program on _actual numbers_, run it on _symbols_ that stand for "any input". As you walk one path through the code, you track two things: **PV** = what each variable now equals _in terms of those symbols_ (e.g. `c1 = X*X`), and **PC** = the list of conditions the inputs must satisfy to have taken this exact path (e.g. `X > Y`). At the end, the PC is a set of equations; if a solver can find numbers satisfying it, those numbers are a real test input that drives this path — and if the PC is contradictory (unsatisfiable), the path is **impossible** and needs no test. This is how you prove things like "this ERROR line can never be reached".
 
 **Key definitions.**
 
@@ -766,6 +711,8 @@ Sanity-check one pair-type: P2×P3 → (1,1) r1, (2,2) r2, (1,2) r3, (2,1) r4, (
 5. After each run: state the **symbolic return value** and the **full PC**; then negate the last branch and re-run.
 
 **Worked example — unreachable ERROR:**
+
+Specify the PC that reaches the error in this code. Is it reachable?
 
 ```
 void foo(double x){ c1 = x*x; if (c1+1==0){ if (c1-1==0){ ERROR; }}}
@@ -843,7 +790,9 @@ Symbolic return `2*X+1`, PC `X <= Y`. Negate last → aim at ERROR: PC becomes `
 
 ## 7. Concolic Testing (DART & CUTE)
 
-> **Plain words:** Pure symbolic execution (§6) breaks down when the maths gets too hard for the solver — a non-linear formula, a function whose source you don't have, a messy pointer. Concolic testing fixes this by running the program on **real inputs and symbols at the same time** ("**conc**rete + symb**olic**" = concolic). It keeps the symbolic PC to reason about paths, but whenever the solver gets stuck it just plugs in the _actual concrete value_ from the real run and moves on. To reach a new path it takes the last branch condition and flips it, then asks the solver for an input satisfying the flipped condition — repeat until you hit the target (e.g. ERROR).
+#### Plain words
+
+Pure symbolic execution (§6) breaks down when the maths gets too hard for the solver — a non-linear formula, a function whose source you don't have, a messy pointer. Concolic testing fixes this by running the program on **real inputs and symbols at the same time** ("**conc**rete + symb**olic**" = concolic). It keeps the symbolic PC to reason about paths, but whenever the solver gets stuck it just plugs in the _actual concrete value_ from the real run and moves on. To reach a new path it takes the last branch condition and flips it, then asks the solver for an input satisfying the flipped condition — repeat until you hit the target (e.g. ERROR).
 
 **Key definitions.**
 
@@ -856,7 +805,7 @@ Symbolic return `2*X+1`, PC `X <= Y`. Negate last → aim at ERROR: PC becomes `
 
 1. **Pick initial input** —
    - **Linked-list / int-from-zero:** first random int starts at **0**, increment by 1 until the PC holds; pointers start `NULL`.
-   - **Black-box arithmetic:** initial `x,y = 1`.
+   - Usually you are told which inital values to choose.
 2. **Run the table:** concrete column = real values / data-structure graph; PV = symbols; PC appends each branch constraint with `/\`, mark `(True)/(False)`. Black-box `result = f(x)`: PV gets token `THIRD_PARTY_FUNCTION`; concrete column gets the _actual computed number_.
 3. **Report:** concrete input, concrete output, symbolic PC.
 4. **Negate the last branch constraint**, solve for next input (increment int from 0 until PC holds; grow list by one cell when `->next != NULL` needed).
@@ -911,13 +860,11 @@ Output: **returns normally, no ERROR.** &nbsp; **Negate** `PV > PNV` (False) →
 
 Output: **ERROR reached.** &nbsp; **Final PC:** `P != NULL /\ PN != NULL /\ PV > PNV`; **input that triggers it:** the 2-cell list `[1]→[0]`.
 
-> _Non-linear variant:_ if line 2 were `if ((p->v - p->next->v)² > 4)`, the solver can't invert the square — that's exactly where concolic **falls back to the concrete value**: try increasing concrete values until the real run satisfies it, e.g. `PV=3, PNV=0` gives `9 > 4` ⇒ ERROR.
-
 **Worked example B — black-box `thirdPartyFunction`, start x=y=1 (full 2-table walk-through).**
 
 ```
 computeResult(x, y){
-1:  result = thirdPartyFunction(x);   // hidden: f(x) = 100x³ + 200x² + 300x + 20346
+1:  result = thirdPartyFunction(x);   // hidden: f(x) = 600x³ + 700x² + 900x + 8
 2:  if (result == y) ERROR;
 3:  return result;
 }
@@ -930,21 +877,21 @@ Symbols `x→X, y→Y`; `result` gets the opaque token `THIRD_PARTY_FUNCTION` be
 | line  | concrete state                            | PV (symbolic)                 | PC                                  |
 | ----- | ----------------------------------------- | ----------------------------- | ----------------------------------- |
 | entry | `x=1, y=1`                                | `x→X, y→Y`                    | —                                   |
-| 1     | engine runs `f(1)=20946` → `result=20946` | `result→THIRD_PARTY_FUNCTION` | —                                   |
-| 2     | `20946 == 1` **false** → no ERROR         | —                             | `THIRD_PARTY_FUNCTION != Y` (False) |
-| 3     | `return 20946`                            | —                             | —                                   |
+| 1     | engine runs `f(1)=2208` → `result=2208` | `result→THIRD_PARTY_FUNCTION` | —                                   |
+| 2     | `2208 == 1` **false** → no ERROR         | —                             | `THIRD_PARTY_FUNCTION != Y` (False) |
+| 3     | `return 2208`                            | —                             | —                                   |
 
-Output: **returns 20946, no ERROR.** &nbsp; **Negate** `THIRD_PARTY_FUNCTION != Y` → `THIRD_PARTY_FUNCTION == Y`. The solver can't invert `f`, so **reuse the concrete output**: keep `x=1` (so `result` stays 20946) and set `y = 20946`.
+Output: **returns 2208, no ERROR.** &nbsp; **Negate** `THIRD_PARTY_FUNCTION != Y` → `THIRD_PARTY_FUNCTION == Y`. The solver can't invert `f`, so **reuse the concrete output**: keep `x=1` (so `result` stays 2208) and set `y = 2208`.
 
-**Table 2** — Input: `x = 1, y = 20946`.
+**Table 2** — Input: `x = 1, y = 2208`.
 
 | line  | concrete state                        | PV (symbolic)                 | PC                                             |
 | ----- | ------------------------------------- | ----------------------------- | ---------------------------------------------- |
-| entry | `x=1, y=20946`                        | `x→X, y→Y`                    | —                                              |
-| 1     | `f(1)=20946` → `result=20946`         | `result→THIRD_PARTY_FUNCTION` | —                                              |
-| 2     | `20946 == 20946` **true** → **ERROR** | —                             | `THIRD_PARTY_FUNCTION == Y` (True) → **ERROR** |
+| entry | `x=1, y=2208`                        | `x→X, y→Y`                    | —                                              |
+| 1     | `f(1)=2208` → `result=2208`         | `result→THIRD_PARTY_FUNCTION` | —                                              |
+| 2     | `2208 == 2208` **true** → **ERROR** | —                             | `THIRD_PARTY_FUNCTION == Y` (True) → **ERROR** |
 
-Output: **ERROR reached.** &nbsp; **Input that triggers it:** `(x=1, y=20946)`.
+Output: **ERROR reached.** &nbsp; **Input that triggers it:** `(x=1, y=2208)`.
 
 **Exam patterns & gotchas.**
 
@@ -968,7 +915,9 @@ Output: **ERROR reached.** &nbsp; **Input that triggers it:** `(x=1, y=20946)`.
 
 ## 8. FSM-based Testing (UIO, DS, W-set)
 
-> **Plain words:** Some systems have _memory_ — the same input does different things depending on what happened before (a vending machine, a login flow). We model these as a **Finite State Machine (FSM)**: a set of states with labelled transitions ("on input `a`, go from state s0 to s1 and output 0"). To test such a system you need to confirm it's really _in_ the state you think it is. The three tools all answer "which state am I in?" by feeding inputs and watching outputs: a **UIO** is a fingerprint for _one_ state, a **DS** is a single fingerprint that identifies _every_ state at once, and a **W-set** is a _collection_ of short inputs that together tell all states apart. UIO and DS don't always exist; a W-set always does (for a well-behaved FSM).
+#### Plain words
+
+Some systems have _memory_ — the same input does different things depending on what happened before (a vending machine, a login flow). We model these as a **Finite State Machine (FSM)**: a set of states with labelled transitions ("on input `a`, go from state s0 to s1 and output 0"). To test such a system you need to confirm it's really _in_ the state you think it is. The three tools all answer "which state am I in?" by feeding inputs and watching outputs: a **UIO** is a fingerprint for _one_ state, a **DS** is a single fingerprint that identifies _every_ state at once, and a **W-set** is a _collection_ of short inputs that together tell all states apart. UIO and DS don't always exist; a W-set always does (for a well-behaved FSM).
 
 **Key definitions.**
 
@@ -1013,7 +962,7 @@ start:  look-alikes {s1, s2, s3}         (no input yet — anyone could be s2)
              look-alikes { s2 }           ★ only s2 remains ⇒ UIO(s2) = `aa`  (s2's outputs = 1,1)
 ```
 
-**UIOs really can be a _different word per state_** (each state's tree terminates as soon as _that_ state is isolated — via whatever input does it, at whatever depth). Worked example — the actual **2025b-b Q3** FSM (4 states, start s0):
+**UIOs really can be a _different word per state_** (each state's tree terminates as soon as _that_ state is isolated — via whatever input does it, at whatever depth). Worked example:
 
 | state  | on `a`     | on `b`     |
 | ------ | ---------- | ---------- |
@@ -1102,16 +1051,15 @@ This FSM has **no single DS**, so the **state-verification sequence is the reach
 |  s3   |       `a`        |   `b@a@aa@R`   |            1            |   s2    |               **10**               |
 |  s3   |       `b`        |   `b@b@b@R`    |            1            |   s1    |               **0**                |
 
-(The exam's Q3b asked only for the two `s2` rows.) Reading a row (`s2, a`): reset to s0, run `transfer(s2)=aa` to reach s2, apply the input-under-test `a` (expect output **1**, lands in **s0**), then apply `UIO(s0)=a` and expect its output **0** — which confirms you really reached s0; finally `R` resets. Columns 5–6 come straight from the table: column 5 = `δ(state, input)`, column 6 = the reached state's own UIO output. _(Because there's no DS here, the verification sequence **changes per row** — it's whichever UIO belongs to the reached state.)_
+Reading a row (`s2, a`): reset to s0, run `transfer(s2)=aa` to reach s2, apply the input-under-test `a` (expect output **1**, lands in **s0**), then apply `UIO(s0)=a` and expect its output **0** — which confirms you really reached s0; finally `R` resets. Columns 5–6 come straight from the table: column 5 = `δ(state, input)`, column 6 = the reached state's own UIO output. _(Because there's no DS here, the verification sequence **changes per row** — it's whichever UIO belongs to the reached state.)_
 
 **Exam patterns & gotchas.**
 
 - **Prove non-existence rigorously:** give the structural reason — the (output, next-state) **collision** between two states means no input ever separates them; back it with the pruned tree (all branches D1/D3).
 - **No UIO ⇒ no DS** (use freely); reverse is false.
-- **"Change one label":** re-check whether the changed edge is one of the colliding ones; one label change can create or destroy a DS.
-- **Min DS length:** smallest `L` with `mᴸ ≥ n` (= `⌈log_m n⌉`; the course's "`log_m n + 1`" is `⌊log_m n⌋+1`, same value — **not** `⌈…⌉+1`). Memorize (m=2): n=5 → **3**, n=23 → **5**.
 - **No DS ⇒ use W** (always works for reduced FSM); substitute W wherever you'd use the DS in conformance tests.
-- **Which input is the "input under test" in a state-verification row?** To verify that transition `Sᵢ —x→ Sⱼ` lands you in `Sⱼ`, the **input under test is `x`** (the transition's own input) — you apply `x`, then apply `Sⱼ`'s **DS/UIO** to confirm you actually reached `Sⱼ`. So: input under test = the edge label that enters the state; verification sequence = the reached state's DS/UIO (see Worked example 4). Don't confuse the input-under-test (`x`) with the verification sequence (the DS).
+- **"Change one label":** re-check whether the changed edge is one of the colliding ones; one label change can create or destroy a DS.
+- **Which input is the "input under test" in a state-verification row?** To verify that transition `Sᵢ —x→ Sⱼ` lands you in `Sⱼ`, the **input under test is `x`** (the transition's own input) — you apply `x`, then apply `Sⱼ`'s **DS/UIO** to confirm you actually reached `Sⱼ`.
 
 **Cheat sheet — UIO vs DS vs W:**
 
@@ -1129,7 +1077,9 @@ DS-tree pruning: **D1** repeated state in a block = dead; **D2** all singletons 
 
 ## 9. Black-box Techniques (ECP, BVA, Decision Tables, Domain)
 
-> **Plain words:** "Black-box" means you pick test inputs from the _specification_ alone, without looking at the code inside. The problem is still "too many inputs" — so these techniques are smart ways to choose a few representatives. **ECP:** group inputs that _should be treated the same_ and test one from each group. **BVA:** bugs love edges, so test right at and just past the boundaries between groups. **Decision tables:** when the output depends on several yes/no conditions, tabulate the combinations. **Domain testing:** picture the input space as regions separated by boundary lines, and test points _on and just off_ each boundary to catch a mis-drawn boundary.
+#### Plain words
+
+"Black-box" means you pick test inputs from the _specification_ alone, without looking at the code inside. The problem is still "too many inputs" — so these techniques are smart ways to choose a few representatives. **ECP:** group inputs that _should be treated the same_ and test one from each group. **BVA:** bugs love edges, so test right at and just past the boundaries between groups. **Decision tables:** when the output depends on several yes/no conditions, tabulate the combinations. **Domain testing:** picture the input space as regions separated by boundary lines, and test points _on and just off_ each boundary to catch a mis-drawn boundary.
 
 Black-box has four techniques. Each is given below as **definition-in-context → recipe → worked example** (there is no separate glossary — every term is defined the first time the technique that needs it uses it). Running spec for the examples: `discount(qty)` = **0%** if `qty<10`, **10%** if `10≤qty≤99`, **20%** if `qty≥100`; `qty` is a positive int.
 
@@ -1188,7 +1138,9 @@ Black-box has four techniques. Each is given below as **definition-in-context �
 
 ## 10. JUnit & Tooling Reference (Pitest, JaCoCo)
 
-> **Plain words:** This section is the _practical_ toolkit — the actual Java tools that implement the ideas above. **JUnit** = the framework you write tests in (an `assert…` that throws if the program misbehaves). **Pitest** = the tool that automates mutation testing from §1 (it plants the mutants and runs your tests against each). **JaCoCo** = the tool that measures coverage from §2 (which lines/branches your tests actually ran). Exam questions here are usually "given this code and these tests, what does the tool report?" — so know how each tool _counts_.
+#### Plain words
+
+This section is the _practical_ toolkit — the actual Java tools that implement the ideas above. **JUnit** = the framework you write tests in (an `assert…` that throws if the program misbehaves). **Pitest** = the tool that automates mutation testing from §1 (it plants the mutants and runs your tests against each). **JaCoCo** = the tool that measures coverage from §2 (which lines/branches your tests actually ran). Exam questions here are usually "given this code and these tests, what does the tool report?" — so know how each tool _counts_.
 
 **Key definitions.**
 
@@ -1210,94 +1162,34 @@ Black-box has four techniques. Each is given below as **definition-in-context �
 | `assertThrows(Ex.class, exec)`           | code throws the expected exception (returns it to inspect) |
 | `fail(msg)`                              | force failure (unreached-branch guards)                    |
 
-**Full JUnit example (class under test + a test class).** This is the shape an exam wants when it says "write a JUnit test class." Note the anatomy: `@BeforeEach` for shared setup, one `@Test` per behaviour, a **delta** on the double assertion, boundary inputs, and an `assertThrows` for the error path.
+**JUnit example (one method + one test).** Minimal shape — a test is **Arrange → Act → Assert**; `@Test` marks it, a failed assertion throws:
 
 ```java
-// ---------- class under test ----------
-public class BankAccount {
-    private double balance;
-
-    public BankAccount(double opening) {
-        if (opening < 0) throw new IllegalArgumentException("negative opening");
-        this.balance = opening;
-    }
-
-    public double getBalance() { return balance; }
-
-    public void deposit(double amount) {
-        if (amount <= 0) throw new IllegalArgumentException("amount must be > 0");
-        balance += amount;
-    }
-
-    /** @return true iff the withdrawal succeeded (enough funds). */
-    public boolean withdraw(double amount) {
-        if (amount <= 0) throw new IllegalArgumentException("amount must be > 0");
-        if (amount > balance) return false;   // insufficient funds
-        balance -= amount;
-        return true;
-    }
-}
+static int abs(int x) { return x < 0 ? -x : x; }   // method under test
 ```
 
 ```java
-// ---------- JUnit 5 test class ----------
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BankAccountTest {
-
-    private BankAccount acct;          // fresh instance per test
-
-    @BeforeEach
-    void setUp() {                     // runs before EVERY @Test → isolation
-        acct = new BankAccount(100.0);
-    }
-
+class AbsTest {
     @Test
-    void deposit_increasesBalance() {
-        acct.deposit(50.0);
-        assertEquals(150.0, acct.getBalance(), 1e-9);   // delta on double!
-    }
-
-    @Test
-    void withdraw_enoughFunds_succeedsAndDebits() {
-        assertTrue(acct.withdraw(40.0));
-        assertEquals(60.0, acct.getBalance(), 1e-9);
-    }
-
-    @Test
-    void withdraw_exactBalance_boundary_succeeds() {    // amount == balance edge
-        assertTrue(acct.withdraw(100.0));
-        assertEquals(0.0, acct.getBalance(), 1e-9);
-    }
-
-    @Test
-    void withdraw_insufficientFunds_returnsFalseAndKeepsBalance() {
-        assertFalse(acct.withdraw(100.01));             // just over the edge
-        assertEquals(100.0, acct.getBalance(), 1e-9);   // unchanged
-    }
-
-    @Test
-    void deposit_nonPositive_throws() {                 // error path
-        assertThrows(IllegalArgumentException.class, () -> acct.deposit(0.0));
-    }
-
-    @Test
-    void constructor_negativeOpening_throws() {
-        assertThrows(IllegalArgumentException.class, () -> new BankAccount(-1.0));
+    void abs_ofNegative_isPositive() {
+        int x = -3;                 // Arrange
+        int r = abs(x);             // Act
+        assertEquals(3, r);         // Assert
     }
 }
 ```
 
-Why these tests: `withdraw` has the comparison `amount > balance`, so the two boundary tests (`amount == balance` and `amount` just above it) are what kill the `>` → `>=` **CONDITIONALS_BOUNDARY** mutant (§1); testing only far-from-boundary amounts would let it survive. `@BeforeEach` guarantees each test starts from a clean `BankAccount`, so an order-dependent bug can't hide.
+Scale up by adding **one `@Test` per behaviour** (a boundary like `abs(0)`, an error path via `assertThrows`, a `delta` on double `assertEquals`) — see the assertions table above; use `@BeforeEach` if several tests need the same setup.
 
 **JaCoCo counters (denominators).**
 
 - **Statement/line:** denominator = executable lines/instructions; a line covered if any instruction ran.
 - **Branch:** denominator = branch outcomes = **2 per decision**. JaCoCo counts at **bytecode** → each atomic boolean in `&&`/`||` contributes its own pair. `if(A)` → 2; `if(A && B)` → 4.
 
-**Worked example.** `f(y){ if(y>0) return 2*y; if(y<0) return -3*y; return 0; }` with tests `f(5)=10, f(-2)=6, f(0)=0`:
+**Worked example.** `f(y){  if(y>0) return 2*y; if(y<0) return -3*y; return 0; }` with tests `f(5)=10, f(-2)=6, f(0)=0`:
 
 - `y>0→y>=0`: at `y=0` both return 0 ⇒ **equivalent**. `y<0→y<=0`: at `y=0` both return 0 ⇒ **equivalent**.
 - `2*y→2/y`: `f(5)` → `2/5=0≠10` ⇒ **killed**. `-3*y→-3/y`: `f(-2)` → `-3/-2=1≠6` ⇒ **killed**.
@@ -1309,48 +1201,3 @@ Why these tests: `withdraw` has the comparison `amount > balance`, so the two bo
 - `a*b→b*a`, `x+0→x`, mutating unreachable code ⇒ equivalent.
 - **100% branch coverage ⇏ all mutants killed.** The _oracle_ is the assertion that decides pass/fail; a **weak oracle** runs the mutated line and the mutant even computes a _different_ value, but the assertion is too loose to notice — so the mutant survives despite full coverage. Typical sub-question: _"write a test that covers the mutated statement yet still passes on the mutant."_ Example — `int f(int x){ return x*2; }` with mutant `*→+` (so `f(3)` is 6 in the original, 5 in the mutant). The test `assertTrue(f(3) > 0)` executes the line but only checks the sign — `6>0` and `5>0` both hold ⇒ mutant survives. Fix: assert the exact value, `assertEquals(6, f(3))`, which sees `5 ≠ 6` ⇒ killed.
 - Always put the **delta on double `assertEquals`**. Score denominator is **N − E**, never N.
-
----
-
-## 11. Exam Playbook & Master Cheat Sheets
-
-> **Plain words:** This is the exam-day section — no new theory, just _how to attack a question_. The first table maps a question's shape ("archetype") to the section that answers it, so you can jump straight there. The second table is the single most important thing to get right under pressure: **denominators** — when a question asks for "coverage %" you must state _exactly what is being counted_ (lines? edges? conditions?). The last list is the recurring reasons students lose marks.
-
-### Question archetype → topic
-
-| Archetype                                   | What it asks                                                                                                                       | §       |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| **A Mutation / score**                      | survive vs kill, flag equivalents, `D/(N−E)`, add tests for 100%; or write a weak-assertion test where a mutant survives, then fix | §1, §10 |
-| **B AETG pair-count**                       | first param fixed; for each candidate order count new pairs; which wins; resulting π                                               | §5      |
-| **C IPO/OA growth**                         | horizontal growth for new param, then which tuples vertical growth adds & why                                                      | §5      |
-| **D CFG + boundary-interior**               | draw CFG (number nodes), minimal boundary-interior path set, subsumption vs branch                                                 | §2      |
-| **E Dataflow / subsumption counterexample** | "show X does NOT subsume Y — program + suite"                                                                                      | §3, §4  |
-| **F Symbolic → ERROR**                      | PC reaching ERROR, feasibility + sample input, false-branch-first, branch denominator                                              | §6      |
-| **G Concolic table**                        | concrete+symbolic+PC table over a struct, start int at 0, until ERROR                                                              | §7      |
-| **H FSM UIO/DS/W**                          | prove no UIO; DS tree; characterizing set W; min DS size                                                                           | §8      |
-| **(I) MC/DC** (sub-part)                    | minimal MC/DC suite (~N+1 tests); pseudocode                                                                                       | §2, §6  |
-
-### Denominators cheat sheet (state EXACTLY what is counted)
-
-| Metric                       | Denominator = number of …                                                           |
-| ---------------------------- | ----------------------------------------------------------------------------------- |
-| **Statement (line)**         | executable statements/lines (JaCoCo: instructions)                                  |
-| **Branch (decision)**        | **2 per decision** (true & false); JaCoCo bytecode → 2 per atomic boolean in `&&`/` |
-| **Basic (atomic) condition** | **2 × #atomic conditions**                                                          |
-| **Branch-and-condition**     | branch + basic-condition obligations                                                |
-| **Compound condition**       | **2ᴺ** combinations of the N atoms in a decision                                    |
-| **MC/DC**                    | one independence obligation per atom → suite ≈ **N+1**                              |
-| **Path (all-paths)**         | feasible entry→exit paths (**∞ with loops**; ≤ **2ᵏ** for k loop-free decisions)    |
-
-Sanity: `if (A && B)` → branch **4**, basic-condition **4**, compound **2²=4**, MC/DC **3** tests.
-(Boundary-interior and loop-boundary are path-shaped, not condition-counts — their obligations are in the §2 criteria table, not here.)
-
-### Things examiners always deduct for
-
-- **No justification**
-- **Counting equivalent mutants in the denominator** / not arguing why a mutant is equivalent / trying to "kill" an equivalent mutant.
-- **Including infeasible paths**, or claiming a symbolic path reachable without a satisfying input (or unreachable without proving UNSAT).
-- **Wrong branch order in symbolic execution** — convention is **false branch first**.
-- **Miscounting pairs in AETG/IPO** (not listing each pair, double-counting covered pairs, wrong candidate).
-- **CFG mistakes:** unnumbered nodes, ignoring `&&`/`||` short-circuit as separate branches, non-minimal/loop-not-exercised boundary-interior set.
-- **Double `assertEquals` with no delta.** **OFF-point on the wrong side** of an open/closed boundary.
