@@ -136,6 +136,7 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
 - **Boundary-interior** — a way to tame loops (which otherwise create infinitely many paths). It splits the loop paths into two classes. **Full coverage of each is about _every subpath through the loop body_, not just iteration count** — this is the part people get wrong:
   - **Boundary tests (full coverage)** = for **every distinct subpath through the loop body**, one feasible path that _enters the loop and exits after that single iteration_ — **plus** the path that _skips the loop entirely_. Mechanically: unfold the CFG into a tree up to the **first repeated node** (the loop condition on its 2nd arrival), then stop and exit; **provide one feasible path per branch of that tree.** ⚠️ One single-iteration path is **not** enough if the body has an `if` — you need _one per body-subpath_. In this course, this boundary set is the expected answer.
   - **Interior tests (full coverage)** = paths that iterate **≥2 times where the first two iterations take _different_ body-subpaths**; you enumerate the body's branch outcomes over iterations 1 and 2. Needs unfolding a **second** iteration, so the first-repeated-node tree does **not** produce them. The _more general_ requirement — usually not required on the exam.
+  - **Why the exam accepts boundary-only** (despite the name): the course grades against **P&Y's operational definition**, which *stops at the first repeated node* and calls that whole set "boundary/interior coverage" — the criterion **groups paths that differ only in how they repeat the loop body**, so one representative per body-subpath (first pass) suffices. The genuine interior tests (≥2 differing iterations) are dropped **for tractability** (they explode combinatorially / go infeasible). So boundary-only under-covers Howden's full "interior" *by design*, and is the accepted answer.
   - **Concrete `while(c){ if(d) X else Y }`:** the body has two subpaths (`d`-True→X, `d`-False→Y).
     - **Boundary (3 tests):** skip loop (`c` false at once) · one iteration through **X** (`d`=T) · one iteration through **Y** (`d`=F).
     - **Interior (4 tests):** two iterations with `d` = **TT, TF, FT, FF** (the TF/FT cases — where the iterations differ — are the ones that truly define "interior").
@@ -632,7 +633,7 @@ The core idea: start with a table that's already pairwise-correct for the **firs
    - **c. Vertical (downward) growth — add new rows for the leftovers.** Any pair still in π after horizontal growth needs a fresh row. For each leftover pair `(Pj=a, Pᵢ=b)`: **first try to reuse** an existing vertical-growth row — one whose Pj slot is already `a` **or** blank _and_ whose Pᵢ slot is already `b` **or** blank — and fill in its blanks. **Only if none fits, add a brand-new row** with `Pj=a`, `Pᵢ=b`, and **`*` (don't-care = "any value")** in every other column. Reusing rows before adding new ones is what keeps the suite small.
    - **d.** Replace any leftover `*` with any valid value, then move on to the next parameter Pᵢ₊₁ (its horizontal growth now runs over _all_ rows, including the ones vertical growth just added).
 
-**Worked example A — multi-valued AETG (uneven domains), full run.** P1={C,D} (2), P2={B,W,R} (3), P3={S,M} (2). Conventions (state them in your answer): **m=1** (one candidate per test); fill the still-unassigned parameters in **index order** P1→P2→P3; all ties (first pick and value) break to the **first-listed** value/parameter.
+**Worked example A — multi-valued AETG, m=2 (uneven domains, full run).** P1={C,D} (2), P2={B,W,R} (3), P3={S,M} (2). Conventions (state them): **first pick** = the (param,value) in the **most uncovered pairs**; then build **m=2 candidates**, each filling the remaining two parameters in a different **order**, choosing each value greedily (**most new pairs with the values already fixed, looking back only**); **keep the higher-scoring candidate**. All ties (first pick, value, candidate) → **first-listed**. _(With 3 parameters the two leftover parameters have only `2!=2` orders, so **m=2 is the maximum** here — it exhausts the candidate diversity; see "How large can m be?" below.)_
 
 **Build π** — `|P1||P2| + |P1||P3| + |P2||P3| = 6+4+6 = 16` pairs:
 
@@ -640,53 +641,47 @@ The core idea: start with a table that's already pairwise-correct for the **firs
 P1P2: (C,B)(C,W)(C,R)(D,B)(D,W)(D,R)   P1P3: (C,S)(C,M)(D,S)(D,M)   P2P3: (B,S)(B,M)(W,S)(W,M)(R,S)(R,M)
 ```
 
-_Test 1._
+_Test 1._ first pick **P1=C** (C/D/S/M each in 5 pairs; tie → C).
 
-- **Count → first pick:** C→5, D→5, S→5, M→5, each of B/W/R→4. Tie at 5 → first → **P1 = C**.
-- **Fill P2** (P1=C): (C,B),(C,W),(C,R) all =1 → tie → **B**.
-- **Fill P3** (C,B): `S`→(C,S)ₚ₁₃+(B,S)ₚ₂₃=2; `M`→2 → tie → **S**.
-- ⇒ **Test 1 = (C,B,S)**, score 3; remove (C,B),(C,S),(B,S) → **13 left**.
+- **Cand 1** — order P2→P3: P2 (B/W/R each +1 → tie → **B**), P3 with (C,B) (S,M each +2 → tie → **S**) ⇒ **(C,B,S)**, covers **3**.
+- **Cand 2** — order P3→P2: P3 (S,M each +1 → **S**), P2 with (C,S) (each +2 → **B**) ⇒ **(C,B,S)**, covers **3**.
+- Both 3 → keep **(C,B,S)**. π − (C,B),(C,S),(B,S) → **13 left**.
 
-_Test 2._
+_Test 2._ first pick **P1=D** (D,M each in 5; tie → first parameter → D).
 
-- **Count → first pick:** on 13 left: D→5, M→5, W→4, R→4, C→3, S→3, B→2. Tie D vs M → first parameter → **P1 = D**.
-- **Fill P2** (P1=D): (D,B),(D,W),(D,R) all =1 → tie → **B**.
-- **Fill P3** (D,B): `S`→(D,S)ₚ₁₃=1 [(B,S) gone]; `M`→(D,M)ₚ₁₃+(B,M)ₚ₂₃=2 → **M**.
-- ⇒ **Test 2 = (D,B,M)**, score 3; remove (D,B),(D,M),(B,M) → **10 left**.
+- **Cand 1** — P2→P3: P2 (each +1 → **B**), P3 with (D,B) (S +1; M +2 [(D,M)+(B,M)] → **M**) ⇒ **(D,B,M)**, covers **3**.
+- **Cand 2** — P3→P2: P3 (S,M each +1 → **S**), P2 with (D,S) (B +1; W +2; R +2 → tie → **W**) ⇒ **(D,W,S)**, covers **3**.
+- Tie 3–3 → keep first ⇒ **(D,B,M)**. π − (D,B),(D,M),(B,M) → **10 left**.
 
-_Test 3._
+_Test 3._ first pick **P2=W** (W,R each in 4; tie → W).
 
-- **Count → first pick:** W→4 [(C,W)(D,W)+(W,S)(W,M)], R→4, else ≤3. Tie W vs R → **P2 = W**.
-- **Fill P1** (P2=W): (C,W)=1, (D,W)=1 → tie → **C**.
-- **Fill P3** (C,W): `S`→(W,S)ₚ₂₃=1 [(C,S) gone]; `M`→(C,M)ₚ₁₃+(W,M)ₚ₂₃=2 → **M**.
-- ⇒ **Test 3 = (C,W,M)**, score 3; remove (C,W),(C,M),(W,M) → **7 left**: P1P2:(C,R)(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,S)(R,M).
+- **Cand 1** — P1→P3: P1 (C,D each +1 → **C**), P3 with (C,W) (S +1; M +2 → **M**) ⇒ **(C,W,M)**, covers **3**.
+- **Cand 2** — P3→P1: P3 (S,M each +1 → **S**), P1 with (W,S) (C +1; D +2 [(D,W)+(D,S)] → **D**) ⇒ **(D,W,S)**, covers **3**.
+- Tie → keep first ⇒ **(C,W,M)**. π − (C,W),(C,M),(W,M) → **7 left**: P1P2:(C,R)(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,S)(R,M).
 
-_Test 4._
+_Test 4 — where m=2 pays off._ first pick **P2=R** (in 4).
 
-- **Count → first pick:** R→4 [(C,R)(D,R)+(R,S)(R,M)] is the max → **P2 = R**.
-- **Fill P1** (P2=R): (C,R)=1, (D,R)=1 → tie → **C**.
-- **Fill P3** (C,R): `S`→(R,S)ₚ₂₃=1 [(C,S) gone]; `M`→(R,M)ₚ₂₃=1 → tie → **S**.
-- ⇒ **Test 4 = (C,R,S)**, score **2** (only (C,R),(R,S); (C,S) already covered) → **5 left**: P1P2:(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,M).
+- **Cand 1** — P1→P3: P1 (C,D each +1 → **C**), P3 with (C,R) (S +1; M +1 → tie → **S**) ⇒ **(C,R,S)**, covers **2**.
+- **Cand 2** — P3→P1: P3 (S,M each +1 → **S**), P1 with (R,S) (C +1; D +2 [(D,R)+(D,S)] → **D**) ⇒ **(D,R,S)**, covers **3**.
+- **Cand 2 wins, 3 > 2** ⇒ keep **(D,R,S)**. π − (D,R),(R,S),(D,S) → **4 left**: P1P2:(C,R)(D,W) · P2P3:(W,S)(R,M). _(m=1, filling in index order, would have taken (C,R,S) and cleared one fewer pair — exactly why m>1 helps.)_
 
-_Test 5._
+_Test 5._ first pick **P2=W** (in 2).
 
-- **Count → first pick:** D→3 [(D,W)(D,R)+(D,S)] → **P1 = D**.
-- **Fill P2** (P1=D): (D,W)=1, (D,R)=1 → tie → **W**.
-- **Fill P3** (D,W): `S`→(D,S)ₚ₁₃+(W,S)ₚ₂₃=2; `M`→0 → **S**.
-- ⇒ **Test 5 = (D,W,S)**, score 3; remove (D,W),(D,S),(W,S) → **2 left**: P1P2:(D,R) · P2P3:(R,M).
+- **Cand 1** — P1→P3: P1 (C +0, D +1 → **D**), P3 with (D,W) (S +1 [(W,S)]; M +0 → **S**) ⇒ **(D,W,S)**, covers **2**.
+- **Cand 2** — P3→P1: P3 (S +1, M +0 → **S**), P1 (D +1 → **D**) ⇒ **(D,W,S)**, covers **2**.
+- Both 2 → keep **(D,W,S)**. π − (D,W),(W,S) → **2 left**: P1P2:(C,R) · P2P3:(R,M).
 
-_Test 6._
+_Test 6._ first pick **P2=R** (in 2).
 
-- **Count → first pick:** R→2 [(D,R)+(R,M)] → **P2 = R**.
-- **Fill P1** (P2=R): (D,R)=1 → **D**.
-- **Fill P3** (D,R): `M`→(R,M)ₚ₂₃=1 → **M**.
-- ⇒ **Test 6 = (D,R,M)**, score 2; π **empty**.
+- **Cand 1** — P1→P3: P1 (C +1 → **C**), P3 (M +1 → **M**) ⇒ **(C,R,M)**, covers **2**.
+- **Cand 2** — P3→P1: same ⇒ **(C,R,M)**, covers **2**.
+- keep **(C,R,M)**. π **empty**.
 
-**Answer — 6 tests** (vs `2×3×2 = 12` exhaustive): `(C,B,S), (D,B,M), (C,W,M), (C,R,S), (D,W,S), (D,R,M)`. Verify: P1P2 gets all 6, P1P3 all 4 [(C,S)t1,(C,M)t3,(D,S)t5,(D,M)t2], P2P3 all 6. ✓ Takeaway: multi-valued is purely mechanical — bigger domains just mean more values to count and more pairs to clear; the not-every-test-scores-3 rows (t4, t6) are normal near the end.
+**Answer — 6 tests** (vs `2×3×2 = 12` exhaustive): `(C,B,S), (D,B,M), (C,W,M), (D,R,S), (D,W,S), (C,R,M)` — all 16 pairs covered ✓. The **candidate step** is what separates AETG from IPO: at each test you try `m` fill orders and keep the one covering the most new pairs (Test 4 shows a different order winning).
 
-#### When m>1
+#### How large can m be?
 
-The run above uses **m=1** (one candidate per test). With **m>1** the only change is the "generate candidates" step: at each test you build `m` candidates (each with its own fill order), **score every candidate over its whole finished test**, and keep the highest (ties → first). Larger `m` → more candidates per step → usually **fewer total tests**, at more computation.
+`m` (number of candidates) is bounded by how many **distinct** candidates exist. All candidates share the same **first pick** and differ only in the **order of the remaining `k−1` parameters** — so there are at most **`(k−1)!`** distinct candidates.
 
 **Worked example B — IPOG (full trace: init → horizontal → vertical).** Three parameters: P1={1,2}, P2={1,2}, P3={1,2,3}. (P3 has 3 values, so horizontal growth _can't_ place them all in the 4 existing rows — that's what forces vertical growth, the part exams love to test.)
 
