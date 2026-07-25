@@ -2,8 +2,6 @@
 
 We can almost never run a program on _every_ possible input (there are far too many). So testing is really about **choosing a small, smart set of inputs** that still gives us confidence the program is correct. A **coverage criterion** is just a rule that tells you _which_ inputs (or paths, or combinations) you must exercise — e.g. "run every line at least once" or "make every `if` go both true and false". Most of this guide is a tour of different such rules, how to satisfy them, and how they compare in strength. Keep asking two questions while you read: _"What must this criterion make me test?"_ and _"How few tests can I get away with?"_
 
-**How to read this doc.** Each section has: **Key definitions** (the vocabulary), **The recipe** (the mechanical steps to answer an exam question), a **Worked example**, **Exam patterns & gotchas** (traps that lose points), and a **Cheat sheet** (the compressed version to memorize). If a term looks unfamiliar, look for a `> **Plain words:**` note near its first use.
-
 ## Topics
 
 | #   | Topic                                                                                                   | Exam frequency |
@@ -659,17 +657,17 @@ Sanity-check one pair-type: P2×P3 → (1,1) r1, (2,2) r2, (1,2) r3, (2,1) r4, (
 - **Orthogonal-array as a starting set:** if you're handed an orthogonal array (or any set of prebuilt tests), use it as the **starting tests**: build the full pair list, **strike out every pair those starting tests already cover**, then run AETG/IPO only on what's left → far fewer iterations.
   - **Seed IPO with an `Lₙ(2^(k-2))` OA** : an OA is already a minimal pairwise-covering set for the parameters it contains, so `Lₙ(2^(k-2))` gives you `n` rows that **already cover all pairs among `k-2` of the `k` boolean parameters — for free**. So instead of IPO's usual Step 1 (start from the full `P1×P2` cross-product), **use the OA's `n` rows as the initial test set**, then run IPO's parameter-addition (**horizontal → vertical growth**) for the remaining `k-(k-2)=2` parameters — building π from **only the pairs that involve those 2 new parameters** (the OA already covers the rest). You skip covering the first `k-2` parameters entirely.
 
-  > ⚠️ **Why you can't just _duplicate_ an OA's columns to fake more parameters** (a classic "why doesn't this work?"). Tempting shortcut: you have `L4(2³)` covering 3 parameters and you want 6, so you copy the 3 columns to the right (P4:=P1, P5:=P2, P6:=P3):
-  >
-  > ```
-  > run  P1 P2 P3 | P4 P5 P6      (P4=P1, P5=P2, P6=P3)
-  >  1    1  1  1 |  1  1  1
-  >  2    1  2  2 |  1  2  2
-  >  3    2  1  2 |  2  1  2
-  >  4    2  2  1 |  2  2  1
-  > ```
-  >
-  > The trap is the pair **between a column and its own clone** — e.g. P1 & P4. Because P4 is _identical_ to P1 in every row, that column-pair only ever shows the **matching** values `(1,1)` and `(2,2)`; the **mismatched** pairs `(1,2)` and `(2,1)` can **never** appear. So pairwise coverage is broken for P1–P4, P2–P5, and P3–P6. (Cross pairs like P1–P5 are fine — they're just the original P1–P2 pairs again.) Duplication buys columns but not coverage; you must genuinely extend the array (add the missing pairs via AETG/IPO), not clone it.
+**⚠️ Why you can't just _duplicate_ an OA's columns to fake more parameters** (a classic "why doesn't this work?"). Tempting shortcut: you have `L4(2³)` covering 3 parameters and you want 6, so you copy the 3 columns to the right (P4:=P1, P5:=P2, P6:=P3):
+
+```
+run  P1 P2 P3 | P4 P5 P6      (P4=P1, P5=P2, P6=P3)
+ 1    1  1  1 |  1  1  1
+ 2    1  2  2 |  1  2  2
+ 3    2  1  2 |  2  1  2
+ 4    2  2  1 |  2  2  1
+```
+
+The trap is the pair **between a column and its own clone** — e.g. P1 & P4. Because P4 is _identical_ to P1 in every row, that column-pair only ever shows the **matching** values `(1,1)` and `(2,2)`; the **mismatched** pairs `(1,2)` and `(2,1)` can **never** appear. So pairwise coverage is broken for P1–P4, P2–P5, and P3–P6. (Cross pairs like P1–P5 are fine — they're just the original P1–P2 pairs again.) Duplication buys columns but not coverage; you must genuinely extend the array (add the missing pairs via AETG/IPO), not clone it.
 
 **Exam patterns & gotchas.**
 
@@ -1156,8 +1154,8 @@ This section is the _practical_ toolkit — the actual Java tools that implement
 | `assertEquals(expected, actual)`         | object/primitive equality (`.equals`)                      |
 | `assertEquals(expected, actual, delta)`  | **doubles/floats — MUST give a tolerance** (e.g. `1e-9`)   |
 | `assertTrue(cond)` / `assertFalse(cond)` | booleans                                                   |
-| `assertNull` / `assertNotNull`           | null checks                                                |
-| `assertSame` / `assertNotSame`           | **reference identity (`==`)**, not value                   |
+| `assertNull(actual)` / `assertNotNull(actual)` | null checks                                          |
+| `assertSame(expected, actual)` / `assertNotSame(expected, actual)` | **reference identity (`==`)**, not value |
 | `assertArrayEquals(exp, act)`            | array contents                                             |
 | `assertThrows(Ex.class, exec)`           | code throws the expected exception (returns it to inspect) |
 | `fail(msg)`                              | force failure (unreached-branch guards)                    |
@@ -1175,9 +1173,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AbsTest {
     @Test
     void abs_ofNegative_isPositive() {
-        int x = -3;                 // Arrange
-        int r = abs(x);             // Act
-        assertEquals(3, r);         // Assert
+        assertEquals(-3, abs(x));
     }
 }
 ```
