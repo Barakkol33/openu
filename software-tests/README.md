@@ -94,7 +94,7 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
   - **`V = (# binary decision points) + 1`** — count each `if`/`while`/`for`/`case` and each `&&`/`||`; an `else` is **not** a decision. (Fastest by hand.)
   - `V` = number of enclosed regions of the planar CFG, `+1`.
   It measures *control structure, not size*, and equals the number of independent paths **cyclomatic testing** aims to cover. Rule of thumb (P&Y): `<20` simple, `>50` may be untestable.
-  - _Worked example_ (`calculateCyclomaticComplexity` from 2024b-a2):
+  - _Worked example_ (`calculateCyclomaticComplexity`):
     ```
     while (y < 100) {          // decision 1
       if (y % 5 == 0) ...      // decision 2
@@ -103,7 +103,7 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
     }
     ```
     3 binary decisions (`while`, `if %5`, `else-if %3`) ⇒ **`V = 3 + 1 = 4`** (the same 4 you'd get from `e − n + 2` after drawing the CFG).
-- **Path (all-paths) coverage** — execute **every complete route from entry to exit** at least once. It is the **strongest** structural criterion (it subsumes all the others — cover every path and you cover every edge, node, and condition combination along the way), but it is usually **infeasible**: a single loop creates unboundedly many paths (0, 1, 2, … iterations ⇒ infinitely many tests), and even loop-free code with `k` independent decisions has up to **2ᵏ** paths. That blow-up is exactly why the weaker criteria (and, for loops, **boundary-interior** below) exist. When you _are_ asked for a path-coverage test set (loop-free code only — see 2025b-a2), list one input per feasible entry→exit path and mark any **infeasible** path (no input can drive it) rather than inventing one.
+- **Path (all-paths) coverage** — execute **every complete route from entry to exit** at least once. It is the **strongest** structural criterion (it subsumes all the others — cover every path and you cover every edge, node, and condition combination along the way), but it is usually **infeasible**: a single loop creates unboundedly many paths (0, 1, 2, … iterations ⇒ infinitely many tests), and even loop-free code with `k` independent decisions has up to **2ᵏ** paths. That blow-up is exactly why the weaker criteria (and, for loops, **boundary-interior** below) exist. When you _are_ asked for a path-coverage test set (loop-free code only), list one input per feasible entry→exit path and mark any **infeasible** path (no input can drive it) rather than inventing one.
 - **Infeasible (inexecutable) path** — a route that exists on the CFG diagram but **no input can ever actually make the program take**, because the branch choices along it **contradict each other**. Simple example: a path that needs `x > 0` at one `if` and later `x < 0` at another `if`, with `x` never changed in between — no single `x` is both, so the path can never run. **How to detect it:** walk the path and AND together the condition each decision forces (True → the condition, False → its negation) into one big formula — the **path condition** — then ask "can any input satisfy all of these at once?" (this is exactly symbolic execution, §6). If the formula is **contradictory (unsatisfiable / UNSAT)** → the path is **infeasible**; if some assignment satisfies it → the path is **feasible** and that assignment is an input that drives it. Infeasible paths are why you can rarely reach 100% path- or du-path coverage: you **drop them and write "infeasible" (with the contradiction)** instead of inventing an input.
 - **Boundary-interior** — a way to tame loops (which otherwise create infinitely many paths). It splits the loop paths into two classes. **Full coverage of each is about _every subpath through the loop body_, not just iteration count** — this is the part people get wrong:
   - **Boundary tests (full coverage)** = for **every distinct subpath through the loop body**, one feasible path that _enters the loop and exits after that single iteration_ — **plus** the path that _skips the loop entirely_. Mechanically: unfold the CFG into a tree up to the **first repeated node** (the loop condition on its 2nd arrival), then stop and exit; **provide one feasible path per branch of that tree.** ⚠️ One single-iteration path is **not** enough if the body has an `if` — you need _one per body-subpath_. In this course, this boundary set is the expected answer.
@@ -146,6 +146,16 @@ _Compound vs basic condition counting:_
 
 - Compound-condition tests for a single decision with N elementary conditions = up to **2ᴺ**. To "need >100": use **N=7** (`2⁷=128 > 100`) elementary conditions in one decision.
 - Basic-condition tests for that same decision = **2** (all-true row + all-false row suffice).
+
+_Building a minimal MC/DC set (list-the-table-then-pick; P&Y §12.5):_ MC/DC = *each* atomic condition must be shown to **independently flip the decision**. Target **N+1** tests for N conditions.
+
+1. **List the full truth table** — all `2ᴺ` rows of the N atomic conditions.
+2. **Mark infeasible rows** — cross out combos no input can produce (e.g. `income>50000`=F while `income>70000`=T; two conditions on the same variable). Do this **first** — you may not use an infeasible row in a pair.
+3. **Compute the Decision** for every feasible row.
+4. **For each condition Cᵢ, find an independence pair:** two feasible rows that differ in **only Cᵢ** (all other conditions equal) and give **opposite** Decisions. The two rows *prove* Cᵢ matters on its own.
+5. **Reuse rows to minimize:** one row can anchor several conditions' pairs (P&Y: "the same test case can cover several basic conditions"). Greedily pick anchors that serve multiple Cᵢ → the set shrinks toward **N+1**.
+6. **Present the pairs:** list the chosen tests and, per condition, which two rows form its pair. The minimal set is **not unique** — any valid selection is accepted; short-circuit/coupling may force slightly more than N+1.
+- _Don't-cares (`–`)_ are allowed for a condition not evaluated (short-circuit) — it can shrink the table.
 
 **Worked example:**
 
@@ -240,7 +250,7 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 **Worked examples — the two dataflow subsumption disproofs** (both live in §4's [Counterexample library](#counterexample-library), so all subsumption counterexamples sit in one place):
 
 - **[CE4](#counterexample-library) — full branch coverage ⊉ all-defs:** a two-`if` program where both tests give 100% branch coverage yet the def of `x` never reaches one of its uses. This is the canonical "all-defs is easy to break" trap (bullet below).
-- **[CE5](#counterexample-library) — all-c-uses/some-p-uses ⇎ all-p-uses/some-c-uses:** two small programs (one per direction) proving the pair **incomparable**. Direction 1 (the one asked on 2023b-b) is the `foo(x,y)` program: suite `{1-2-4-6}` covers the only c-uses but skips p-use edges. Key fact used: **all-p-uses requires _both_ out-edges of every decision**, so a single path can never satisfy it.
+- **[CE5](#counterexample-library) — all-c-uses/some-p-uses ⇎ all-p-uses/some-c-uses:** two small programs (one per direction) proving the pair **incomparable**. Direction 1 is the `foo(x,y)` program: suite `{1-2-4-6}` covers the only c-uses but skips p-use edges. Key fact used: **all-p-uses requires _both_ out-edges of every decision**, so a single path can never satisfy it.
 
 **Exam patterns & gotchas:**
 
@@ -271,6 +281,12 @@ Note the **first path (loop not entered, empty array)** is mandatory and the mos
 - **A subsumes B** ("A includes B"): for **every** program P, **every** test suite that satisfies A on P also satisfies B on P. A is then _strictly stronger_. (Note the "for every program" — a single program where A implies B is _not_ enough; it must always hold.)
 - **Equivalent**: A subsumes B _and_ B subsumes A (they demand the same coverage). **Incomparable**: neither subsumes the other (each can be satisfied while missing something the other requires).
 - Caution: subsumption is a _logical_ relation only — "A is stronger on paper". It does **not** guarantee A finds more real bugs in practice.
+
+> **⚠️ An example is NOT a proof (the asymmetry that loses marks).** Because "A subsumes B" is a **∀-program** claim, the two directions need opposite evidence:
+> - **To PROVE "A subsumes B":** you must give a **general argument** that holds for *every* program (e.g. "any suite covering every edge necessarily runs every node, so branch ⊇ statement"). **Showing one program where A happens to imply B proves nothing** — the next program could break it.
+> - **To DISPROVE "A subsumes B" (⊉):** **one** concrete counterexample (program + suite) is **enough** — a single case where A holds but B fails kills a ∀-claim.
+>
+> So: *disprove → exhibit an example; prove → argue in general.* Writing "here's an example where it works" for a **prove** question earns ~0.
 
 **The recipe — to disprove "A subsumes B", find ONE program P + ONE suite T with: T satisfies A on P, but T does NOT satisfy B on P.**
 
@@ -353,7 +369,7 @@ void bar(int v, int w) {        // 1: def v, def w
 
 Suite **{ (v>0,w>0): 1-2-3-5-6-8 , (v≤0,w≤0): 1-2-4-5-7-8 }** takes both edges of both predicates ⇒ **all-p-uses/some-c-uses satisfied** (v and w have p-uses). But the c-use of the _original_ `v` (def@1) needs a def-clear path to node 8, which exists **only** via node-2-True **and** node-5-False (`1-2-3-5-7-8`, i.e. `v>0 ∧ w≤0`) — a corner neither test hits (each test kills `v` at node 4 or 6 first) ⇒ that c-use pair is missed ⇒ **all-c-uses/some-p-uses fails.**
 
-Both directions ⇒ **incomparable.** _(Direction 1 is the one asked on 2023b-b. Referenced from §3.)_
+Both directions ⇒ **incomparable.**
 
 **CE6 — full branch coverage ⊉ all-c-uses (dataflow).**
 
@@ -365,7 +381,7 @@ Both directions ⇒ **incomparable.** _(Direction 1 is the one asked on 2023b-b.
 5   return r; }
 ```
 
-`x` is defined on both arms of the first `if`, and has one **c-use** (`x + 10`) on the true arm of the second `if`. all-c-uses therefore has **two** obligations: _def-from-the-`w<0`-arm → the c-use_ and _def-from-the-`w≥0`-arm → the c-use_. Tests **{w=−1, y=1}** and **{w=1, y=−1}** take both T and F of each `if` ⇒ **full branch coverage**. But the first test defines `x` on the `w<0` arm and then takes `y≥0` (never reaching the c-use), while the c-use is only reached by the second test, which defined `x` on the `w≥0` arm ⇒ the pair _def-on-`w<0`-arm → c-use_ is **never exercised** ⇒ all-c-uses unmet ⇒ branch ⊉ all-c-uses. _(Referenced from §3; asked directly on 2025b-a2.)_
+`x` is defined on both arms of the first `if`, and has one **c-use** (`x + 10`) on the true arm of the second `if`. all-c-uses therefore has **two** obligations: _def-from-the-`w<0`-arm → the c-use_ and _def-from-the-`w≥0`-arm → the c-use_. Tests **{w=−1, y=1}** and **{w=1, y=−1}** take both T and F of each `if` ⇒ **full branch coverage**. But the first test defines `x` on the `w<0` arm and then takes `y≥0` (never reaching the c-use), while the c-use is only reached by the second test, which defined `x` on the `w≥0` arm ⇒ the pair _def-on-`w<0`-arm → c-use_ is **never exercised** ⇒ all-c-uses unmet ⇒ branch ⊉ all-c-uses.
 
 **Exam patterns & gotchas:**
 
@@ -642,6 +658,7 @@ Sanity-check one pair-type: P2×P3 → (1,1) r1, (2,2) r2, (1,2) r3, (2,1) r4, (
 - **Fault-prone parameter — "each value of P3 must appear ≥ twice with every other value":** change π construction — **put every pair that involves P3 into π twice**; leave the other pairs at multiplicity one. Run growth/greedy normally, but **remove only ONE copy** of a doubled pair each time a test covers it — so the pair must be covered twice before it leaves π. (Works for both IPO and AETG).
 - **Critical parameter — "(P2,1) must appear in ≥ 75% of tests":** this is a _frequency_ constraint, not a pair constraint, so **don't fiddle with π counts** (you don't know the final test count in advance). Instead, in AETG: when choosing the first (param,value) of each new test, if (P2,1) is currently in < 75% of tests so far, **force-select it**; and after all pairs are covered, keep **adding redundant tests containing (P2,1)** until the 75% threshold is met.
 - **Orthogonal-array as a starting set:** if you're handed an orthogonal array (or any set of prebuilt tests), use it as the **starting tests**: build the full pair list, **strike out every pair those starting tests already cover**, then run AETG/IPO only on what's left → far fewer iterations.
+  - **Seed IPO with an `Lₙ(2^(k-2))` OA** (2024b-a2 Q2): an OA is already a minimal pairwise-covering set for the parameters it contains, so `Lₙ(2^(k-2))` gives you `n` rows that **already cover all pairs among `k-2` of the `k` boolean parameters — for free**. So instead of IPO's usual Step 1 (start from the full `P1×P2` cross-product), **use the OA's `n` rows as the initial test set**, then run IPO's parameter-addition (**horizontal → vertical growth**) for the remaining `k-(k-2)=2` parameters — building π from **only the pairs that involve those 2 new parameters** (the OA already covers the rest). You skip covering the first `k-2` parameters entirely.
 
   > ⚠️ **Why you can't just _duplicate_ an OA's columns to fake more parameters** (a classic "why doesn't this work?"). Tempting shortcut: you have `L4(2³)` covering 3 parameters and you want 6, so you copy the 3 columns to the right (P4:=P1, P5:=P2, P6:=P3):
   >
@@ -731,15 +748,30 @@ Symbolic return `2*X+1`, PC `X <= Y`. Negate last → aim at ERROR: PC becomes `
 
 **Exam patterns & gotchas.**
 
-- **Branch denominator** = `2 × #decisions` (loop conditions count).
+- **Branch denominator** = `2 × #decisions` (loop conditions count, infeasable also counted).
 - **Unreachable errors:** spot UNSAT PCs — `x*x+1==0`, `v+1==0 /\ v-1==0`, `x>0 /\ y>0 /\ x+y<0`. Answer "not reachable" + algebraic reason; never invent an input.
 - **Satisfying input:** if the PC is SAT, give one concrete tuple that satisfies it (for PC `X<=Y`, answer `x=0, y=0`). **Finding an array out-of-bounds bug is the same skill:** an access `arr[b+1]` is only safe while `0 ≤ b+1 ≤ SIZE_OF_A − 1`, so to _hit_ the bug you add the violating constraint `b+1 > SIZE_OF_A − 1` to the PC and solve. E.g. `arr` has 4 slots (indices 0–3, `SIZE_OF_A = 4`) and the code reads `arr[b+1]`: solving `b+1 > 3` gives `b = 3`, which reads index 4 — one past the end ⇒ out-of-bounds.
-- **What changes in symbolic execution to guarantee MC/DC coverage?** (2024b-a1 Q5). Normally a compound decision is treated as **one** branch — you add the whole condition (or its negation) to the PC and fork just True/False. The change:
+- **What changes in symbolic execution to guarantee MC/DC coverage?**. Normally a compound decision is treated as **one** branch — you add the whole condition (or its negation) to the PC and fork just True/False. The change:
   1. For each decision, **first build its MC/DC cases** — the ~N+1 rows: all-true, then flip **one** atom at a time (each flip must flip the overall result).
-  2. **Run one symbolic execution per MC/DC row**, and to the PC add **each atomic condition's required truth value separately** (not the compound condition as a single unit).
-  3. **Fallback:** if MC/DC is impossible for some condition, run ordinary symbolic execution for that condition.
-  - _Example_ `a /\ b /\ c` → 4 MC/DC rows ⇒ 4 runs with path conditions `a/\b/\c`, `!a/\b/\c`, `a/\!b/\c`, `a/\b/\!c`.
+  2. **Run one symbolic execution per MC/DC row**, and to the PC add **each atomic condition's required truth value separately** (not the compound condition as a single unit). _Example_ `a /\ b /\ c` → 4 MC/DC rows ⇒ **4 runs**, each PC forcing that row's atom values: `a/\b/\c`, `!a/\b/\c`, `a/\!b/\c`, `a/\b/\!c`.
+  3. **Fallback:** if MC/DC is impossible for a condition (e.g. an atom that can't independently flip the outcome — masked or coupled), handle it **"as usual"** = the ordinary behavior from the intro line: **fork the whole decision True/False** (add `C` / `¬C` to the PC), with **no** per-atom MC/DC constraints. (You just get decision/branch coverage for it.)
+     - **Per-atom or per-decision?** "if for a particular _condition_ full MC/DC is impossible" is ambiguous — **state your reading**:
+       - _Per basic condition (theoretically correct, what real tools do):_ keep the independence pairs for the atoms that **can** be shown independent; drop **only** the impossible atom's obligation (ordinary handling for it) → "partial MC/DC".
+       - _Per decision (the exam's likely simplifying intent, since "full MC/DC coverage" is a decision-level notion):_ if the decision can't be **fully** MC/DC-covered, revert the **whole** decision to ordinary True/False — don't attempt partial MC/DC.
 - **To get the next path, negate the _last_ constraint of the previous run's PC** (not an earlier one), then re-solve. Walking `X<=Y /\ X!=X+1` → flip the last → `X<=Y /\ X==X+1`. Always the most recently added conjunct.
+- **Path-exploration ORDER (DFS + backtracking, "false-first").** _"Give the first k paths a symbolic engine explores"_ If code is a **depth-first walk of the decision tree**: take each decision **False first**; to advance, **flip the deepest decision that still has an untried value**; when a decision's *both* values are done under the current prefix, **backtrack up** to the previous decision and flip that, then resume **false-first** for everything newly reached. Example (decisions at lines 2, 3-nested-in-2, and 5):
+  ```
+  1 int g(int p,int q){
+  2   if (p>0)              // decision @2
+  3     if (q>0) return 1;  // decision @3  (reached only when @2 is True)
+  5   if (p==q) return 2;   // decision @5
+  6   return 3; }
+  ```
+  - **Path 1** — all False: `@2(F)` skips the block (so @3 isn't reached), `@5(F)` → `1,2(F),5(F),6`.
+  - **Path 2** — flip the last decision (@5) → True: `1,2(F),5(T)`.
+  - **Path 3** — under `@2(F)`, @5 is now done both ways ⇒ **backtrack to @2, flip to True**; @3 is reached for the first time, taken **False first**, then @5 False: `1,2(T),3(F),5(F),6`.
+  - (next: `1,2(T),3(F),5(T)`, then backtrack to @3 → `1,2(T),3(T)…`.)
+  A **nested** `if` only enters the tree once its **enclosing** decision is True — that's why @3 appears only after @2 flips to True.
 - **`for` loop — the update (`i++`) runs _last_ in each iteration.** For `for(i=0; i<n; i++) { body }` the order per iteration is **init → test `i<n` → body → `i++` → back to test**. So in the PV/PC table the `i++` row comes **after** the whole body, not next to the `i<n` test — a common ordering slip when a use of `i` inside the body must see the _pre-increment_ value.
 - Assignments update PV only; branches update PC only — never both on one row.
 - **"Does symbolic execution guarantee full branch coverage?"** (recurring true/false — state assumptions explicitly, then split into three cases; a tiny example for each):
@@ -928,7 +960,7 @@ start:  look-alikes {s1, s2, s3}         (no input yet — anyone could be s2)
              look-alikes { s2 }           ★ only s2 remains ⇒ UIO(s2) = `aa`  (s2's outputs = 1,1)
 ```
 
-**UIOs really can be a _different word per state_** (each state's tree terminates as soon as _that_ state is isolated — via whatever input does it, at whatever depth). On this machine:
+**UIOs really can be a _different word per state_** (each state's tree terminates as soon as _that_ state is isolated — via whatever input does it, at whatever depth). Worked example — the actual **2025b-b Q3** FSM (4 states, start s0):
 
 | state  | on `a`     | on `b`     |
 | ------ | ---------- | ---------- |
@@ -989,7 +1021,7 @@ root      [ {0,1,2,3,4} ]
 
 Verification (all 5 outputs of `aba` distinct): s0=001, s1=100, s2=101, s3=110, s4=010.
 
-**(b) Minimum DS size for n states.** A DS must give a distinct output string to each of n states; with |O|=m, length L gives ≤ mᴸ strings ⇒ `L ≥ ⌈log_m n⌉`. A safe bound (binary, m=2): **min DS length = ⌈log₂ n⌉ + 1**. → n=5 ⇒ **3**; n=23 ⇒ **5**.
+**(b) Minimum DS length for n states.** A DS must give each of the n states a **distinct output string**. A length-`L` sequence over an output alphabet of size `m` can produce only `mᴸ` different strings, so to tell n states apart you need **`mᴸ ≥ n`** ⇒ **`L ≥ ⌈log_m n⌉`**. Just take the **smallest `L` with `mᴸ ≥ n`** (unambiguous; equals `⌊log_m n⌋ + 1` for non-power `n` — same value, so the course writes it "`log_m n + 1`" — but do **NOT** compute `⌈log_m n⌉ + 1`). Examples with `m=2`: n=5 → `2ᴸ ≥ 5` ⇒ **L=3** (`2²=4<5≤8=2³`); n=23 → `2ᴸ ≥ 23` ⇒ **L=5** (`2⁴=16<23≤32=2⁵`).
 
 **Worked example 3 — no DS, give W.** FSM: s0 a/0→s1, b/0→s2; s1 a/0→s1, b/1→s1; s2 a/1→s2, b/0→s2.
 Root: on **a**, s0,s1 both →s1/0 (D1); on **b**, s0,s2 both →s2/0 (D1) ⇒ **no DS.**
@@ -1024,7 +1056,7 @@ Set-up (state this first): the **distinguishing sequence is `q`** — its output
 - **Prove non-existence rigorously:** give the structural reason — the (output, next-state) **collision** between two states means no input ever separates them; back it with the pruned tree (all branches D1/D3).
 - **No UIO ⇒ no DS** (use freely); reverse is false.
 - **"Change one label":** re-check whether the changed edge is one of the colliding ones; one label change can create or destroy a DS.
-- **Min DS size:** ⌈log_m n⌉ (+1 binary). Memorize n=5→3, n=23→5.
+- **Min DS length:** smallest `L` with `mᴸ ≥ n` (= `⌈log_m n⌉`; the course's "`log_m n + 1`" is `⌊log_m n⌋+1`, same value — **not** `⌈…⌉+1`). Memorize (m=2): n=5 → **3**, n=23 → **5**.
 - **No DS ⇒ use W** (always works for reduced FSM); substitute W wherever you'd use the DS in conformance tests.
 - **Which input is the "input under test" in a state-verification row?** To verify that transition `Sᵢ —x→ Sⱼ` lands you in `Sⱼ`, the **input under test is `x`** (the transition's own input) — you apply `x`, then apply `Sⱼ`'s **DS/UIO** to confirm you actually reached `Sⱼ`. So: input under test = the edge label that enters the state; verification sequence = the reached state's DS/UIO (see Worked example 4). Don't confuse the input-under-test (`x`) with the verification sequence (the DS).
 
