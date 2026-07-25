@@ -62,12 +62,12 @@ int foo(int x) {
 
 The suite is a **single** test: `assertEquals(-2, foo(-1))` (passes on the original: `x=-1` → line4 `y=1`, then line8 `y=-2`). Four mutants, applied one at a time:
 
-| # | mutator | change | on `foo(-1)` | verdict |
-| - | ------- | ------ | ------------ | ------- |
-| M1 | `CONDITIONALS_BOUNDARY` (line 3) | `x<0` → `x<=0` | `-2` (same) | **equivalent** |
-| M2 | `MATH` (line 8) | `2*x` → `2/x` | `2/-1 = -2` (same) | killable, survives |
-| M3 | `INVERT_NEGS` (line 4) | `y=-x` → `y=x` | `-2` (same) | **equivalent** |
-| M4 | `NEGATE_CONDITIONALS` (line 3) | `x<0` → `x>=0` | `-2` (same) | killable, survives |
+| #   | mutator                          | change         | on `foo(-1)`       | verdict            |
+| --- | -------------------------------- | -------------- | ------------------ | ------------------ |
+| M1  | `CONDITIONALS_BOUNDARY` (line 3) | `x<0` → `x<=0` | `-2` (same)        | **equivalent**     |
+| M2  | `MATH` (line 8)                  | `2*x` → `2/x`  | `2/-1 = -2` (same) | killable, survives |
+| M3  | `INVERT_NEGS` (line 4)           | `y=-x` → `y=x` | `-2` (same)        | **equivalent**     |
+| M4  | `NEGATE_CONDITIONALS` (line 3)   | `x<0` → `x>=0` | `-2` (same)        | killable, survives |
 
 - **Which are killed by the test? None — all 4 survive** (each computes `-2` on `x=-1`, matching the assertion). M2 survives only by luck: `2*(-1)` and `2/(-1)` both equal `-2`.
 - **Which are equivalent?**
@@ -118,10 +118,10 @@ Exact negate table: `==→!=`, `!=→==`, `<=→>`, `>=→<`, `<→>=`, `>→<=`
 - **Branch-and-condition** — satisfy branch coverage AND basic-condition coverage at the same time.
 - **Compound-condition** — test _every combination_ of the atomic conditions in one decision. With N atoms that's up to **2ᴺ** combinations (short-circuit evaluation — where `&&`/`||` stops early once the result is decided — removes some impossible combinations).
 - **MC/DC (Modified Condition/Decision Coverage)** — for _each_ atomic condition, show it matters _on its own_: find two tests that differ in **only that one condition** and produce **opposite** overall decision results (proving that condition alone can flip the outcome). This needs about **N+1** tests for N conditions — far fewer than the 2ᴺ of compound-condition — because each test is reused across several conditions. Required by aviation-safety standards **DO-178B / ED-12B**.
-- **Cyclomatic complexity (McCabe, `V(G)`)** — a number measuring a module's **branching complexity** = the count of **linearly independent paths** through its CFG (equivalently, the size of a *basis set* of paths). Both course books define it as **`V = e − n + 2`** (`e` = edges, `n` = nodes of the CFG; with `P` disconnected components it's `e − n + 2P`). Two equivalent shortcuts:
+- **Cyclomatic complexity (McCabe, `V(G)`)** — a number measuring a module's **branching complexity** = the count of **linearly independent paths** through its CFG (equivalently, the size of a _basis set_ of paths). Both course books define it as **`V = e − n + 2`** (`e` = edges, `n` = nodes of the CFG; with `P` disconnected components it's `e − n + 2P`). Two equivalent shortcuts:
   - **`V = (# binary decision points) + 1`** — count each `if`/`while`/`for`/`case` and each `&&`/`||`; an `else` is **not** a decision. (Fastest by hand.)
   - `V` = number of enclosed regions of the planar CFG, `+1`.
-  It measures *control structure, not size*, and equals the number of independent paths **cyclomatic testing** aims to cover. Rule of thumb (P&Y): `<20` simple, `>50` may be untestable.
+    It measures _control structure, not size_, and equals the number of independent paths **cyclomatic testing** aims to cover. Rule of thumb (P&Y): `<20` simple, `>50` may be untestable.
   - _Worked example_ (`calculateCyclomaticComplexity`):
     ```
     while (y < 100) {          // decision 1
@@ -170,14 +170,15 @@ _Compound vs basic condition counting:_
 - Compound-condition tests for a single decision with N elementary conditions = up to **2ᴺ**. To "need >100": use **N=7** (`2⁷=128 > 100`) elementary conditions in one decision.
 - Basic-condition tests for that same decision = **2** (all-true row + all-false row suffice).
 
-_Building a minimal MC/DC set (list-the-table-then-pick; P&Y §12.5):_ MC/DC = *each* atomic condition must be shown to **independently flip the decision**. Target **N+1** tests for N conditions.
+_Building a minimal MC/DC set (list-the-table-then-pick; P&Y §12.5):_ MC/DC = _each_ atomic condition must be shown to **independently flip the decision**. Target **N+1** tests for N conditions.
 
 1. **List the full truth table** — all `2ᴺ` rows of the N atomic conditions.
 2. **Mark infeasible rows** — cross out combos no input can produce (e.g. `income>50000`=F while `income>70000`=T; two conditions on the same variable). Do this **first** — you may not use an infeasible row in a pair.
 3. **Compute the Decision** for every feasible row.
-4. **For each condition Cᵢ, find an independence pair:** two feasible rows that differ in **only Cᵢ** (all other conditions equal) and give **opposite** Decisions. The two rows *prove* Cᵢ matters on its own.
+4. **For each condition Cᵢ, find an independence pair:** two feasible rows that differ in **only Cᵢ** (all other conditions equal) and give **opposite** Decisions. The two rows _prove_ Cᵢ matters on its own.
 5. **Reuse rows to minimize:** one row can anchor several conditions' pairs (P&Y: "the same test case can cover several basic conditions"). Greedily pick anchors that serve multiple Cᵢ → the set shrinks toward **N+1**.
 6. **Present the pairs:** list the chosen tests and, per condition, which two rows form its pair. The minimal set is **not unique** — any valid selection is accepted; short-circuit/coupling may force slightly more than N+1.
+
 - _Don't-cares (`–`)_ are allowed for a condition not evaluated (short-circuit) — it can shrink the table.
 
 **Worked example:**
@@ -220,6 +221,90 @@ Unfold to the first repeated node (2 on its 2nd arrival) → **minimal boundary-
 1,2(T),3(T),4(F),6,2(F),8      input [2]  -> even, not >10 -> nothing
 1,2(T),3(F),6,2(F),8           input [3]  -> odd -> nothing
 ```
+
+**Worked examples — two CFGs, every criterion shown its own test set:**
+
+The definitions above say _what_ each rule demands; here are two tiny programs where you can watch each rule pick its inputs. **CFG-A** (one compound `if`, no loop) drives the _condition_ family; **CFG-B** (a loop with an inner `if`) drives the _loop_ family. _(Diagrams are mermaid; if your README→PDF path doesn't render mermaid, the edge-list + path tables under each diagram carry the same information.)_
+
+**CFG-A — `if (a>0 && b>0)`** — atoms `A=(a>0)`, `B=(b>0)`, decision `D = A && B`:
+
+```mermaid
+flowchart TD
+    A1["1: read a, b"] --> A2{"2: a>0 && b>0"}
+    A2 -->|True| A3["3: label = both-pos"]
+    A2 -->|False| A4["4: label = not-both"]
+    A3 --> A5(("5: print label"))
+    A4 --> A5
+```
+
+Edges: `1→2`, `2→3` (T), `2→4` (F), `3→5`, `4→5`. Four input classes: `(1,1)=TT`, `(1,−1)=TF`, `(−1,1)=FT`, `(−1,−1)=FF` — only `TT` makes `D` true.
+
+| Criterion                | What it forces here                                        | Minimal test set `(a,b)`    | #                       |
+| ------------------------ | ---------------------------------------------------------- | --------------------------- | ----------------------- |
+| **Statement**            | reach nodes 1–5 (one D-true + one D-false)                 | `(1,1)`, `(1,−1)`           | 2                       |
+| **Branch / edge**        | take edge `2→3` and edge `2→4`                             | `(1,1)`, `(1,−1)`           | 2                       |
+| **Basic-condition**      | `A` both ways, `B` both ways                               | `(1,1)`, `(−1,−1)`          | 2                       |
+| **Branch-and-condition** | the two obligations above at once                          | `(1,1)`, `(−1,−1)`          | 2                       |
+| **Compound-condition**   | every atom combo (short-circuit merges the two `A=F` rows) | `(1,1)`, `(1,−1)`, `(−1,·)` | 3 (4 w/o short-circuit) |
+| **MC/DC**                | each atom flips `D` on its own                             | `(1,1)`, `(−1,1)`, `(1,−1)` | 3 = N+1                 |
+| **Path**                 | every entry→exit route (only 2 exist)                      | `(1,1)`, `(1,−1)`           | 2                       |
+
+Reading the rows:
+
+- **Statement and branch coincide _here_** — with a single decision, reaching both node 3 and node 4 _is_ taking both edges. They diverge only when a node can be reached without covering every edge into it.
+- **MC/DC pairs:** `A` is shown to matter by `{(1,1)=TT→D=T, (−1,1)=FT→D=F}` (only `A` changed, `D` flipped); `B` by `{(1,1)=TT→D=T, (1,−1)=TF→D=F}`. Three tests, `(1,1)` reused across both pairs — that's the `N+1`, not `2²`.
+- **Why basic-condition ≠ branch (they're incomparable):** the suite `{(1,−1)=TF, (−1,1)=FT}` gives `A` both values _and_ `B` both values — basic-condition satisfied — yet **both** rows make `D` false, so edge `2→3` is never taken. Full basic-condition, broken branch. (The reverse gap — full branch, missing a condition combo — is CE1 in §4.)
+
+**CFG-B — `while (i<n) { if (arr[i]<0) neg++ }`** — loop cond `c=(i<n)`, body cond `d=(arr[i]<0)`:
+
+```mermaid
+flowchart TD
+    B1["1: i=0, neg=0"] --> B2{"2: i < n ?"}
+    B2 -->|"False (exit)"| B7(("7: return neg"))
+    B2 -->|"True (enter)"| B3{"3: arr[i] < 0 ?"}
+    B3 -->|True| B4["4: neg++"]
+    B3 -->|False| B5["5: skip"]
+    B4 --> B6["6: i++"]
+    B5 --> B6
+    B6 --> B2
+```
+
+Edges: `1→2`, `2→7` (c F, skip), `2→3` (c T, enter), `3→4` (d T), `3→5` (d F), `4→6`, `5→6`, `6→2` (back-edge). The body has **two subpaths**: `d`-T = `3→4` (call it **X**), `d`-F = `3→5` (**Y**).
+
+- **Path coverage is infeasible** here: the back-edge `6→2` lets the loop run 0, 1, 2, … times → unboundedly many entry→exit routes. _This is exactly why the loop criteria below exist._
+
+- **Loop-boundary** — run the loop **0 / 1 / >1** times, indifferent to which body path runs:
+
+  | Iters | Input       | Path                    |
+  | ----- | ----------- | ----------------------- |
+  | 0     | `arr=[]`    | `1,2,7`                 |
+  | 1     | `arr=[5]`   | `1,2,3,5,6,2,7`         |
+  | >1    | `arr=[5,5]` | `1,2,3,5,6,2,3,5,6,2,7` |
+
+  3 tests; never forced through **X** (cares about count, not path).
+
+- **Boundary-interior — boundary set** (the course's expected answer): unfold to the first repeated node (`2` on its 2nd arrival), then one feasible path **per body-subpath**, **plus** the skip path:
+
+  | Case                         | Input      | Path            |
+  | ---------------------------- | ---------- | --------------- |
+  | skip loop                    | `arr=[]`   | `1,2,7`         |
+  | 1 iter through **X** (`d`=T) | `arr=[−1]` | `1,2,3,4,6,2,7` |
+  | 1 iter through **Y** (`d`=F) | `arr=[5]`  | `1,2,3,5,6,2,7` |
+
+  3 tests. These 3 already hit **every edge** of the CFG → boundary-interior **subsumes branch**. A single-iteration-only version (skip + one pass) would miss the **X** path — that's the trap the definition warns about.
+
+- **Boundary-interior — interior set** (the fuller rule, usually _not_ required): iterate **≥2 times** and enumerate the first two body outcomes `dd`:
+
+  | `dd` | Input         |
+  | ---- | ------------- |
+  | TT   | `arr=[−1,−2]` |
+  | TF   | `arr=[−1, 5]` |
+  | FT   | `arr=[5, −1]` |
+  | FF   | `arr=[5, 8]`  |
+
+  The **TF / FT** rows — where the two iterations take _different_ body paths — are what genuinely distinguish "interior" from "boundary."
+
+Tie-back to the ladder: CFG-A's rows climb `statement → branch → branch-and-condition → {compound, MC/DC}`; CFG-B shows why `path` is unreachable, and how `boundary-interior` (top of the ladder) and `loop-boundary` (base, incomparable) tame the same loop differently.
 
 **Exam patterns & gotchas:**
 
@@ -282,7 +367,7 @@ Control-flow testing cared about _which lines run_. Data-flow testing cares abou
 | **all-c-uses/some-p-uses** | all c-uses; if a def reaches **no** c-use, then at least one p-use                                                                                                            |
 | **all-p-uses/some-c-uses** | all p-uses; if a def reaches **no** p-use, then at least one c-use                                                                                                            |
 | **all-uses**               | **one (any)** def-clear path to **every** use (all c-uses AND all p-uses) — one route per use suffices                                                                        |
-| **all-du-paths**           | **every** def-clear du-path (cycle-free / simple-cycle) to every use — *all* routes, not just one ⇒ trivially includes all-uses; may be exponential                          |
+| **all-du-paths**           | **every** def-clear du-path (cycle-free / simple-cycle) to every use — _all_ routes, not just one ⇒ trivially includes all-uses; may be exponential                           |
 
 5. **Feasibility check**: drop infeasible paths; you rarely hit 100%.
 
@@ -556,36 +641,42 @@ P1P2: (C,B)(C,W)(C,R)(D,B)(D,W)(D,R)   P1P3: (C,S)(C,M)(D,S)(D,M)   P2P3: (B,S)(
 ```
 
 _Test 1._
+
 - **Count → first pick:** C→5, D→5, S→5, M→5, each of B/W/R→4. Tie at 5 → first → **P1 = C**.
 - **Fill P2** (P1=C): (C,B),(C,W),(C,R) all =1 → tie → **B**.
 - **Fill P3** (C,B): `S`→(C,S)ₚ₁₃+(B,S)ₚ₂₃=2; `M`→2 → tie → **S**.
 - ⇒ **Test 1 = (C,B,S)**, score 3; remove (C,B),(C,S),(B,S) → **13 left**.
 
 _Test 2._
+
 - **Count → first pick:** on 13 left: D→5, M→5, W→4, R→4, C→3, S→3, B→2. Tie D vs M → first parameter → **P1 = D**.
 - **Fill P2** (P1=D): (D,B),(D,W),(D,R) all =1 → tie → **B**.
 - **Fill P3** (D,B): `S`→(D,S)ₚ₁₃=1 [(B,S) gone]; `M`→(D,M)ₚ₁₃+(B,M)ₚ₂₃=2 → **M**.
 - ⇒ **Test 2 = (D,B,M)**, score 3; remove (D,B),(D,M),(B,M) → **10 left**.
 
 _Test 3._
+
 - **Count → first pick:** W→4 [(C,W)(D,W)+(W,S)(W,M)], R→4, else ≤3. Tie W vs R → **P2 = W**.
 - **Fill P1** (P2=W): (C,W)=1, (D,W)=1 → tie → **C**.
 - **Fill P3** (C,W): `S`→(W,S)ₚ₂₃=1 [(C,S) gone]; `M`→(C,M)ₚ₁₃+(W,M)ₚ₂₃=2 → **M**.
 - ⇒ **Test 3 = (C,W,M)**, score 3; remove (C,W),(C,M),(W,M) → **7 left**: P1P2:(C,R)(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,S)(R,M).
 
 _Test 4._
+
 - **Count → first pick:** R→4 [(C,R)(D,R)+(R,S)(R,M)] is the max → **P2 = R**.
 - **Fill P1** (P2=R): (C,R)=1, (D,R)=1 → tie → **C**.
 - **Fill P3** (C,R): `S`→(R,S)ₚ₂₃=1 [(C,S) gone]; `M`→(R,M)ₚ₂₃=1 → tie → **S**.
 - ⇒ **Test 4 = (C,R,S)**, score **2** (only (C,R),(R,S); (C,S) already covered) → **5 left**: P1P2:(D,W)(D,R) · P1P3:(D,S) · P2P3:(W,S)(R,M).
 
 _Test 5._
+
 - **Count → first pick:** D→3 [(D,W)(D,R)+(D,S)] → **P1 = D**.
 - **Fill P2** (P1=D): (D,W)=1, (D,R)=1 → tie → **W**.
 - **Fill P3** (D,W): `S`→(D,S)ₚ₁₃+(W,S)ₚ₂₃=2; `M`→0 → **S**.
 - ⇒ **Test 5 = (D,W,S)**, score 3; remove (D,W),(D,S),(W,S) → **2 left**: P1P2:(D,R) · P2P3:(R,M).
 
 _Test 6._
+
 - **Count → first pick:** R→2 [(D,R)+(R,M)] → **P2 = R**.
 - **Fill P1** (P2=R): (D,R)=1 → **D**.
 - **Fill P3** (D,R): `M`→(R,M)ₚ₂₃=1 → **M**.
@@ -757,7 +848,7 @@ Symbolic return `2*X+1`, PC `X <= Y`. Negate last → aim at ERROR: PC becomes `
        - _Per basic condition (theoretically correct, what real tools do):_ keep the independence pairs for the atoms that **can** be shown independent; drop **only** the impossible atom's obligation (ordinary handling for it) → "partial MC/DC".
        - _Per decision (the exam's likely simplifying intent, since "full MC/DC coverage" is a decision-level notion):_ if the decision can't be **fully** MC/DC-covered, revert the **whole** decision to ordinary True/False — don't attempt partial MC/DC.
 - **To get the next path, negate the _last_ constraint of the previous run's PC** (not an earlier one), then re-solve. Walking `X<=Y /\ X!=X+1` → flip the last → `X<=Y /\ X==X+1`. Always the most recently added conjunct.
-- **Path-exploration ORDER (DFS + backtracking, "false-first").** _"Give the first k paths a symbolic engine explores"_ If code is a **depth-first walk of the decision tree**: take each decision **False first**; to advance, **flip the deepest decision that still has an untried value**; when a decision's *both* values are done under the current prefix, **backtrack up** to the previous decision and flip that, then resume **false-first** for everything newly reached. Example (decisions at lines 2, 3-nested-in-2, and 5):
+- **Path-exploration ORDER (DFS + backtracking, "false-first").** _"Give the first k paths a symbolic engine explores"_ If code is a **depth-first walk of the decision tree**: take each decision **False first**; to advance, **flip the deepest decision that still has an untried value**; when a decision's _both_ values are done under the current prefix, **backtrack up** to the previous decision and flip that, then resume **false-first** for everything newly reached. Example (decisions at lines 2, 3-nested-in-2, and 5):
   ```
   1 int g(int p,int q){
   2   if (p>0)              // decision @2
@@ -765,11 +856,12 @@ Symbolic return `2*X+1`, PC `X <= Y`. Negate last → aim at ERROR: PC becomes `
   5   if (p==q) return 2;   // decision @5
   6   return 3; }
   ```
+
   - **Path 1** — all False: `@2(F)` skips the block (so @3 isn't reached), `@5(F)` → `1,2(F),5(F),6`.
   - **Path 2** — flip the last decision (@5) → True: `1,2(F),5(T)`.
   - **Path 3** — under `@2(F)`, @5 is now done both ways ⇒ **backtrack to @2, flip to True**; @3 is reached for the first time, taken **False first**, then @5 False: `1,2(T),3(F),5(F),6`.
   - (next: `1,2(T),3(F),5(T)`, then backtrack to @3 → `1,2(T),3(T)…`.)
-  A **nested** `if` only enters the tree once its **enclosing** decision is True — that's why @3 appears only after @2 flips to True.
+    A **nested** `if` only enters the tree once its **enclosing** decision is True — that's why @3 appears only after @2 flips to True.
 - **`for` loop — the update (`i++`) runs _last_ in each iteration.** For `for(i=0; i<n; i++) { body }` the order per iteration is **init → test `i<n` → body → `i++` → back to test**. So in the PV/PC table the `i++` row comes **after** the whole body, not next to the `i<n` test — a common ordering slip when a use of `i` inside the body must see the _pre-increment_ value.
 - Assignments update PV only; branches update PC only — never both on one row.
 - **"Does symbolic execution guarantee full branch coverage?"** (recurring true/false — state assumptions explicitly, then split into three cases; a tiny example for each):
@@ -872,20 +964,20 @@ Symbols `x→X, y→Y`; `result` gets the opaque token `THIRD_PARTY_FUNCTION` be
 
 **Table 1** — Input: `x = 1, y = 1`.
 
-| line  | concrete state                            | PV (symbolic)                 | PC                                  |
-| ----- | ----------------------------------------- | ----------------------------- | ----------------------------------- |
-| entry | `x=1, y=1`                                | `x→X, y→Y`                    | —                                   |
+| line  | concrete state                          | PV (symbolic)                 | PC                                  |
+| ----- | --------------------------------------- | ----------------------------- | ----------------------------------- |
+| entry | `x=1, y=1`                              | `x→X, y→Y`                    | —                                   |
 | 1     | engine runs `f(1)=2208` → `result=2208` | `result→THIRD_PARTY_FUNCTION` | —                                   |
-| 2     | `2208 == 1` **false** → no ERROR         | —                             | `THIRD_PARTY_FUNCTION != Y` (False) |
-| 3     | `return 2208`                            | —                             | —                                   |
+| 2     | `2208 == 1` **false** → no ERROR        | —                             | `THIRD_PARTY_FUNCTION != Y` (False) |
+| 3     | `return 2208`                           | —                             | —                                   |
 
 Output: **returns 2208, no ERROR.** &nbsp; **Negate** `THIRD_PARTY_FUNCTION != Y` → `THIRD_PARTY_FUNCTION == Y`. The solver can't invert `f`, so **reuse the concrete output**: keep `x=1` (so `result` stays 2208) and set `y = 2208`.
 
 **Table 2** — Input: `x = 1, y = 2208`.
 
-| line  | concrete state                        | PV (symbolic)                 | PC                                             |
-| ----- | ------------------------------------- | ----------------------------- | ---------------------------------------------- |
-| entry | `x=1, y=2208`                        | `x→X, y→Y`                    | —                                              |
+| line  | concrete state                      | PV (symbolic)                 | PC                                             |
+| ----- | ----------------------------------- | ----------------------------- | ---------------------------------------------- |
+| entry | `x=1, y=2208`                       | `x→X, y→Y`                    | —                                              |
 | 1     | `f(1)=2208` → `result=2208`         | `result→THIRD_PARTY_FUNCTION` | —                                              |
 | 2     | `2208 == 2208` **true** → **ERROR** | —                             | `THIRD_PARTY_FUNCTION == Y` (True) → **ERROR** |
 
@@ -1027,14 +1119,14 @@ Verification (all 5 outputs of `aba` distinct): s0=001, s1=100, s2=101, s3=110, 
 Root: on **a**, s0,s1 both →s1/0 (D1); on **b**, s0,s2 both →s2/0 (D1) ⇒ **no DS.**
 **W = {a, b}** (minimal): _a_ separates {s0,s1} from s2; _b_ separates {s0,s2} from s1. Output vectors s0=(0,0), s1=(0,1), s2=(1,0) — distinct ✓. Dropping either word merges a pair.
 
-**Worked example 4 — full conformance test table ("write all the test cases").** 
+**Worked example 4 — full conformance test table ("write all the test cases").**
 
-| state  | `a`        | `b`        |
-| ------ | ---------- | ---------- |
-| **s0** | s1 / 0     | s3 / 1     |
-| **s1** | s2 / 1     | s2 / 0     |
-| **s2** | s0 / 1     | s2 / 1     |
-| **s3** | s2 / 1     | s1 / 1     |
+| state  | `a`    | `b`    |
+| ------ | ------ | ------ |
+| **s0** | s1 / 0 | s3 / 1 |
+| **s1** | s2 / 1 | s2 / 0 |
+| **s2** | s0 / 1 | s2 / 1 |
+| **s3** | s2 / 1 | s1 / 1 |
 
 This FSM has **no single DS**, so the **state-verification sequence is the reached state's UIO** — `UIO(s0)=a`, `UIO(s1)=b`, `UIO(s2)=aa`, `UIO(s3)=bb`. **Reset = `R`** (applied last). **Transfer sequences** from s0: `transfer(s0)=ε`, `transfer(s1)=a`, `transfer(s2)=aa`, `transfer(s3)=b`. The _Input sequence_ column is the whole run — **`transfer @ input-under-test @ UIO(reached) @ R`** — with `@` separating the four parts. There are `4 states × 2 inputs = 8` transitions ⇒ 8 rows:
 
@@ -1149,16 +1241,16 @@ This section is the _practical_ toolkit — the actual Java tools that implement
 
 **JUnit assertions (write precisely).**
 
-| Assertion                                | Use                                                        |
-| ---------------------------------------- | ---------------------------------------------------------- |
-| `assertEquals(expected, actual)`         | object/primitive equality (`.equals`)                      |
-| `assertEquals(expected, actual, delta)`  | **doubles/floats — MUST give a tolerance** (e.g. `1e-9`)   |
-| `assertTrue(cond)` / `assertFalse(cond)` | booleans                                                   |
-| `assertNull(actual)` / `assertNotNull(actual)` | null checks                                          |
-| `assertSame(expected, actual)` / `assertNotSame(expected, actual)` | **reference identity (`==`)**, not value |
-| `assertArrayEquals(exp, act)`            | array contents                                             |
-| `assertThrows(Ex.class, exec)`           | code throws the expected exception (returns it to inspect) |
-| `fail(msg)`                              | force failure (unreached-branch guards)                    |
+| Assertion                                                          | Use                                                        |
+| ------------------------------------------------------------------ | ---------------------------------------------------------- |
+| `assertEquals(expected, actual)`                                   | object/primitive equality (`.equals`)                      |
+| `assertEquals(expected, actual, delta)`                            | **doubles/floats — MUST give a tolerance** (e.g. `1e-9`)   |
+| `assertTrue(cond)` / `assertFalse(cond)`                           | booleans                                                   |
+| `assertNull(actual)` / `assertNotNull(actual)`                     | null checks                                                |
+| `assertSame(expected, actual)` / `assertNotSame(expected, actual)` | **reference identity (`==`)**, not value                   |
+| `assertArrayEquals(exp, act)`                                      | array contents                                             |
+| `assertThrows(Ex.class, exec)`                                     | code throws the expected exception (returns it to inspect) |
+| `fail(msg)`                                                        | force failure (unreached-branch guards)                    |
 
 **JUnit example (one method + one test).** Minimal shape — a test is **Arrange → Act → Assert**; `@Test` marks it, a failed assertion throws:
 
