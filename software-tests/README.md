@@ -169,13 +169,33 @@ void checkNumbers(int[] numbers) {
 }
 ```
 
-Nodes: 2=loop cond, 3=outer if, 4=inner if, 5=print, 8=exit. Unfold to first repeated node → **minimal boundary-interior set:**
+**CFG** — nodes: **1** `i=0` · **2** `i<len?` (loop cond) · **3** `even?` · **4** `>10?` · **5** print · **6** `i++` · **8** exit. `(T)/(F)` = branch; node 6 is the loop back-edge to 2:
 
 ```
-1,2,3(F),8                          input []   → exit immediately, no print
-1,2,3(T),4(T),5(T),6,7,3(F),8       input [12] → prints "12 is even and >10"
-1,2,3(T),4(T),5(F),7,3(F),8         input [2]  → even, not >10, nothing printed
-1,2,3(T),4(F),7,3(F),8              input [3]  → odd, nothing printed
+      1: i = 0
+         |
+         v
+  +-->  2: i < len?  --F-->  8: exit
+  |       | T
+  |       v
+  |     3: even?  --F-->  6      (odd -> skip to i++)
+  |       | T
+  |       v
+  |     4: >10?   --F-->  6      (not >10 -> skip to i++)
+  |       | T
+  |       v
+  |     5: print  ------>  6
+  |                        |
+  +----- 6: i++  <---------+
+```
+
+Unfold to the first repeated node (2 on its 2nd arrival) → **minimal boundary-interior set (4 paths = skip + one per loop-body subpath):**
+
+```
+1,2(F),8                       input []   -> loop not entered, exit
+1,2(T),3(T),4(T),5,6,2(F),8    input [12] -> even & >10  -> prints
+1,2(T),3(T),4(F),6,2(F),8      input [2]  -> even, not >10 -> nothing
+1,2(T),3(F),6,2(F),8           input [3]  -> odd -> nothing
 ```
 
 Note the **first path (loop not entered, empty array)** is mandatory and the most-missed.
@@ -1027,29 +1047,29 @@ Verification (all 5 outputs of `aba` distinct): s0=001, s1=100, s2=101, s3=110, 
 Root: on **a**, s0,s1 both →s1/0 (D1); on **b**, s0,s2 both →s2/0 (D1) ⇒ **no DS.**
 **W = {a, b}** (minimal): _a_ separates {s0,s1} from s2; _b_ separates {s0,s2} from s1. Output vectors s0=(0,0), s1=(0,1), s2=(1,0) — distinct ✓. Dropping either word merges a pair.
 
-**Worked example 4 — full conformance test table (the "write all the test cases" question).** For **every** transition you write one test row and record the outputs you expect; the table format below is the one used in class. FSM = a **mod-3 counter**, start state **s0**; inputs `inc` (advance), `q` (report the count), `RESET` (back to s0):
+**Worked example 4 — full conformance test table ("write all the test cases").** 
 
-| state  | `inc`   | `q`        | `RESET` |
-| ------ | ------- | ---------- | ------- |
-| **s0** | s1 / ok | s0 / **0** | s0 / ok |
-| **s1** | s2 / ok | s1 / **1** | s0 / ok |
-| **s2** | s0 / ok | s2 / **2** | s0 / ok |
+| state  | `a`        | `b`        |
+| ------ | ---------- | ---------- |
+| **s0** | s1 / 0     | s3 / 1     |
+| **s1** | s2 / 1     | s2 / 0     |
+| **s2** | s0 / 1     | s2 / 1     |
+| **s3** | s2 / 1     | s1 / 1     |
 
-Set-up (state this first): the **distinguishing sequence is `q`** — its output `0/1/2` is unique per state, so it doubles as the **state-verification sequence**; the **reset sequence is `RESET`**; the input alphabet under test is {`inc`, `q`, `RESET`}. The **transfer sequences** (from s0) are `transfer(s0)=ε`, `transfer(s1)=inc`, `transfer(s2)=inc inc`. In the _Input sequence_ column, `@` separates the **transfer** that reaches the state under test from the **input under test** itself. There are `3 states × 3 inputs = 9` transitions ⇒ 9 rows:
+This FSM has **no single DS**, so the **state-verification sequence is the reached state's UIO** — `UIO(s0)=a`, `UIO(s1)=b`, `UIO(s2)=aa`, `UIO(s3)=bb`. **Reset = `R`** (applied last). **Transfer sequences** from s0: `transfer(s0)=ε`, `transfer(s1)=a`, `transfer(s2)=aa`, `transfer(s3)=b`. The _Input sequence_ column is the whole run — **`transfer @ input-under-test @ UIO(reached) @ R`** — with `@` separating the four parts. There are `4 states × 2 inputs = 8` transitions ⇒ 8 rows:
 
-| State under test | Input under test | Input sequence  | Expected output for the input under test | Which state is reached with the input under test | Expected output for the state verification sequence |
-| :--------------: | :--------------: | :-------------: | :--------------------------------------: | :----------------------------------------------: | :-------------------------------------------------: |
-|        s0        |      `inc`       |      `inc`      |                    ok                    |                        s1                        |                        **1**                        |
-|        s0        |       `q`        |       `q`       |                    0                     |                        s0                        |                        **0**                        |
-|        s0        |     `RESET`      |     `RESET`     |                    ok                    |                        s0                        |                        **0**                        |
-|        s1        |      `inc`       |    `inc@inc`    |                    ok                    |                        s2                        |                        **2**                        |
-|        s1        |       `q`        |     `inc@q`     |                    1                     |                        s1                        |                        **1**                        |
-|        s1        |     `RESET`      |   `inc@RESET`   |                    ok                    |                        s0                        |                        **0**                        |
-|        s2        |      `inc`       |  `inc inc@inc`  |                    ok                    |                        s0                        |                        **0**                        |
-|        s2        |       `q`        |   `inc inc@q`   |                    2                     |                        s2                        |                        **2**                        |
-|        s2        |     `RESET`      | `inc inc@RESET` |                    ok                    |                        s0                        |                        **0**                        |
+| State | Input under test | Input sequence | Expected output (input) | Reached | Expected output (verification UIO) |
+| :---: | :--------------: | :------------: | :---------------------: | :-----: | :--------------------------------: |
+|  s0   |       `a`        |    `a@b@R`     |            0            |   s1    |               **0**                |
+|  s0   |       `b`        |    `b@bb@R`    |            1            |   s3    |               **10**               |
+|  s1   |       `a`        |   `a@a@aa@R`   |            1            |   s2    |               **10**               |
+|  s1   |       `b`        |   `a@b@aa@R`   |            0            |   s2    |               **10**               |
+|  s2   |       `a`        |   `aa@a@a@R`   |            1            |   s0    |               **0**                |
+|  s2   |       `b`        |  `aa@b@aa@R`   |            1            |   s2    |               **10**               |
+|  s3   |       `a`        |   `b@a@aa@R`   |            1            |   s2    |               **10**               |
+|  s3   |       `b`        |   `b@b@b@R`    |            1            |   s1    |               **0**                |
 
-**After each test case, apply `RESET` to return the FSM to its initial state s0.** The last two columns come straight from the transition table: column 5 = `δ(state, input)`, column 6 = that reached state's `q`-output. Each row passes iff the implementation gives the expected output for the input under test **and** the expected `q`-output afterwards (which confirms it really landed in the stated state). _(For **state coverage** only — the weaker criterion — keep one row per state: transfer to sᵢ, then apply `q`.)_
+(The exam's Q3b asked only for the two `s2` rows.) Reading a row (`s2, a`): reset to s0, run `transfer(s2)=aa` to reach s2, apply the input-under-test `a` (expect output **1**, lands in **s0**), then apply `UIO(s0)=a` and expect its output **0** — which confirms you really reached s0; finally `R` resets. Columns 5–6 come straight from the table: column 5 = `δ(state, input)`, column 6 = the reached state's own UIO output. _(Because there's no DS here, the verification sequence **changes per row** — it's whichever UIO belongs to the reached state.)_
 
 **Exam patterns & gotchas.**
 
