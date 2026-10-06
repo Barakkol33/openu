@@ -7,7 +7,7 @@
 ## אינפי 1 - כללים חשובים
 
 - **$`\sqrt{a}-\sqrt{b}=\frac{a-b}{\sqrt{a}+\sqrt{b}}`$**
-- $`\lim\left(\sqrt[n]{n}\right)^{\alpha}=\lim a_{n}^{\alpha}=\lim a_{n}\cdot\lim a_{n}...=\left(\lim a_{n}\right)^{\alpha}=\left(\lim\sqrt[n]{n}\right)^{\alpha}`$ (להוכחה צריך אינדוקציה)
+- ‏$`\lim\left(\sqrt[n]{n}\right)^{\alpha}=\lim a_{n}^{\alpha}=\lim a_{n}\cdot\lim a_{n}...=\left(\lim a_{n}\right)^{\alpha}=\left(\lim\sqrt[n]{n}\right)^{\alpha}`$ (להוכחה צריך אינדוקציה)
 - פרק 2 - $`\frac{\alpha^{n}}{n!}\rightarrow 0`$ (לפי מבחן המנה)
 - פרק 2 - $`\lim_{n\rightarrow\infty}\sqrt[n]{n}=1`$
 - פרק 2 - חסימות תת סדרה עולה שקולה לחסימות הסדרה כולה
@@ -15,7 +15,7 @@
 - פרק 8 שאלה 58 - $`\ln\left(1+x\right)<x`$ לכל $`x\neq 0,\left(-1,\infty\right)`$.
 - פרק 8 שאלה 56 - $`\lim_{x\rightarrow\infty}\frac{\ln x}{x^{\alpha}}=0`$, $`\lim_{x\rightarrow 0}\ln x\cdot x^{\alpha}=0`$ ($`0<\alpha`$)
 - פרק 8 - $`0\leq\arctan x\leq x`$ לכל $`0\leq x`$
-- $`\sin x\leq x`$ לכל $`0\leq x`$
+- ‏$`\sin x\leq x`$ לכל $`0\leq x`$
 - גבולות מוכרים: $`\lim_{x\rightarrow 0}\frac{\sin x}{x}=1,\lim_{x\rightarrow\infty}\frac{\left(\ln x\right)^{\alpha}}{x^{\beta}}{\color{gray}=}0,`$, $`\lim_{x\rightarrow 0}\frac{-\ln\left(1+x\right)}{x}=1`$
   - מזה נובע $`\ln x<\sqrt{x}`$, $`\ln x<x`$, $`\ln x\leq x-1`$ (חלק הוכחה באמצעות יצירת פונקציית הפרש, מציאת מינימום)
 - פונקציה חסומה בקטע פתוח אם היא רציפה ויש גבולות חד צדדיים - אפשר להרחיב אותה באמצעות הגדרת פונקציה חדשה שהיא רציפה בקטע סגור ולכן חסומה לפי ויירשטראס
@@ -71,11 +71,11 @@
 ### 1.6 המשפט היסודי של החשבון האינפיניטסימלי
 
 - אינטגרל הוא תמיד פונקציה רציפה, אבל אם המקורית לא רציפה אז הוא לא בהכרח פונקציה קדומה ולא בהכרח גזיר (וגם אם גזיר אז הנגזרת היא לא בהכרח הפונקציה המקורית).
-  - $`f\left(x\right)=\begin{cases}
+  - ‏$`f\left(x\right)=\begin{cases}
     0 & [0,1)\\
     1 & \left[1,2\right]
     \end{cases}`$ - זו לא יכולה להיות נגזרת כי זו סתירה למשפט דארבו (נגזרת של פונקציה מקבלת בו כל ערך ביניים)
-  - $`f\left(x\right)=\begin{cases}
+  - ‏$`f\left(x\right)=\begin{cases}
     0 & \left[0,2\right],x\neq 1\\
     1 & 1
     \end{cases}`$ - לא יכולה להיות נגזרת (כמו מקודם). האינטגרל הוא $`0`$, וזו פונקציה גזירה שהנגזרת שלה היא 0, אבל! הנגזרת היא לא הפונקציה המקורית.
@@ -109,8 +109,8 @@
 - דוגמה 2.12 - $`\int\frac{1}{\left(x^{2}+a^{2}\right)^{m}}dx`$ $`\Leftarrow`$ $`I_{1}=\frac{1}{a}\arctan\frac{x}{a}+C,\ I_{m}=\frac{1}{2ma^{2}}\cdot\left(\frac{x}{\left(x^{2}+a^{2}\right)^{m}}+\left(2m-1\right)I_{m}\right)`$
 - שיטת ההצבה
   - $`t=g\left(x\right)`$
-    - $`\int x^{3}\left(3x^{2}+1\right)^{17}dx`$ - יותר פשוט לסמן $`t=3x^{2}+1`$
-  - $`x=g\left(t\right)`$ ("לסבך" את הפונקציה)
+    - ‏$`\int x^{3}\left(3x^{2}+1\right)^{17}dx`$ - יותר פשוט לסמן $`t=3x^{2}+1`$
+  - ‏$`x=g\left(t\right)`$ ("לסבך" את הפונקציה)
     - דוגמאות: $`\left(\frac{1}{\sqrt{x}\left(1+\sqrt[3]{x}\right)},t^{6}\right),\left(\frac{1}{x^{2}\sqrt{x^{2}-1}},\frac{1}{\cos t}\right)`$, $`\left(\sqrt{1-x^{2}},\sin^{2}t\right)`$
   - חייבים להיות מודעים אם תחום ההגדרה משתנה! - לבדוק ואם השתנה אז לרשום.
   - אם רואים $`\sqrt{a^{2}-x^{2}}`$- לנסות להציב $`x=a\sin t`$
@@ -161,7 +161,7 @@
   \end{cases}`$.
 - שאלה 1 - $`\sin\frac{1}{x}`$ רציפה וחסומה ב-$`(0,1]`$
 - שאלה 2 - אם פונקציה חסומה בקטע חצי פתוח ופונקציית ההרחבה לקטע סגור לא אינטגרבילית אז גם המקורית לא.
-- $`\int_{t}^{\frac{\pi}{2}}\frac{1}{\sin x}dx=\int\frac{\sin x}{\sin^{2}x}dx=\int\frac{-\left(\cos x\right)'}{1-\cos^{2}x}dx=...\int_{\cos t}^{0}\frac{1}{2}\ln\left(\frac{1+\cos t}{1-\cos t}\right)`$ (הערה: קיים גם בדף נוסחאות אינטגרציה השני, מוכיח ש-$`\frac{1+\cos x}{1-\cos x}=\tan^{2}\frac{x}{2}`$).
+- ‏$`\int_{t}^{\frac{\pi}{2}}\frac{1}{\sin x}dx=\int\frac{\sin x}{\sin^{2}x}dx=\int\frac{-\left(\cos x\right)'}{1-\cos^{2}x}dx=...\int_{\cos t}^{0}\frac{1}{2}\ln\left(\frac{1+\cos t}{1-\cos t}\right)`$ (הערה: קיים גם בדף נוסחאות אינטגרציה השני, מוכיח ש-$`\frac{1+\cos x}{1-\cos x}=\tan^{2}\frac{x}{2}`$).
 - שאלה 5 - גם $`\int_{a}^{b}\frac{1}{\left(b-x\right)^{\alpha}}dx,\int_{a}^{b}\frac{1}{\left(x-a\right)^{\alpha}}dx`$ מתכנסים כאשר $`\alpha<1`$.
 - שאלה 6 - $`\int\frac{1}{x|\ln x|^{\alpha}}`$ - בקטע $`(0,\frac{1}{2}]`$ מתכנס אם רק אם $`1<\alpha`$, בקטע $`[\frac{1}{2},1)`$ מתכנס אם ורק אם $`\alpha<1`$.
 - פונקציה שמתכנסת ולא בהחלט - $`\int_{0}^{1}\frac{\cos\frac{1}{x}}{x}dx`$. מתכנס - אינטגרציה בחלקים וקיים גבול. לא בהחלט - ערך מוחלט חוסם את $`\left(\cos\frac{1}{x}\right)^{2}`$, ויש בו גם את $`\frac{1}{x}`$ שמתבדר.
@@ -174,14 +174,14 @@
 
 ### 3.2 אינטגרלים מוכללים בקטעים לא סופיים
 
-- $`\int_{2}^{\infty}\frac{1}{x\left(\ln x\right)^{\alpha}}dx`$ מתכנס אם ורק אם $`1<\alpha`$
+- ‏$`\int_{2}^{\infty}\frac{1}{x\left(\ln x\right)^{\alpha}}dx`$ מתכנס אם ורק אם $`1<\alpha`$
 - שאלה 22 - $`\int_{a}^{\infty}f\left(x\right)dx=F\left(\infty\right)-F\left(a\right)`$, $`\int_{-\infty}^{\infty}f\left(x\right)dx=F\left(\infty\right)-F\left(-\infty\right)`$
 - שאלה 24 - $`\int_{0}^{\infty}\frac{x^{n}}{e^{x}}dx=n!`$ (הוכחה באינדוקציה)
 - דוגמאות 3.11 - $`\int_{1}^{\infty}\frac{\sin x}{x^{2}}dx`$ מתכנס (חסום על ידי $`\frac{1}{x^{2}}`$), $`\int_{1}^{\infty}\frac{p\left(x\right)}{e^{x}}`$ מתכנס (מבחן השוואה עם $`\frac{1}{x^{2}}`$, $`\lim_{x\rightarrow\infty}\frac{P\left(x\right)}{e^{x}}=0`$ בגלל לופיטל)
 - מבחן דיריכלה
   - שאלה 32 - $`\int_{1}^{\infty}\frac{\sin x}{x^{\alpha}}dx,\int_{1}^{\infty}\frac{\cos x}{x^{\alpha}}dx`$ ($`0<\alpha`$) מתכנסים, $`\int_{2}^{\infty}\frac{\cos x}{\ln x}dx`$
-  - $`\int\frac{\sin x}{x\ln x}dx`$ מתכנס בתנאי
-  - $`\int_{0}^{1}\frac{\sin\frac{1}{x}}{x^{\alpha}}dx`$ - $`\alpha<2`$ מתכנס, $`2\leq\alpha`$ מתבדר
+  - ‏$`\int\frac{\sin x}{x\ln x}dx`$ מתכנס בתנאי
+  - ‏$`\int_{0}^{1}\frac{\sin\frac{1}{x}}{x^{\alpha}}dx`$ - $`\alpha<2`$ מתכנס, $`2\leq\alpha`$ מתבדר
 - פונקציות בלתי חסומות
   - ייתכן שפונקציה לא חסומה אבל בכל זאת השטח שלה מתכנס!
   - שאלה 33 - אם $`\int_{a}^{\infty}f\left(x\right)dx`$ מתכנס וקיים הגבול $`\lim_{x\rightarrow\infty}f\left(x\right)`$ (סופי או אינסופי) אז בהכרח $`\lim_{x\rightarrow\infty}f\left(x\right)=0`$ (למה? - כי אם הגבול לא 0 אז הפונקציה בהכרח גדולה מגודל חיובי / שלילי קבוע והוא בהכרח מתבדר).
@@ -204,11 +204,11 @@
 
 ($`\ast`$)
 
-$`\int_{0}^{\frac{\pi}{2}}\frac{\left(\frac{\pi}{2}-x\right)^{p}}{x^{p}\left(\cos x\right)^{q}}`$ - כדי לנטרל את 0 לחלק ב$`\frac{1}{x^{p}}`$, כדי לנטרל את $`\frac{\pi}{2}`$ לחלק ב-$`\left(\frac{\pi}{2}-x\right)^{p-q}`$
+‏$`\int_{0}^{\frac{\pi}{2}}\frac{\left(\frac{\pi}{2}-x\right)^{p}}{x^{p}\left(\cos x\right)^{q}}`$ - כדי לנטרל את 0 לחלק ב$`\frac{1}{x^{p}}`$, כדי לנטרל את $`\frac{\pi}{2}`$ לחלק ב-$`\left(\frac{\pi}{2}-x\right)^{p-q}`$
 
 ($`\ast`$)
 
-$`\int\frac{\arctan x}{x\ln^{2}x}`$ בקטע $`\left[0,\infty\right]`$- אפשר לחלק ב-$`\frac{1}{\left(x-1\right)^{2}}`$ (מתבדרת) ולקבל בשאיפה ל-1 גבול סופי $`\frac{\arctan x}{x}\cdot\left(\frac{x-1}{\ln x}\right)^{2}\rightarrow\frac{\pi}{2}`$ ולכן הפונקציה מתבדרת.
+‏$`\int\frac{\arctan x}{x\ln^{2}x}`$ בקטע $`\left[0,\infty\right]`$- אפשר לחלק ב-$`\frac{1}{\left(x-1\right)^{2}}`$ (מתבדרת) ולקבל בשאיפה ל-1 גבול סופי $`\frac{\arctan x}{x}\cdot\left(\frac{x-1}{\ln x}\right)^{2}\rightarrow\frac{\pi}{2}`$ ולכן הפונקציה מתבדרת.
 
 ($`\ast`$)
 
@@ -222,7 +222,7 @@ g'\left(x\right){\color{gray}\overset{t=\frac{1}{x}}{\overbrace{{=}}}}g'\left(\f
 
 ($`\ast`$)
 
-$`\frac{\ln^{2}x}{x}\cos x`$ אינטגרל מתכנס לפי דיריכלה
+‏$`\frac{\ln^{2}x}{x}\cos x`$ אינטגרל מתכנס לפי דיריכלה
 
 ($`\ast`$)
 
@@ -301,7 +301,7 @@ e^{x}\Rightarrow e^{c}\frac{x^{n+1}}{\left(n+1\right)!}
   - שאלה 33 - את השארית של $`\ln\left(1-x\right)`$ אפשר להעריך על ידי הצבת $`-x`$ ב-$`\ln\left(1+x\right)`$, והיא גם אפסה וניתנת להערכה.
   - עמוד 78 - איך למצוא קירוב של $`\ln r`$ כלשהו?
 
-    $`\ln\left(r\right)=\ln\frac{1+x}{1-x}{\color{gray}\overset{\text{שאלה 20}}{\overbrace{{=}}}}\sum_{0}^{n}\frac{2\left(x\right)^{2k+1}}{2k+1}+R_{2n+2}=\sum_{0}^{n}\frac{2\left(x\right)^{2k+1}}{2k+1}+S_{2n+2}\left(x\right)-S_{2n+2}\left(x\right)`$
+    ‏$`\ln\left(r\right)=\ln\frac{1+x}{1-x}{\color{gray}\overset{\text{שאלה 20}}{\overbrace{{=}}}}\sum_{0}^{n}\frac{2\left(x\right)^{2k+1}}{2k+1}+R_{2n+2}=\sum_{0}^{n}\frac{2\left(x\right)^{2k+1}}{2k+1}+S_{2n+2}\left(x\right)-S_{2n+2}\left(x\right)`$
   - והשארית הכוללת חסומה ב-$`|S_{2n+2}\left(x\right)|+|S_{2n+2}\left(x\right)|`$ (אי שיוויון המשולש)
 
 ### 4.3 פולינום טיילור $`P_{n}\left(x;a\right)`$ בסביבת  $`a`$
@@ -365,7 +365,7 @@ e^{x}\Rightarrow e^{c}\frac{x^{n+1}}{\left(n+1\right)!}
 
 - אם $`0\leq a_{n}\leq b_{n}`$ אז $`b_{n}`$ מז'ורנטי ו-$`a_{n}`$ מינורנטי
 - שאלה 18 - $`\ln x\leq x`$, $`\ln\left(1+x\right)<x`$ לכל $`0<x`$
-- $`\frac{1}{\alpha^{n}}`$ מתכנס (גיאומטרי ו-$`q<1`$)
+- ‏$`\frac{1}{\alpha^{n}}`$ מתכנס (גיאומטרי ו-$`q<1`$)
 - אם נתון סינוס ומנה - לבדוק אם תואם ל-$`\frac{\sin x}{x}`$ (אפשר לנסות לחלק עם 5.15). לחילופין אפשר לנסות לחסום את סינוס.
 - אם רואים $`k^{\frac{1}{k}}`$ - לזכור ש-$`\lim_{k\rightarrow\infty}\sqrt[k]{k}=1`$
 - $`\frac{n}{\left(3n+2\right)^{3}}<\frac{n}{n^{3}}=\frac{1}{n^{2}}`$
@@ -430,7 +430,7 @@ e^{x}\Rightarrow e^{c}\frac{x^{n+1}}{\left(n+1\right)!}
 
 ($`\ast`$)
 
-$`\cos\left(\theta n\right)=\left(-1\right)^{n}`$ (יכול להופיע כשצריך לעשות דיריכלה)
+‏$`\cos\left(\theta n\right)=\left(-1\right)^{n}`$ (יכול להופיע כשצריך לעשות דיריכלה)
 
 ($`\ast`$)
 
@@ -438,7 +438,7 @@ $`\cos\left(\theta n\right)=\left(-1\right)^{n}`$ (יכול להופיע כשצ�
 
 ($`\ast`$)
 
-$`a_{n}`$ יורדת ואי שלילית, $`\sum a_{n}`$ מתכנס $`\Leftarrow`$ $`na_{n}\rightarrow 0`$ : לכל $`N<n`$ מתקיים $`|\sum_{n+1}^{n+p}a_{k}|=\sum_{n+1}^{n+p}a_{k}<\varepsilon`$, ולכן גם $`\sum_{N+1}^{N+p}a_{k}<\varepsilon`$, מהירידה מתקיים $`a_{N+p}<a_{k}`$ ולכן $`pa_{N+p}<\sum a_{k}`$, לכל $`N\leq p`$ $`\left(N+p\right)a_{N+p}\leq 2pa_{N+p}`$, ולכן $`ma_{m}=\left(N+p\right)a_{N+p}\leq 2pa_{N+p}\leq\sum_{n+1}^{n+p}a_{k}<\varepsilon`$.
+‏$`a_{n}`$ יורדת ואי שלילית, $`\sum a_{n}`$ מתכנס $`\Leftarrow`$ $`na_{n}\rightarrow 0`$ : לכל $`N<n`$ מתקיים $`|\sum_{n+1}^{n+p}a_{k}|=\sum_{n+1}^{n+p}a_{k}<\varepsilon`$, ולכן גם $`\sum_{N+1}^{N+p}a_{k}<\varepsilon`$, מהירידה מתקיים $`a_{N+p}<a_{k}`$ ולכן $`pa_{N+p}<\sum a_{k}`$, לכל $`N\leq p`$ $`\left(N+p\right)a_{N+p}\leq 2pa_{N+p}`$, ולכן $`ma_{m}=\left(N+p\right)a_{N+p}\leq 2pa_{N+p}\leq\sum_{n+1}^{n+p}a_{k}<\varepsilon`$.
 
 ($`\ast`$)
 
@@ -461,10 +461,10 @@ $`a_{n}`$ יורדת ואי שלילית, $`\sum a_{n}`$ מתכנס $`\Leftarrow
 ### 6.1 סדרות של פונקציות, התכנסות נקודתית
 
 - כדי להראות שטור מתכנס נקודתית אפשר להשתמש בכל הכלים של פרק 5 (להתייחס ל-$`x`$ כקבוע)
-- $`x^{n}`$ לא מתכנסת במ"ש ב-1
+- ‏$`x^{n}`$ לא מתכנסת במ"ש ב-1
 - דוגמה 6.4 -
   - אם $`a_{n}=x^{n-1}`$ אז $`S_{n}\left(x\right)=\sum_{0}^{n-1}x^{k}=\frac{1-x^{n}}{1-x}`$
-  - $`\lim_{n\rightarrow\infty}S_{n}\left(x\right)=\lim_{n\rightarrow\infty}\sum_{0}^{\infty}x^{k}=\lim_{n\rightarrow\infty}\frac{1-x^{n}}{1-x}`$ (התכנסות נקודתית)
+  - ‏$`\lim_{n\rightarrow\infty}S_{n}\left(x\right)=\lim_{n\rightarrow\infty}\sum_{0}^{\infty}x^{k}=\lim_{n\rightarrow\infty}\frac{1-x^{n}}{1-x}`$ (התכנסות נקודתית)
   - בתחום $`\left(-1,1\right)`$ - שווה ל-$`\frac{1}{1-x}`$ (כי $`x^{n}`$ אפסה).
   - טורי חזקות: כדי להציב $`-t^{3}`$ במקום $`x`$, אפשר לנמק ש-$`\sum\left(-1\right)^{n}x^{n}=\frac{1}{1+x}`$ עם רדיוס התכנסות 1, ולכן הצבה $`x=t^{3}`$ גוררת שלכל $`|x|<1`$ גם $`|t|<1`$ ו-$`\sum\left(-1\right)^{n}x^{4n}=\frac{1}{1+x^{4}}`$ עם רדיוס התכנסות 1. לחילופין אפשר לעשות חישוב נוסף של רדיוס התכנסות.
 - דוגמה 6.5 - $`\left(\left(1+\frac{1}{n}\right)^{n}\right)^{x}\rightarrow e^{x}`$
@@ -478,11 +478,11 @@ $`a_{n}`$ יורדת ואי שלילית, $`\sum a_{n}`$ מתכנס $`\Leftarrow
 - שאלה 7 - סדרה $`f_{n}`$ מתכנסת ל-$`f`$ במ"ש בקטע אם ורק אם קייים סדרה אפסה כך ש- $`|f_{n}\left(x\right)-f\left(x\right)|\leq a_{n}`$ (#לזכור)
 - שאלה 8
   - פיתוח מקלורן של $`{\sin}x`$ מתכנס אליה במידה שווה ב-$`{\left[0,1\right]}`$
-  - $`\frac{1}{1+n^{2}x^{2}}`$ מתכנסת לא במ"ש ב-$`\left(0,\infty\right)`$
+  - ‏$`\frac{1}{1+n^{2}x^{2}}`$ מתכנסת לא במ"ש ב-$`\left(0,\infty\right)`$
   - הסדרה $`f_{n}=1+...+x^{n}`$ מתכנסת במידה שווה ב-$`\left[-r,r\right]`$ כאשר $`r<1`$ לפונקציה $`\frac{1}{1-x}`$, ומתכנסת לא במידה שווה ב-$`\left(-1,1\right)`$.
     - נימוק 1: באמצעות טור גיאומטרי מוכיחים התכנסות נקודתית ל-$`\frac{1-x^{n}}{1-x}`$, ובמ"ש לפי ויירשטראס ($`|x^{n}|\leq|r^{n}|`$)
     - נימוק 2: $`|\frac{1-x^{n}}{1-x}-\frac{1}{1-x}|<\varepsilon`$ (שאלה 12א)
-  - $`f_{n}\left(x\right)=f\left(x\right)+a_{n}`$ ($`a_{n}`$ אפסה) מתכנסת במידה שווה ל-$`f`$
+  - ‏$`f_{n}\left(x\right)=f\left(x\right)+a_{n}`$ ($`a_{n}`$ אפסה) מתכנסת במידה שווה ל-$`f`$
   - אם $`f_{n}`$ מתכנסת ל-$`f`$ במידה שווה אז $`f`$ לא בהכרח חסומה - דוגמה נגדית $`\frac{1}{x}+\frac{1}{n}`$ (מתכנסת במידה שווה אבל לא חסומה)
 - שאלה 9
   - אם $`f_{n}`$ ו-$`g_{n}`$ מתכנסות במ"ש אז גם $`f_{n}+g_{n}`$ מתכנסת ל-$`f+g`$
@@ -536,9 +536,9 @@ $`a_{n}`$ יורדת ואי שלילית, $`\sum a_{n}`$ מתכנס $`\Leftarrow
   - תיתכן התכנסות נקודתית לפונקציה רציפה אבל הגבול $`\int_{0}^{1}f_{n}\left(x\right)dx`$ בכלל לא קיים (שאלה 25).
 - דוגמה 6.18 - לכל $`x\in\left(-1,1\right)`$ $`\arctan x=x-\frac{x^{3}}{3}+\frac{x^{5}}{5}...=\sum_{n=0}^{\infty}\frac{\left(-1\right)^{n}x^{2n+1}}{2n+1}`$
 - שאלה 26
-  - $`\ln\left(1+x\right)=\sum_{1}^{\infty}\left(-1\right)^{n+1}\frac{x^{n}}{n}`$ בקטע $`\left(-1,1\right)`$ (מוכיחים באמצעות אינטגרל איבר-איבר)
-  - $`-\ln\left(1-x\right)=\sum_{1}^{\infty}\frac{x^{n}}{n}`$ בקטע $`\left(-1,1\right)`$
-  - $`\ln r=2\sum_{1}^{\infty}\frac{1}{2n+1}\cdot\left(\frac{r-1}{r+1}\right)^{2n-1}`$ לכל $`0<r`$
+  - ‏$`\ln\left(1+x\right)=\sum_{1}^{\infty}\left(-1\right)^{n+1}\frac{x^{n}}{n}`$ בקטע $`\left(-1,1\right)`$ (מוכיחים באמצעות אינטגרל איבר-איבר)
+  - ‏$`-\ln\left(1-x\right)=\sum_{1}^{\infty}\frac{x^{n}}{n}`$ בקטע $`\left(-1,1\right)`$
+  - ‏$`\ln r=2\sum_{1}^{\infty}\frac{1}{2n+1}\cdot\left(\frac{r-1}{r+1}\right)^{2n-1}`$ לכל $`0<r`$
   - אפשר להציג פונקציות כסכום גם מטיילור וגם מטורים, אבל בטורים לא צריך להוכיח את התכנסות סדרת השאריות.
 - שאלה 27 - $`\int_{0}^{1}\frac{\sin x}{x}dx=\sum\frac{\left(-1\right)^{n}}{\left(2n+1\right)\left(2n+1\right)!}`$
   - טענת עזר: אם טור מתכנס במ"ש ונחלק כל איבר ב-$`0<x`$ נקבל טור מתכנס במ"ש.\
@@ -560,13 +560,13 @@ $`a_{n}`$ יורדת ואי שלילית, $`\sum a_{n}`$ מתכנס $`\Leftarrow
   - מציאת גבול לכל תת-סדרה - בדוגמה הגבולות הם 1,0
   - בחירת גבול עליון - בדוגמה הגבול הוא 1.
 - שאלה 32
-  - $`R_{\sum\alpha^{n}x^{n}}=\begin{cases}
+  - ‏$`R_{\sum\alpha^{n}x^{n}}=\begin{cases}
     0 & \alpha=0\\
     \frac{1}{|\alpha|} & \alpha\neq 0
     \end{cases}`$ (מבחן השורש)
   - אם $`a_{n}=\cos\left(\frac{n\pi}{6}\right)`$, החסם העליון של הסדרה הוא 1 (של קוסינוס), כדי להוכיח שהוא גם הגבול העליון אז אפשר לבחור תת סדרה שהוא גבולה, לדוגמה $`n_{k}=6k`$. (#לזכור)
-  - $`R_{\sum n^{\alpha}x^{n}}=1`$ (מבחן שורש/מנה)
-  - $`R_{\sum{2n \choose n}x^{n}}=\frac{1}{4}`$ (מבחן שורש/מנה)
+  - ‏$`R_{\sum n^{\alpha}x^{n}}=1`$ (מבחן שורש/מנה)
+  - ‏$`R_{\sum{2n \choose n}x^{n}}=\frac{1}{4}`$ (מבחן שורש/מנה)
 - שאלה 34 - הפונקציה $`\sum a_{n}x^{n}`$ שרדיוסה $`R`$ גזירה מכל סדר בקטע $`\left(-R,R\right)`$ ונגזרתה היא $`f^{\left(k\right)}\left(x\right)=\sum n...\left(n-k+1\right)a_{n}x^{n-k}`$ כאשר $`a_{k}=\frac{f^{\left(k\right)}\left(0\right)}{k!}`$
 - התנהגות ב-$`x=\pm R`$ - משתנה! - עבור $`x^{n}`$ מתבדר לגמרי (לא אפסה), עבור $`\frac{x^{n}}{n}`$ מתבדר ב-1 ומתכנס ב-$`\left(-1\right)`$. צריך לבדוק עם הכלים של פרק 5.
 - 6.13 משפט אבל
@@ -610,14 +610,14 @@ $`a_{n}`$ יורדת ואי שלילית, $`\sum a_{n}`$ מתכנס $`\Leftarrow
 
 הוכחת התכנסות טור פונקציות במ"ש:
 
-- 6.2$`\ast`$ הגדרה - סדרת סכומים חלקיים מתכנסת
-- 6.4$`\ast`$ אם פונקציית הגבול לא רציפה ההתכנסות היא לא במ"ש
-- 6.5$`\ast`$ דיני לטורים
-- 6.6$`\ast`$ קושי לטורים
+- ‏6.2$`\ast`$ הגדרה - סדרת סכומים חלקיים מתכנסת
+- ‏6.4$`\ast`$ אם פונקציית הגבול לא רציפה ההתכנסות היא לא במ"ש
+- ‏6.5$`\ast`$ דיני לטורים
+- ‏6.6$`\ast`$ קושי לטורים
 - 6.7 ויירשטראס - קיים טור מתכנס שכל איבר בו חוסם כל איבר בסדרה
   - כדי למצוא סדרה חוסמת - אפשר למצוא נקודת מקסימום לפונקציה
   - כדי למצוא סדרה חוסמת - אפשר להשתמש במסקנה של מפשט דיריכלה - $`|S_{n}\left(x\right)-S\left(x\right)|\leq S_{n+1}\left(x\right)`$
-- 6.8$`\ast`$<!-- -->6.9$`\ast`$ - אם אין גזירה / אינטגרציה איבר-איבר
+- ‏6.8$`\ast`$<!-- -->6.9$`\ast`$ - אם אין גזירה / אינטגרציה איבר-איבר
 - 6.13 משפט אבל (טור חזקות) - אם מתכנס בקצוות אז במ"ש
 - 6.12 תכונות טור חזקות (רציפות, נגזרת ואינטגרל), אם לא מקיים אז לא במ"ש.
 
@@ -627,7 +627,7 @@ $`a_{n}`$ יורדת ואי שלילית, $`\sum a_{n}`$ מתכנס $`\Leftarrow
 
 ($`\ast`$)
 
-$`\left(-1\right)^{n}\frac{\arctan n}{\sqrt[3]{n}}`$ - מתכנס לפי אבל (טור מתכנס וסדרה מונוטונית וחסומה) ולא בהחלט (ערך מוחלט גדול מ-$`\sqrt[3]{n}`$, $`\cos n\cdot n^{-\sqrt{2-\frac{1}{n}}}`$ מתכנס בהחלט כי חסום על ידי $`\frac{1}{n^{\frac{3}{2}}}`$).
+‏$`\left(-1\right)^{n}\frac{\arctan n}{\sqrt[3]{n}}`$ - מתכנס לפי אבל (טור מתכנס וסדרה מונוטונית וחסומה) ולא בהחלט (ערך מוחלט גדול מ-$`\sqrt[3]{n}`$, $`\cos n\cdot n^{-\sqrt{2-\frac{1}{n}}}`$ מתכנס בהחלט כי חסום על ידי $`\frac{1}{n^{\frac{3}{2}}}`$).
 
 #### ($`\ast`$)
 
@@ -635,7 +635,7 @@ $`\left(-1\right)^{n}\frac{\arctan n}{\sqrt[3]{n}}`$ - מתכנס לפי אבל 
 
 #### ($`\ast`$)
 
-$`f_{n+1}\left(x\right)=\sqrt{f_{n}\left(x\right)\tan x}`$ - אפשר להוכיח באינדוקציה ש-$`a_{n}=f_{n}\left(x_{0}\right)\geq\tan x_{0}`$, שסדרת הפונקציות יורדת ולפי נוסחת נסיגה מתכנסת ל-$`\tan x`$, כל הפונקציות רציפות ולכן אפשר להשתמש בדיני.
+‏$`f_{n+1}\left(x\right)=\sqrt{f_{n}\left(x\right)\tan x}`$ - אפשר להוכיח באינדוקציה ש-$`a_{n}=f_{n}\left(x_{0}\right)\geq\tan x_{0}`$, שסדרת הפונקציות יורדת ולפי נוסחת נסיגה מתכנסת ל-$`\tan x`$, כל הפונקציות רציפות ולכן אפשר להשתמש בדיני.
 
 ($`\ast`$)
 
