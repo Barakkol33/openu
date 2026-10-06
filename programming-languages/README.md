@@ -1,4 +1,4 @@
-# Programming Languages Summary
+# Programming Languages
 
 A study summary for the Open University _Programming Languages_ course, built on **EOPL**
 (_Essentials of Programming Languages_). The course teaches **Scheme**, then uses it to build a

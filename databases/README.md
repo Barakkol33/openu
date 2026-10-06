@@ -1,4 +1,4 @@
-# מערכות בסיסי נתונים - סיכום
+# מערכות בסיסי נתונים
 
 הערה: הסיכום משלים [לסיכום](https://click-go-easy.click/summaries/%d7%9e%d7%a2%d7%a8%d7%9b%d7%95%d7%aa-%d7%91%d7%a1%d7%99%d7%a1%d7%99-%d7%a0%d7%aa%d7%95%d7%a0%d7%99%d7%9d-%d7%a1%d7%99%d7%9b%d7%95%d7%9d-2-2/?playlist=56caabb8&video=2565939) [של אתר קליק](https://click-go-easy.click/summaries/%d7%9e%d7%a2%d7%a8%d7%9b%d7%95%d7%aa-%d7%91%d7%a1%d7%99%d7%a1%d7%99-%d7%a0%d7%aa%d7%95%d7%a0%d7%99%d7%9d-%d7%a1%d7%99%d7%9b%d7%95%d7%9d-2-2/?playlist=56caabb8&video=2565939)
 
