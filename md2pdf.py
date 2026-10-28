@@ -8,6 +8,7 @@ Usage:
 """
 
 import argparse
+import re
 import shutil
 import subprocess
 import tempfile
@@ -84,6 +85,9 @@ def main():
     out = Path(args.out).resolve() if args.out else src.with_suffix(".pdf")
 
     text = src.read_text(encoding="utf-8")
+    # GitHub's robust math syntax ($`...`$ and ```math fences) -> plain $...$ / $$...$$.
+    text = re.sub(r"^```math\n(.*?)\n```$", r"$$\1$$", text, flags=re.S | re.M)
+    text = re.sub(r"\$`(.+?)`\$", r"$\1$", text)
     md = MarkdownIt("commonmark").enable("table").use(dollarmath_plugin)
     html = TEMPLATE.format(
         # Hebrew summaries are laid out right-to-left; math and code stay LTR.
