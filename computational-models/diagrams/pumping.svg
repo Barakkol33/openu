@@ -10,7 +10,7 @@
   <text x="150" y="31" text-anchor="middle" font-weight="bold">y</text>
   <text x="240" y="31" text-anchor="middle">z</text>
   <path d="M50 44 v4 h130 v-4" fill="none" stroke="#333"/>
-  <text x="115" y="60" text-anchor="middle" direction="rtl">‏|xy| ≤ p ⇐ y בתוך p האותיות הראשונות</text>
+  <text x="115" y="60" text-anchor="middle" direction="rtl">‏|xy| ≤ p, ולכן y בתוך p האותיות הראשונות</text>
   <text x="315" y="24">xyⁱz ∈ L, ∀ i ≥ 0</text>
   <text x="315" y="38">|y| ≥ 1</text>
 
@@ -27,7 +27,7 @@
   <text x="220" y="91" text-anchor="middle" font-weight="bold">y</text>
   <text x="270" y="91" text-anchor="middle">z</text>
   <path d="M120 104 v4 h120 v-4" fill="none" stroke="#333"/>
-  <text x="180" y="120" text-anchor="middle" direction="rtl">‏|vxy| ≤ p ⇐ נוגע לכל היותר ב-2 בלוקים סמוכים</text>
+  <text x="180" y="120" text-anchor="middle" direction="rtl">‏|vxy| ≤ p, ולכן נוגע לכל היותר ב-2 בלוקים סמוכים</text>
   <text x="315" y="84">uvⁱxyⁱz ∈ L, ∀ i ≥ 0</text>
   <text x="315" y="98">|vy| ≥ 1</text>
   <text x="550" y="116" fill="#555" direction="rtl">‏i = 0 ניפוח למטה, i = 2 ניפוח למעלה</text>
