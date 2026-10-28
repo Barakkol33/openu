@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 128" font-family="Arial, Helvetica, sans-serif" font-size="11">
+  <rect x="0.5" y="0.5" width="559" height="127" rx="6" fill="#fff" stroke="#999"/>
+
+  <!-- regular: s = xyz -->
+  <text x="10" y="30" font-weight="bold" fill="#333">REG</text>
+  <rect x="50" y="16" width="70" height="22" fill="#e5e7eb" stroke="#555"/>
+  <rect x="120" y="16" width="60" height="22" fill="#8b5cf6" fill-opacity="0.35" stroke="#555"/>
+  <rect x="180" y="16" width="120" height="22" fill="#e5e7eb" stroke="#555"/>
+  <text x="85" y="31" text-anchor="middle">x</text>
+  <text x="150" y="31" text-anchor="middle" font-weight="bold">y</text>
+  <text x="240" y="31" text-anchor="middle">z</text>
+  <path d="M50 44 v4 h130 v-4" fill="none" stroke="#333"/>
+  <text x="115" y="60" text-anchor="middle" direction="rtl">‏|xy| ≤ p ⇐ y בתוך p האותיות הראשונות</text>
+  <text x="315" y="24">xyⁱz ∈ L, ∀ i ≥ 0</text>
+  <text x="315" y="38">|y| ≥ 1</text>
+
+  <!-- CFL: s = uvxyz -->
+  <text x="10" y="90" font-weight="bold" fill="#333">CFL</text>
+  <rect x="50" y="76" width="70" height="22" fill="#e5e7eb" stroke="#555"/>
+  <rect x="120" y="76" width="40" height="22" fill="#f59e0b" fill-opacity="0.45" stroke="#555"/>
+  <rect x="160" y="76" width="40" height="22" fill="#e5e7eb" stroke="#555"/>
+  <rect x="200" y="76" width="40" height="22" fill="#f59e0b" fill-opacity="0.45" stroke="#555"/>
+  <rect x="240" y="76" width="60" height="22" fill="#e5e7eb" stroke="#555"/>
+  <text x="85" y="91" text-anchor="middle">u</text>
+  <text x="140" y="91" text-anchor="middle" font-weight="bold">v</text>
+  <text x="180" y="91" text-anchor="middle">x</text>
+  <text x="220" y="91" text-anchor="middle" font-weight="bold">y</text>
+  <text x="270" y="91" text-anchor="middle">z</text>
+  <path d="M120 104 v4 h120 v-4" fill="none" stroke="#333"/>
+  <text x="180" y="120" text-anchor="middle" direction="rtl">‏|vxy| ≤ p ⇐ נוגע לכל היותר ב-2 בלוקים סמוכים</text>
+  <text x="315" y="84">uvⁱxyⁱz ∈ L, ∀ i ≥ 0</text>
+  <text x="315" y="98">|vy| ≥ 1</text>
+  <text x="550" y="116" fill="#555" direction="rtl">‏i = 0 ניפוח למטה, i = 2 ניפוח למעלה</text>
+</svg>

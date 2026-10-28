@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 566 262" font-family="Helvetica, Arial, sans-serif" font-size="10">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#555"/></marker>
+    <style>
+      .n { fill: #eef2ff; stroke: #4f46e5; }
+      .r { fill: #4f46e5; stroke: #4f46e5; }
+      .e { fill: none; stroke: #555; marker-end: url(#a); }
+      .t { text-anchor: middle; }
+      .m { font-size: 9px; fill: #555; }
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="565" height="261" rx="6" fill="#fff" stroke="#999"/>
+
+  <!-- edges -->
+  <path class="e" d="M100 130 L118 130"/>
+  <path class="e" d="M100 130 C109 130,109 235,118 235"/>
+  <path class="e" d="M210 130 C221 130,221 30,232 30"/>
+  <path class="e" d="M210 130 C221 130,221 75,232 75"/>
+  <path class="e" d="M210 130 L232 130"/>
+  <path class="e" d="M210 130 C221 130,221 175,232 175"/>
+  <path class="e" d="M210 130 C221 130,221 210,232 210"/>
+  <path class="e" d="M210 130 C221 130,221 245,232 245"/>
+  <path class="e" d="M324 30 C342 30,342 15,360 15"/>
+  <path class="e" d="M324 30 C342 30,342 45,360 45"/>
+  <path class="e" d="M324 75 C342 75,342 70,360 70"/>
+  <path class="e" d="M324 75 C342 75,342 95,360 95"/>
+  <path class="e" d="M324 130 C342 130,342 120,360 120"/>
+  <path class="e" d="M324 130 C342 130,342 145,360 145"/>
+  <path class="e" d="M324 175 L360 175"/>
+  <path class="e" d="M324 210 L360 210"/>
+  <path class="e" d="M452 120 L466 120"/>
+
+  <!-- nodes -->
+  <rect class="r" x="8" y="121" width="92" height="18" rx="4"/><text class="t" x="54" y="134" fill="#fff" font-weight="bold">SAT</text>
+  <rect class="n" x="118" y="121" width="92" height="18" rx="4"/><text class="t" x="164" y="134" font-weight="bold">3SAT</text>
+  <rect class="n" x="118" y="226" width="92" height="18" rx="4"/><text class="t" x="164" y="239">DOUBLE-SAT</text>
+
+  <rect class="n" x="232" y="21" width="92" height="18" rx="4"/><text class="t" x="278" y="34">CLIQUE</text>
+  <rect class="n" x="232" y="66" width="92" height="18" rx="4"/><text class="t" x="278" y="79">VERTEX-COVER</text>
+  <rect class="n" x="232" y="121" width="92" height="18" rx="4"/><text class="t" x="278" y="134">HAMPATH</text>
+  <rect class="n" x="232" y="166" width="92" height="18" rx="4"/><text class="t" x="278" y="179">SUBSET-SUM</text>
+  <rect class="n" x="232" y="201" width="92" height="18" rx="4"/><text class="t" x="278" y="214">3COLOR</text>
+  <rect class="n" x="232" y="236" width="92" height="18" rx="4"/><text class="t" x="278" y="249">SET-SPLITTING</text>
+
+  <rect class="n" x="360" y="6" width="92" height="18" rx="4"/><text class="t" x="406" y="19">IND-SET</text>
+  <rect class="n" x="360" y="36" width="92" height="18" rx="4"/><text class="t" x="406" y="49">HALF-CLIQUE</text>
+  <rect class="n" x="360" y="61" width="92" height="18" rx="4"/><text class="t" x="406" y="74">SET-COVER</text>
+  <rect class="n" x="360" y="86" width="92" height="18" rx="4"/><text class="t" x="406" y="99">WEIGHTED-VC</text>
+  <rect class="n" x="360" y="111" width="92" height="18" rx="4"/><text class="t" x="406" y="124">UHAMPATH</text>
+  <rect class="n" x="360" y="136" width="92" height="18" rx="4"/><text class="t" x="406" y="149">2HAMPATH</text>
+  <rect class="n" x="360" y="166" width="92" height="18" rx="4"/><text class="t" x="406" y="179">SET-PARTITION</text>
+  <rect class="n" x="360" y="201" width="92" height="18" rx="4"/><text class="t" x="406" y="214">ALMOST-3COLOR</text>
+  <rect class="n" x="466" y="111" width="92" height="18" rx="4"/><text class="t" x="512" y="124">LPATH (k = n−1)</text>
+
+  <!-- mappings -->
+  <text class="m" x="118" y="257">φ ∧ (x ∨ ¬x)</text>
+  <text class="m" x="456" y="19">(Ḡ, k);  VC: (G, n−k)</text>
+  <text class="m" x="456" y="49">k → n/2 (padding)</text>
+  <text class="m" x="456" y="74">U = E, Sᵥ = E(v)</text>
+  <text class="m" x="456" y="99">w ≡ 1</text>
+  <text class="m" x="456" y="155">s′→c₁,c₂→s</text>
+  <text class="m" x="456" y="179">X ∪ {S − 2t}</text>
+  <text class="m" x="456" y="214">G ⊎ K₄</text>
+  <text class="m" x="328" y="249">{x, x̄}, C ∪ {y}</text>
+</svg>

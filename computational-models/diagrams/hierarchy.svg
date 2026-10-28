@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 262" font-family="Arial, Helvetica, sans-serif" font-size="10">
+  <rect x="0.5" y="0.5" width="559" height="261" rx="6" fill="#fff" stroke="#999"/>
+  <text x="550" y="17" text-anchor="start" direction="rtl" font-weight="bold" fill="#555">כל השפות</text>
+  <text x="10" y="17" fill="#555">EQ_TM, ALL_TM, REGULAR_TM, {0w | w∈L} ∪ {1w | w∉L}</text>
+  <text x="300" y="17" fill="#555" direction="rtl" text-anchor="end">:לא RE ולא coRE</text>
+
+  <!-- RE and coRE overlap; their intersection is exactly R -->
+  <ellipse cx="200" cy="138" rx="190" ry="104" fill="#3b82f6" fill-opacity="0.10" stroke="#3b82f6" stroke-width="1.5"/>
+  <ellipse cx="360" cy="138" rx="190" ry="104" fill="#ef4444" fill-opacity="0.08" stroke="#ef4444" stroke-width="1.5"/>
+  <ellipse cx="280" cy="140" rx="104" ry="90" fill="#10b981" fill-opacity="0.12" stroke="#10b981" stroke-width="1.5"/>
+  <ellipse cx="268" cy="150" rx="70" ry="58" fill="#f59e0b" fill-opacity="0.14" stroke="#f59e0b" stroke-width="1.5"/>
+  <ellipse cx="252" cy="158" rx="36" ry="30" fill="#8b5cf6" fill-opacity="0.16" stroke="#8b5cf6" stroke-width="1.5"/>
+
+  <text x="40" y="104" font-weight="bold" fill="#1d4ed8">RE ∖ R</text>
+  <text x="40" y="118" fill="#1d4ed8">A_TM, HALT_TM</text>
+  <text x="40" y="132" fill="#1d4ed8">co-E_TM, AL1_TM, PCP</text>
+  <text x="165" y="146" fill="#1d4ed8" direction="rtl">מקבלת ≥ 1 פלינדרום</text>
+  <text x="40" y="160" fill="#1d4ed8">|L(M)| ≥ 3</text>
+
+  <text x="520" y="104" text-anchor="end" font-weight="bold" fill="#b91c1c">coRE ∖ R</text>
+  <text x="520" y="118" text-anchor="end" fill="#b91c1c">co-A_TM, co-HALT</text>
+  <text x="520" y="132" text-anchor="end" fill="#b91c1c">E_TM, E_LBA</text>
+  <text x="520" y="146" text-anchor="end" fill="#b91c1c">ALL_CFG, EQ_CFG</text>
+
+  <text x="280" y="66" text-anchor="middle" direction="rtl" font-weight="bold" fill="#047857">R = RE ∩ coRE (כריעות)</text>
+  <text x="280" y="79" text-anchor="middle" fill="#047857">aⁿbⁿcⁿ, ww, A_CFG, A_LBA</text>
+
+  <text x="268" y="106" text-anchor="middle" direction="rtl" font-weight="bold" fill="#b45309">חסרות הקשר</text>
+  <text x="314" y="150" text-anchor="middle" fill="#b45309">aⁿbⁿ</text>
+  <text x="314" y="163" text-anchor="middle" fill="#b45309">wwᴿ</text>
+
+  <text x="252" y="155" text-anchor="middle" direction="rtl" font-weight="bold" fill="#6d28d9">רגולריות</text>
+  <text x="252" y="168" text-anchor="middle" fill="#6d28d9">a*, Σ*</text>
+
+  <text x="280" y="256" text-anchor="middle" fill="#555">REG ⊊ DCFL ⊊ CFL ⊊ CSL (LBA) ⊊ R ⊊ RE.   L ∈ R ⟺ L ∈ RE and L̄ ∈ RE</text>
+</svg>
