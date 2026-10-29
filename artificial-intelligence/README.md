@@ -121,6 +121,63 @@
 
 </div>
 
+**פסאודו-קוד:**
+
+כל אלגוריתמי החיפוש הם אותה לולאה, וההבדל הוא רק **באיזה סדר מוציאים צמתים מהחזית**:
+
+```text
+generic_search(problem, priority):          # priority decides who leaves the frontier first
+    start = Node(problem.initial, parent=None, action=None, g=0)
+    frontier = PriorityQueue([start], key=priority)
+    best_g = {problem.initial: 0}           # cheapest cost found so far to each state
+    while frontier is not empty:
+        node = frontier.pop()               # lowest priority value first
+        if problem.is_goal(node.state):
+            return path_to(node)
+        for action in problem.actions(node.state):
+            s2 = problem.result(node.state, action)
+            g2 = node.g + problem.cost(node.state, action, s2)
+            if s2 not in best_g or g2 < best_g[s2]:
+                best_g[s2] = g2
+                frontier.push(Node(s2, node, action, g2))
+    return FAILURE
+```
+
+‏UCS = ‏`priority = g`. ‏A\* = ‏`priority = g + h`. חמדני = ‏`priority = h`.
+
+```text
+bfs(problem):                               # FIFO queue, goal test when a node is GENERATED
+    if problem.is_goal(problem.initial): return [problem.initial]
+    frontier = Queue([Node(problem.initial)])
+    seen = {problem.initial}
+    while frontier is not empty:
+        node = frontier.pop_front()
+        for action in problem.actions(node.state):
+            s2 = problem.result(node.state, action)
+            child = Node(s2, node, action)
+            if problem.is_goal(s2): return path_to(child)
+            if s2 not in seen:
+                seen.add(s2)
+                frontier.push_back(child)
+    return FAILURE
+
+depth_limited(problem, node, limit):        # DFS that stops at depth `limit`
+    if problem.is_goal(node.state): return path_to(node)
+    if limit == 0: return CUTOFF
+    cut = False
+    for action in problem.actions(node.state):
+        child = Node(problem.result(node.state, action), node, action)
+        r = depth_limited(problem, child, limit - 1)
+        if r == CUTOFF: cut = True
+        elif r != FAILURE: return r
+    return CUTOFF if cut else FAILURE
+
+ids(problem):                               # iterative deepening: limit = 0, 1, 2, ...
+    for limit in 0, 1, 2, ...:
+        r = depth_limited(problem, Node(problem.initial), limit)
+        if r != CUTOFF: return r
+```
+
 **מתכון - איזה אלגוריתם לבחור? (שאלה חוזרת)**
 
 1. כל הצעדים באותו מחיר ← **BFS** (או IDS אם הזיכרון מוגבל).
@@ -213,6 +270,16 @@ h(n) - h(n') \le c(n,a,n')\qquad\text{for every step from } n \text{ to } n' \te
 - ‏**RBFS** - DFS רקורסיבי ששומר בכל אב את ה-f של המסלול החלופי הכי טוב. אם הצומת הנוכחי חורג, נסוגים ומעדכנים את הערכים באבות. יעיל יותר מ-IDA\*, אבל מפתח צמתים פעמים רבות.
 - ‏**SMA\*** - A\* עד שהזיכרון מתמלא. אז זורקים את העלה **הגרוע ביותר** (הישן ביותר בשוויון), ושומרים את הערך שלו אצל האב. שלם ואופטימלי (אם הפתרון נכנס בזיכרון).
 
+**פסאודו-קוד - A\*:** זו הלולאה הכללית מפרק 2 (`generic_search`) עם עדיפות $`g + h`$. הנקודות שחשובות במבחן:
+
+```text
+a_star(problem, h):
+    return generic_search(problem, priority = lambda node: node.g + h(node.state))
+    # - the goal test happens when a node is POPPED (not when generated) -> optimal
+    # - a state is pushed again if a cheaper path to it was found (g2 < best_g[s2])
+    # - tie on f: usually the smaller h (or the order the question gives)
+```
+
 **מתכון - להוכיח שיוריסטיקה קבילה:**
 
 1. **מה h סופרת?** מנסחים במילים: "h = מספר האנשים שעוד לא עברו", "h = סכום מרחקי מנהטן".
@@ -300,6 +367,28 @@ h(n) - h(n') \le c(n,a,n')\qquad\text{for every step from } n \text{ to } n' \te
 - ‏**Local beam search** - מחזיקים k מצבים במקביל, ובכל צעד בוחרים את k הטובים מכל השכנים.
 - **אלגוריתם גנטי** - אוכלוסייה של מצבים. הבחירה לפי fitness, אחריה הצלבה (crossover) ומוטציה.
 
+**פסאודו-קוד:** (כאן f היא פונקציית מטרה **שממזערים**; בבעיית מקסימום הופכים את הסימנים.)
+
+```text
+hill_climbing(start, f):
+    current = start
+    loop:
+        best = neighbor of current with the lowest f      # or: the FIRST neighbor that improves
+        if f(best) >= f(current):
+            return current                                 # local minimum (or plateau)
+        current = best
+
+simulated_annealing(start, f, schedule):
+    current = start
+    for t = 1, 2, 3, ...:
+        T = schedule(t)                                    # temperature, goes down over time
+        if T == 0: return current
+        nxt = random neighbor of current
+        delta = f(current) - f(nxt)                        # > 0 means nxt is better
+        if delta > 0 or random() < exp(delta / T):
+            current = nxt                                  # worse moves allowed with prob. e^(delta/T)
+```
+
 **מתכון לשאלת חיפוש מקומי (המבנה הקבוע במבחנים):**
 
 1. **גודל מרחב המצבים** - כמה סידורים/בחירות יש: $`n!`$, $`\binom{n}{k}`$, $`4^4`$ וכו'.
@@ -369,6 +458,37 @@ h(n) - h(n') \le c(n,a,n')\qquad\text{for every step from } n \text{ to } n' \te
 - **משחק עם יותר משני שחקנים** - כל צומת מחזיק וקטור ערכים (אחד לכל שחקן).
 - **α** - הערך הטוב ביותר ש-MAX כבר מובטח לו במסלול (חסם תחתון). **β** - הערך הטוב ביותר ש-MIN כבר מובטח לו (חסם עליון).
 
+**פסאודו-קוד:**
+
+```text
+minimax_value(state):
+    if game.is_terminal(state): return game.utility(state)         # value for MAX
+    values = [minimax_value(game.result(state, a)) for a in game.actions(state)]
+    return max(values) if game.to_move(state) == MAX else min(values)
+
+best_move(state):                                                  # MAX picks the child with the best value
+    return argmax over a in game.actions(state) of minimax_value(game.result(state, a))
+
+alphabeta(state, alpha, beta):     # alpha = best MAX already has, beta = best MIN already has
+    if game.is_terminal(state): return game.utility(state)
+    if game.to_move(state) == MAX:
+        v = -infinity
+        for a in game.actions(state):
+            v = max(v, alphabeta(game.result(state, a), alpha, beta))
+            if v >= beta: return v          # prune: MIN above will never let us get here
+            alpha = max(alpha, v)
+        return v
+    else:
+        v = +infinity
+        for a in game.actions(state):
+            v = min(v, alphabeta(game.result(state, a), alpha, beta))
+            if v <= alpha: return v         # prune: MAX above already has something better
+            beta = min(beta, v)
+        return v
+
+# first call: alphabeta(root, -infinity, +infinity)
+```
+
 **מתכון - אלפא-בטא ביד:**
 
 1. מתחילים בשורש עם $`\alpha = -\infty, \beta = +\infty`$. (אם טווח התועלות ידוע מראש, אפשר להתחיל ממנו, למשל $`[-1, 1]`$.)
@@ -378,6 +498,8 @@ h(n) - h(n') \le c(n,a,n')\qquad\text{for every step from } n \text{ to } n' \te
 5. הערך עולה לאב. כותבים ליד כל צומת את (α, v, β), ומסמנים את הענפים הגזומים.
 
 **דוגמה פתורה** ([2024א מועד ב](exams.md#2024א-מועד-ב)). A (MAX) → B, C (MIN) → D, E, F, G (MAX). העלים: D: 5, 10 | E: 5, 20, 1 | F: 5, 1 | G: 1, 8.
+
+![עץ אלפא-בטא עם הגיזום](alphabeta.svg)
 
 <div dir="rtl">
 
@@ -436,6 +558,40 @@ H(s) = \frac{x}{x+y} \quad\text{או}\quad \frac{x - y}{x + y}
 - **עקביות צומת** - כל ערך בתחום מקיים את האילוצים האונריים.
 - **עקביות קשת** - $`X \rightarrow Y`$ עקבית אם **לכל** ערך של X יש ערך **כלשהו** של Y שמקיים את האילוץ.
 - **עקביות מסלול / k-עקביות** - לכל השמה עקבית ל-k-1 משתנים יש ערך עקבי למשתנה ה-k. **k-עקביות חזקה** - k-עקבי לכל j ≤ k. יקר מאוד בזמן ובמקום.
+
+**פסאודו-קוד:**
+
+```text
+ac3(csp):
+    queue = all directed arcs (X, Y) such that X and Y share a constraint
+    while queue is not empty:
+        (X, Y) = queue.pop()
+        if revise(csp, X, Y):                      # did X's domain shrink?
+            if domain(X) is empty: return False    # no solution
+            for Z in neighbors(X) except Y:
+                queue.add((Z, X))                  # Z may have lost its support in X
+    return True
+
+revise(csp, X, Y):
+    removed = False
+    for x in domain(X):
+        if there is no y in domain(Y) that satisfies the constraint between X=x and Y=y:
+            delete x from domain(X)
+            removed = True
+    return removed
+
+backtracking(assignment, csp):
+    if assignment is complete: return assignment
+    X = pick an unassigned variable                  # MRV: the one with the fewest legal values
+    for x in order the values of X:                  # LCV: least constraining value first
+        if x is consistent with assignment:
+            assignment[X] = x
+            (optional) run inference, e.g. forward checking or ac3; undo it on failure
+            result = backtracking(assignment, csp)
+            if result != FAILURE: return result
+            remove X from assignment
+    return FAILURE
+```
 
 **מתכון - AC-3 בטבלה (שאלה כמעט קבועה):**
 
@@ -609,6 +765,39 @@ U_{i+1}(s) \leftarrow \max_{a \in A(s)} \sum_{s'} P(s'|s,a)\,\big[R(s,a,s') + \g
 
   במבחנים התגמול מתקבל **בכניסה** למצב (גם בכניסה חוזרת כשנשארים במקום), ו-**U של מצב סיום הוא תמיד 0**.
 
+**פסאודו-קוד:** (התגמול מתקבל בכניסה למצב, כמו במבחנים.)
+
+```text
+q_value(s, a, U):
+    return sum over s2 of P(s2 | s, a) * (R(s2) + gamma * U[s2])
+
+value_iteration(mdp, epsilon):
+    U = {s: 0 for every state s}
+    loop:
+        U_old = copy(U)                              # synchronous: use only the previous row
+        delta = 0
+        for s in non-terminal states:
+            U[s] = max over a in actions(s) of q_value(s, a, U_old)
+            delta = max(delta, abs(U[s] - U_old[s]))
+        if delta <= epsilon * (1 - gamma) / gamma:   # small enough change -> stop
+            return U
+
+policy_from(U):                                      # best action in every state
+    return {s: argmax over a of q_value(s, a, U) for every non-terminal s}
+
+policy_iteration(mdp):
+    pi = any policy;  U = {s: 0 for every state s}
+    loop:
+        U = evaluate(pi)        # solve U[s] = q_value(s, pi[s], U) for all s (linear equations,
+                                #   or a few rounds of value iteration with the action fixed)
+        changed = False
+        for s in non-terminal states:
+            best = argmax over a of q_value(s, a, U)
+            if q_value(s, best, U) > q_value(s, pi[s], U):
+                pi[s] = best;  changed = True
+        if not changed: return pi
+```
+
 **מתכון - Value Iteration בטבלה:**
 
 1. ‏$`U_0 = 0`$ לכל המצבים. מצבי סיום תמיד 0.
@@ -717,6 +906,24 @@ Gain(A) = B\!\left(\frac{p}{p+n}\right) - Remainder(A)
 | (2) | אחרת | מפצלים לפי $`A = \arg\max\ \text{IMPORTANCE}`$, ובונים רקורסיבית לכל ערך |
 
 </div>
+
+**פסאודו-קוד:**
+
+```text
+build_tree(examples, attributes, parent_examples):
+    if examples is empty:      return Leaf(majority_class(parent_examples))   # case (1): no examples
+    if all examples have the same class c:  return Leaf(c)                     # case (2): pure
+    if attributes is empty:    return Leaf(majority_class(examples))           # case (3): noise
+    A = attribute in attributes with the highest information gain             # case (4): split
+    tree = Node(test = A)
+    for each value v of A:
+        subset = [e for e in examples if e[A] == v]
+        tree.add_branch(v, build_tree(subset, attributes - {A}, examples))
+    return tree
+
+gain(A, examples) = entropy(examples) - sum over values v of A of
+                    (|examples with A=v| / |examples|) * entropy(examples with A=v)
+```
 
 **מתכון:**
 

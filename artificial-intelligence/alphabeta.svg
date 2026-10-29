@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280" font-family="Arial, Helvetica, sans-serif" font-size="11">
+  <defs>
+    <style>
+      .e { stroke: #555; stroke-width: 1.2; fill: none; }
+      .best { stroke: #2563eb; stroke-width: 3; fill: none; }
+      .cut { stroke: #dc2626; stroke-width: 1.4; stroke-dasharray: 5 4; fill: none; }
+      .max { fill: #dbeafe; stroke: #1d4ed8; stroke-width: 1.3; }
+      .min { fill: #fee2e2; stroke: #b91c1c; stroke-width: 1.3; }
+      .leaf { fill: #f3f4f6; stroke: #555; }
+      .gone { fill: #f9fafb; stroke: #bbb; stroke-dasharray: 3 3; }
+      .v { font-weight: bold; }
+      .note { font-size: 10px; fill: #444; }
+      .red { fill: #dc2626; }
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="599" height="279" rx="6" fill="#fff" stroke="#999"/>
+
+  <!-- edges: root -> B, C -->
+  <path class="best" d="M287 42 L146 88"/>
+  <path class="e" d="M287 42 L428 88"/>
+  <!-- B -> D, E ; C -> F, G -->
+  <path class="best" d="M146 106 L68 148"/>
+  <path class="e" d="M146 106 L224 148"/>
+  <path class="e" d="M428 106 L368 148"/>
+  <path class="cut" d="M428 106 L488 148"/>
+  <!-- leaves -->
+  <path class="e" d="M68 166 L40 208"/>
+  <path class="best" d="M68 166 L96 208"/>
+  <path class="e" d="M224 166 L168 208"/>
+  <path class="e" d="M224 166 L224 208"/>
+  <path class="cut" d="M224 166 L280 208"/>
+  <path class="e" d="M368 166 L340 208"/>
+  <path class="e" d="M368 166 L396 208"/>
+  <path class="cut" d="M488 166 L460 208"/>
+  <path class="cut" d="M488 166 L516 208"/>
+
+  <!-- scissors on cut edges -->
+  <text x="252" y="190" class="red" font-size="14">✂</text>
+  <text x="452" y="130" class="red" font-size="14">✂</text>
+
+  <!-- MAX root (triangle up) -->
+  <polygon class="max" points="287,18 303,44 271,44"/><text x="287" y="40" text-anchor="middle" class="v">A</text>
+  <text x="311" y="34" class="v">10</text>
+  <!-- MIN nodes (triangle down) -->
+  <polygon class="min" points="130,84 162,84 146,110"/><text x="146" y="97" text-anchor="middle" class="v">B</text>
+  <text x="104" y="100" class="v">10</text>
+  <polygon class="min" points="412,84 444,84 428,110"/><text x="428" y="97" text-anchor="middle" class="v">C</text>
+  <text x="450" y="98" class="v">≤ 5</text>
+  <!-- MAX nodes -->
+  <polygon class="max" points="68,144 84,170 52,170"/><text x="68" y="166" text-anchor="middle" class="v">D</text>
+  <text x="34" y="162" class="v">10</text>
+  <polygon class="max" points="224,144 240,170 208,170"/><text x="224" y="166" text-anchor="middle" class="v">E</text>
+  <text x="244" y="152" class="v">≥ 20</text>
+  <polygon class="max" points="368,144 384,170 352,170"/><text x="368" y="166" text-anchor="middle" class="v">F</text>
+  <text x="334" y="162" class="v">5</text>
+  <polygon class="gone" points="488,144 504,170 472,170"/><text x="488" y="166" text-anchor="middle" fill="#aaa">G</text>
+
+  <!-- leaves -->
+  <rect class="leaf" x="28" y="208" width="24" height="18" rx="3"/><text x="40" y="221" text-anchor="middle">5</text>
+  <rect class="leaf" x="84" y="208" width="24" height="18" rx="3" stroke="#2563eb" stroke-width="2"/><text x="96" y="221" text-anchor="middle" class="v">10</text>
+  <rect class="leaf" x="156" y="208" width="24" height="18" rx="3"/><text x="168" y="221" text-anchor="middle">5</text>
+  <rect class="leaf" x="212" y="208" width="24" height="18" rx="3"/><text x="224" y="221" text-anchor="middle">20</text>
+  <rect class="gone" x="268" y="208" width="24" height="18" rx="3"/><text x="280" y="221" text-anchor="middle" fill="#aaa">1</text>
+  <rect class="leaf" x="328" y="208" width="24" height="18" rx="3"/><text x="340" y="221" text-anchor="middle">5</text>
+  <rect class="leaf" x="384" y="208" width="24" height="18" rx="3"/><text x="396" y="221" text-anchor="middle">1</text>
+  <rect class="gone" x="448" y="208" width="24" height="18" rx="3"/><text x="460" y="221" text-anchor="middle" fill="#aaa">1</text>
+  <rect class="gone" x="504" y="208" width="24" height="18" rx="3"/><text x="516" y="221" text-anchor="middle" fill="#aaa">8</text>
+  <text x="40" y="238" text-anchor="middle" class="note">H</text><text x="96" y="238" text-anchor="middle" class="note">I</text>
+  <text x="168" y="238" text-anchor="middle" class="note">J</text><text x="224" y="238" text-anchor="middle" class="note">K</text>
+  <text x="280" y="238" text-anchor="middle" class="note">L</text><text x="340" y="238" text-anchor="middle" class="note">M</text>
+  <text x="396" y="238" text-anchor="middle" class="note">N</text><text x="460" y="238" text-anchor="middle" class="note">O</text>
+  <text x="516" y="238" text-anchor="middle" class="note">P</text>
+
+  <!-- why each cut happens -->
+  <text x="244" y="132" class="note red">K=20 ≥ β=10</text>
+  <text x="460" y="80" class="note red">5 ≤ α=10</text>
+  <text x="92" y="116" class="note">β = 10</text>
+  <text x="330" y="22" class="note">α = 10</text>
+
+  <!-- level labels -->
+  <text x="590" y="35" text-anchor="end" class="note">MAX</text>
+  <text x="590" y="100" text-anchor="end" class="note">MIN</text>
+  <text x="590" y="160" text-anchor="end" class="note">MAX</text>
+
+  <!-- legend (Hebrew, RTL) -->
+  <line x1="560" y1="262" x2="585" y2="262" class="cut"/>
+  <text x="552" y="266" direction="rtl" class="note">ענף שנגזם (לא נבדק)</text>
+  <line x1="400" y1="262" x2="425" y2="262" class="best"/>
+  <text x="392" y="266" direction="rtl" class="note">מסלול המשחק האופטימלי</text>
+</svg>
